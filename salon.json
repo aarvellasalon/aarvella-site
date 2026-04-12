@@ -1,20 +1,20 @@
 [
     {
         "id": 1,
-        "name": "Aarvella Manhattan Atelier",
-        "city": "Manhattan",
-        "area": "Gold District",
-        "address": "123 Luxury Lane, Gold District, NY 10001",
-        "phone": "+1 (555) 123-4567",
-        "coordinates": "40.7128,-74.0060"
+        "name": "Aarvella Salon",
+        "city": "Dehradun",
+        "area": "Karanpur Road",
+        "address": "123 Karanpur Road, Dehradun, 248001",
+        "phone": "+91 9742049990",
+        "coordinates": "30.327605332017686, 78.0560873582577"
     },
     {
         "id": 2,
-        "name": "Aarvella Brooklyn Heights",
-        "city": "Brooklyn",
-        "area": "The Heights",
-        "address": "456 Artisan Way, Brooklyn Heights, NY 11201",
-        "phone": "+1 (555) 987-6543",
-        "coordinates": "40.6925,-73.9903"
+        "name": "Aarvella Salon",
+        "city": "Dehradun",
+        "area": "Karanpur Road",
+        "address": "123 Karanpur Road, Dehradun, 248001",
+        "phone": "+91 9742049990",
+        "coordinates": "30.327605332017686, 78.0560873582577"
     }
 ]
