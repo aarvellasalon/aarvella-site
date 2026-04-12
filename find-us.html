@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="p:domain_verify" content="1a3a419d7378346d0d870ee6dac051bb"/>
+    <title>Find Us | Aarvella Luxury Salon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --black: #0A0A0A;
+            --charcoal: #1A1A1A;
+            --white: #F4F4F4;
+            --transition: all 0.4s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--black); color: var(--white); font-family: 'Montserrat', sans-serif; overflow-x: hidden; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--gold); }
+
+        /* --- Header (Matches Stylists.html) --- */
+		/* --- Fixed Header Logic --- */
+		header {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			padding: 1.5rem 5%; 
+			background: rgba(10, 10, 10, 0.95);
+			backdrop-filter: blur(10px);
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			z-index: 1000;
+			border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+		}
+
+		/* Ensure Logo and Nav stay in their lanes */
+		.logo-link {
+			text-decoration: none;
+			color: inherit;
+			flex-shrink: 0;
+		}
+
+		.logo {
+			font-size: 2rem; 
+			letter-spacing: 4px; 
+			font-weight: bold; 
+		}
+
+		.desktop-nav {
+			display: flex;
+			align-items: center;
+			flex-shrink: 0;
+		}
+
+		.desktop-nav a {
+			color: var(--white);
+			text-decoration: none;
+			font-size: 0.9rem;
+			text-transform: uppercase;
+			letter-spacing: 2px;
+			transition: var(--transition);
+			white-space: nowrap;
+		}
+
+		.desktop-nav a:hover {
+			color: var(--gold);
+		}
+
+        /* --- Find Us Layout --- */
+        .find-us-container { display: flex; height: 80vh; margin-top: 80px; }
+        
+        .locator-panel { flex: 1; background: var(--charcoal); padding: 40px; overflow-y: auto; border-right: 1px solid rgba(212, 175, 55, 0.2); }
+        .map-panel { flex: 1.5; background: #222; }
+
+        .filter-group { display: flex; gap: 15px; margin-bottom: 30px; }
+        select {
+            flex: 1; background: transparent; border: 1px solid var(--gold); color: white;
+            padding: 12px; outline: none; font-family: 'Montserrat'; cursor: pointer;
+        }
+        option { background: var(--black); }
+
+        .salon-list { margin-top: 20px; }
+        .salon-item { padding: 20px; border-bottom: 1px solid rgba(255,255,255,0.05); transition: var(--transition); cursor: pointer; }
+        .salon-item:hover { background: rgba(212, 175, 55, 0.05); border-left: 3px solid var(--gold); }
+        .salon-item h3 { font-size: 1.2rem; margin-bottom: 5px; color: var(--white); }
+        .salon-item p { font-size: 0.85rem; color: #999; line-height: 1.4; }
+
+        /* --- Appointment Form --- */
+        .appointment-section { padding: 100px 10%; background: var(--black); text-align: center; }
+        .booking-form {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 20px; text-align: left;
+            max-width: 900px; margin: 40px auto;
+        }
+        .form-group { display: flex; flex-direction: column; gap: 8px; }
+        .form-group.full-width { grid-column: span 2; }
+        label { font-size: 0.8rem; text-transform: uppercase; color: var(--gold); letter-spacing: 1px; }
+        input, select.form-input {
+            background: #111; border: 1px solid #333; padding: 15px; color: white;
+            outline: none; transition: var(--transition);
+        }
+        input:focus { border-color: var(--gold); }
+        .btn-submit {
+            grid-column: span 2; background: var(--gold); color: var(--black);
+            padding: 15px; border: none; font-weight: bold; cursor: pointer;
+            text-transform: uppercase; margin-top: 20px;
+        }
+
+		/* --- Full Footer Styles --- */
+		.main-footer {
+			background-color: var(--black);
+			padding: 80px 10% 20px;
+			border-top: 1px solid rgba(212, 175, 55, 0.3);
+		}
+
+		.footer-container {
+			display: grid;
+			grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
+			gap: 40px;
+			margin-bottom: 60px;
+		}
+
+		.footer-col h3 {
+			font-size: 1.2rem;
+			margin-bottom: 1.5rem;
+			letter-spacing: 2px;
+			text-transform: uppercase;
+		}
+
+		.footer-col p, .footer-col ul {
+			font-size: 0.9rem;
+			color: #999;
+		}
+
+		.footer-col ul { list-style: none; }
+		.footer-col ul li { margin-bottom: 0.8rem; }
+
+		.footer-col a {
+			color: #999;
+			text-decoration: none;
+			transition: var(--transition);
+		}
+
+		.footer-col a:hover {
+			color: var(--gold);
+			padding-left: 5px;
+		}
+
+		.mission-text { margin: 20px 0; max-width: 300px; }
+		
+		.social-icons {
+			margin-top: 25px;
+			display: flex;
+			gap: 25px; /* Increased gap to account for larger icons */
+		}
+
+		.social-icons a {
+			color: var(--gold);
+			font-size: 1.8rem; /* Made icons significantly bigger */
+			text-decoration: none;
+			transition: var(--transition);
+			display: inline-block;
+			border: none; /* Removes the outline/border */
+			background: none; /* Ensures no background color */
+			width: auto; /* Removes the fixed circular width */
+			height: auto; /* Removes the fixed circular height */
+		}
+
+		.social-icons a:hover {
+			color: var(--white); /* Changes to white on hover for a clean contrast */
+			transform: translateY(-5px); /* Elegant lift effect */
+			background: none; /* Ensures no background appears on hover */
+			box-shadow: none; /* Removes the shadow since there's no circular shape */
+		}
+
+        .hours span { display: block; margin-top: 5px; font-style: italic; }
+
+		/* Newsletter Form Style */
+		.newsletter-form {
+			display: flex;
+			margin-top: 20px;
+			border-bottom: 1px solid var(--gold);
+		}
+
+		.newsletter-form input {
+			background: transparent;
+			border: none;
+			padding: 10px;
+			color: white;
+			flex-grow: 1;
+			outline: none;
+		}
+
+		.newsletter-form button {
+			background: transparent;
+			color: var(--gold);
+			border: none;
+			font-weight: bold;
+			text-transform: uppercase;
+			cursor: pointer;
+			padding: 10px;
+		}
+
+		/* Bottom Bar */
+		.footer-bottom {
+			border-top: 1px solid rgba(255, 255, 255, 0.1);
+			padding-top: 20px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			font-size: 0.75rem;
+			color: #666;
+		}
+
+		.legal-links a {
+			margin-left: 20px;
+			color: #666;
+			text-decoration: none;
+		}
+
+		@media (max-width: 992px) {
+			.footer-container { grid-template-columns: 1fr 1fr; }
+		}
+
+		@media (max-width: 600px) {
+			.footer-container { grid-template-columns: 1fr; }
+			.footer-bottom { flex-direction: column; gap: 15px; text-align: center; }
+		}
+
+        @media (max-width: 992px) {
+            .find-us-container { flex-direction: column; height: auto; }
+            .map-panel { height: 400px; }
+            .booking-form { grid-template-columns: 1fr; }
+            .form-group.full-width { grid-column: span 1; }
+            .btn-submit { grid-column: span 1; }
+        }
+    </style>
+</head>
+<body>
+
+	<header>
+		<a href="aarvella.html" class="logo-link">
+			<div class="logo">AARVELLA</div>
+		</a>
+
+		<nav class="desktop-nav">
+			<a href="aarvella.html">Back to Home</a>
+		</nav>
+	</header>
+
+	<div class="find-us-container">
+		<section class="locator-panel">
+			<h2 style="margin-bottom: 20px;">Locate a Salon</h2>
+			<div class="filter-group">
+				<select id="citySelect">
+					<option value="">Select City</option>
+					<option value="manhattan">Manhattan</option>
+				</select>
+				<select id="areaSelect">
+					<option value="">Select Area</option>
+					<option value="gold-district">Gold District</option>
+				</select>
+			</div>
+			<div class="salon-list" id="salonContainer">
+			</div>
+		</section>
+
+		<section class="map-panel">
+			<iframe 
+				id="googleMapFrame"
+				width="100%" 
+				height="100%" 
+				frameborder="0" 
+				style="border:0"
+				src="https://www.google.com/maps/embed/v1/place?key=YOUR_API_KEY&q=Luxury+Hair+Salon+Manhattan" allowfullscreen>
+				allowfullscreen>
+			</iframe>
+		</section>
+	</div>
+
+    <section class="appointment-section">
+        <h2>Book an Appointment</h2>
+        <p style="color: #666; margin-bottom: 30px;">Request your preferred time and our concierge will confirm within the hour.</p>
+        
+        <form class="booking-form">
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" placeholder="Your Full Name" required>
+            </div>
+            <div class="form-group">
+                <label>Gender</label>
+                <select class="form-input">
+                    <option>Female</option>
+                    <option>Male</option>
+                    <option>Other</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Contact Number</label>
+                <input type="tel" placeholder="+1 (555) 000-0000" required>
+            </div>
+            <div class="form-group">
+                <label>Email ID</label>
+                <input type="email" placeholder="email@example.com" required>
+            </div>
+            <div class="form-group">
+                <label>Service Type</label>
+                <select class="form-input">
+                    <option>Signature Balayage</option>
+                    <option>Precision Cut</option>
+                    <option>Gold Infusion Facial</option>
+                    <option>Bridal Consultation</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Preferred Date</label>
+                <input type="date" required>
+            </div>
+            <div class="form-group">
+                <label>City</label>
+                <input type="text" placeholder="e.g. Manhattan">
+            </div>
+            <div class="form-group">
+                <label>Location</label>
+                <input type="text" placeholder="Preferred Branch">
+            </div>
+            <div class="form-group full-width">
+                <label>Preferred Time</label>
+                <input type="time" required>
+            </div>
+            <button type="submit" class="btn-submit">Confirm Request</button>
+        </form>
+    </section>
+
+	<footer class="main-footer">
+		<div class="footer-container">
+			<div class="footer-col">
+				<div class="logo">AARVELLA</div>
+				<p class="mission-text">Defining the gold standard in hair artistry. Our mission is to provide a transformative luxury experience tailored to your unique beauty.</p>
+				<div class="social-icons">
+					<a href="https://www.instagram.com/aarvella.salon/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+					<a href="https://facebook.com/Aarvella" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+					<a href="https://in.pinterest.com/AarvellaSalon" target="_blank" rel="noopener noreferrer" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+					<a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+				</div>
+			</div>
+
+			<div class="footer-col">
+				<h3>Experience</h3>
+				<ul>
+					<li><a href="services.html">Hair Services</a></li>
+					<li><a href="#">Skin Treatments</a></li>
+					<li><a href="bridal.html">Bridal Packages</a></li>
+					<li><a href="#">Gift Cards</a></li>
+					<<li><a href="careers.html">Careers</a></li>
+				</ul>
+			</div>
+
+			<div class="footer-col">
+				<h3>The Atelier</h3>
+				<p>123 Luxury Lane, Gold District<br>Manhattan, NY 10001</p>
+				<p style="color: var(--gold); margin-top: 10px; font-weight: bold;">+1 (555) AARVELLA</p>
+				<div style="margin-top: 15px; font-style: italic; color: #777;">
+					<p>Mon - Fri: 9am - 8pm</p>
+					<p>Sat: 10am - 6pm</p>
+				</div>
+			</div>
+
+			<div class="footer-col">
+				<h3>Stay Inspired</h3>
+				<p>Join our Gold List for exclusive trends and early access to bookings.</p>
+				<form class="newsletter-form">
+					<input type="email" placeholder="Email Address" required>
+					<button type="submit">Join</button>
+				</form>
+			</div>
+		</div>
+
+		<div class="footer-bottom">
+			<p>&copy; 2026 Aarvella Luxury Salon. All Rights Reserved.</p>
+			<div class="legal-links">
+				<a href="privacy.html">Privacy Policy</a>
+				<a href="terms.html">Terms of Service</a>
+				<a href="javascript:window.scrollTo({top: 0, behavior: 'smooth'});">Back to Top ↑</a>
+			</div>
+		</div>
+	</footer>
+	<script>
+		async function loadSalons() {
+			try {
+				// Change 'salons.json' to 'salon.json' to match your actual filename
+				const response = await fetch('salon.json'); 
+				const salons = await response.json();
+				const container = document.getElementById('salonContainer');
+
+				container.innerHTML = salons.map(salon => `
+					<div class="salon-item" onclick="updateMap('${encodeURIComponent(salon.address)}')">
+						<h3>${salon.name}</h3>
+						<p>${salon.address}<br>T: ${salon.phone}</p>
+						<span class="map-link">View on Map →</span>
+					</div>
+				`).join('');
+			} catch (error) {
+				console.error("Error loading salon data:", error);
+				document.getElementById('salonContainer').innerHTML = "<p>Unable to load salon locations at this time.</p>";
+			}
+		}
+
+        // Initialize the page
+        window.onload = loadSalons;
+
+        // Function to update the Google Map iframe
+		function updateMap(locationQuery) {
+			const apiKey = 'YOUR_API_KEY'; // Replace with your actual API Key
+			const mapFrame = document.getElementById('googleMapFrame');
+			
+			// This updates the iframe source dynamically when a salon is clicked
+			mapFrame.src = `https://www.google.com/maps/embed/v1/place?key=${apiKey}&q=${locationQuery}`;
+			
+			// Optional: Smoothly scroll to map on mobile devices
+			if (window.innerWidth < 992) {
+				mapFrame.scrollIntoView({ behavior: 'smooth' });
+			}
+		}
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="p:domain_verify" content="1a3a419d7378346d0d870ee6dac051bb"/>
+    <title>Aarvella | Luxury Hair & Beauty Salon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --dark-gold: #C5A021;
+            --black: #0A0A0A;
+            --charcoal: #1A1A1A;
+            --white: #F4F4F4;
+            --transition: all 0.4s ease;
+        }
+
+        * {
+			margin: 0; 
+			padding: 0; 
+			box-sizing: border-box; 
+		}
+
+        body {
+            background-color: var(--black);
+            color: var(--white);
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--gold); }
+
+        /* --- Header & Navigation --- */
+		html {
+			scroll-behavior: smooth;
+		}
+		section {
+			scroll-margin-top: 100px; /* Adjust this value to match your header height */
+		}
+        header {
+            position: fixed; /* Keeps header pinned to the top */
+            top: 0;
+            left: 0;
+            width: 100%;
+            padding: 1.5rem 5%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px); /* Adds a premium frosted glass effect */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+            transition: padding 0.3s ease; /* Smoothly responds to resizing */
+        }
+
+        .logo { font-size: 2rem; letter-spacing: 4px; font-weight: bold; }
+        
+        /* Logo Hyperlink Cleanup */
+        .logo-link {
+            text-decoration: none;
+            color: inherit;
+        }
+        
+        .logo-link:hover .logo {
+            text-shadow: 0 0 12px rgba(212, 175, 55, 0.6);
+        }
+		
+        /* The Magic Fix: Flexbox Gap */
+        nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem; /* This ensures "About" and "Book Now" have the EXACT same space as others */
+        }
+        nav a {
+            color: var(--white);
+            text-decoration: none;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: var(--transition);
+            margin-left: 0; /* Removed old margin to let 'gap' handle it */
+        }
+        nav a:hover {
+            color: var(--gold);
+        }
+        .btn-gold {
+            background: var(--gold);
+            color: var(--black);
+            padding: 0.8rem 1.5rem;
+            border-radius: 2px;
+            font-weight: bold;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+        }
+        .btn-gold:hover { background: var(--white); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4); }
+
+        /* --- Hero Section --- */
+        .hero {
+            height: 100vh;
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&q=80&w=1920') center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 10%;
+        }
+
+        .hero h1 { font-size: 5rem; margin-bottom: 1rem; opacity: 0; transform: translateY(30px); animation: fadeInUp 1s forwards; }
+        .hero p { font-size: 1.2rem; max-width: 600px; margin-bottom: 2rem; }
+
+        /* --- Services --- */
+        .services { padding: 100px 10%; background: var(--charcoal); }
+        .section-title { text-align: center; margin-bottom: 60px; font-size: 3rem; }
+
+        .service-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .service-card {
+            padding: 2rem;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            transition: var(--transition);
+            background: var(--black);
+        }
+        .service-card:hover { border-color: var(--gold); background: #111; }
+        .service-card h3 { margin-bottom: 1rem; }
+        .price { display: block; margin-top: 1rem; color: var(--gold); font-weight: bold; }
+
+        /* --- CRM / Booking Section --- */
+        .booking-container {
+            padding: 100px 10%;
+            background: var(--black);
+            text-align: center;
+        }
+        /* --- Desktop Nav (Hidden on Mobile) --- */
+        .desktop-nav {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+        
+        /* --- Hamburger Icon --- */
+		.hamburger {
+			display: none;
+			flex-direction: column;
+			gap: 6px;
+			cursor: pointer;
+			z-index: 3000; /* Ensure it stays above the overlay */
+			position: relative;
+		}
+        
+        .hamburger span {
+            width: 30px;
+            height: 2px;
+            background-color: var(--gold);
+            transition: var(--transition);
+        }
+        
+		/* --- Floating Mobile Nav --- */
+		.mobile-nav {
+			position: fixed;
+			top: 0;
+			right: -110%; /* Start completely off-screen */
+			width: auto; /* Shrink-wrap to content */
+			min-width: 300px; /* Ensures it's not too skinny on small phones */
+			height: 100vh;
+			background: rgba(10, 10, 10, 0.85); /* Translucent Black */
+			backdrop-filter: blur(15px);
+			-webkit-backdrop-filter: blur(15px);
+			
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			
+			/* Generous Padding */
+			padding: 0 80px; 
+			
+			transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1); /* Snappier, high-end feel */
+			z-index: 2500;
+			border-left: 1px solid rgba(212, 175, 55, 0.1); /* Subtle gold vertical line */
+		}
+
+		.mobile-nav.active {
+			right: 0; /* Slides into view from the right */
+		}
+
+		.mobile-nav a {
+			font-family: 'Playfair Display', serif;
+			font-size: 1.8rem; /* Slightly smaller for the drawer style */
+			color: var(--white);
+			text-decoration: none;
+			letter-spacing: 2px;
+			white-space: nowrap; /* Prevents text from wrapping */
+			transition: var(--transition);
+		}
+
+		.mobile-nav a:hover {
+			color: var(--gold);
+		}
+
+        #crm-booking-widget {
+            max-width: 800px;
+            margin: 40px auto;
+            min-height: 500px;
+            border: 1px solid var(--gold);
+            background: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        @keyframes fadeInUp {
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 3rem; }
+            nav { display: none; } /* Add mobile burger menu logic here */
+        }
+        /* Responsive Adjustments */
+        @media (max-width: 1024px) {
+            nav {
+                gap: 1.5rem; /* Slightly tighter spacing for tablets */
+            }
+        }
+        /* --- Mobile Responsiveness Breakpoint --- */
+        @media (max-width: 768px) {
+            .desktop-nav {
+                display: none; /* Hide standard nav */
+            }
+        
+            .hamburger {
+                display: flex; /* Show hamburger */
+            }
+        
+            /* Transform hamburger to 'X' when active */
+            .hamburger.active span:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+            .hamburger.active span:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+        }
+		/* Ensure desktop nav stays visible when resizing back up */
+		@media (min-width: 769px) {
+			.desktop-nav {
+				display: flex !important;
+			}
+		}
+        .main-footer {
+            background-color: var(--black);
+            padding: 80px 10% 20px;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+            margin-top: 60px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .footer-col p, .footer-col ul {
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 0.8rem; }
+    
+        .footer-col a {
+            color: #999;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        .footer-col a:hover { color: var(--gold); padding-left: 5px; }
+
+        .mission-text { margin: 20px 0; max-width: 300px; }
+
+		.social-icons {
+			margin-top: 25px;
+			display: flex;
+			gap: 25px; /* Increased gap to account for larger icons */
+		}
+
+		.social-icons a {
+			color: var(--gold);
+			font-size: 1.8rem; /* Made icons significantly bigger */
+			text-decoration: none;
+			transition: var(--transition);
+			display: inline-block;
+			border: none; /* Removes the outline/border */
+			background: none; /* Ensures no background color */
+			width: auto; /* Removes the fixed circular width */
+			height: auto; /* Removes the fixed circular height */
+		}
+
+		.social-icons a:hover {
+			color: var(--white); /* Changes to white on hover for a clean contrast */
+			transform: translateY(-5px); /* Elegant lift effect */
+			background: none; /* Ensures no background appears on hover */
+			box-shadow: none; /* Removes the shadow since there's no circular shape */
+		}
+
+        .hours span { display: block; margin-top: 5px; font-style: italic; }
+
+    /* Newsletter Form */
+        .newsletter-form {
+            display: flex;
+            margin-top: 20px;
+            border-bottom: 1px solid var(--gold);
+        }
+
+        .newsletter-form input {
+            background: transparent;
+            border: none;
+            padding: 10px;
+            color: white;
+            flex-grow: 1;
+            outline: none;
+        }
+
+        .newsletter-form button {
+            background: transparent;
+            color: var(--gold);
+            border: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+    /* Bottom Bar */
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        .legal-links a {
+            margin-left: 20px;
+            color: #666;
+            text-decoration: none;
+        }
+
+    /* Mobile Responsiveness for Footer */
+       @media (max-width: 992px) {
+            .footer-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="/" class="logo-link">
+            <div class="logo">AARVELLA</div>
+        </a>
+    
+        <nav class="desktop-nav">
+            <a href="#services">Services</a>
+            <a href="stylists.html">Stylists</a>
+            <a href="about.html">About</a>
+			<a href="find-us.html">Find Us</a>
+            <button class="btn-gold" onclick="scrollToBooking()">Book Now</button>
+        </nav>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        
+		<div class="mobile-nav" id="mobileNav">
+			<a href="#services">Services</a>
+			<a href="stylists.html">Stylists</a>
+			<a href="about.html">About</a>
+			<button class="btn-gold" id="mobileBookBtn" onclick="toggleMenu()">Book Now</button>
+		</div>
+    </header>
+
+    <section class="hero">
+        <h1>Timeless Elegance.</h1>
+        <p>A premier luxury salon experience where art meets hair. Redefine your beauty with our bespoke gold-standard treatments.</p>
+        <button class="btn-gold" onclick="scrollToBooking()">Reserve Your Experience</button>
+    </section>
+
+    <section id="services" class="services">
+        <h2 class="section-title">Bespoke Services</h2>
+        <div class="service-grid">
+            <div class="service-card">
+                <h3>Signature Balayage</h3>
+                <p>Custom hand-painted highlights for a natural, sun-kissed look.</p>
+                <span class="price">From $250</span>
+            </div>
+            <div class="service-card">
+                <h3>Gold Infusion Facial</h3>
+                <p>24k gold leaf treatment to rejuvenate and illuminate skin.</p>
+                <span class="price">From $180</span>
+            </div>
+            <div class="service-card">
+                <h3>Precision Cut</h3>
+                <p>Expertly tailored cuts designed to complement your face shape.</p>
+                <span class="price">From $95</span>
+            </div>
+        </div>
+    </section>
+
+    <section id="booking" class="booking-container">
+        <h2>Reserve Your Session</h2>
+        <p>Directly integrated with our CRM for real-time availability.</p>
+        
+        <div id="crm-booking-widget">
+            <p style="color: var(--gold); font-style: italic;">
+                [CRM Booking Widget Loaded From: Square / Mindbody / Zylu]
+            </p>
+        </div>
+    </section>
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <div class="logo">AARVELLA</div>
+                <p class="mission-text">Defining the gold standard in hair artistry. Our mission is to provide a transformative luxury experience tailored to your unique beauty.</p>
+				<div class="social-icons">
+					<a href="https://www.instagram.com/aarvella.salon/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+					<a href="https://facebook.com/Aarvella" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+					<a href="https://in.pinterest.com/AarvellaSalon" target="_blank" rel="noopener noreferrer" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+					<a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+				</div>
+            </div>
+
+            <div class="footer-col">
+                <h3>Experience</h3>
+                <ul>
+                    <li><a href="services.html">Hair Services</a></li>
+                    <li><a href="#">Skin Treatments</a></li>
+                    <li><a href="bridal.html">Bridal Packages</a></li>
+                    <li><a href="#">Gift Cards</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>The Atelier</h3>
+                <p>123 Luxury Lane, Gold District<br>Manhattan, NY 10001</p>
+                <p class="phone-link">+1 (555) AARVELLA</p>
+                <div class="hours">
+                    <span>Mon - Fri: 9am - 8pm</span>
+                    <span>Sat: 10am - 6pm</span>
+                    <span>Sun: Closed</span>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>Stay Inspired</h3>
+                <p>Join our Gold List for exclusive trends and early access to bookings.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Email Address" required>
+                    <button type="submit">Join</button>
+                </form>
+            </div>
+      </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Aarvella Luxury Salon. All Rights Reserved.</p>
+            <div class="legal-links">
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms of Service</a>
+                <a href="javascript:window.scrollTo({top: 0, behavior: 'smooth'});">Back to Top ↑</a>
+            </div>
+        </div>
+    </footer>
+
+	<script>
+        // 1. Scroll Function (Available globally)
+        function scrollToBooking() {
+            document.getElementById('booking').scrollIntoView({ behavior: 'smooth' });
+        }
+
+        // 2. Intersection Observer for Scroll Animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.1 });
+
+        document.querySelectorAll('.service-card').forEach(card => {
+            card.style.opacity = '0';
+            card.style.transform = 'translateY(20px)';
+            card.style.transition = 'all 0.6s ease-out';
+            observer.observe(card);
+        });
+
+        // 3. Hamburger & Mobile Nav Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.getElementById('hamburger');
+            const mobileNav = document.getElementById('mobileNav');
+            const mobileLinks = document.querySelectorAll('.mobile-nav a');
+            const mobileBookBtn = document.getElementById('mobileBookBtn');
+
+            // Shared Toggle Function
+            const toggleMenu = () => {
+                const isActive = mobileNav.classList.toggle('active');
+                hamburger.classList.toggle('active');
+                
+                // Prevent background scrolling ONLY when open
+                document.body.style.overflow = isActive ? 'hidden' : 'auto';
+            };
+
+            // Click Event for Hamburger
+            hamburger.addEventListener('click', toggleMenu);
+
+            // Close menu when clicking links
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', toggleMenu);
+            });
+
+            // Handle Mobile Book Button
+            if(mobileBookBtn) {
+                mobileBookBtn.addEventListener('click', () => {
+                    toggleMenu();
+                    scrollToBooking();
+                });
+            }
+
+            // --- THE FIX: Handle Screen Resizing (Maximize Bug) ---
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 768) {
+                    hamburger.classList.remove('active');
+                    mobileNav.classList.remove('active');
+                    document.body.style.overflow = 'auto';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+</body>
+</html>

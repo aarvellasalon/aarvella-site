@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="p:domain_verify" content="1a3a419d7378346d0d870ee6dac051bb"/>
+    <title>Careers | Join the Aarvella Legacy</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --black: #0A0A0A;
+            --charcoal: #1A1A1A;
+            --white: #F4F4F4;
+            --transition: all 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--black); color: var(--white); font-family: 'Montserrat', sans-serif; line-height: 1.6; overflow-x: hidden; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--gold); }
+
+        /* --- Header Replicated from stylists.html --- */
+		header {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			padding: 1.5rem 5%; 
+			background: rgba(10, 10, 10, 0.95);
+			backdrop-filter: blur(10px);
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			z-index: 1000;
+			border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+		}
+
+		/* Ensure Logo and Nav stay in their lanes */
+		.logo-link {
+			text-decoration: none;
+			color: inherit;
+			flex-shrink: 0;
+		}
+
+		.logo {
+			font-size: 2rem; 
+			letter-spacing: 4px; 
+			font-weight: bold; 
+		}
+
+		.desktop-nav {
+			display: flex;
+			align-items: center;
+			flex-shrink: 0;
+		}
+
+		.desktop-nav a {
+			color: var(--white);
+			text-decoration: none;
+			font-size: 0.9rem;
+			text-transform: uppercase;
+			letter-spacing: 2px;
+			transition: var(--transition);
+			white-space: nowrap;
+		}
+
+		.desktop-nav a:hover {
+			color: var(--gold);
+		}
+
+        /* --- Hero --- */
+        .careers-hero {
+            padding: 220px 10% 100px;
+            text-align: center;
+            background: linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1600&q=80');
+            background-size: cover; background-position: center;
+        }
+        .careers-hero h1 { font-size: 4.5rem; margin-bottom: 1rem; }
+        .careers-hero p { color: var(--gold); text-transform: uppercase; letter-spacing: 5px; font-size: 0.9rem; }
+
+        /* --- Philosophy (Alternating Sections) --- */
+        .content-section { padding: 100px 10%; max-width: 1400px; margin: 0 auto; }
+        .info-row { display: flex; align-items: center; gap: 80px; margin-bottom: 120px; }
+        .info-row:nth-child(even) { flex-direction: row-reverse; }
+        
+        .info-img { flex: 1; height: 500px; overflow: hidden; border: 1px solid rgba(212, 175, 55, 0.2); }
+        .info-img img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(100%); transition: var(--transition); }
+        .info-row:hover .info-img img { filter: grayscale(0%); transform: scale(1.05); }
+
+        .info-text { flex: 1; }
+        .info-text h2 { font-size: 2.8rem; margin-bottom: 20px; }
+        .info-text p { color: #bbb; font-size: 1.1rem; }
+
+        /* --- Application Form --- */
+        .form-container { 
+            background: var(--charcoal); 
+            padding: 80px 10%; 
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        .form-wrapper { max-width: 800px; margin: 0 auto; }
+        .form-header { text-align: center; margin-bottom: 50px; }
+        
+        form { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; }
+        .full-width { grid-column: span 2; }
+        
+        label { display: block; color: var(--gold); text-transform: uppercase; font-size: 0.75rem; letter-spacing: 2px; margin-bottom: 10px; }
+        input, select, textarea { 
+            width: 100%; background: transparent; border: none; border-bottom: 1px solid #444; 
+            padding: 15px 0; color: var(--white); font-family: 'Montserrat'; font-size: 1rem;
+            transition: var(--transition);
+        }
+        input:focus { outline: none; border-color: var(--gold); }
+
+        /* Resume Upload Customization */
+        .file-upload { 
+            border: 1px dashed #444; padding: 40px; text-align: center; cursor: pointer;
+            transition: var(--transition);
+        }
+        .file-upload:hover { border-color: var(--gold); background: rgba(214, 175, 55, 0.05); }
+
+        .submit-btn {
+            grid-column: span 2; background: var(--gold); color: var(--black); border: none;
+            padding: 20px; text-transform: uppercase; letter-spacing: 4px; font-weight: bold;
+            cursor: pointer; transition: var(--transition); margin-top: 20px;
+        }
+        .submit-btn:hover { background: var(--white); letter-spacing: 6px; }
+
+        /* --- Footer Replicated from aarvella.html --- */
+        .main-footer {
+            background-color: var(--black);
+            padding: 80px 10% 20px;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+            margin-top: 60px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .footer-col p, .footer-col ul {
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 0.8rem; }
+    
+        .footer-col a {
+            color: #999;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        .footer-col a:hover { color: var(--gold); padding-left: 5px; }
+
+        .mission-text { margin: 20px 0; max-width: 300px; }
+
+		.social-icons {
+			margin-top: 25px;
+			display: flex;
+			gap: 25px; /* Increased gap to account for larger icons */
+		}
+
+		.social-icons a {
+			color: var(--gold);
+			font-size: 1.8rem; /* Made icons significantly bigger */
+			text-decoration: none;
+			transition: var(--transition);
+			display: inline-block;
+			border: none; /* Removes the outline/border */
+			background: none; /* Ensures no background color */
+			width: auto; /* Removes the fixed circular width */
+			height: auto; /* Removes the fixed circular height */
+		}
+
+		.social-icons a:hover {
+			color: var(--white); /* Changes to white on hover for a clean contrast */
+			transform: translateY(-5px); /* Elegant lift effect */
+			background: none; /* Ensures no background appears on hover */
+			box-shadow: none; /* Removes the shadow since there's no circular shape */
+		}
+
+        .hours span { display: block; margin-top: 5px; font-style: italic; }
+
+    /* Newsletter Form */
+        .newsletter-form {
+            display: flex;
+            margin-top: 20px;
+            border-bottom: 1px solid var(--gold);
+        }
+
+        .newsletter-form input {
+            background: transparent;
+            border: none;
+            padding: 10px;
+            color: white;
+            flex-grow: 1;
+            outline: none;
+        }
+
+        .newsletter-form button {
+            background: transparent;
+            color: var(--gold);
+            border: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+    /* Bottom Bar */
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        .legal-links a {
+            margin-left: 20px;
+            color: #666;
+            text-decoration: none;
+        }
+
+    /* Mobile Responsiveness for Footer */
+       @media (max-width: 992px) {
+            .footer-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+	<header>
+		<a href="aarvella.html" class="logo-link">
+			<div class="logo">AARVELLA</div>
+		</a>
+
+		<nav class="desktop-nav">
+			<a href="aarvella.html">Back to Home</a>
+		</nav>
+	</header>
+
+    <div class="careers-hero">
+        <p>Beyond Technique. Pure Artistry.</p>
+        <h1>Join the Atelier</h1>
+    </div>
+
+    <section class="content-section">
+        <div class="info-row">
+            <div class="info-text">
+                <h2>Our Culture</h2>
+                <p>At Aarvella, we don't just hire stylists; we curate artists. Our team members enjoy a collaborative environment focused on editorial innovation, continuous education with global masters, and the freedom to define the future of luxury beauty.</p>
+            </div>
+            <div class="info-img">
+                <img src="https://images.unsplash.com/photo-1522337660859-02fbefca4702?auto=format&fit=crop&w=800&q=80" alt="Salon Culture">
+            </div>
+        </div>
+
+        <div class="info-row">
+            <div class="info-text">
+                <h2>The Gold Standard</h2>
+                <p>We provide competitive commissions, premium product access, and opportunities to work on high-fashion runway sets. If you have the passion to elevate every client's journey, we have the platform to build your legacy.</p>
+            </div>
+            <div class="info-img">
+                <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=800&q=80" alt="Professional Stylist">
+            </div>
+        </div>
+    </section>
+
+    <section class="form-container" id="apply">
+        <div class="form-wrapper">
+            <div class="form-header">
+                <h2>Begin Your Journey</h2>
+                <p style="color: #888; margin-top: 10px;">Please provide your professional details below.</p>
+            </div>
+            <form action="#" method="POST" enctype="multipart/form-data">
+                <div>
+                    <label>Full Name</label>
+                    <input type="text" name="name" placeholder="E.g. Julian Vella" required>
+                </div>
+                <div>
+                    <label>Position Applied For</label>
+                    <select name="position">
+                        <option>Senior Stylist</option>
+                        <option>Color Specialist</option>
+                        <option>Bridal Artisan</option>
+                        <option>Guest Experience Manager</option>
+                    </select>
+                </div>
+                <div>
+                    <label>Mobile Number</label>
+                    <input type="tel" name="phone" placeholder="+1 (555) 000-0000" required>
+                </div>
+                <div>
+                    <label>Email Address</label>
+                    <input type="email" name="email" placeholder="julian@example.com" required>
+                </div>
+                <div class="full-width">
+                    <label>Portfolio / Resume</label>
+                    <div class="file-upload" onclick="document.getElementById('resume').click()">
+                        <i class="fas fa-cloud-upload-alt" style="font-size: 2rem; color: var(--gold); margin-bottom: 15px;"></i>
+                        <p>Click to upload your PDF Resume (Max 5MB)</p>
+                        <input type="file" id="resume" name="resume" style="display:none" required>
+                    </div>
+                </div>
+                <div class="full-width">
+                    <label>Tell us about your artistry</label>
+                    <textarea rows="4" placeholder="Briefly describe your experience and style..."></textarea>
+                </div>
+                <button type="submit" class="submit-btn">Submit Application</button>
+            </form>
+        </div>
+    </section>
+
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <div class="logo">AARVELLA</div>
+                <p class="mission-text">Defining the gold standard in hair artistry. Our mission is to provide a transformative luxury experience tailored to your unique beauty.</p>
+				<div class="social-icons">
+					<a href="https://www.instagram.com/aarvella.salon/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+					<a href="https://facebook.com/Aarvella" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+					<a href="https://in.pinterest.com/AarvellaSalon" target="_blank" rel="noopener noreferrer" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+					<a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+				</div>
+            </div>
+
+            <div class="footer-col">
+                <h3>Experience</h3>
+                <ul>
+                    <li><a href="services.html">Hair Services</a></li>
+                    <li><a href="#">Skin Treatments</a></li>
+                    <li><a href="bridal.html">Bridal Packages</a></li>
+                    <li><a href="#">Gift Cards</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>The Atelier</h3>
+                <p>123 Luxury Lane, Gold District<br>Manhattan, NY 10001</p>
+                <p class="phone-link">+1 (555) AARVELLA</p>
+                <div class="hours">
+                    <span>Mon - Fri: 9am - 8pm</span>
+                    <span>Sat: 10am - 6pm</span>
+                    <span>Sun: Closed</span>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>Stay Inspired</h3>
+                <p>Join our Gold List for exclusive trends and early access to bookings.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Email Address" required>
+                    <button type="submit">Join</button>
+                </form>
+            </div>
+      </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Aarvella Luxury Salon. All Rights Reserved.</p>
+            <div class="legal-links">
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms of Service</a>
+                <a href="javascript:window.scrollTo({top: 0, behavior: 'smooth'});">Back to Top ↑</a>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

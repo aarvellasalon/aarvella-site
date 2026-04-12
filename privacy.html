@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="p:domain_verify" content="1a3a419d7378346d0d870ee6dac051bb"/>
+    <title>Privacy Policy | Aarvella Luxury Salon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --black: #0A0A0A;
+            --charcoal: #1A1A1A;
+            --white: #F4F4F4;
+            --transition: all 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        /* --- Global Reset (Matches Stylists.html) --- */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--black);
+            color: var(--white);
+            font-family: 'Montserrat', sans-serif;
+            line-height: 1.8;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--gold); }
+
+        /* --- Header (Exactly Replicated from stylists.html) --- */
+		header {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			padding: 1.5rem 5%; 
+			background: rgba(10, 10, 10, 0.95);
+			backdrop-filter: blur(10px);
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			z-index: 1000;
+			border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+		}
+
+		/* Ensure Logo and Nav stay in their lanes */
+		.logo-link {
+			text-decoration: none;
+			color: inherit;
+			flex-shrink: 0;
+		}
+
+		.logo {
+			font-size: 2rem; 
+			letter-spacing: 4px; 
+			font-weight: bold; 
+		}
+
+		.desktop-nav {
+			display: flex;
+			align-items: center;
+			flex-shrink: 0;
+		}
+
+		.desktop-nav a {
+			color: var(--white);
+			text-decoration: none;
+			font-size: 0.9rem;
+			text-transform: uppercase;
+			letter-spacing: 2px;
+			transition: var(--transition);
+			white-space: nowrap;
+		}
+
+		.desktop-nav a:hover {
+			color: var(--gold);
+		}
+
+        /* --- Privacy Content Section --- */
+        .legal-hero {
+            padding: 180px 10% 80px;
+            background: linear-gradient(to bottom, var(--charcoal), var(--black));
+            text-align: center;
+        }
+        .legal-hero h1 { font-size: 3.5rem; margin-bottom: 1rem; }
+        .legal-hero p { color: var(--gold); letter-spacing: 3px; font-size: 0.8rem; text-transform: uppercase; }
+
+        .privacy-body { max-width: 900px; margin: 0 auto 120px; padding: 60px 5%; }
+        section { margin-bottom: 60px; }
+        section h2 { font-size: 1.8rem; margin-bottom: 25px; letter-spacing: 1px; }
+        section p { color: #bbb; margin-bottom: 20px; font-size: 1.05rem; }
+        
+        .data-list { list-style: none; }
+        .data-list li { 
+            padding: 15px 0; 
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1); 
+            color: #ddd;
+            display: flex;
+            align-items: flex-start;
+        }
+        .data-list li::before { content: "◈"; color: var(--gold); margin-right: 15px; }
+
+        /* --- Footer (Exactly Replicated from aarvella.html) --- */
+        .main-footer {
+            background-color: var(--black);
+            padding: 80px 10% 20px;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+            margin-top: 60px;
+        }
+
+        .footer-container {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .footer-col p, .footer-col ul {
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 0.8rem; }
+    
+        .footer-col a {
+            color: #999;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        .footer-col a:hover { color: var(--gold); padding-left: 5px; }
+
+        .mission-text { margin: 20px 0; max-width: 300px; }
+
+		.social-icons {
+			margin-top: 25px;
+			display: flex;
+			gap: 25px; /* Increased gap to account for larger icons */
+		}
+
+		.social-icons a {
+			color: var(--gold);
+			font-size: 1.8rem; /* Made icons significantly bigger */
+			text-decoration: none;
+			transition: var(--transition);
+			display: inline-block;
+			border: none; /* Removes the outline/border */
+			background: none; /* Ensures no background color */
+			width: auto; /* Removes the fixed circular width */
+			height: auto; /* Removes the fixed circular height */
+		}
+
+		.social-icons a:hover {
+			color: var(--white); /* Changes to white on hover for a clean contrast */
+			transform: translateY(-5px); /* Elegant lift effect */
+			background: none; /* Ensures no background appears on hover */
+			box-shadow: none; /* Removes the shadow since there's no circular shape */
+		}
+
+        .hours span { display: block; margin-top: 5px; font-style: italic; }
+
+    /* Newsletter Form */
+        .newsletter-form {
+            display: flex;
+            margin-top: 20px;
+            border-bottom: 1px solid var(--gold);
+        }
+
+        .newsletter-form input {
+            background: transparent;
+            border: none;
+            padding: 10px;
+            color: white;
+            flex-grow: 1;
+            outline: none;
+        }
+
+        .newsletter-form button {
+            background: transparent;
+            color: var(--gold);
+            border: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+    /* Bottom Bar */
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        .legal-links a {
+            margin-left: 20px;
+            color: #666;
+            text-decoration: none;
+        }
+
+    /* Mobile Responsiveness for Footer */
+       @media (max-width: 992px) {
+            .footer-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+	<header>
+		<a href="aarvella.html" class="logo-link">
+			<div class="logo">AARVELLA</div>
+		</a>
+
+		<nav class="desktop-nav">
+			<a href="aarvella.html">Back to Home</a>
+		</nav>
+	</header>
+
+    <div class="legal-hero">
+        <h1>Privacy Policy</h1>
+        <p>Your Data. Handled with Artistry.</p>
+    </div>
+
+    <main class="privacy-body">
+        <section>
+            <h2>Bespoke Data Collection</h2>
+            <p>At Aarvella, we believe your personal information is as unique as your style. We collect only what is necessary to provide an unparalleled salon experience.</p>
+            <ul class="data-list">
+                <li>Personal identifiers (Name, Email, Contact Number) provided during booking.</li>
+                <li>Hair history and preference profiles to ensure consistency in your aesthetic results.</li>
+                <li>Digital footprints through cookies to enhance your navigation on our site.</li>
+            </ul>
+        </section>
+
+        <section>
+            <h2>How We Use Your Information</h2>
+            <p>Your data is used exclusively to curate your experience within The Atelier. This includes scheduling, sending service reminders, and informing you of exclusive "Gold List" trends.</p>
+            <p>We never sell your personal information to third-party marketers. Your privacy is a pillar of our luxury promise.</p>
+        </section>
+
+        <section>
+            <h2>Your Rights</h2>
+            <p>You maintain full control over your digital identity at Aarvella. You may request to view, edit, or delete your personal profile at any time by contacting our concierge at privacy@aarvella.com.</p>
+        </section>
+    </main>
+
+    <footer class="main-footer">
+        <div class="footer-container">
+            <div class="footer-col">
+                <div class="logo">AARVELLA</div>
+                <p class="mission-text">Defining the gold standard in hair artistry. Our mission is to provide a transformative luxury experience tailored to your unique beauty.</p>
+				<div class="social-icons">
+					<a href="https://www.instagram.com/aarvella.salon/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+					<a href="https://facebook.com/Aarvella" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+					<a href="https://in.pinterest.com/AarvellaSalon" target="_blank" rel="noopener noreferrer" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+					<a href="#" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+				</div>
+            </div>
+
+            <div class="footer-col">
+                <h3>Experience</h3>
+                <ul>
+                    <li><a href="services.html">Hair Services</a></li>
+                    <li><a href="#">Skin Treatments</a></li>
+                    <li><a href="bridal.html">Bridal Packages</a></li>
+                    <li><a href="#">Gift Cards</a></li>
+                    <li><a href="careers.html">Careers</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-col">
+                <h3>The Atelier</h3>
+                <p>123 Luxury Lane, Gold District<br>Manhattan, NY 10001</p>
+                <p class="phone-link">+1 (555) AARVELLA</p>
+                <div class="hours">
+                    <span>Mon - Fri: 9am - 8pm</span>
+                    <span>Sat: 10am - 6pm</span>
+                    <span>Sun: Closed</span>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>Stay Inspired</h3>
+                <p>Join our Gold List for exclusive trends and early access to bookings.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Email Address" required>
+                    <button type="submit">Join</button>
+                </form>
+            </div>
+      </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Aarvella Luxury Salon. All Rights Reserved.</p>
+            <div class="legal-links">
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms of Service</a>
+                <a href="javascript:window.scrollTo({top: 0, behavior: 'smooth'});">Back to Top ↑</a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
