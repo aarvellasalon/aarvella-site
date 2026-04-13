@@ -180,6 +180,8 @@
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
+			gap: 3.5rem; /* Increased from default to create more air between items */
+    		padding: 0 80px;
 			
 			/* Generous Padding */
 			padding: 0 80px; 
@@ -195,16 +197,20 @@
 
 		.mobile-nav a {
 			font-family: 'Playfair Display', serif;
-			font-size: 1.8rem; /* Slightly smaller for the drawer style */
+			font-size: 2rem; /* Slightly smaller for the drawer style */
 			color: var(--white);
 			text-decoration: none;
-			letter-spacing: 2px;
+			letter-spacing: 3px;
 			white-space: nowrap; /* Prevents text from wrapping */
 			transition: var(--transition);
 		}
 
 		.mobile-nav a:hover {
 			color: var(--gold);
+		}
+		/* Add a margin to the button to separate it further from the text links */
+		#mobileBookBtn {
+    		margin-top: 1rem;
 		}
 
         #crm-booking-widget {
@@ -410,6 +416,7 @@
 			<a href="#services">Services</a>
 			<a href="stylists.html">Stylists</a>
 			<a href="about.html">About</a>
+			<a href="find-us.html">Find Us</a>
 			<button class="btn-gold" id="mobileBookBtn" onclick="toggleMenu()">Book Now</button>
 		</div>
     </header>
