@@ -79,7 +79,7 @@
         .about-hero h1 { font-size: 4rem; margin-bottom: 1rem; }
         .about-hero p { font-style: italic; color: var(--gold); letter-spacing: 3px; }
 
-        /* --- Story Section --- */
+        /* --- Story Section --- 
         .story-section {
             padding: 120px 10%;
             display: grid;
@@ -89,7 +89,55 @@
         }
         .story-content h2 { font-size: 3rem; margin-bottom: 2rem; }
         .story-content p { color: #bbb; margin-bottom: 20px; font-size: 1.1rem; }
-        .story-image img { width: 100%; border: 1px solid var(--gold); padding: 15px; }
+        .story-image img { width: 100%; border: 1px solid var(--gold); padding: 15px; } */
+
+		/* Container using Flexbox */
+		.story-container {
+		    display: flex;
+		    align-items: center;
+		    gap: 4rem;
+		    padding: 100px 10%;
+		    background: var(--black);
+		}
+		
+		.story-image, .story-text {
+		    flex: 1;
+		}
+		
+		/* --- The Image "Washed Out" Effect --- */
+		.story-image img {
+		    width: 100%;
+		    height: auto;
+		    border: 1px solid rgba(212, 175, 55, 0.3);
+		    /* Initial state: Muted/Washed out */
+		    filter: grayscale(40%); 
+		    transition: var(--transition);
+		    cursor: pointer;
+		}
+		
+		/* Full color on hover (Desktop) and touch (Mobile) */
+		.story-image:hover img, 
+		.story-image img:active {
+		    filter: grayscale(0%);
+		    border-color: var(--gold);
+		}
+		
+		/* --- Mobile Fix: Stack Vertically --- */
+		@media (max-width: 768px) {
+		    .story-container {
+		        flex-direction: column; /* Stacks image on top, text below */
+		        padding: 60px 5%;
+		        gap: 2rem;
+		    }
+		
+		    .story-text {
+		        text-align: center; /* Centers text for better mobile aesthetics */
+		    }
+		
+		    .story-image {
+		        width: 100%;
+		    }
+		}
 
         /* --- Philosophy Pillars --- */
         .philosophy { background: var(--charcoal); padding: 100px 10%; text-align: center; }
@@ -243,15 +291,17 @@
         <p>A MASTERCLASS IN MODERN LUXURY</p>
     </section>
 
-    <section class="story-section">
-        <div class="story-image">
-            <img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&q=80&w=1000" alt="Salon Interior">
-        </div>
-        <div class="story-content">
-            <h2>Our Story</h2>
-            <p>Aarvella was founded on the belief that beauty is an architectural endeavor. Located in the heart of the Gold District, our atelier serves as a sanctuary where geometry meets high-fashion artistry.</p>
-            <p>Every service we perform is bespoke. We don't just follow the seasons; we set the gold standard for luxury hair care by blending traditional techniques with avant-garde vision.</p>
-        </div>
+    <section class="our-story">
+		<div class="story-container">
+	        <div class="story-image">
+	            <img src="https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&q=80&w=1000" alt="Salon Interior">
+	        </div>
+	        <div class="story-text">
+	            <h2>Our Story</h2>
+	            <p>Aarvella was founded on the belief that beauty is an architectural endeavor. Located in the heart of the Gold District, our atelier serves as a sanctuary where geometry meets high-fashion artistry.</p>
+	            <p>Every service we perform is bespoke. We don't just follow the seasons; we set the gold standard for luxury hair care by blending traditional techniques with avant-garde vision.</p>
+	        </div>
+		</div>
     </section>
 
     <section class="philosophy">
