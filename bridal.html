@@ -143,8 +143,25 @@
                 padding: 0;
             }
 
-            .package-info h2 { font-size: 2.2rem; }
-        }
+			.package-info { flex: 1; padding: 20px; }
+	        .package-info .label { color: var(--gold); text-transform: uppercase; letter-spacing: 4px; font-size: 0.8rem; display: block; margin-bottom: 15px; }
+	        .package-info h2 { font-size: 3rem; margin-bottom: 25px; line-height: 1.2; }
+	        .package-info p { color: #bbb; font-size: 1.1rem; line-height: 1.8; margin-bottom: 40px; }
+	        
+	        .book-link {
+	            display: inline-block;
+	            color: var(--gold);
+	            text-decoration: none;
+	            text-transform: uppercase;
+	            letter-spacing: 3px;
+	            font-size: 0.9rem;
+	            font-weight: bold;
+	            border: 1px solid var(--gold);
+	            padding: 15px 40px;
+	            transition: var(--transition);
+	        }
+	        .book-link:hover { background: var(--gold); color: var(--black); }
+	        }
 
         /* --- Footer Replicated from aarvella.html --- */
         .main-footer {
