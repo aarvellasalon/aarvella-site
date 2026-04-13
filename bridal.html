@@ -80,6 +80,7 @@
         .bridal-hero h1 { font-size: 4.5rem; margin-bottom: 1rem; }
 
         /* --- Alternating Sections --- */
+/* --- Updated Layout Logic --- */
         .package-container { padding: 100px 10%; max-width: 1400px; margin: 0 auto; }
         
         .package-row {
@@ -91,9 +92,10 @@
             transform: translateY(50px);
             transition: var(--transition);
         }
+
         .package-row.visible { opacity: 1; transform: translateY(0); }
 
-        /* Logic for Alternating sides */
+        /* Desktop Alternating sides */
         .package-row:nth-child(even) { flex-direction: row-reverse; }
 
         .package-image {
@@ -103,6 +105,7 @@
             height: 600px;
             position: relative;
         }
+
         .package-image img {
             width: 100%;
             height: 100%;
@@ -110,26 +113,38 @@
             filter: grayscale(100%) brightness(0.7);
             transition: var(--transition);
         }
-        .package-row:hover .package-image img { filter: grayscale(0%) brightness(1); transform: scale(1.03); }
+
+        /* Hover & Mobile Touch effect */
+        .package-row:hover .package-image img,
+        .package-image img:active { filter: grayscale(0%) brightness(1); transform: scale(1.03); }
 
         .package-info { flex: 1; padding: 20px; }
-        .package-info .label { color: var(--gold); text-transform: uppercase; letter-spacing: 4px; font-size: 0.8rem; display: block; margin-bottom: 15px; }
-        .package-info h2 { font-size: 3rem; margin-bottom: 25px; line-height: 1.2; }
-        .package-info p { color: #bbb; font-size: 1.1rem; line-height: 1.8; margin-bottom: 40px; }
-        
-        .book-link {
-            display: inline-block;
-            color: var(--gold);
-            text-decoration: none;
-            text-transform: uppercase;
-            letter-spacing: 3px;
-            font-size: 0.9rem;
-            font-weight: bold;
-            border: 1px solid var(--gold);
-            padding: 15px 40px;
-            transition: var(--transition);
+
+        /* --- MOBILE RESPONSIVE FIX --- */
+        @media (max-width: 768px) {
+            .bridal-hero h1 { font-size: 3rem; }
+            
+            .package-row, 
+            .package-row:nth-child(even) { 
+                flex-direction: column; /* Stack vertically */
+                gap: 40px;
+                margin-bottom: 80px;
+                text-align: center;
+            }
+
+            .package-image {
+                width: 100%;
+                height: 400px; /* Reduced height for mobile screens */
+                order: -1; /* Ensures image appears ON TOP of text */
+            }
+
+            .package-info {
+                width: 100%;
+                padding: 0;
+            }
+
+            .package-info h2 { font-size: 2.2rem; }
         }
-        .book-link:hover { background: var(--gold); color: var(--black); }
 
         /* --- Footer Replicated from aarvella.html --- */
         .main-footer {
@@ -276,45 +291,45 @@
         <h1>Bridal Rituals</h1>
     </div>
 
-    <div class="package-container">
-        
-        <div class="package-row">
-            <div class="package-info">
-                <span class="label">The Contemporary Bride</span>
-                <h2>The Royal Sangeet Ritual</h2>
-                <p>Designed for the modern celebration. Includes HD airbrush makeup for high-intensity lights, architectural hair sculpting, and a silk-protein treatment to ensure your hair stays lustrous throughout the festivities.</p>
-                <a href="aarvella.html#services" class="book-link">Consult Now</a>
-            </div>
-            <div class="package-image">
-                <img src="images/bridal-makeup001.jpg?auto=format&fit=crop&w=800&q=80" alt="Sangeet Makeup">
-            </div>
-        </div>
-
-        <div class="package-row">
-            <div class="package-info">
-                <span class="label">Timeless Heritage</span>
-                <h2>The Vedic Wedding Day</h2>
-                <p>The ultimate bridal transformation. We focus on traditional Vedic radiance—enhancing facial features with gold-flecked pigments and intricate hair artistry that supports even the heaviest bridal jewelry and veils.</p>
-                <a href="aarvella.html#services" class="book-link">Consult Now</a>
-            </div>
-            <div class="package-image">
-                <img src="images/bridal-hairstyle001.jpg?auto=format&fit=crop&w=800&q=80" alt="Vedic Wedding Hair">
-            </div>
-        </div>
-
-        <div class="package-row">
-            <div class="package-info">
-                <span class="label">Pre-Wedding Care</span>
-                <h2>The 7-Day Gold Glow</h2>
-                <p>Prepare your canvas with our signature pre-wedding regime. A week of organic Ubtan scrubs, intensive 24K gold facials, and scalp rejuvenation designed to detoxify your skin before the big day.</p>
-                <a href="aarvella.html#services" class="book-link">Consult Now</a>
-            </div>
-            <div class="package-image">
-                <img src="images/mehndi-pre-bridal001.jpg?auto=format&fit=crop&w=800&q=80" alt="Gold Ritual Treatment">
-            </div>
-        </div>
-
-    </div>
+	<div class="package-container">
+	        
+	        <div class="package-row">
+	            <div class="package-info">
+	                <span class="label">The Contemporary Bride</span>
+	                <h2>The Royal Sangeet Ritual</h2>
+	                <p>Designed for the modern celebration. Includes HD airbrush makeup for high-intensity lights, architectural hair sculpting, and a silk-protein treatment.</p>
+	                <a href="index.html#booking" class="book-link">Consult Now</a>
+	            </div>
+	            <div class="package-image">
+	                <img src="images/bridal-makeup001.jpg" alt="Sangeet Makeup">
+	            </div>
+	        </div>
+	
+	        <div class="package-row">
+	            <div class="package-info">
+	                <span class="label">Timeless Heritage</span>
+	                <h2>The Vedic Wedding Day</h2>
+	                <p>The ultimate bridal transformation. We focus on traditional Vedic radiance—enhancing facial features with gold-flecked pigments and intricate hair artistry.</p>
+	                <a href="index.html#booking" class="book-link">Consult Now</a>
+	            </div>
+	            <div class="package-image">
+	                <img src="images/bridal-hairstyle001.jpg" alt="Vedic Wedding Hair">
+	            </div>
+	        </div>
+	
+	        <div class="package-row">
+	            <div class="package-info">
+	                <span class="label">Pre-Wedding Care</span>
+	                <h2>The 7-Day Gold Glow</h2>
+	                <p>Prepare your canvas with our signature pre-wedding regime. A week of organic Ubtan scrubs, intensive 24K gold facials, and scalp rejuvenation.</p>
+	                <a href="index.html#booking" class="book-link">Consult Now</a>
+	            </div>
+	            <div class="package-image">
+	                <img src="images/mehndi-pre-bridal001.jpg" alt="Gold Ritual Treatment">
+	            </div>
+	        </div>
+	
+	    </div>
 
     <footer class="main-footer">
         <div class="footer-container">
