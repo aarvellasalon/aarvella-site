@@ -147,6 +147,67 @@
         .p-card i { font-size: 2.5rem; color: var(--gold); margin-bottom: 20px; }
         .p-card h3 { margin-bottom: 15px; text-transform: uppercase; letter-spacing: 2px; }
 
+		.our-partners {
+		    padding: 60px 0;
+		    background-color: #ffffff; /* Or your theme's soft beige/white */
+		    overflow: hidden;
+		}
+		
+		.section-title {
+		    text-align: center;
+		    font-family: 'Your-Serif-Font', serif; /* Aligns with Bridal/Luxury theme */
+		    font-size: 2rem;
+		    margin-bottom: 40px;
+		    color: #333;
+		    text-transform: uppercase;
+		    letter-spacing: 2px;
+		}
+		
+		.logo-carousel {
+		    display: flex;
+		    width: 100%;
+		}
+		
+		.logo-track {
+		    display: flex;
+		    width: calc(250px * 10); /* Adjust based on logo width x total items */
+		    animation: scroll 40s linear infinite;
+		}
+		
+		.logo-item {
+		    width: 250px;
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    padding: 0 40px;
+		}
+		
+		.logo-item img {
+		    max-width: 150px;
+		    filter: grayscale(100%); /* B&W for the high-end look */
+		    opacity: 0.6;
+		    transition: all 0.4s ease;
+		}
+		
+		.logo-item img:hover {
+		    filter: grayscale(0%);
+		    opacity: 1;
+		    transform: scale(1.1);
+		}
+		
+		@keyframes scroll {
+		    0% { transform: translateX(0); }
+		    100% { transform: translateX(calc(-250px * 5)); } /* Moves halfway to reveal the loop */
+		}
+		
+		/* Mobile Responsiveness */
+		@media (max-width: 768px) {
+		    .logo-item { width: 180px; }
+		    .logo-track { width: calc(180px * 10); }
+		    @keyframes scroll {
+		        100% { transform: translateX(calc(-180px * 5)); }
+		    }
+		}
         /* --- Footer  --- */
         .main-footer {
             background-color: var(--black);
@@ -324,6 +385,26 @@
             </div>
         </div>
     </section>
+	
+	<section class="our-partners">
+    <div class="container">
+        <h2 class="section-title">Our Partners</h2>
+        <div class="logo-carousel">
+            <div class="logo-track">
+                <div class="logo-item"><img src="assets/img/partners/loreal.png" alt="L'Oreal"></div>
+                <div class="logo-item"><img src="assets/img/partners/kerastase.png" alt="Kerastase"></div>
+                <div class="logo-item"><img src="assets/img/partners/olaplex.png" alt="Olaplex"></div>
+                <div class="logo-item"><img src="assets/img/partners/dyson.png" alt="Dyson"></div>
+                <div class="logo-item"><img src="assets/img/partners/ghd.png" alt="GHD"></div>
+                <div class="logo-item"><img src="assets/img/partners/loreal.png" alt="L'Oreal"></div>
+                <div class="logo-item"><img src="assets/img/partners/kerastase.png" alt="Kerastase"></div>
+                <div class="logo-item"><img src="assets/img/partners/olaplex.png" alt="Olaplex"></div>
+                <div class="logo-item"><img src="assets/img/partners/dyson.png" alt="Dyson"></div>
+                <div class="logo-item"><img src="assets/img/partners/ghd.png" alt="GHD"></div>
+            </div>
+        </div>
+    </div>
+	</section>
 
     <footer class="main-footer">
         <div class="footer-container">
