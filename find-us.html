@@ -72,7 +72,68 @@
 		}
 
         /* --- Find Us Layout --- */
-        .find-us-container { display: flex; height: 80vh; margin-top: 80px; }
+        /* Make the container fill the screen properly */
+		.find-us-container { 
+			display: flex; 
+			height: calc(100vh - 80px); /* Fills screen minus header */
+			margin-top: 80px; 
+		}
+
+		/* Floating Card Styling */
+		.map-overlay-card {
+			position: absolute;
+			bottom: 30px;
+			left: 30px;
+			background: rgba(10, 10, 10, 0.7);
+			backdrop-filter: blur(10px);
+			padding: 25px;
+			/*border: 1px solid var(--gold);*/
+			z-index: 10;
+			width: 280px;
+			/* ADD THIS LINE */
+			border-radius: 12px; 
+		}
+
+		.map-overlay-card h3 { font-size: 1rem; margin-bottom: 10px; text-transform: uppercase; }
+		.map-overlay-card p { font-size: 0.85rem; color: #ccc; margin-bottom: 20px; line-height: 1.6; }
+
+		/* Gold Button following your theme */
+		.gold-map-btn {
+			width: 100%;
+			background: var(--gold);
+			color: var(--black);
+			border: none;
+			padding: 12px;
+			font-weight: bold;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			cursor: pointer;
+			transition: var(--transition);
+			/* ADD THIS LINE */
+			border-radius: 6px;
+		}
+
+		.gold-map-btn:hover {
+			background: var(--white);
+			transform: translateY(-2px);
+		}
+
+		/* Style the "Locate Me" button to match */
+		.custom-map-control {
+			background: rgba(10, 10, 10, 0.7);
+			color: var(--gold);
+			/*border: 1px solid var(--gold);*/
+			padding: 10px 15px;
+			margin: 10px;
+			font-family: 'Montserrat';
+			text-transform: uppercase;
+			font-size: 0.7rem;
+			cursor: pointer;
+			/* ADD THIS LINE */
+			border-radius: 8px;
+			/* Optional: adds a slight blur to match the card */
+			backdrop-filter: blur(10px);
+		}
         
         .locator-panel { flex: 1; background: var(--charcoal); padding: 40px; overflow-y: auto; border-right: 1px solid rgba(212, 175, 55, 0.2); }
         .map-panel { flex: 1.5; background: #222; }
@@ -269,16 +330,14 @@
 			</div>
 		</section>
 
-		<section class="map-panel">
-			<iframe 
-				id="googleMapFrame"
-				width="100%" 
-				height="100%" 
-				frameborder="0" 
-				style="border:0"
-				src="https://www.google.com/maps/embed/v1/place?key=AIzaSyAvC94CI9qfAWmnzfCknzJGVLiH8M9urmY&q=Luxury+Hair+Salon+Manhattan" allowfullscreen>
-				allowfullscreen>
-			</iframe>
+		<section class="map-panel" style="position: relative; height: 100%;">
+			<div id="map" style="width: 100%; height: 100%;"></div>
+
+			<div class="map-overlay-card">
+				<h3>Our Salon</h3>
+				<p>43, Karanpur Road<br>Dehradun, 248001</p>
+				<button id="directions-btn" class="gold-map-btn">Get Directions</button>
+			</div>
 		</section>
 	</div>
 
@@ -356,7 +415,7 @@
 					<li><a href="#">Skin Treatments</a></li>
 					<li><a href="bridal.html">Bridal Packages</a></li>
 					<li><a href="#">Gift Cards</a></li>
-					<<li><a href="careers.html">Careers</a></li>
+					<li><a href="careers.html">Careers</a></li>
 				</ul>
 			</div>
 
@@ -426,7 +485,75 @@
 				mapFrame.scrollIntoView({ behavior: 'smooth' });
 			}
 		}
+		let map, userMarker, infoWindow;
+		// ENTER YOUR SALON COORDINATES HERE
+		const salonLocation = { lat: 30.327731690751076, lng: 78.05608781894242 }; 
+
+		function initMap() {
+			map = new google.maps.Map(document.getElementById("map"), {
+				center: salonLocation,
+				zoom: 15,
+				mapTypeControl: false,
+			});
+
+			// Add Salon Marker
+			new google.maps.Marker({
+				position: salonLocation,
+				map: map,
+				title: "Aarvella Salon",
+				icon: {
+					url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
+				}
+			});
+
+			// Handle Directions Button
+			document.getElementById("directions-btn").addEventListener("click", () => {
+				const url = `https://www.google.com/maps/dir/?api=1&destination=${salonLocation.lat},${salonLocation.lng}`;
+				window.open(url, '_blank');
+			});
+
+			// "Locate Me" Button Setup
+			const locationButton = document.createElement("button");
+			locationButton.innerHTML = "⊕ Show My Location";
+			locationButton.classList.add("custom-map-control");
+			map.controls[google.maps.ControlPosition.RIGHT_BOTTOM].push(locationButton);
+
+			locationButton.addEventListener("click", () => {
+				if (navigator.geolocation) {
+					navigator.geolocation.getCurrentPosition(
+						(position) => {
+							const pos = {
+								lat: position.coords.latitude,
+								lng: position.coords.longitude,
+							};
+							
+							if (userMarker) userMarker.setMap(null);
+							userMarker = new google.maps.Marker({
+								position: pos,
+								map: map,
+								title: "Your Location",
+								icon: {
+									url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png"
+								}
+							});
+							
+							map.setCenter(pos);
+						},
+						() => handleLocationError(true)
+					);
+				} else {
+					handleLocationError(false);
+				}
+			});
+		}
+
+		function handleLocationError(browserHasGeolocation) {
+			alert(browserHasGeolocation 
+				? "Error: The Geolocation service failed. Please check your browser permissions." 
+				: "Error: Your browser doesn't support geolocation.");
+		}
 	</script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyAvC94CI9qfAWmnzfCknzJGVLiH8M9urmY&callback=initMap" async defer></script>
 
 </body>
 </html>
