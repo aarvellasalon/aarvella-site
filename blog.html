@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Journal | Aarvella Luxury Salon</title>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Playfair+Display:ital,wght@0,700;1,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --black: #0A0A0A;
+            --charcoal: #1A1A1A;
+            --white: #F4F4F4;
+            --transition: all 0.4s ease;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { background-color: var(--black); color: var(--white); font-family: 'Montserrat', sans-serif; line-height: 1.6; }
+        h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--gold); }
+
+        /* --- Header (Shared Styling) --- */
+        header {
+            position: fixed; top: 0; left: 0; width: 100%; padding: 1.5rem 5%; 
+            background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);
+            display: flex; justify-content: space-between; align-items: center;
+            z-index: 1000; border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+        }
+        .logo { font-size: 2rem; letter-spacing: 4px; font-weight: bold; text-decoration: none; color: var(--white); }
+        .desktop-nav a {
+            color: var(--white); text-decoration: none; font-size: 0.8rem;
+            text-transform: uppercase; letter-spacing: 2px; margin-left: 30px; transition: var(--transition);
+        }
+        .desktop-nav a:hover { color: var(--gold); }
+
+        /* --- Blog Hero Section --- */
+        .blog-hero {
+            height: 70vh; margin-top: 80px; position: relative;
+            display: flex; align-items: flex-end; padding: 5% 10%;
+            background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.8)), url('https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&q=80&w=2000');
+            background-size: cover; background-position: center;
+        }
+        .hero-content { max-width: 600px; }
+        .category-tag { color: var(--gold); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 2px; }
+        .hero-content h1 { font-size: 3.5rem; margin: 15px 0; color: var(--white); }
+
+        /* --- Blog Grid --- */
+        .blog-container { padding: 80px 10%; }
+        .blog-grid {
+            display: grid; grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 50px; margin-top: 50px;
+        }
+        .blog-card { 
+            text-decoration: none; color: inherit; transition: var(--transition);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1); padding-bottom: 30px;
+        }
+        .blog-card:hover { transform: translateY(-10px); }
+        .blog-card img { width: 100%; height: 400px; object-fit: cover; margin-bottom: 20px; filter: grayscale(30%); transition: var(--transition); }
+        .blog-card:hover img { filter: grayscale(0%); }
+        .blog-card h3 { font-size: 1.8rem; margin-bottom: 15px; color: var(--white); }
+        .blog-card p { color: #999; font-size: 0.9rem; margin-bottom: 20px; }
+        .read-more { color: var(--gold); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; font-weight: bold; }
+
+        /* --- Footer (Shared Styling) --- */
+        footer { background: var(--charcoal); padding: 80px 10% 20px; border-top: 1px solid rgba(212, 175, 55, 0.2); }
+        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
+        .footer-col h3 { font-size: 1rem; text-transform: uppercase; margin-bottom: 20px; }
+        .footer-col p, .footer-col ul { color: #888; font-size: 0.9rem; list-style: none; }
+        .footer-col ul li { margin-bottom: 10px; }
+        .footer-col a { color: #888; text-decoration: none; transition: var(--transition); }
+        .footer-col a:hover { color: var(--gold); }
+
+        @media (max-width: 768px) {
+            .hero-content h1 { font-size: 2.5rem; }
+            .blog-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo">AARVELLA</a>
+        <nav class="desktop-nav">
+            <a href="index.html">Home</a>
+            <a href="services.html">Services</a>
+            <a href="bridal.html">Bridal</a>
+            <a href="blog.html" style="color: var(--gold);">Blog</a>
+            <a href="find-us.html">Find Us</a>
+        </nav>
+    </header>
+
+    <section class="blog-hero">
+        <div class="hero-content">
+            <span class="category-tag">Trends & Artistry</span>
+            <h1>The Golden Ratio: Fall Hair Trends 2026</h1>
+            <a href="#" class="read-more" style="color: white; border-bottom: 1px solid var(--gold); padding-bottom: 5px; text-decoration: none;">Read the Feature</a>
+        </div>
+    </section>
+
+    <main class="blog-container">
+        <div class="blog-grid">
+            <a href="#" class="blog-card">
+                <img src="https://images.unsplash.com/photo-1522337360788-8b13dee7a37e?auto=format&fit=crop&q=80&w=800" alt="Scalp Care">
+                <span class="category-tag">Wellness</span>
+                <h3>Beyond the Cut: The Science of Scalp Health</h3>
+                <p>Luxury begins at the root. Discover our new botanical infusion treatments designed for long-term shine...</p>
+                <span class="read-more">View Article</span>
+            </a>
+
+            <a href="#" class="blog-card">
+                <img src="https://images.unsplash.com/photo-1487412720507-e7ab37603c6f?auto=format&fit=crop&q=80&w=800" alt="Bridal">
+                <span class="category-tag">Bridal</span>
+                <h3>The Modern Bride: Minimalist Elegance</h3>
+                <p>From sleek chignons to effortless waves, we explore the top bridal looks for the upcoming wedding season...</p>
+                <span class="read-more">View Article</span>
+            </a>
+
+            <a href="#" class="blog-card">
+                <img src="https://images.unsplash.com/photo-1560869713-7d0a29430803?auto=format&fit=crop&q=80&w=800" alt="Color Theory">
+                <span class="category-tag">Technique</span>
+                <h3>Dimensional Balayage: Hand-Painted Luxury</h3>
+                <p>Our lead colorists share the secrets behind achieving the "lived-in" sun-kissed look that lasts months...</p>
+                <span class="read-more">View Article</span>
+            </a>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-grid">
+            <div class="footer-col">
+                <div class="logo" style="font-size: 1.5rem;">AARVELLA</div>
+                <p style="margin-top: 15px;">The gold standard in hair artistry.</p>
+            </div>
+            <div class="footer-col">
+                <h3>The Salon</h3>
+                <ul>
+                    <li><a href="services.html">Services</a></li>
+                    <li><a href="bridal.html">Bridal</a></li>
+                    <li><a href="blog.html">Journal</a></li>
+                </ul>
+            </div>
+            <div class="footer-col">
+                <h3>Contact</h3>
+                <p>Karanpur Road, Dehradun<br>+91 9742049990</p>
+            </div>
+        </div>
+        <p style="text-align: center; margin-top: 50px; font-size: 0.7rem; color: #555;">© 2026 AARVELLA LUXURY SALON</p>
+    </footer>
+
+</body>
+</html>
