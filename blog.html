@@ -62,14 +62,131 @@
         .read-more { color: var(--gold); text-transform: uppercase; font-size: 0.8rem; letter-spacing: 1px; font-weight: bold; }
 
         /* --- Footer (Shared Styling) --- */
-        footer { background: var(--charcoal); padding: 80px 10% 20px; border-top: 1px solid rgba(212, 175, 55, 0.2); }
-        .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; }
-        .footer-col h3 { font-size: 1rem; text-transform: uppercase; margin-bottom: 20px; }
-        .footer-col p, .footer-col ul { color: #888; font-size: 0.9rem; list-style: none; }
-        .footer-col ul li { margin-bottom: 10px; }
-        .footer-col a { color: #888; text-decoration: none; transition: var(--transition); }
-        .footer-col a:hover { color: var(--gold); }
+        .main-footer {
+            background-color: var(--black);
+            padding: 80px 10% 20px;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+            margin-top: 60px;
+        }
 
+        .footer-container {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-col h3 {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .footer-col p, .footer-col ul {
+            font-size: 0.9rem;
+            color: #999;
+        }
+
+        .footer-col ul { list-style: none; }
+        .footer-col ul li { margin-bottom: 0.8rem; }
+    
+        .footer-col a {
+            color: #999;
+            text-decoration: none;
+            transition: var(--transition);
+        }
+        .footer-col a:hover { color: var(--gold); padding-left: 5px; }
+
+        .mission-text { margin: 20px 0; max-width: 300px; }
+
+		.social-icons {
+			margin-top: 25px;
+			display: flex;
+			gap: 25px; /* Increased gap to account for larger icons */
+		}
+
+		.social-icons a {
+			color: var(--gold);
+			font-size: 1.8rem; /* Made icons significantly bigger */
+			text-decoration: none;
+			transition: var(--transition);
+			display: inline-block;
+			border: none; /* Removes the outline/border */
+			background: none; /* Ensures no background color */
+			width: auto; /* Removes the fixed circular width */
+			height: auto; /* Removes the fixed circular height */
+		}
+
+		.social-icons a:hover {
+			color: var(--white); /* Changes to white on hover for a clean contrast */
+			transform: translateY(-5px); /* Elegant lift effect */
+			background: none; /* Ensures no background appears on hover */
+			box-shadow: none; /* Removes the shadow since there's no circular shape */
+		}
+
+        .hours span { display: block; margin-top: 5px; font-style: italic; }
+
+    /* Newsletter Form */
+        .newsletter-form {
+            display: flex;
+            margin-top: 20px;
+            border-bottom: 1px solid var(--gold);
+        }
+
+        .newsletter-form input {
+            background: transparent;
+            border: none;
+            padding: 10px;
+            color: white;
+            flex-grow: 1;
+            outline: none;
+        }
+
+        .newsletter-form button {
+            background: transparent;
+            color: var(--gold);
+            border: none;
+            font-weight: bold;
+            text-transform: uppercase;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+    /* Bottom Bar */
+        .footer-bottom {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.75rem;
+            color: #666;
+        }
+
+        .legal-links a {
+            margin-left: 20px;
+            color: #666;
+            text-decoration: none;
+        }
+
+    /* Mobile Responsiveness for Footer */
+       @media (max-width: 992px) {
+            .footer-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .footer-container {
+                grid-template-columns: 1fr;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
         @media (max-width: 768px) {
             .hero-content h1 { font-size: 2.5rem; }
             .blog-grid { grid-template-columns: 1fr; }
@@ -81,11 +198,12 @@
     <header>
         <a href="index.html" class="logo">AARVELLA</a>
         <nav class="desktop-nav">
-            <a href="index.html">Home</a>
-            <a href="services.html">Services</a>
-            <a href="bridal.html">Bridal</a>
-            <a href="blog.html" style="color: var(--gold);">Blog</a>
-            <a href="find-us.html">Find Us</a>
+            <a href="#services">Services</a>
+            <a href="stylists.html">Stylists</a>
+            <a href="about.html">About</a>
+			<a href="blog.html">Blog</a>
+			<a href="find-us.html">Find Us</a>
+            <button class="btn-gold" onclick="scrollToBooking()">Book Now</button>
         </nav>
     </header>
 
@@ -125,26 +243,58 @@
         </div>
     </main>
 
-    <footer>
-        <div class="footer-grid">
+    <footer class="main-footer">
+        <div class="footer-container">
             <div class="footer-col">
-                <div class="logo" style="font-size: 1.5rem;">AARVELLA</div>
-                <p style="margin-top: 15px;">The gold standard in hair artistry.</p>
+                <div class="logo">AARVELLA</div>
+                <p class="mission-text">Defining the gold standard in hair artistry. Our mission is to provide a transformative luxury experience tailored to your unique beauty.</p>
+				<div class="social-icons">
+					<a href="https://www.instagram.com/aarvella.salon/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+					<a href="https://facebook.com/Aarvella" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+					<a href="https://in.pinterest.com/AarvellaSalon" target="_blank" rel="noopener noreferrer" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+					<a href="https://youtube.com/@AarvellaSalon" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+				</div>
             </div>
+
             <div class="footer-col">
-                <h3>The Salon</h3>
+                <h3>Experience</h3>
                 <ul>
-                    <li><a href="services.html">Services</a></li>
-                    <li><a href="bridal.html">Bridal</a></li>
-                    <li><a href="blog.html">Journal</a></li>
+                    <li><a href="services.html">Hair Services</a></li>
+                    <li><a href="#">Skin Treatments</a></li>
+                    <li><a href="bridal.html">Bridal Packages</a></li>
+                    <li><a href="#">Gift Cards</a></li>
+                    <li><a href="careers.html">Careers</a></li>
                 </ul>
             </div>
+
             <div class="footer-col">
-                <h3>Contact</h3>
-                <p>Karanpur Road, Dehradun<br>+91 9742049990</p>
+                <h3>AARVELLA SALON</h3>
+                <p>Karanpur Road<br>Dehradun, 248001</p>
+                <p class="phone-link">+91 9742049990</p>
+                <div class="hours">
+                    <span>Tue - Sun: 10am - 8pm</span>
+                    <span>Mon: Closed</span>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h3>Stay Inspired</h3>
+                <p>Join our Gold List for exclusive trends and early access to bookings.</p>
+                <form class="newsletter-form">
+                    <input type="email" placeholder="Email Address" required>
+                    <button type="submit">Join</button>
+                </form>
+            </div>
+      </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Aarvella Luxury Salon. All Rights Reserved.</p>
+            <div class="legal-links">
+                <a href="privacy.html">Privacy Policy</a>
+                <a href="terms.html">Terms of Service</a>
+                <a href="javascript:window.scrollTo({top: 0, behavior: 'smooth'});">Back to Top ↑</a>
             </div>
         </div>
-        <p style="text-align: center; margin-top: 50px; font-size: 0.7rem; color: #555;">© 2026 AARVELLA LUXURY SALON</p>
     </footer>
 
 </body>
