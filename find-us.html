@@ -120,19 +120,24 @@
 
 		/* Style the "Locate Me" button to match */
 		.custom-map-control {
-			background: rgba(10, 10, 10, 0.7);
-			color: var(--gold);
-			/*border: 1px solid var(--gold);*/
-			padding: 10px 15px;
-			margin: 10px;
-			font-family: 'Montserrat';
-			text-transform: uppercase;
-			font-size: 0.7rem;
-			cursor: pointer;
-			/* ADD THIS LINE */
-			border-radius: 8px;
-			/* Optional: adds a slight blur to match the card */
-			backdrop-filter: blur(10px);
+		    background: rgba(10, 10, 10, 0.7); 
+		    color: var(--gold);
+		    border: none;
+		    padding: 12px 20px;
+		    margin-bottom: 20px; /* Gives it breathing room from the bottom edge */
+		    font-family: 'Montserrat';
+		    text-transform: uppercase;
+		    font-size: 0.75rem;
+		    letter-spacing: 1px;
+		    cursor: pointer;
+		    border-radius: 8px;
+		    backdrop-filter: blur(5px);
+		    transition: var(--transition);
+		}
+		
+		.custom-map-control:hover {
+		    background: rgba(10, 10, 10, 0.9);
+		    color: var(--white);
 		}
         
         .locator-panel { flex: 1; background: var(--charcoal); padding: 40px; overflow-y: auto; border-right: 1px solid rgba(212, 175, 55, 0.2); }
@@ -544,6 +549,17 @@
 				} else {
 					handleLocationError(false);
 				}
+			});
+			// "Back to Salon" Button Setup
+			const backToSalonButton = document.createElement("button");
+			backToSalonButton.innerHTML = "⌂ Back to Salon";
+			backToSalonButton.classList.add("custom-map-control");
+			// Placing it at the bottom center to keep the UI balanced
+			map.controls[google.maps.ControlPosition.BOTTOM_CENTER].push(backToSalonButton);
+			
+			backToSalonButton.addEventListener("click", () => {
+			    map.setCenter(salonLocation);
+			    map.setZoom(15); // Snaps back to a detailed view of the salon
 			});
 		}
 
