@@ -75,7 +75,8 @@
         /* Make the container fill the screen properly */
 		.find-us-container { 
 			display: flex; 
-			height: calc(100vh - 80px); /* Fills screen minus header */
+			flex-direction: column; /* Stack vertically on mobile */
+			min-height: 100vh;
 			margin-top: 80px; 
 		}
 
@@ -93,7 +94,26 @@
 			/* ADD THIS LINE */
 			border-radius: 12px; 
 		}
-
+		/* Overlay Card Mobile Adjustments */
+		.map-overlay-card {
+		    position: absolute;
+		    bottom: 20px;
+		    left: 20px;
+		    right: 20px; /* Stretch to fit mobile width */
+		    width: auto; /* Allow it to be responsive */
+		    background: rgba(10, 10, 10, 0.7);
+		    backdrop-filter: blur(10px);
+		    padding: 20px;
+		    border-radius: 12px;
+		    z-index: 10;
+		}
+		
+		@media (min-width: 768px) {
+		    .map-overlay-card {
+		        width: 280px;
+		        right: auto;
+		    }
+		}
 		.map-overlay-card h3 { font-size: 1rem; margin-bottom: 10px; text-transform: uppercase; }
 		.map-overlay-card p { font-size: 0.85rem; color: #ccc; margin-bottom: 20px; line-height: 1.6; }
 
@@ -141,8 +161,24 @@
 		}
         
         .locator-panel { flex: 1; background: var(--charcoal); padding: 40px; overflow-y: auto; border-right: 1px solid rgba(212, 175, 55, 0.2); }
-        .map-panel { flex: 1.5; background: #222; }
-
+        /* Map Panel adjustment */
+		.map-panel {
+		    position: relative;
+		    width: 100%;
+		    height: 50vh; /* Default height for mobile */
+		    min-height: 400px;
+		}
+		/* Desktop override */
+		@media (min-width: 768px) {
+		    .find-us-container { 
+		        flex-direction: row; 
+		        height: calc(100vh - 80px); 
+		    }
+		    .map-panel {
+		        height: 100%;
+		        flex: 1;
+		    }
+		}
         .filter-group { display: flex; gap: 15px; margin-bottom: 30px; }
         select {
             flex: 1; background: transparent; border: 1px solid var(--gold); color: white;
@@ -510,7 +546,6 @@
 					url: "http://maps.google.com/mapfiles/ms/icons/red-dot.png"
 				}
 			});
-
 			// Handle Directions Button
 			document.getElementById("directions-btn").addEventListener("click", () => {
 				const url = `https://www.google.com/maps/dir/?api=1&destination=${salonLocation.lat},${salonLocation.lng}`;
@@ -560,6 +595,10 @@
 			backToSalonButton.addEventListener("click", () => {
 			    map.setCenter(salonLocation);
 			    map.setZoom(15); // Snaps back to a detailed view of the salon
+			});
+			// Add this inside initMap
+			window.addEventListener('resize', () => {
+			    google.maps.event.trigger(map, "resize");
 			});
 		}
 
