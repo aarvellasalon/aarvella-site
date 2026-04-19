@@ -346,54 +346,52 @@
 			.arrow.right { right: 15px; }
 			
 			@media(max-width:768px){
+			
+				.testimonial-wrapper {
+					max-width: 100%;
+					padding: 0 15px;
+				}
+			
+				.testimonial-slide {
+					padding: 10px;
+				}
+			
 				.testimonial-content {
 					flex-direction: column !important;
 					text-align: center;
+					gap: 20px;
+					padding: 25px 20px;
+					width: 100%;
 				}
-
-				.testimonial-content img {
-					width: 120px;
-					height: 120px;
-				}
-			}
 			
-			.testimonial-content {
-				display: flex;
-				align-items: center;
-				gap: 50px;
-				padding: 40px;
-				background: rgba(255,255,255,0.05);
-				backdrop-filter: blur(10px);
-				border: 1px solid rgba(212,175,55,0.3);
-				border-radius: 12px;
-				max-width: 800px;
+				.testimonial-content img {
+					width: 110px;
+					height: 110px;
+					margin: 0 auto;
+				}
+			
+				.testimonial-content p {
+					font-size: 0.95rem;
+				}
+			
+				.testimonial-content h4 {
+					font-size: 1rem;
+				}
+			
+				.arrow {
+					width: 40px;
+					height: 40px;
+					font-size: 16px;
+				}
+				.testimonial-slider {
+					display: flex;
+					width: 100%;
+					transition: transform 0.5s ease;
+					touch-action: pan-y;
+				}
+				.arrow.left { left: 5px; }
+				.arrow.right { right: 5px; }
 			}
-
-			/* Bigger image */
-			.testimonial-content img {
-				width: 160px;
-				height: 160px;
-				border-radius: 50%;
-				object-fit: cover;
-				border: 2px solid var(--gold);
-			}
-
-			/* Text styling */
-			.testimonial-content p {
-				color: #bbb;
-				font-size: 1rem;
-				line-height: 1.6;
-				margin-bottom: 10px;
-			}
-
-			.testimonial-content h4 {
-				color: var(--gold);
-				font-size: 1.1rem;
-			}
-			.reverse .testimonial-content {
-				flex-direction: row-reverse;
-			}
-
 			/* ===== PRICING ===== */
 			.pricing{
 				padding:80px 10%;
@@ -922,6 +920,15 @@
 			goBooking();
 			hamburger.classList.remove('active');
 			mobileNav.classList.remove('active');
+		});
+		document.addEventListener('click', function(e) {
+			const isClickInsideMenu = mobileNav.contains(e.target);
+			const isClickOnHamburger = hamburger.contains(e.target);
+		
+			if (!isClickInsideMenu && !isClickOnHamburger) {
+				hamburger.classList.remove('active');
+				mobileNav.classList.remove('active');
+			}
 		});
 	</script>
 
