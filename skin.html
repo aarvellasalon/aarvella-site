@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Skin Treatments | Aarvella</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+<style>
+		:root {
+			--gold:#D4AF37;
+			--black:#0A0A0A;
+			--white:#F4F4F4;
+		}
+
+		/* ===== GLOBAL ===== */
+		*{margin:0;padding:0;box-sizing:border-box;}
+		body{
+			background:var(--black);
+			color:var(--white);
+			font-family:'Montserrat',sans-serif;
+			overflow-x:hidden;
+		}
+		html { scroll-behavior: smooth; }
+		
+		body {
+			background-color: var(--black);
+			color: var(--white);
+			font-family: 'Montserrat', sans-serif;
+			margin: 0;
+			overflow-x: hidden;
+		}
+
+		h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--gold); }
+
+		header {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			padding: 1.5rem 5%;
+			background: rgba(10, 10, 10, 0.95);
+			backdrop-filter: blur(10px);
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			z-index: 1000;
+			border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+			transition: padding 0.3s ease;
+		}
+
+		.logo { font-size: 2rem; letter-spacing: 4px; font-weight: bold; }
+
+		.logo-link {
+			text-decoration: none;
+			color: inherit;
+		}
+
+		.logo-link:hover .logo {
+			text-shadow: 0 0 12px rgba(212, 175, 55, 0.6);
+		}
+
+		.desktop-nav {
+			display: flex;
+			align-items: center;
+			gap: 2rem;
+		}
+
+		.desktop-nav a {
+			color: var(--white);
+			text-decoration: none;
+			font-size: 0.9rem;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			transition: var(--transition);
+		}
+
+		.desktop-nav a:hover {
+			color: var(--gold);
+		}
+
+		.btn-gold {
+			background: var(--gold);
+			color: var(--black);
+			padding: 0.8rem 1.5rem;
+			border-radius: 2px;
+			font-weight: bold;
+			border: none;
+			cursor: pointer;
+			transition: var(--transition);
+		}
+
+		.btn-gold:hover { 
+			background: var(--white); 
+			transform: translateY(-2px); 
+			box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4); 
+		}
+
+		/* --- Hamburger Icon --- */
+		.hamburger {
+			display: none;
+			flex-direction: column;
+			gap: 6px;
+			cursor: pointer;
+			z-index: 3000;
+			position: relative;
+		}
+
+		.hamburger span {
+			width: 30px;
+			height: 2px;
+			background-color: var(--gold);
+			transition: var(--transition);
+		}
+
+		/* Hamburger Animation to 'X' */
+		.hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+		.hamburger.active span:nth-child(2) { opacity: 0; }
+		.hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+		/* --- Drawer-Style Mobile Nav --- */
+		.mobile-nav {
+			position: fixed;
+			top: 0;
+			right: -110%; /* Starts off-screen */
+			width: auto;
+			min-width: 300px;
+			height: 100vh;
+			background: rgba(10, 10, 10, 0.85);
+			backdrop-filter: blur(15px);
+			-webkit-backdrop-filter: blur(15px);
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+			gap: 3.5rem;
+			padding: 0 80px;
+			transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+			z-index: 2500;
+			border-left: 1px solid rgba(212, 175, 55, 0.1);
+		}
+
+		.mobile-nav.active {
+			right: 0;
+		}
+
+		.mobile-nav a {
+			font-family: 'Playfair Display', serif;
+			font-size: 2rem;
+			color: var(--white);
+			text-decoration: none;
+			letter-spacing: 3px;
+			white-space: nowrap;
+			transition: var(--transition);
+		}
+
+		@media (max-width: 768px) {
+			.desktop-nav { display: none; }
+			.hamburger { display: flex; }
+		}
+
+		@media (min-width: 769px) {
+			.desktop-nav { display: flex !important; }
+		}
+
+		/* ===== HERO (PREMIUM) ===== */
+			.skin-hero{
+				height:100vh;
+				display:flex;
+				align-items:center;
+				justify-content:center;
+				text-align:center;
+				background:
+				linear-gradient(rgba(0,0,0,0.7),rgba(0,0,0,0.7)),
+				url('https://images.unsplash.com/photo-1600334129128-685c5582fd35?auto=format&fit=crop&w=1600&q=80')
+				center/cover no-repeat;
+			}
+
+			.hero-content{
+				animation:fadeUp 1s ease forwards;
+			}
+
+			.hero-content h1{
+				font-size:5rem;
+				margin-bottom:20px;
+			}
+
+			.hero-content p{
+				max-width:600px;
+				margin:auto;
+				margin-bottom:30px;
+			}
+
+			.btn-gold{
+				background:var(--gold);
+				color:black;
+				padding:14px 35px;
+				border:none;
+				cursor:pointer;
+				transition:0.3s;
+			}
+			.btn-gold:hover{transform:translateY(-3px);}
+
+			/* ===== GLASS CARDS ===== */
+			.glass{
+				background:rgba(255,255,255,0.05);
+				backdrop-filter:blur(10px);
+				border:1px solid rgba(212,175,55,0.3);
+				border-radius:10px;
+			}
+
+			/* ===== SERVICES ===== */
+			.skin-section{
+				padding:100px 10%;
+			}
+
+			.skin-row{
+				display:flex;
+				gap:60px;
+				margin-bottom:100px;
+				align-items:center;
+				opacity:0;
+				transform:translateY(40px);
+				transition:0.6s;
+			}
+
+			.skin-row.visible{
+				opacity:1;
+				transform:translateY(0);
+			}
+
+			.skin-row:nth-child(even){flex-direction:row-reverse;}
+
+			.skin-img{
+				flex:1.2;
+				height:450px;
+				overflow:hidden;
+			}
+
+			.skin-img img{
+				width:100%;
+				height:100%;
+				object-fit:cover;
+				transition:0.5s;
+			}
+
+			.skin-row:hover img{transform:scale(1.05);}
+
+			.skin-info{
+				flex:1;
+			}
+
+			.skin-info h2{margin-bottom:15px;}
+			.skin-info p{color:#bbb;margin-bottom:25px;}
+
+			/* ===== BEFORE AFTER ===== */
+			.before-after{
+				padding:80px 10%;
+				text-align:center;
+			}
+
+			.slider{
+				position:relative;
+				max-width:700px;
+				margin:40px auto;
+			}
+
+			.slider img{
+				width:100%;
+			}
+
+			/* ===== TESTIMONIAL ===== */
+			.testimonials {
+				padding: 100px 10%;
+				text-align: center; /* ✅ centers h2 */
+			}
+
+			.testimonials h2 {
+				margin-bottom: 40px;
+				font-size: 2.5rem;
+			}
+
+			/* Align slider block visually with heading */
+			.testimonial-wrapper {
+				position: relative;
+				overflow: hidden;
+				max-width: 900px;
+				margin: 0 auto; /* ✅ perfectly centered */
+			}
+			.testimonial-wrapper {
+				position: relative;
+				overflow: hidden;
+				max-width: 900px;
+				margin: 50px auto;
+			}
+
+			.testimonial-slider {
+				display: flex;
+				width: 100%;
+				transition: transform 0.5s ease;
+			}
+
+			.testimonial-slide {
+				min-width: 100%;
+				flex-shrink: 0; /* ✅ IMPORTANT FIX */
+				display: flex;
+				justify-content: center;
+			}
+
+			.arrow {
+				position: absolute;
+				top: 50%;
+				transform: translateY(-50%);
+				
+				background: var(--gold);
+				color: var(--black);
+				
+				border: none;
+				border-radius: 50%;
+				
+				width: 45px;
+				height: 45px;
+				
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				
+				font-size: 18px;
+				font-weight: bold;
+				
+				cursor: pointer;
+				transition: 0.3s;
+				z-index: 20;
+			}
+
+			.arrow:hover {
+				background: var(--white);
+				transform: translateY(-50%) scale(1.1);
+				box-shadow: 0 5px 15px rgba(212,175,55,0.4);
+			}
+
+			.arrow.left { left: 15px; }
+			.arrow.right { right: 15px; }
+			
+			@media(max-width:768px){
+				.testimonial-content {
+					flex-direction: column !important;
+					text-align: center;
+				}
+
+				.testimonial-content img {
+					width: 120px;
+					height: 120px;
+				}
+			}
+			
+			.testimonial-content {
+				display: flex;
+				align-items: center;
+				gap: 50px;
+				padding: 40px;
+				background: rgba(255,255,255,0.05);
+				backdrop-filter: blur(10px);
+				border: 1px solid rgba(212,175,55,0.3);
+				border-radius: 12px;
+				max-width: 800px;
+			}
+
+			/* Bigger image */
+			.testimonial-content img {
+				width: 160px;
+				height: 160px;
+				border-radius: 50%;
+				object-fit: cover;
+				border: 2px solid var(--gold);
+			}
+
+			/* Text styling */
+			.testimonial-content p {
+				color: #bbb;
+				font-size: 1rem;
+				line-height: 1.6;
+				margin-bottom: 10px;
+			}
+
+			.testimonial-content h4 {
+				color: var(--gold);
+				font-size: 1.1rem;
+			}
+			.reverse .testimonial-content {
+				flex-direction: row-reverse;
+			}
+
+			/* ===== PRICING ===== */
+			.pricing{
+				padding:80px 10%;
+				text-align:center;
+			}
+
+			.price-card{
+				display:inline-block;
+				padding:30px;
+				margin:20px;
+				width:250px;
+			}
+
+			/* ===== FLOATING CTA ===== */
+			.floating-btn{
+				position:fixed;
+				bottom:30px;
+				right:30px;
+				background:var(--gold);
+				color:black;
+				padding:15px 25px;
+				border-radius:30px;
+				font-weight:bold;
+				cursor:pointer;
+				box-shadow:0 5px 20px rgba(212,175,55,0.4);
+			}
+
+			/* ===== ANIMATION ===== */
+			@keyframes fadeUp{
+				from{opacity:0;transform:translateY(40px);}
+				to{opacity:1;transform:translateY(0);}
+			}
+
+			/* ===== MOBILE ===== */
+			@media(max-width:768px){
+
+				.skin-section{
+					padding:60px 0;
+				}
+
+				.skin-row,
+				.skin-row:nth-child(even){
+					flex-direction: column !important; /* 🔥 FORCE OVERRIDE */
+					gap: 0;
+					margin-bottom: 60px;
+				}
+
+				.skin-img{
+					width:100%;
+					height:280px;
+				}
+
+				.skin-img img{
+					width:100%;
+					height:100%;
+					object-fit:cover;
+					border-radius:0;
+				}
+
+				.skin-info{
+					padding:20px;
+					text-align:left;
+				}
+
+				.skin-info h2{
+					font-size:1.5rem;
+				}
+
+				.skin-info p{
+					font-size:0.9rem;
+				}
+
+				.skin-info .btn-gold{
+					width:100%;
+					margin-top:10px;
+				}
+			}
+			.main-footer {
+			background-color: var(--black);
+			padding: 80px 10% 20px;
+			border-top: 1px solid rgba(212, 175, 55, 0.3);
+			margin-top: 60px;
+		}
+
+		.footer-container {
+			display: grid;
+			grid-template-columns: 1.5fr 1fr 1fr 1.5fr; /* 4-column layout */
+			gap: 40px;
+			margin-bottom: 60px;
+		}
+
+		.footer-col h3 {
+			font-size: 1.2rem;
+			margin-bottom: 1.5rem;
+			letter-spacing: 2px;
+			text-transform: uppercase;
+		}
+
+		.footer-col p, .footer-col ul {
+			font-size: 0.9rem;
+			color: #999;
+		}
+
+		.footer-col ul { list-style: none; }
+		.footer-col ul li { margin-bottom: 0.8rem; }
+
+		.footer-col a {
+			color: #999;
+			text-decoration: none;
+			transition: var(--transition);
+		}
+		.footer-col a:hover { color: var(--gold); padding-left: 5px; }
+
+		.mission-text { margin: 20px 0; max-width: 300px; }
+		
+		.social-icons {
+			margin-top: 25px;
+			display: flex;
+			gap: 25px; /* Matches the expanded gap from your main site */
+		}
+
+		.social-icons a {
+			color: var(--gold);
+			font-size: 1.8rem; /* Matches the large, premium size */
+			text-decoration: none;
+			transition: var(--transition);
+			display: inline-block;
+			border: none; /* Removes any circular borders */
+			background: none; /* Ensures no background shapes */
+			width: auto; 
+			height: auto; 
+		}
+
+		.social-icons a:hover {
+			color: var(--white); /* Smooth shift to white on hover */
+			transform: translateY(-5px); /* Elegant lift effect */
+			background: none;
+			box-shadow: none;
+		}
+
+		.hours span { display: block; margin-top: 5px; font-style: italic; }
+
+		/* Newsletter Form */
+		.newsletter-form {
+			display: flex;
+			margin-top: 20px;
+			border-bottom: 1px solid var(--gold);
+		}
+
+		.newsletter-form input {
+			background: transparent;
+			border: none;
+			padding: 10px;
+			color: white;
+			flex-grow: 1;
+			outline: none;
+		}
+
+		.newsletter-form button {
+			background: transparent;
+			color: var(--gold);
+			border: none;
+			font-weight: bold;
+			text-transform: uppercase;
+			cursor: pointer;
+			padding: 10px;
+		}
+
+		/* Bottom Bar */
+		.footer-bottom {
+			border-top: 1px solid rgba(255, 255, 255, 0.1);
+			padding-top: 20px;
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			font-size: 0.75rem;
+			color: #666;
+		}
+
+		.legal-links a {
+			margin-left: 20px;
+			color: #666;
+			text-decoration: none;
+		}
+
+		/* Mobile Responsiveness for Footer */
+		@media (max-width: 992px) {
+			.footer-container {
+				grid-template-columns: 1fr 1fr;
+			}
+		}
+
+		@media (max-width: 600px) {
+			.footer-container {
+				grid-template-columns: 1fr;
+			}
+			.footer-bottom {
+				flex-direction: column;
+				gap: 15px;
+				text-align: center;
+			}
+		}
+		@media (max-width: 992px) {
+			.stylist-row, .stylist-row:nth-child(even) {
+				flex-direction: column;
+				gap: 40px;
+				text-align: center;
+			}
+			.stylist-image-box img { height: 450px; }
+			.stylists-hero h1 { font-size: 3rem; }
+		}
+</style>
+</head>
+
+<body>
+
+	<header>
+		<a href="index.html" class="logo-link">
+			<div class="logo">AARVELLA</div>
+		</a>
+
+		<nav class="desktop-nav">
+			<a href="index.html#services">Services</a>
+			<a href="stylists.html">Stylists</a>
+			<a href="about.html">About</a>
+			<a href="blog.html">Blog</a>
+			<a href="find-us.html">Find Us</a>
+			<button class="btn-gold" onclick="scrollToBooking()">Book Now</button>
+		</nav>
+
+		<div class="hamburger" id="hamburger">
+			<span></span>
+			<span></span>
+			<span></span>
+		</div>
+		
+		<div class="mobile-nav" id="mobileNav">
+			<a href="index.html#services">Services</a>
+			<a href="stylists.html">Stylists</a>
+			<a href="about.html">About</a>
+			<a href="blog.html">Blog</a>
+			<a href="find-us.html">Find Us</a>
+			<button class="btn-gold" id="mobileBookBtn">Book Now</button>
+		</div>
+	</header>
+
+	<!-- HERO -->
+	<section class="skin-hero">
+		<div class="hero-content">
+		<h1>Flawless Skin. Elevated Luxury.</h1>
+		<p>Indulge in advanced skin rituals crafted for radiant transformation.</p>
+		<button class="btn-gold" onclick="goBooking()">Book Now</button>
+		</div>
+	</section>
+
+	<!-- SERVICES -->
+	<section class="skin-section">
+
+		<div class="skin-row">
+			<div class="skin-img"><img src="https://images.unsplash.com/photo-1600334129128-685c5582fd35"></div>
+			<div class="skin-info">
+			<h2>24K Gold Facial</h2>
+			<p>Luxury anti-aging ritual infused with gold particles.</p>
+			<button class="btn-gold" onclick="goBooking()">Book Now</button>
+			</div>
+		</div>
+
+		<div class="skin-row">
+			<div class="skin-img"><img src="https://images.unsplash.com/photo-1596178065887-1198b6148b2b"></div>
+			<div class="skin-info">
+			<h2>HydraGlow Therapy</h2>
+			<p>Deep hydration with instant glow enhancement.</p>
+			<button class="btn-gold" onclick="goBooking()">Book Now</button>
+			</div>
+		</div>
+
+		<div class="skin-row">
+			<div class="skin-img"><img src="https://images.unsplash.com/photo-1616394584738-fc6e612e71b9"></div>
+			<div class="skin-info">
+			<h2>Acne Recovery</h2>
+			<p>Targeted solutions for acne-prone skin.</p>
+			<button class="btn-gold" onclick="goBooking()">Book Now</button>
+			</div>
+		</div>
+
+		<div class="skin-row">
+			<div class="skin-img"><img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881"></div>
+			<div class="skin-info">
+			<h2>Brightening Peel</h2>
+			<p>Even tone and restore natural radiance.</p>
+			<button class="btn-gold" onclick="goBooking()">Book Now</button>
+			</div>
+		</div>
+
+	</section>
+
+	<!-- TESTIMONIAL -->
+	<section class="testimonials">
+		<h2>Client Testimonials</h2>
+
+		<div class="testimonial-wrapper">
+			<button class="arrow left" onclick="prevTestimonial()">❮</button>
+
+			<div class="testimonial-slider" id="testimonialSlider">
+
+				<!-- TESTIMONIAL 1 -->
+				<div class="testimonial-slide">
+					<div class="testimonial-content">
+						<img src="https://randomuser.me/api/portraits/women/44.jpg">
+						<div>
+							<p>“Absolutely luxurious experience. My skin felt transformed instantly.”</p>
+							<h4>Priya Sharma</h4>
+						</div>
+					</div>
+				</div>
+
+				<!-- TESTIMONIAL 2 -->
+				<div class="testimonial-slide reverse">
+					<div class="testimonial-content">
+						<img src="https://randomuser.me/api/portraits/men/32.jpg">
+						<div>
+							<p>“Professional, clean and premium. Easily the best salon experience.”</p>
+							<h4>Rahul Mehta</h4>
+						</div>
+					</div>
+				</div>
+
+				<!-- TESTIMONIAL 3 -->
+				<div class="testimonial-slide">
+					<div class="testimonial-content">
+						<img src="https://randomuser.me/api/portraits/women/68.jpg">
+						<div>
+							<p>“The HydraGlow facial gave me glass skin. Highly recommended.”</p>
+							<h4>Ananya Kapoor</h4>
+						</div>
+					</div>
+				</div>
+
+				<!-- TESTIMONIAL 4 -->
+				<div class="testimonial-slide reverse">
+					<div class="testimonial-content">
+						<img src="https://randomuser.me/api/portraits/men/75.jpg">
+						<div>
+							<p>“Attention to detail and luxury ambience is unmatched.”</p>
+							<h4>Karan Verma</h4>
+						</div>
+					</div>
+				</div>
+
+			</div>
+
+			<button class="arrow right" onclick="nextTestimonial()">❯</button>
+		</div>
+	</section>
+
+	<!-- PRICING -->
+	<section class="pricing">
+		<h2>Packages</h2>
+
+		<div class="price-card glass">
+		<h3>Basic</h3>
+		<p>₹1999+</p>
+		</div>
+
+		<div class="price-card glass">
+		<h3>Premium</h3>
+		<p>₹4999+</p>
+		</div>
+
+	</section>
+
+	<!-- FLOATING CTA -->
+	<div class="floating-btn" onclick="goBooking()">Book Now</div>
+
+	<!-- FOOTER SAME AS INDEX -->
+
+	<footer class="main-footer">
+			<div class="footer-container">
+				<div class="footer-col">
+					<div class="logo">AARVELLA</div>
+					<p class="mission-text">Defining the gold standard in hair artistry. Our mission is to provide a transformative luxury experience tailored to your unique beauty.</p>
+					<div class="social-icons">
+						<a href="https://www.instagram.com/aarvella.salon/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+						<a href="https://facebook.com/Aarvella" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+						<a href="https://in.pinterest.com/AarvellaSalon" target="_blank" rel="noopener noreferrer" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+						<a href="https://youtube.com/@AarvellaSalon" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+					</div>
+				</div>
+
+				<div class="footer-col">
+					<h3>Experience</h3>
+					<ul>
+						<li><a href="services.html">Hair Services</a></li>
+						<li><a href="#">Skin Treatments</a></li>
+						<li><a href="bridal.html">Bridal Packages</a></li>
+						<li><a href="#">Gift Cards</a></li>
+						<li><a href="careers.html">Careers</a></li>
+					</ul>
+				</div>
+
+				<div class="footer-col">
+					<h3>AARVELLA SALON</h3>
+					<p>43, Karanpur Road<br>Dehradun, 248001</p>
+					<p class="phone-link">+91 9742049990</p>
+					<div class="hours">
+						<span>Tue - Sun: 10am - 8pm</span>
+						<span>Mon: Closed</span>
+					</div>
+				</div>
+
+				<div class="footer-col">
+					<h3>Stay Inspired</h3>
+					<p>Join our Gold List for exclusive trends and early access to bookings.</p>
+					<form class="newsletter-form">
+						<input type="email" placeholder="Email Address" required>
+						<button type="submit">Join</button>
+					</form>
+				</div>
+			</div>
+
+			<div class="footer-bottom">
+				<p>&copy; 2026 Aarvella Luxury Salon. All Rights Reserved.</p>
+				<div class="legal-links">
+					<a href="privacy.html">Privacy Policy</a>
+					<a href="terms.html">Terms of Service</a>
+					<a href="javascript:window.scrollTo({top: 0, behavior: 'smooth'});">Back to Top ↑</a>
+				</div>
+			</div>
+		</footer>
+
+	<script>
+		function goBooking(){
+		window.location.href="index.html#booking";
+		}
+
+		/* Scroll Animation */
+		const rows=document.querySelectorAll('.skin-row');
+		window.addEventListener('scroll',()=>{
+		rows.forEach(row=>{
+		const top=row.getBoundingClientRect().top;
+		if(top<window.innerHeight-100){
+		row.classList.add('visible');
+		}
+		});
+		});
+		let currentIndex = 0;
+		const slider = document.getElementById('testimonialSlider');
+		const totalSlides = document.querySelectorAll('.testimonial-slide').length;
+
+		function updateSlider(){
+			slider.style.transform = `translateX(-${currentIndex * 100}%)`;
+		}
+
+		function nextTestimonial(){
+			currentIndex++;
+			if(currentIndex >= totalSlides){
+				currentIndex = 0;
+			}
+			updateSlider();
+		}
+
+		function prevTestimonial(){
+			currentIndex--;
+			if(currentIndex < 0){
+				currentIndex = totalSlides - 1;
+			}
+			updateSlider();
+		}
+
+		/* ✅ INIT FIX */
+		window.addEventListener('load', updateSlider);
+		let autoSlide = setInterval(nextTestimonial, 4000);
+
+		/* Pause on hover (desktop polish) */
+		const wrapper = document.querySelector('.testimonial-wrapper');
+
+		wrapper.addEventListener('mouseenter', () => {
+			clearInterval(autoSlide);
+		});
+
+		wrapper.addEventListener('mouseleave', () => {
+			autoSlide = setInterval(nextTestimonial, 4000);
+		});
+
+		let startX = 0;
+		let endX = 0;
+
+		const sliderContainer = document.getElementById('testimonialSlider');
+
+		sliderContainer.addEventListener('touchstart', (e) => {
+			startX = e.touches[0].clientX;
+		});
+
+		sliderContainer.addEventListener('touchend', (e) => {
+			endX = e.changedTouches[0].clientX;
+			handleSwipe();
+		});
+
+		function handleSwipe() {
+			const diff = startX - endX;
+
+			if (diff > 50) {
+				nextTestimonial(); // swipe left
+			} else if (diff < -50) {
+				prevTestimonial(); // swipe right
+			}
+		}
+		const hamburger = document.getElementById('hamburger');
+		const mobileNav = document.getElementById('mobileNav');
+
+		hamburger.addEventListener('click', () => {
+			hamburger.classList.toggle('active');
+			mobileNav.classList.toggle('active');
+		});
+
+		/* Close menu when clicking a link */
+		document.querySelectorAll('.mobile-nav a').forEach(link => {
+			link.addEventListener('click', () => {
+				hamburger.classList.remove('active');
+				mobileNav.classList.remove('active');
+			});
+		});
+
+		/* Mobile Book button fix */
+		document.getElementById('mobileBookBtn').addEventListener('click', () => {
+			goBooking();
+			hamburger.classList.remove('active');
+			mobileNav.classList.remove('active');
+		});
+	</script>
+
+</body>
+</html>
