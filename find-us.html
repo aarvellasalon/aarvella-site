@@ -409,222 +409,236 @@
 	</footer>
 
 	<script>
-		function populateDropdowns() {
-		    const citySelect = document.getElementById('citySelect');
-		    const areaSelect = document.getElementById('areaSelect');
-		
-		    const cities = [...new Set(salonsData.map(s => s.city))];
-		    const areas = [...new Set(salonsData.map(s => s.area))];
-		
-		    citySelect.innerHTML = `<option value="">Select City</option>`;
-		    areaSelect.innerHTML = `<option value="">Select Area</option>`;
-		
-		    cities.forEach(city => {
-		        citySelect.innerHTML += `<option value="${city}">${city}</option>`;
-		    });
-		
-		    areas.forEach(area => {
-		        areaSelect.innerHTML += `<option value="${area}">${area}</option>`;
-		    });
-		
-		    citySelect.addEventListener('change', renderSalons);
-		    areaSelect.addEventListener('change', renderSalons);
-		}
-		function renderSalons() {
-		    const container = document.getElementById('salonContainer');
-		    const city = document.getElementById('citySelect').value;
-		    const area = document.getElementById('areaSelect').value;
-		
-		    container.innerHTML = '';
-		
-		    // Clear old markers
-		    salonMarkers.forEach(m => m.setMap(null));
-		    salonMarkers = [];
-		
-		    const filtered = salonsData.filter(salon => {
-		        return (!city || salon.city === city) &&
-		               (!area || salon.area === area);
-		    });
-		
-		    filtered.forEach((salon, index) => {
-		
-		        const div = document.createElement('div');
-		        div.classList.add('salon-item');
-		
-		        div.innerHTML = `
-		            <h3>${salon.name}</h3>
-		            <p>${salon.address}</p>
-		            <button class="gold-map-btn" data-lat="${salon.lat}" data-lng="${salon.lng}">
-		                Show on Map
-		            </button>
-		        `;
-		
-		        container.appendChild(div);
-		
-		        const marker = new google.maps.Marker({
-		            position: { lat: salon.lat, lng: salon.lng },
-		            map: map,
-		            title: salon.name
-		        });
-		
-		        salonMarkers.push(marker);
-		    });
-		
-		    // Attach button events
-		    document.querySelectorAll('.gold-map-btn').forEach(btn => {
-		        btn.addEventListener('click', () => {
-		            const lat = parseFloat(btn.dataset.lat);
-		            const lng = parseFloat(btn.dataset.lng);
-		
-		            const position = { lat, lng };
-		
-		            map.setCenter(position);
-		            map.setZoom(16);
-		        });
-		    });
-		}
-		document.addEventListener('DOMContentLoaded', () => {
-		    const hamburger = document.getElementById('hamburger');
-		    const mobileNav = document.getElementById('mobileNav');
-		    const mobileLinks = document.querySelectorAll('.mobile-nav a');
-		
-		    function toggleMenu() {
-		        const isActive = mobileNav.classList.toggle('active');
-		        hamburger.classList.toggle('active');
-		
-		        // prevent background scroll
-		        document.body.style.overflow = isActive ? 'hidden' : 'auto';
-		    }
-		
-		    hamburger.addEventListener('click', toggleMenu);
-		
-		    // Close menu when clicking links
-		    mobileLinks.forEach(link => {
-		        link.addEventListener('click', toggleMenu);
-		    });
-		
-		    // Close on outside click (clean UX)
-		    document.addEventListener('click', (e) => {
-		        if (
-		            mobileNav.classList.contains('active') &&
-		            !mobileNav.contains(e.target) &&
-		            !hamburger.contains(e.target)
-		        ) {
-		            toggleMenu();
-		        }
-		    });
-		
-		    // Reset on resize (important)
-		    window.addEventListener('resize', () => {
-		        if (window.innerWidth > 768) {
-		            mobileNav.classList.remove('active');
-		            hamburger.classList.remove('active');
-		            document.body.style.overflow = 'auto';
-		        }
-		    });
-		});
-		let map, userMarker;
-		const salonLocation = { lat: 30.3277, lng: 78.0561 }; 
-
-		function initMap() {
-			map = new google.maps.Map(document.getElementById("map"), {
-				center: salonLocation,
-				zoom: 15,
-				mapTypeControl: false,
-				// FIX: Dark mode applied correctly
-				styles: [
-				  { elementType: "geometry", stylers: [{ color: "#212121" }] },
-				  { elementType: "labels.icon", stylers: [{ visibility: "off" }] },
-				  { elementType: "labels.text.fill", stylers: [{ color: "#757575" }] },
-				  { elementType: "labels.text.stroke", stylers: [{ color: "#212121" }] },
-				
-				  {
-				    featureType: "administrative",
-				    elementType: "geometry",
-				    stylers: [{ color: "#757575" }]
-				  },
-				  {
-				    featureType: "administrative.country",
-				    elementType: "labels.text.fill",
-				    stylers: [{ color: "#9e9e9e" }]
-				  },
-				  {
-				    featureType: "administrative.land_parcel",
-				    stylers: [{ visibility: "off" }]
-				  },
-				  {
-				    featureType: "administrative.locality",
-				    elementType: "labels.text.fill",
-				    stylers: [{ color: "#bdbdbd" }]
-				  },
-				
-				  {
-				    featureType: "poi",
-				    elementType: "labels.text.fill",
-				    stylers: [{ color: "#757575" }]
-				  },
-				  {
-				    featureType: "poi.park",
-				    elementType: "geometry",
-				    stylers: [{ color: "#181818" }]
-				  },
-				  {
-				    featureType: "poi.park",
-				    elementType: "labels.text.fill",
-				    stylers: [{ color: "#616161" }]
-				  },
-				
-				  {
-				    featureType: "road",
-				    elementType: "geometry.fill",
-				    stylers: [{ color: "#2c2c2c" }]
-				  },
-				  {
-				    featureType: "road",
-				    elementType: "labels.text.fill",
-				    stylers: [{ color: "#8a8a8a" }]
-				  },
-				  {
-				    featureType: "road.arterial",
-				    elementType: "geometry",
-				    stylers: [{ color: "#373737" }]
-				  },
-				  {
-				    featureType: "road.highway",
-				    elementType: "geometry",
-				    stylers: [{ color: "#3c3c3c" }]
-				  },
-				  {
-				    featureType: "road.highway.controlled_access",
-				    elementType: "geometry",
-				    stylers: [{ color: "#4e4e4e" }]
-				  },
-				
-				  {
-				    featureType: "water",
-				    elementType: "geometry",
-				    stylers: [{ color: "#000000" }]
-				  },
-				  {
-				    featureType: "water",
-				    elementType: "labels.text.fill",
-				    stylers: [{ color: "#3d3d3d" }]
-				  }
-				]
-			});
-				loadSalons();
-			document.getElementById("directions-btn").addEventListener("click", () => {
-				const url = `https://www.google.com/maps/dir/?api=1&destination=${salonLocation.lat},${salonLocation.lng}`;
-				window.open(url, '_blank');
-			});
-			const observer = new IntersectionObserver((entries) => {
-			  if (entries[0].isIntersecting) {
-			    loadGoogleMaps();
-			    observer.disconnect();
-			  }
-			});
+			document.addEventListener('DOMContentLoaded', () => {
+			    const hamburger = document.getElementById('hamburger');
+			    const mobileNav = document.getElementById('mobileNav');
+			    const mobileLinks = document.querySelectorAll('.mobile-nav a');
 			
-			observer.observe(document.getElementById("map"));
+			    function toggleMenu() {
+			        const isActive = mobileNav.classList.toggle('active');
+			        hamburger.classList.toggle('active');
+			
+			        // prevent background scroll
+			        document.body.style.overflow = isActive ? 'hidden' : 'auto';
+			    }
+			
+			    hamburger.addEventListener('click', toggleMenu);
+			
+			    // Close menu when clicking links
+			    mobileLinks.forEach(link => {
+			        link.addEventListener('click', toggleMenu);
+			    });
+			
+			    // Close on outside click (clean UX)
+			    document.addEventListener('click', (e) => {
+			        if (
+			            mobileNav.classList.contains('active') &&
+			            !mobileNav.contains(e.target) &&
+			            !hamburger.contains(e.target)
+			        ) {
+			            toggleMenu();
+			        }
+			    });
+			
+			    // Reset on resize (important)
+			    window.addEventListener('resize', () => {
+			        if (window.innerWidth > 768) {
+			            mobileNav.classList.remove('active');
+			            hamburger.classList.remove('active');
+			            document.body.style.overflow = 'auto';
+			        }
+			    });
+			});
+			let map;
+			let salonMarkers = [];
+			let salonsData = [];
+			
+			const defaultLocation = { lat: 30.3277, lng: 78.0561 };
+			
+			function initMap() {
+			    map = new google.maps.Map(document.getElementById("map"), {
+			        center: defaultLocation,
+			        zoom: 14,
+			        mapTypeControl: false,
+					styles: [
+						  { elementType: "geometry", stylers: [{ color: "#212121" }] },
+						  { elementType: "labels.icon", stylers: [{ visibility: "off" }] },
+						  { elementType: "labels.text.fill", stylers: [{ color: "#757575" }] },
+						  { elementType: "labels.text.stroke", stylers: [{ color: "#212121" }] },
+						
+						  {
+						    featureType: "administrative",
+						    elementType: "geometry",
+						    stylers: [{ color: "#757575" }]
+						  },
+						  {
+						    featureType: "administrative.country",
+						    elementType: "labels.text.fill",
+						    stylers: [{ color: "#9e9e9e" }]
+						  },
+						  {
+						    featureType: "administrative.land_parcel",
+						    stylers: [{ visibility: "off" }]
+						  },
+						  {
+						    featureType: "administrative.locality",
+						    elementType: "labels.text.fill",
+						    stylers: [{ color: "#bdbdbd" }]
+						  },
+						
+						  {
+						    featureType: "poi",
+						    elementType: "labels.text.fill",
+						    stylers: [{ color: "#757575" }]
+						  },
+						  {
+						    featureType: "poi.park",
+						    elementType: "geometry",
+						    stylers: [{ color: "#181818" }]
+						  },
+						  {
+						    featureType: "poi.park",
+						    elementType: "labels.text.fill",
+						    stylers: [{ color: "#616161" }]
+						  },
+						
+						  {
+						    featureType: "road",
+						    elementType: "geometry.fill",
+						    stylers: [{ color: "#2c2c2c" }]
+						  },
+						  {
+						    featureType: "road",
+						    elementType: "labels.text.fill",
+						    stylers: [{ color: "#8a8a8a" }]
+						  },
+						  {
+						    featureType: "road.arterial",
+						    elementType: "geometry",
+						    stylers: [{ color: "#373737" }]
+						  },
+						  {
+						    featureType: "road.highway",
+						    elementType: "geometry",
+						    stylers: [{ color: "#3c3c3c" }]
+						  },
+						  {
+						    featureType: "road.highway.controlled_access",
+						    elementType: "geometry",
+						    stylers: [{ color: "#4e4e4e" }]
+						  },
+						
+						  {
+						    featureType: "water",
+						    elementType: "geometry",
+						    stylers: [{ color: "#000000" }]
+						  },
+						  {
+						    featureType: "water",
+						    elementType: "labels.text.fill",
+						    stylers: [{ color: "#3d3d3d" }]
+						  }
+						]
+			    });
+			
+			    document.getElementById("directions-btn").addEventListener("click", () => {
+			        const url = `https://www.google.com/maps/dir/?api=1&destination=${defaultLocation.lat},${defaultLocation.lng}`;
+			        window.open(url, '_blank');
+			    });
+			
+			    loadSalons();
+			}
+			
+			async function loadSalons() {
+			    try {
+			        const response = await fetch('salon.json');
+			        salonsData = await response.json();
+			
+			        populateDropdowns();
+			        renderSalons();
+			
+			    } catch (err) {
+			        console.error("JSON LOAD FAILED:", err);
+			        document.getElementById("salonContainer").innerHTML =
+			            "<p style='color:red'>Failed to load salon data</p>";
+			    }
+			}
+			
+			function populateDropdowns() {
+			    const citySelect = document.getElementById('citySelect');
+			    const areaSelect = document.getElementById('areaSelect');
+			
+			    const cities = [...new Set(salonsData.map(s => s.city))];
+			    const areas = [...new Set(salonsData.map(s => s.area))];
+			
+			    citySelect.innerHTML = `<option value="">Select City</option>`;
+			    areaSelect.innerHTML = `<option value="">Select Area</option>`;
+			
+			    cities.forEach(city => {
+			        citySelect.innerHTML += `<option value="${city}">${city}</option>`;
+			    });
+			
+			    areas.forEach(area => {
+			        areaSelect.innerHTML += `<option value="${area}">${area}</option>`;
+			    });
+			
+			    citySelect.addEventListener('change', renderSalons);
+			    areaSelect.addEventListener('change', renderSalons);
+			}
+			
+			function renderSalons() {
+			    const container = document.getElementById('salonContainer');
+			    const city = document.getElementById('citySelect').value;
+			    const area = document.getElementById('areaSelect').value;
+			
+			    container.innerHTML = '';
+			
+			    // remove old markers
+			    salonMarkers.forEach(m => m.setMap(null));
+			    salonMarkers = [];
+			
+			    const filtered = salonsData.filter(s =>
+			        (!city || s.city === city) &&
+			        (!area || s.area === area)
+			    );
+			
+			    filtered.forEach(salon => {
+			
+			        const div = document.createElement('div');
+			        div.classList.add('salon-item');
+			
+			        div.innerHTML = `
+			            <h3>${salon.name}</h3>
+			            <p>${salon.address}</p>
+			            <button class="gold-map-btn"
+			                data-lat="${salon.lat}"
+			                data-lng="${salon.lng}">
+			                Show on Map
+			            </button>
+			        `;
+			
+			        container.appendChild(div);
+			
+			        const marker = new google.maps.Marker({
+			            position: { lat: salon.lat, lng: salon.lng },
+			            map: map,
+			            title: salon.name
+			        });
+			
+			        salonMarkers.push(marker);
+			    });
+			
+			    // button click
+			    document.querySelectorAll('.gold-map-btn').forEach(btn => {
+			        btn.onclick = () => {
+			            const lat = parseFloat(btn.dataset.lat);
+			            const lng = parseFloat(btn.dataset.lng);
+			
+			            map.setCenter({ lat, lng });
+			            map.setZoom(16);
+			        };
+			    });
+			}
 
 			// RIGHT SIDE CONTROLS (Show My Location)
 			const rightWrapper = document.createElement("div");
@@ -718,29 +732,6 @@
 			    );
 			};
 			window.addEventListener('resize', () => { google.maps.event.trigger(map, "resize"); });
-			}
-			function handleMapError() {
-			  document.getElementById("map").innerHTML = "Map failed to load";
-			}
-			let salonMarkers = [];
-			
-				let salonsData = [];
-				
-				async function loadSalons() {
-				    try {
-				        const response = await fetch('./salon.json'); // safer path
-				        salonsData = await response.json();
-				
-				        populateDropdowns();
-				        renderSalons();
-				
-				    } catch (error) {
-				        console.error("Error loading salons:", error);
-				    }
-				}
-			    } catch (error) {
-			        console.error("Error loading salons:", error);
-			    }
 			}
 	</script>
 	<script 
