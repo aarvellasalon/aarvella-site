@@ -425,6 +425,13 @@
         document.querySelectorAll('.stylist-row').forEach(row => {
             observer.observe(row);
         });
+		/* Close menu when clicking a link */
+		document.querySelectorAll('.mobile-nav a').forEach(link => {
+			link.addEventListener('click', () => {
+				hamburger.classList.remove('active');
+				mobileNav.classList.remove('active');
+			});
+		});
     </script>
 </body>
 </html>
