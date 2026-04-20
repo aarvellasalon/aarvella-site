@@ -470,41 +470,88 @@
 				window.open(url, '_blank');
 			});
 
-			// Create a wrapper for right controls
-			const rightControlWrapper = document.createElement("div");
-			rightControlWrapper.style.marginTop = "20px";   // 👈 FIX: top spacing
-			rightControlWrapper.style.marginRight = "10px"; // optional polish
-			rightControlWrapper.style.display = "flex";
-			rightControlWrapper.style.flexDirection = "column";
-			rightControlWrapper.style.gap = "10px";
+			// RIGHT SIDE CONTROLS (Show My Location)
+			const rightWrapper = document.createElement("div");
+				rightWrapper.style.marginTop = "30px";
+				rightWrapper.style.marginRight = "10px";
+				rightWrapper.style.display = "flex";
+				rightWrapper.style.flexDirection = "column";
+				rightWrapper.style.gap = "10px";
 			
-			// Show My Location button
 			const locationButton = document.createElement("button");
 				locationButton.innerHTML = "⊕ Show My Location";
 				locationButton.classList.add("custom-map-control");
 			
-			// Append to wrapper
-				rightControlWrapper.appendChild(locationButton);
+				rightWrapper.appendChild(locationButton);
+				map.controls[google.maps.ControlPosition.TOP_RIGHT].push(rightWrapper);
 			
-			// Push wrapper instead of button
-				map.controls[google.maps.ControlPosition.TOP_RIGHT].push(rightControlWrapper);
+			// ✅ FIX: Proper event binding
+			locationButton.onclick = function () {
+			    if (!navigator.geolocation) {
+			        alert("Geolocation is not supported by your browser.");
+			        return;
+			    }
+			
+			    navigator.geolocation.getCurrentPosition(
+			        (position) => {
+			            const pos = {
+			                lat: position.coords.latitude,
+			                lng: position.coords.longitude,
+			            };
+			
+			            if (userMarker) userMarker.setMap(null);
+			
+			            userMarker = new google.maps.Marker({
+			                position: pos,
+			                map: map,
+			                title: "Your Location",
+			            });
+			
+			            map.setCenter(pos);
+			            map.setZoom(15);
+			        },
+			        (error) => {
+			            console.error(error);
+			            alert("Location access denied or unavailable.");
+			        }
+			    );
+			};
 
-			const leftControlWrapper = document.createElement("div");
-				leftControlWrapper.style.marginTop = "20px";   // FIX
-				leftControlWrapper.style.marginLeft = "10px";
+			const leftWrapper = document.createElement("div");
+			leftWrapper.style.marginTop = "30px";
+			leftWrapper.style.marginLeft = "10px";
 			
 			const backToSalonButton = document.createElement("button");
-				backToSalonButton.innerHTML = "⌂ Back to Salon";
-				backToSalonButton.classList.add("custom-map-control");
-				
-				leftControlWrapper.appendChild(backToSalonButton);
-				
-				map.controls[google.maps.ControlPosition.TOP_LEFT].push(leftControlWrapper);
+			backToSalonButton.innerHTML = "⌂ Back to Salon";
+			backToSalonButton.classList.add("custom-map-control");
+			
+			leftWrapper.appendChild(backToSalonButton);
+			map.controls[google.maps.ControlPosition.TOP_LEFT].push(leftWrapper);
+			
+			// ✅ FIX: Proper event binding
+			backToSalonButton.onclick = function () {
+			    map.setCenter(salonLocation);
+			    map.setZoom(15);
+			};
 			
 			const isMobile = window.innerWidth < 768;
 
 				rightControlWrapper.style.marginTop = isMobile ? "10px" : "30px";
 				leftControlWrapper.style.marginTop = isMobile ? "10px" : "30px";
+			locationButton.onclick = function () {
+			    locationButton.innerHTML = "Locating...";
+			
+			    navigator.geolocation.getCurrentPosition(
+			        (position) => {
+			            locationButton.innerHTML = "⊕ Show My Location";
+			            // existing logic...
+			        },
+			        () => {
+			            locationButton.innerHTML = "⊕ Show My Location";
+			            alert("Location access denied.");
+			        }
+			    );
+			};
 
 			window.addEventListener('resize', () => { google.maps.event.trigger(map, "resize"); });
 		}
