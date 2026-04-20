@@ -1,20 +1,14 @@
 [
-    {
-        "id": 1,
-        "name": "Aarvella Salon",
-        "city": "Dehradun",
-        "area": "Karanpur Road",
-        "address": "123 Karanpur Road, Dehradun, 248001",
-        "phone": "+91 9742049990",
-        "coordinates": "30.327596758002397, 78.05605709042781"
-    },
-    {
-        "id": 2,
-        "name": "Aarvella Salon",
-        "city": "Dehradun",
-        "area": "Karanpur Road",
-        "address": "123 Karanpur Road, Dehradun, 248001",
-        "phone": "+91 9742049990",
-        "coordinates": "30.327596758002397, 78.05605709042781"
-    }
+  {
+    "name": "Aarvella Salon - Karanpur",
+    "address": "43, Karanpur Road, Dehradun",
+    "lat": 30.3277,
+    "lng": 78.0561
+  },
+  {
+    "name": "Aarvella Salon - Rajpur",
+    "address": "Rajpur Road, Dehradun",
+    "lat": 30.3520,
+    "lng": 78.0800
+  }
 ]
