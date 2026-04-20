@@ -66,9 +66,12 @@
 		}
 		.desktop-nav a,
 		.desktop-nav button {
-		    display: inline-flex;
+		    display: flex;
 		    align-items: center;
-		    height: 40px; /* force consistent vertical alignment */
+		    justify-content: center;
+		    height: 40px;
+		    line-height: 1;              /* critical fix */
+		    font-family: inherit;        /* normalize font */
 		}
 		.desktop-nav {
 			display: flex;
@@ -92,15 +95,24 @@
 		.btn-gold {
 		    background: var(--gold);
 		    color: var(--black);
-		    padding: 0 1.5rem; /* remove vertical padding */
-		    height: 40px; /* match nav height */
-		    display: inline-flex;
+		    height: 40px;
+		    padding: 0 1.5rem;
+		
+		    display: flex;
 		    align-items: center;
 		    justify-content: center;
+		
 		    border: none;
 		    border-radius: 2px;
 		    font-weight: bold;
 		    cursor: pointer;
+		
+		    font-family: inherit;   /*  important */
+		    line-height: 1;         /*  important */
+		
+		    appearance: none;       /*  removes browser default button styling */
+		    -webkit-appearance: none;
+		
 		    transition: var(--transition);
 		}
 		
@@ -437,7 +449,7 @@
             <a href="about.html">About</a>
 			<a href="blog.html">Blog</a>
 			<a href="find-us.html">Find Us</a>
-            <button class="btn-gold" id="mobileBookBtn">Book Now</button>
+            <button class="btn-gold">Book Now</button>
         </nav>
         <div class="hamburger" id="hamburger">
             <span></span>
