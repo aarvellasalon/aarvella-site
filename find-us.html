@@ -469,6 +469,14 @@
 				const url = `https://www.google.com/maps/dir/?api=1&destination=${salonLocation.lat},${salonLocation.lng}`;
 				window.open(url, '_blank');
 			});
+			const observer = new IntersectionObserver((entries) => {
+			  if (entries[0].isIntersecting) {
+			    loadGoogleMaps();
+			    observer.disconnect();
+			  }
+			});
+			
+			observer.observe(document.getElementById("map"));
 
 			// RIGHT SIDE CONTROLS (Show My Location)
 			const rightWrapper = document.createElement("div");
@@ -548,15 +556,27 @@
 			        },
 			        () => {
 			            locationButton.innerHTML = "⊕ Show My Location";
-			            alert("Location access denied.");
+			            alert("Please enable location access.");
 			        }
 			    );
 			};
-
+			styles: [
+			  { elementType: "geometry", stylers: [{ color: "#0A0A0A" }] },
+			  { elementType: "labels.text.fill", stylers: [{ color: "#D4AF37" }] },
+			  { elementType: "labels.text.stroke", stylers: [{ color: "#0A0A0A" }] }
+			]
 			window.addEventListener('resize', () => { google.maps.event.trigger(map, "resize"); });
 		}
+		function handleMapError() {
+			  document.getElementById("map").innerHTML = "Map failed to load";
+			}
 	</script>
-	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDubOFL6TlXWkiIIIkW80cjEP6gdPbCIoM&callback=initMap" async defer></script>
+	<script 
+		src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDubOFL6TlXWkiIIIkW80cjEP6gdPbCIoM&callback=initMap" 
+		async 
+		defer
+		onerror="handleMapError()">
+	</script>
 </body>
 </html>
 
