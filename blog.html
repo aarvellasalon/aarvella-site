@@ -19,34 +19,189 @@
         body { background-color: var(--black); color: var(--white); font-family: 'Montserrat', sans-serif; line-height: 1.6; }
         h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--gold); }
 
-        /* --- Header (Shared Styling) --- */
-        header {
-            position: fixed; top: 0; left: 0; width: 100%; padding: 1.5rem 5%; 
-            background: rgba(10, 10, 10, 0.95); backdrop-filter: blur(10px);
-            display: flex; justify-content: space-between; align-items: center;
-            z-index: 1000; border-bottom: 1px solid rgba(212, 175, 55, 0.2); transition: padding 0.3s ease; /* Smoothly responds to resizing */
-        }
-        .logo { font-size: 2rem; letter-spacing: 4px; font-weight: bold; }
-		/* Logo Hyperlink Cleanup */
-        .logo-link { text-decoration: none; color: inherit; }
-        .logo-link:hover .logo { text-shadow: 0 0 12px rgba(212, 175, 55, 0.6); }
-        .desktop-nav a {
-            color: var(--white); text-decoration: none; font-size: 0.8rem;
-            text-transform: uppercase; letter-spacing: 2px; margin-left: 30px; transition: var(--transition);
-        }
-        .desktop-nav a:hover { color: var(--gold); }
+		/* --- Fixed Header Logic --- */
+		header {
+			position: fixed;
+			top: 0;
+			left: 0;
+			width: 100%;
+			padding: 1.5rem 5%; 
+			background: rgba(10, 10, 10, 0.95);
+			backdrop-filter: blur(10px);
+			display: flex;
+			justify-content: space-between;
+			align-items: center;
+			z-index: 1000;
+			border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+		}
+
+		/* Ensure Logo and Nav stay in their lanes */
+		.logo-link {
+			text-decoration: none;
+			color: inherit;
+			flex-shrink: 0;
+		}
+
+		.logo {
+			font-size: 2rem; 
+			letter-spacing: 4px; 
+			font-weight: bold; 
+		}
+		.desktop-nav a,
+		.desktop-nav button {
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		    height: 40px;
+		    line-height: 1;              /* critical fix */
+		    font-family: inherit;        /* normalize font */
+		}
+		.desktop-nav {
+			display: flex;
+			align-items: center;
+			gap: 2rem; /* 🔥 IMPORTANT */
+		}
+
+		.desktop-nav a {
+			color: var(--white);
+			text-decoration: none;
+			font-size: 0.9rem;
+			text-transform: uppercase;
+			letter-spacing: 1px;
+			transition: var(--transition);
+			white-space: nowrap;
+		}
+
+		.desktop-nav a:hover {
+			color: var(--gold);
+		}
 		.btn-gold {
-            background: var(--gold);
-            color: var(--black);
-            padding: 0.8rem 1.5rem;
-            border-radius: 2px;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
+		    background: var(--gold);
+		    color: var(--black);
+		    height: 40px;
+		    padding: 0 1.5rem;
+		
+		    display: flex;
+		    align-items: center;
+		    justify-content: center;
+		
+		    border: none;
+		    border-radius: 2px;
+		    font-weight: bold;
+		    cursor: pointer;
+		
+		    font-family: inherit;   /*  important */
+		    line-height: 1;         /*  important */
+		
+		    appearance: none;       /*  removes browser default button styling */
+		    -webkit-appearance: none;
+		
+		    transition: var(--transition);
+		}
+		
+		.btn-gold:hover {
+			background: var(--white);
+			transform: translateY(-2px);
+			box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+		}
+		/* --- Hamburger Icon --- */
+		.hamburger {
+			display: none;
+			flex-direction: column;
+			gap: 6px;
+			cursor: pointer;
+			z-index: 3000; /* Ensure it stays above the overlay */
+			position: relative;
+		}
+        
+        .hamburger span {
+            width: 30px;
+            height: 2px;
+            background-color: var(--gold);
             transition: var(--transition);
         }
-        .btn-gold:hover { background: var(--white); transform: translateY(-2px); box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4); }
+        
+		/* --- Floating Mobile Nav --- */
+		.mobile-nav {
+			position: fixed;
+			top: 0;
+			right: -110%;
+			min-width: 300px;
+			height: 100vh;
+		
+			background: rgba(10, 10, 10, 0.9);
+			backdrop-filter: blur(15px);
+		
+			display: flex;
+			flex-direction: column;
+			justify-content: center;
+			align-items: center;
+		
+			gap: 30px; /* 🔥 consistent spacing */
+			padding: 40px;
+		
+			transition: 0.5s ease;
+			z-index: 2500;
+		}
 
+		.mobile-nav.active {
+			right: 0; /* Slides into view from the right */
+		}
+
+		.mobile-nav a {
+			font-family: 'Playfair Display', serif;
+			font-size: 2rem; /* Slightly smaller for the drawer style */
+			color: var(--white);
+			text-decoration: none;
+			letter-spacing: 3px;
+			white-space: nowrap; /* Prevents text from wrapping */
+			transition: var(--transition);
+		}
+
+		.mobile-nav a:hover {
+			color: var(--gold);
+		}
+		/* Add a margin to the button to separate it further from the text links */
+		#mobileBookBtn {
+    		margin-top: 1rem;
+		}
+		#crm-booking-widget {
+            max-width: 800px;
+            margin: 40px auto;
+            min-height: 500px;
+            border: 1px solid var(--gold);
+            background: #111;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+		/* --- Mobile Responsiveness Breakpoint --- */
+        @media (max-width: 768px) {
+            .desktop-nav {
+                display: none; /* Hide standard nav */
+            }
+        
+            .hamburger {
+                display: flex; /* Show hamburger */
+            }
+        
+            /* Transform hamburger to 'X' when active */
+            .hamburger.active span:nth-child(1) {
+                transform: translateY(8px) rotate(45deg);
+            }
+            .hamburger.active span:nth-child(2) {
+                opacity: 0;
+            }
+            .hamburger.active span:nth-child(3) {
+                transform: translateY(-8px) rotate(-45deg);
+            }
+        }
+		/* Ensure desktop nav stays visible when resizing back up */
+		@media (min-width: 769px) {
+			.desktop-nav {
+				display: flex !important;
+			}
+		}
         /* --- Blog Hero Section --- */
         .blog-hero {
             height: 70vh; margin-top: 80px; position: relative;
@@ -208,17 +363,32 @@
     </style>
 </head>
 <body>
-
     <header>
-        <a href="index.html" class="logo">AARVELLA</a>
+        <a href="index.html" class="logo-link">
+            <div class="logo">AARVELLA</div>
+        </a>
+    
         <nav class="desktop-nav">
             <a href="#services">Services</a>
             <a href="stylists.html">Stylists</a>
             <a href="about.html">About</a>
 			<a href="blog.html">Blog</a>
 			<a href="find-us.html">Find Us</a>
-            <button class="btn-gold" onclick="scrollToBooking()">Book Now</button>
+            <button class="btn-gold">Book Now</button>
         </nav>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        
+		<div class="mobile-nav" id="mobileNav">
+			<a href="#services">Services</a>
+			<a href="stylists.html">Stylists</a>
+			<a href="about.html">About</a>
+			<a href="find-us.html">Find Us</a>
+			<button class="btn-gold" id="mobileBookBtn">Book Now</button>
+		</div>
     </header>
 
     <section class="blog-hero">
@@ -311,13 +481,45 @@
         </div>
     </footer>
 	<script>
-		/* Close menu when clicking a link */
-		document.querySelectorAll('.mobile-nav a').forEach(link => {
-			link.addEventListener('click', () => {
-				hamburger.classList.remove('active');
-				mobileNav.classList.remove('active');
+		// Hamburger & Mobile Nav Logic
+        document.addEventListener('DOMContentLoaded', () => {
+            const hamburger = document.getElementById('hamburger');
+            const mobileNav = document.getElementById('mobileNav');
+            const mobileLinks = document.querySelectorAll('.mobile-nav a');
+            const mobileBookBtn = document.getElementById('mobileBookBtn');
+
+            // Shared Toggle Function
+            const toggleMenu = () => {
+                const isActive = mobileNav.classList.toggle('active');
+                hamburger.classList.toggle('active');
+                
+                // Prevent background scrolling ONLY when open
+                document.body.style.overflow = isActive ? 'hidden' : 'auto';
+            };
+
+            // Click Event for Hamburger
+            hamburger.addEventListener('click', toggleMenu);
+
+            // Close menu when clicking links
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', toggleMenu);
+            });
+
+            // Handle Mobile Book Button
+            if(mobileBookBtn) {
+                mobileBookBtn.addEventListener('click', () => {
+                    toggleMenu();
+                    scrollToBooking();
+                });
+            }
+			document.addEventListener('click', (e) => {
+				const isInsideMenu = mobileNav.contains(e.target);
+				const isHamburger = hamburger.contains(e.target);
+			
+				if (!isInsideMenu && !isHamburger && mobileNav.classList.contains('active')) {
+					toggleMenu();
+				}
 			});
-		});
 	</script>
 
 </body>
