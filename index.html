@@ -70,12 +70,12 @@
         }
 		
         /* The Magic Fix: Flexbox Gap */
-        desktop-nav {
+        .desktop-nav {
             display: flex;
             align-items: center;
             gap: 2rem; /* This ensures "About" and "Book Now" have the EXACT same space as others */
         }
-        desktop-nav a {
+        .desktop-nav a {
             color: var(--white);
             text-decoration: none;
             font-size: 0.9rem;
@@ -84,7 +84,7 @@
             transition: var(--transition);
             margin-left: 0; /* Removed old margin to let 'gap' handle it */
         }
-        desktop-nav a:hover {
+        .desktop-nav a:hover {
             color: var(--gold);
         }
 		.btn-gold {
