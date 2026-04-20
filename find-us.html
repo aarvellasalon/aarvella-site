@@ -537,8 +537,8 @@
 				    stylers: [{ color: "#3d3d3d" }]
 				  }
 				]
-				loadSalons();
 			});
+				loadSalons();
 			document.getElementById("directions-btn").addEventListener("click", () => {
 				const url = `https://www.google.com/maps/dir/?api=1&destination=${salonLocation.lat},${salonLocation.lng}`;
 				window.open(url, '_blank');
