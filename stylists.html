@@ -68,7 +68,7 @@
 		.desktop-nav {
 			display: flex;
 			align-items: center;
-			flex-shrink: 0;
+			gap: 2rem; /* 🔥 IMPORTANT */
 		}
 
 		.desktop-nav a {
@@ -83,6 +83,22 @@
 
 		.desktop-nav a:hover {
 			color: var(--gold);
+		}
+		.btn-gold {
+			background: var(--gold);
+			color: var(--black);
+			padding: 10px 22px;
+			border: none;
+			border-radius: 2px;
+			font-weight: bold;
+			cursor: pointer;
+			transition: 0.3s;
+		}
+		
+		.btn-gold:hover {
+			background: var(--white);
+			transform: translateY(-2px);
+			box-shadow: 0 5px 15px rgba(212,175,55,0.4);
 		}
 		/* --- Hamburger Icon --- */
 		.hamburger {
@@ -105,25 +121,23 @@
 		.mobile-nav {
 			position: fixed;
 			top: 0;
-			right: -110%; /* Start completely off-screen */
-			/*width: auto; /* Shrink-wrap to content */
-			min-width: 300px; /* Ensures it's not too skinny on small phones */
+			right: -110%;
+			min-width: 300px;
 			height: 100vh;
-			background: rgba(10, 10, 10, 0.9); /* Translucent Black */
+		
+			background: rgba(10, 10, 10, 0.9);
 			backdrop-filter: blur(15px);
-			-webkit-backdrop-filter: blur(15px);	
+		
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
-			/*gap: 3.5rem; Increased from default to create more air between items */			
-			/* Generous Padding */
-			/*padding: 0 80px; 	*/
+		
 			gap: 30px; /* 🔥 consistent spacing */
 			padding: 40px;
-			transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1); /* Snappier, high-end feel */
+		
+			transition: 0.5s ease;
 			z-index: 2500;
-			/*border-left: 1px solid rgba(212, 175, 55, 0.1); /* Subtle gold vertical line */
 		}
 
 		.mobile-nav.active {
@@ -414,7 +428,7 @@
             <a href="about.html">About</a>
 			<a href="blog.html">Blog</a>
 			<a href="find-us.html">Find Us</a>
-            <button class="btn-gold" onclick="scrollToBooking()">Book Now</button>
+            <button class="btn-gold" id="mobileBookBtn">Book Now</button>
         </nav>
         <div class="hamburger" id="hamburger">
             <span></span>
@@ -427,7 +441,7 @@
 			<a href="stylists.html">Stylists</a>
 			<a href="about.html">About</a>
 			<a href="find-us.html">Find Us</a>
-			<button class="btn-gold" id="mobileBookBtn" onclick="toggleMenu()">Book Now</button>
+			<button class="btn-gold" id="mobileBookBtn">Book Now</button>
 		</div>
     </header>
 
@@ -574,6 +588,14 @@
                     scrollToBooking();
                 });
             }
+			document.addEventListener('click', (e) => {
+				const isInsideMenu = mobileNav.contains(e.target);
+				const isHamburger = hamburger.contains(e.target);
+			
+				if (!isInsideMenu && !isHamburger && mobileNav.classList.contains('active')) {
+					toggleMenu();
+				}
+			});
 
             // --- THE FIX: Handle Screen Resizing (Maximize Bug) ---
             window.addEventListener('resize', () => {
@@ -584,6 +606,9 @@
                 }
             });
         });
+		function scrollToBooking() {
+			window.location.href = "index.html#booking";
+		}
     </script>
 </body>
 </html>
