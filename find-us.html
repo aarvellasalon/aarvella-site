@@ -324,7 +324,7 @@
 			<a href="stylists.html">Stylists</a>
 			<a href="about.html">About</a>
 			<a href="find-us.html">Find Us</a>
-			<button class="btn-gold" id="mobileBookBtn" onclick="toggleMenu()">Book Now</button>
+			<button class="btn-gold" id="mobileBookBtn">Book Now</button>
 		</div>
     </header>
 
@@ -409,6 +409,46 @@
 	</footer>
 
 	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+		    const hamburger = document.getElementById('hamburger');
+		    const mobileNav = document.getElementById('mobileNav');
+		    const mobileLinks = document.querySelectorAll('.mobile-nav a');
+		
+		    function toggleMenu() {
+		        const isActive = mobileNav.classList.toggle('active');
+		        hamburger.classList.toggle('active');
+		
+		        // prevent background scroll
+		        document.body.style.overflow = isActive ? 'hidden' : 'auto';
+		    }
+		
+		    hamburger.addEventListener('click', toggleMenu);
+		
+		    // Close menu when clicking links
+		    mobileLinks.forEach(link => {
+		        link.addEventListener('click', toggleMenu);
+		    });
+		
+		    // Close on outside click (clean UX)
+		    document.addEventListener('click', (e) => {
+		        if (
+		            mobileNav.classList.contains('active') &&
+		            !mobileNav.contains(e.target) &&
+		            !hamburger.contains(e.target)
+		        ) {
+		            toggleMenu();
+		        }
+		    });
+		
+		    // Reset on resize (important)
+		    window.addEventListener('resize', () => {
+		        if (window.innerWidth > 768) {
+		            mobileNav.classList.remove('active');
+		            hamburger.classList.remove('active');
+		            document.body.style.overflow = 'auto';
+		        }
+		    });
+		});
 		let map, userMarker;
 		const salonLocation = { lat: 30.3277, lng: 78.0561 }; 
 
