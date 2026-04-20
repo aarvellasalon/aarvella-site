@@ -64,7 +64,12 @@
 			letter-spacing: 4px; 
 			font-weight: bold; 
 		}
-
+		.desktop-nav a,
+		.desktop-nav button {
+		    display: inline-flex;
+		    align-items: center;
+		    height: 40px; /* force consistent vertical alignment */
+		}
 		.desktop-nav {
 			display: flex;
 			align-items: center;
@@ -85,14 +90,18 @@
 			color: var(--gold);
 		}
 		.btn-gold {
-			background: var(--gold);
-			color: var(--black);
-			padding: 0.8rem 1.5rem;
-			border: none;
-			border-radius: 2px;
-			font-weight: bold;
-			cursor: pointer;
-			transition: var(--transition);
+		    background: var(--gold);
+		    color: var(--black);
+		    padding: 0 1.5rem; /* remove vertical padding */
+		    height: 40px; /* match nav height */
+		    display: inline-flex;
+		    align-items: center;
+		    justify-content: center;
+		    border: none;
+		    border-radius: 2px;
+		    font-weight: bold;
+		    cursor: pointer;
+		    transition: var(--transition);
 		}
 		
 		.btn-gold:hover {
