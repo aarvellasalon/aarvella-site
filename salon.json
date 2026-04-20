@@ -1,14 +1,18 @@
 [
   {
-    "name": "Aarvella Salon - Karanpur",
+    "name": "Aarvella Karanpur",
+    "city": "dehradun",
+    "area": "karanpur",
     "address": "43, Karanpur Road, Dehradun",
     "lat": 30.3277,
     "lng": 78.0561
   },
   {
-    "name": "Aarvella Salon - Rajpur",
+    "name": "Aarvella Rajpur",
+    "city": "dehradun",
+    "area": "rajpur",
     "address": "Rajpur Road, Dehradun",
-    "lat": 30.3520,
-    "lng": 78.0800
+    "lat": 30.35,
+    "lng": 78.07
   }
 ]
