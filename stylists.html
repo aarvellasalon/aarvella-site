@@ -106,26 +106,24 @@
 			position: fixed;
 			top: 0;
 			right: -110%; /* Start completely off-screen */
-			width: auto; /* Shrink-wrap to content */
+			/*width: auto; /* Shrink-wrap to content */
 			min-width: 300px; /* Ensures it's not too skinny on small phones */
 			height: 100vh;
-			background: rgba(10, 10, 10, 0.85); /* Translucent Black */
+			background: rgba(10, 10, 10, 0.9); /* Translucent Black */
 			backdrop-filter: blur(15px);
-			-webkit-backdrop-filter: blur(15px);
-			
+			-webkit-backdrop-filter: blur(15px);	
 			display: flex;
 			flex-direction: column;
 			justify-content: center;
 			align-items: center;
-			gap: 3.5rem; /* Increased from default to create more air between items */
-    		padding: 0 80px;
-			
+			/*gap: 3.5rem; Increased from default to create more air between items */			
 			/* Generous Padding */
-			padding: 0 80px; 
-			
+			/*padding: 0 80px; 	*/
+			gap: 30px; /* 🔥 consistent spacing */
+			padding: 40px;
 			transition: 0.6s cubic-bezier(0.16, 1, 0.3, 1); /* Snappier, high-end feel */
 			z-index: 2500;
-			border-left: 1px solid rgba(212, 175, 55, 0.1); /* Subtle gold vertical line */
+			/*border-left: 1px solid rgba(212, 175, 55, 0.1); /* Subtle gold vertical line */
 		}
 
 		.mobile-nav.active {
@@ -586,13 +584,6 @@
                 }
             });
         });
-		/* Close menu when clicking a link */
-		document.querySelectorAll('.mobile-nav a').forEach(link => {
-			link.addEventListener('click', () => {
-				hamburger.classList.remove('active');
-				mobileNav.classList.remove('active');
-			});
-		});
     </script>
 </body>
 </html>
