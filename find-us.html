@@ -409,6 +409,80 @@
 	</footer>
 
 	<script>
+		function populateDropdowns() {
+		    const citySelect = document.getElementById('citySelect');
+		    const areaSelect = document.getElementById('areaSelect');
+		
+		    const cities = [...new Set(salonsData.map(s => s.city))];
+		    const areas = [...new Set(salonsData.map(s => s.area))];
+		
+		    citySelect.innerHTML = `<option value="">Select City</option>`;
+		    areaSelect.innerHTML = `<option value="">Select Area</option>`;
+		
+		    cities.forEach(city => {
+		        citySelect.innerHTML += `<option value="${city}">${city}</option>`;
+		    });
+		
+		    areas.forEach(area => {
+		        areaSelect.innerHTML += `<option value="${area}">${area}</option>`;
+		    });
+		
+		    citySelect.addEventListener('change', renderSalons);
+		    areaSelect.addEventListener('change', renderSalons);
+		}
+		function renderSalons() {
+		    const container = document.getElementById('salonContainer');
+		    const city = document.getElementById('citySelect').value;
+		    const area = document.getElementById('areaSelect').value;
+		
+		    container.innerHTML = '';
+		
+		    // Clear old markers
+		    salonMarkers.forEach(m => m.setMap(null));
+		    salonMarkers = [];
+		
+		    const filtered = salonsData.filter(salon => {
+		        return (!city || salon.city === city) &&
+		               (!area || salon.area === area);
+		    });
+		
+		    filtered.forEach((salon, index) => {
+		
+		        const div = document.createElement('div');
+		        div.classList.add('salon-item');
+		
+		        div.innerHTML = `
+		            <h3>${salon.name}</h3>
+		            <p>${salon.address}</p>
+		            <button class="gold-map-btn" data-lat="${salon.lat}" data-lng="${salon.lng}">
+		                Show on Map
+		            </button>
+		        `;
+		
+		        container.appendChild(div);
+		
+		        const marker = new google.maps.Marker({
+		            position: { lat: salon.lat, lng: salon.lng },
+		            map: map,
+		            title: salon.name
+		        });
+		
+		        salonMarkers.push(marker);
+		    });
+		
+		    // Attach button events
+		    document.querySelectorAll('.gold-map-btn').forEach(btn => {
+		        btn.addEventListener('click', () => {
+		            const lat = parseFloat(btn.dataset.lat);
+		            const lng = parseFloat(btn.dataset.lng);
+		
+		            const position = { lat, lng };
+		
+		            map.setCenter(position);
+		            map.setZoom(16);
+		        });
+		    });
+		}
 		document.addEventListener('DOMContentLoaded', () => {
 		    const hamburger = document.getElementById('hamburger');
 		    const mobileNav = document.getElementById('mobileNav');
@@ -567,13 +641,6 @@
 				rightWrapper.appendChild(locationButton);
 				map.controls[google.maps.ControlPosition.TOP_RIGHT].push(rightWrapper);
 			
-			// ✅ FIX: Proper event binding
-			locationButton.onclick = function () {
-			    if (!navigator.geolocation) {
-			        alert("Geolocation is not supported by your browser.");
-			        return;
-			    }
-			
 			    navigator.geolocation.getCurrentPosition(
 			        (position) => {
 			            const pos = {
@@ -657,61 +724,20 @@
 			}
 			let salonMarkers = [];
 			
-			async function loadSalons() {
-			    try {
-			        const response = await fetch('salon.json');
-			        const salons = await response.json();
-			
-			        const container = document.getElementById('salonContainer');
-			        container.innerHTML = '';
-			
-			        salons.forEach((salon, index) => {
-			
-			            // Create sidebar item
-			            const div = document.createElement('div');
-			            div.classList.add('salon-item');
-			
-			            div.innerHTML = `
-			                <h3>${salon.name}</h3>
-			                <p>${salon.address}</p>
-			                <button class="gold-map-btn" data-index="${index}">
-			                    Show on Map
-			                </button>
-			            `;
-			
-			            container.appendChild(div);
-			
-			            // Create map marker
-			            const marker = new google.maps.Marker({
-			                position: { lat: salon.lat, lng: salon.lng },
-			                map: map,
-			                title: salon.name
-			            });
-			
-			            salonMarkers.push(marker);
-			        });
-			
-			        // Attach click events AFTER render
-			        document.querySelectorAll('.gold-map-btn').forEach(btn => {
-			            btn.addEventListener('click', (e) => {
-			                const index = e.target.getAttribute('data-index');
-			                const salon = salons[index];
-			
-			                const position = { lat: salon.lat, lng: salon.lng };
-			
-			                map.setCenter(position);
-			                map.setZoom(16);
-			
-			                // Highlight selected marker
-			                salonMarkers.forEach(m => m.setAnimation(null));
-			                salonMarkers[index].setAnimation(google.maps.Animation.BOUNCE);
-			
-			                setTimeout(() => {
-			                    salonMarkers[index].setAnimation(null);
-			                }, 1400);
-			            });
-			        });
-			
+				let salonsData = [];
+				
+				async function loadSalons() {
+				    try {
+				        const response = await fetch('./salon.json'); // safer path
+				        salonsData = await response.json();
+				
+				        populateDropdowns();
+				        renderSalons();
+				
+				    } catch (error) {
+				        console.error("Error loading salons:", error);
+				    }
+				}
 			    } catch (error) {
 			        console.error("Error loading salons:", error);
 			    }
