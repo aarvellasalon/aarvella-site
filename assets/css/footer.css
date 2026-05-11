@@ -1,0 +1,142 @@
+/**********************
+   Main Footer 
+***********************/
+.main-footer {
+	position: relative;
+	background-color: var(--black);
+	padding: 100px 10% 20px;
+	border-top: none !important;
+	margin-top: 0;
+}
+.main-footer::before {
+	content: "";
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 1px;
+	background: linear-gradient(
+		90deg,
+		transparent,
+		rgba(212,175,55,0.2),
+		transparent
+	);
+}
+.footer-container {
+	display: grid;
+	grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
+	gap: 40px;
+	margin-bottom: 60px;
+}
+
+.footer-col h3 {
+	font-size: 1.2rem;
+	margin-bottom: 1.5rem;
+	letter-spacing: 2px;
+	text-transform: uppercase;
+}
+
+.footer-col p, .footer-col ul {
+	font-size: 0.9rem;
+	color: #999;
+}
+
+.footer-col ul { list-style: none; }
+.footer-col ul li { margin-bottom: 0.8rem; }
+
+.footer-col a {
+	color: #999;
+	text-decoration: none;
+	transition: var(--transition);
+}
+.footer-col a:hover { color: var(--gold); padding-left: 5px; }
+
+.mission-text { margin: 20px 0; max-width: 300px; }
+
+.social-icons {
+	margin-top: 25px;
+	display: flex;
+	gap: 25px; /* Increased gap to account for larger icons */
+}
+
+.social-icons a {
+	color: var(--gold);
+	font-size: 1.8rem; /* Made icons significantly bigger */
+	text-decoration: none;
+	transition: var(--transition);
+	display: inline-block;
+	border: none; /* Removes the outline/border */
+	background: none; /* Ensures no background color */
+	width: auto; /* Removes the fixed circular width */
+	height: auto; /* Removes the fixed circular height */
+}
+
+.social-icons a:hover {
+	color: var(--white); /* Changes to white on hover for a clean contrast */
+	transform: translateY(-5px); /* Elegant lift effect */
+	background: none; /* Ensures no background appears on hover */
+	box-shadow: none; /* Removes the shadow since there's no circular shape */
+}
+
+.hours span { display: block; margin-top: 5px; font-style: italic; }
+
+/* Newsletter Form */
+.newsletter-form {
+	display: flex;
+	margin-top: 20px;
+	border-bottom: 1px solid var(--gold);
+}
+
+.newsletter-form input {
+	background: transparent;
+	border: none;
+	padding: 10px;
+	color: white;
+	flex-grow: 1;
+	outline: none;
+}
+
+.newsletter-form button {
+	background: transparent;
+	color: var(--gold);
+	border: none;
+	font-weight: bold;
+	text-transform: uppercase;
+	cursor: pointer;
+	padding: 10px;
+}
+
+/* Bottom Bar */
+.footer-bottom {
+	border-top: 1px solid rgba(255, 255, 255, 0.1);
+	padding-top: 20px;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: 0.75rem;
+	color: #666;
+}
+
+.legal-links a {
+	margin-left: 20px;
+	color: #666;
+	text-decoration: none;
+}
+
+/* Mobile Responsiveness for Footer */
+@media (max-width: 992px) {
+	.footer-container {
+		grid-template-columns: 1fr 1fr;
+	}
+}
+
+@media (max-width: 600px) {
+	.footer-container {
+		grid-template-columns: 1fr;
+	}
+	.footer-bottom {
+		flex-direction: column;
+		gap: 15px;
+		text-align: center;
+	}
+}

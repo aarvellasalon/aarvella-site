@@ -1,0 +1,857 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="p:domain_verify" content="1a3a419d7378346d0d870ee6dac051bb">
+		<title>Careers | Join the Aarvella Legacy</title>
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+		<link rel="icon" type="image/x-icon" href="favicon.ico">
+		<style>
+			:root {
+				--gold: #D4AF37;
+				--dark-gold: #C5A021;
+				--black: #0A0A0A;
+				--charcoal: #151515;
+				--white: #F4F4F4;
+				--muted: rgba(244, 244, 244, 0.68);
+				--line: rgba(212, 175, 55, 0.18);
+				--glass: rgba(255, 255, 255, 0.055);
+				--ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+				--transition: all 0.4s ease;
+			}
+
+			* { margin: 0; padding: 0; box-sizing: border-box; }
+
+			html { scroll-behavior: smooth; }
+
+			body {
+				background:
+					radial-gradient(circle at 18% 8%, rgba(212, 175, 55, 0.12), transparent 30%),
+					radial-gradient(circle at 85% 35%, rgba(255, 255, 255, 0.04), transparent 28%),
+					var(--black);
+				color: var(--white);
+				font-family: 'Inter', sans-serif;
+				line-height: 1.6;
+				overflow-x: hidden;
+			}
+
+			body.menu-open { overflow: hidden; }
+
+			a { color: inherit; }
+			img { max-width: 100%; display: block; }
+
+			h1, h2, h3 {
+				font-family: 'Inter', sans-serif;
+				font-weight: 600;
+				letter-spacing: -0.04em;
+				color: var(--gold);
+			}
+
+			p { color: var(--muted); }
+
+			section { scroll-margin-top: 110px; }
+
+			.site-header {
+				position: fixed;
+				top: clamp(12px, 2vw, 22px);
+				left: 0;
+				width: 100%;
+				z-index: 3000;
+				padding-inline: clamp(14px, 3vw, 48px);
+				transition: transform 0.45s var(--ease-out), opacity 0.35s ease;
+			}
+
+			.site-header.nav-hidden { transform: translateY(-140%); opacity: 0; }
+			.site-header.nav-visible { transform: translateY(0); opacity: 1; }
+
+			.nav-shell {
+				position: relative;
+				z-index: 2600;
+				width: 100%;
+				min-height: clamp(62px, 7vw, 76px);
+				padding-inline: clamp(18px, 3vw, 42px);
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: clamp(16px, 2.5vw, 36px);
+				border-radius: clamp(14px, 1.5vw, 22px);
+				background: rgba(10, 10, 10, 0.42);
+				backdrop-filter: blur(18px) saturate(150%);
+				-webkit-backdrop-filter: blur(18px) saturate(150%);
+			}
+
+			.logo {
+				font-size: clamp(1.35rem, 2vw, 2rem);
+				letter-spacing: 4px;
+				font-weight: 700;
+				color: var(--gold);
+				white-space: nowrap;
+			}
+
+			.logo-link { text-decoration: none; color: inherit; }
+			.logo-link:hover .logo { text-shadow: 0 0 12px rgba(212, 175, 55, 0.6); }
+
+			.desktop-nav {
+				display: flex;
+				align-items: center;
+				justify-content: flex-end;
+				gap: clamp(18px, 2vw, 34px);
+				min-width: 0;
+			}
+
+			.desktop-nav a {
+				color: var(--white);
+				text-decoration: none;
+				font-weight: 500;
+				letter-spacing: 1px;
+				font-size: 0.8rem;
+				white-space: nowrap;
+				text-transform: uppercase;
+				transition: color 0.3s ease;
+			}
+
+			.desktop-nav a:hover { color: var(--gold); }
+
+			.btn-gold,
+			.btn-outline {
+				--magnetic: translate(0, 0);
+				--glass-bg: rgba(255, 255, 255, 0.12);
+				--glass-border: rgba(255, 255, 255, 0.34);
+				--glass-highlight: rgba(255, 255, 255, 0.7);
+
+				height: 45px;
+				padding: 0 24px;
+				min-width: 180px;
+				border-radius: 999px;
+
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				
+				box-sizing: border-box;
+				white-space: nowrap;
+				flex-shrink: 0;
+				transform-origin: center center;
+
+				position: relative;
+				overflow: hidden;
+				cursor: pointer;
+
+				font-family: inherit;
+				font-weight: 600;
+				line-height: 1;
+				text-decoration: none;
+
+				backdrop-filter: blur(18px) saturate(180%);
+				-webkit-backdrop-filter: blur(18px) saturate(180%);
+
+				transform: var(--magnetic);
+				will-change: transform;
+				
+				isolation: isolate;
+				text-align: center;
+
+				transition:
+					transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+					box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+					background 0.35s ease,
+					border-color 0.35s ease,
+					color 0.35s ease;
+			}
+			.btn-gold span,
+			.btn-outline span {
+				position: relative;
+				z-index: 5;
+				display:  flex;
+				align-items: center;
+				justify-content: center;
+				width: 100%;
+				height: 100%;
+				text-align: center;
+				transform: none !important;
+				translate: none !important;
+				pointer-events: none;
+			}
+			.btn-text {
+			  position: absolute;
+			  inset: 0;
+			  display: flex;
+			  align-items: center;
+			  justify-content: center;
+			  pointer-events: none;
+			  z-index: 5;
+			}
+
+			.btn-ripple-container {
+			  position: absolute;
+			  inset: 0;
+			  pointer-events: none;
+			  z-index: 3;
+			  overflow: hidden;
+			  border-radius: inherit;
+			}
+			/* GOLD LIQUID GLASS */
+			.btn-gold {
+				border: 1px solid rgba(255, 230, 150, 0.55);
+				color: var(--black);
+
+				background:
+					linear-gradient(
+						135deg,
+						rgba(255, 236, 160, 0.82),
+						rgba(212, 175, 55, 0.42)
+					),
+					rgba(255, 255, 255, 0.16);
+
+				box-shadow:
+					inset 0 1px 1px rgba(255, 255, 255, 0.75),
+					inset 0 -1px 1px rgba(90, 60, 0, 0.18),
+					0 12px 30px rgba(212, 175, 55, 0.28),
+					0 4px 12px rgba(0, 0, 0, 0.28);
+			}
+
+			/* OUTLINE LIQUID GLASS */
+			.btn-outline {
+				border: 1px solid rgba(212, 175, 55, 0.6);
+				color: var(--gold);
+
+				background:
+					linear-gradient(
+						135deg,
+						rgba(255, 255, 255, 0.16),
+						rgba(255, 255, 255, 0.04)
+					);
+
+				box-shadow:
+					inset 0 1px 1px rgba(255, 255, 255, 0.45),
+					inset 0 -1px 1px rgba(255, 255, 255, 0.08),
+					0 10px 26px rgba(212, 175, 55, 0.16),
+					0 4px 12px rgba(0, 0, 0, 0.22);
+			}
+
+			/* Shared glass shine */
+			.btn-gold::before,
+			.btn-outline::before {
+				content: "";
+				position: absolute;
+				inset: 1px;
+				border-radius: inherit;
+				pointer-events: none;
+				z-index: 1;
+
+				background:
+					radial-gradient(
+						circle at 28% 18%,
+						rgba(255, 255, 255, 0.85),
+						rgba(255, 255, 255, 0.25) 18%,
+						transparent 42%
+					),
+					linear-gradient(
+						145deg,
+						rgba(255, 255, 255, 0.4),
+						transparent 38%
+					);
+
+				opacity: 0.75;
+			}
+
+			/* Moving reflective streak */
+			.btn-gold::after,
+			.btn-outline::after {
+				content: "";
+				position: absolute;
+				top: -45%;
+				left: -80%;
+				width: 55%;
+				height: 190%;
+				border-radius: inherit;
+				pointer-events: none;
+				z-index: 2;
+
+				background: linear-gradient(
+					120deg,
+					transparent,
+					rgba(255, 255, 255, 0.55),
+					transparent
+				);
+
+				transform: rotate(18deg) translateX(-120%);
+				transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+			}
+
+			/* Hover states */
+			.btn-gold:hover {
+				transform: translateY(-4px) scale(1.035);
+				background:
+					linear-gradient(
+						135deg,
+						rgba(255, 244, 190, 0.92),
+						rgba(212, 175, 55, 0.52)
+					),
+					rgba(255, 255, 255, 0.22);
+
+				box-shadow:
+					inset 0 1px 1px rgba(255, 255, 255, 0.85),
+					0 18px 42px rgba(212, 175, 55, 0.36),
+					0 8px 18px rgba(0, 0, 0, 0.3);
+			}
+
+			.btn-outline:hover {
+				transform: translateY(-4px) scale(1.035);
+				color: var(--black);
+				border-color: rgba(255, 230, 150, 0.65);
+
+				background:
+					linear-gradient(
+						135deg,
+						rgba(255, 236, 160, 0.8),
+						rgba(212, 175, 55, 0.38)
+					),
+					rgba(255, 255, 255, 0.16);
+
+				box-shadow:
+					inset 0 1px 1px rgba(255, 255, 255, 0.75),
+					0 18px 42px rgba(212, 175, 55, 0.32),
+					0 8px 18px rgba(0, 0, 0, 0.28);
+			}
+
+			.btn-gold:hover::after,
+			.btn-outline:hover::after {
+				transform: rotate(18deg) translateX(420%);
+			}
+
+			/* Click feel */
+			.btn-gold:active,
+			.btn-outline:active {
+				transform: translateY(1px) scale(0.965);
+
+				box-shadow:
+					inset 0 3px 8px rgba(0, 0, 0, 0.28),
+					inset 0 -1px 1px rgba(255, 255, 255, 0.15),
+					0 4px 12px rgba(0, 0, 0, 0.3);
+
+				transition: transform 0.08s ease, box-shadow 0.08s ease;
+			}
+
+			/* Accessible keyboard focus */
+			.btn-gold:focus-visible,
+			.btn-outline:focus-visible {
+				outline: 3px solid rgba(255, 220, 120, 0.65);
+				outline-offset: 4px;
+			}
+
+			/* Existing ripple still works */
+			.btn-ripple {
+				position: absolute;
+				left: var(--ripple-x, 50%);
+				top: var(--ripple-y, 50%);		
+				width: 120px;
+				height: 120px;
+				background: radial-gradient(
+					circle,
+					rgba(255, 255, 255, 0.45) 0%,
+					rgba(255, 255, 255, 0.18) 40%,
+					transparent 70%
+				);
+				border-radius: 50%;
+				transform: translate(-50%, -50%) scale(0);
+				animation: ripple 0.6s ease-out;
+				pointer-events: none;
+				z-index: 3;
+			}
+
+			@keyframes ripple {
+				to {
+					transform: translate(-50%, -50%) scale(2.5);
+					opacity: 0;
+				}
+			}
+			.hamburger {
+				display: none;
+				flex-direction: column;
+				gap: 6px;
+				cursor: pointer;
+				z-index: 3000;
+				position: relative;
+			}
+
+			.hamburger span {
+				width: 30px;
+				height: 2px;
+				background-color: var(--gold);
+				transition: all 0.4s ease;
+				transform-origin: center;
+			}
+
+			.hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
+			.hamburger.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+			.hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
+
+			.mobile-nav {
+				position: fixed;
+				top: 0;
+				right: -100%;
+				height: 100vh;
+				min-width: 320px;
+				width: 80%;
+				z-index: 2500;
+				background: rgba(10,10,10,0.72);
+				backdrop-filter: blur(18px) saturate(150%);
+				-webkit-backdrop-filter: blur(18px) saturate(150%);
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: flex-start;
+				padding: 0 60px;
+				gap: 2.5rem;
+				border-left: 1px solid rgba(212,175,55,0.15);
+				box-shadow: -40px 0 80px rgba(0,0,0,0.75);
+				transition: right 0.5s var(--ease-out);
+			}
+
+			.mobile-nav.active { right: 0; }
+			.mobile-nav a { color: var(--white); text-decoration: none; font-weight: 600; font-size: 1.8rem; letter-spacing: 2px; opacity: 0; transform: translateY(20px); transition: all 0.5s ease; }
+			.mobile-nav.active a { opacity: 1; transform: translateY(0); }
+			.mobile-nav a:hover { color: var(--gold); }
+			.mobile-nav .btn-gold { width: 100%; max-width: 260px; }
+
+			.nav-overlay {
+				position: fixed;
+				inset: 0;
+				z-index: 2400;
+				background: rgba(0,0,0,0.45);
+				backdrop-filter: blur(16px) saturate(140%);
+				-webkit-backdrop-filter: blur(16px) saturate(140%);
+				opacity: 0;
+				visibility: hidden;
+				pointer-events: none;
+				transition: opacity 0.35s ease, visibility 0.35s ease;
+			}
+
+			.nav-overlay.active,
+			body.menu-open .nav-overlay { opacity: 1; visibility: visible; pointer-events: auto; }
+
+			.page-hero {
+				min-height: 92vh;
+				padding: 170px 8% 90px;
+				display: grid;
+				align-items: end;
+				position: relative;
+				overflow: hidden;
+				background: var(--hero-bg);
+				background-size: cover;
+				background-position: center;
+			}
+
+			.page-hero::before {
+				content: "";
+				position: absolute;
+				inset: 0;
+				background: linear-gradient(90deg, rgba(0,0,0,0.88), rgba(0,0,0,0.55), rgba(0,0,0,0.25)), radial-gradient(circle at 18% 18%, rgba(212,175,55,0.18), transparent 34%);
+				z-index: 0;
+			}
+
+			.page-hero::after {
+				content: "";
+				position: absolute;
+				inset: auto 8% 42px 8%;
+				height: 1px;
+				background: linear-gradient(90deg, transparent, rgba(212,175,55,0.55), transparent);
+				z-index: 1;
+			}
+
+			.hero-inner { position: relative; z-index: 2; max-width: 980px; animation: heroRise 1s var(--ease-out) both; }
+			.eyebrow { color: var(--gold); text-transform: uppercase; letter-spacing: 0.32em; font-size: 0.76rem; font-weight: 700; margin-bottom: 16px; }
+			.page-hero h1 { font-size: clamp(3.2rem, 8vw, 7.5rem); line-height: 0.92; margin-bottom: 24px; color: var(--white); }
+			.page-hero h1 span { color: var(--gold); }
+			.page-hero p { max-width: 700px; font-size: clamp(1rem, 1.5vw, 1.22rem); }
+			.hero-actions { display: flex; flex-wrap: wrap; gap: 14px; margin-top: 34px; }
+
+			@keyframes heroRise { from { opacity: 0; transform: translateY(44px); } to { opacity: 1; transform: translateY(0); } }
+
+			.content-wrap { padding: clamp(76px, 9vw, 130px) 8%; }
+			.section-head { max-width: 780px; margin-bottom: 54px; }
+			.section-head.center { text-align: center; margin-inline: auto; }
+			.section-head h2 { font-size: clamp(2.1rem, 4.8vw, 4.8rem); line-height: 1; margin-bottom: 18px; }
+			.section-head p { font-size: 1.02rem; }
+
+			.lux-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+			.lux-card {
+				position: relative;
+				overflow: hidden;
+				border: 1px solid var(--line);
+				border-radius: 28px;
+				background: linear-gradient(145deg, rgba(255,255,255,0.075), rgba(255,255,255,0.025));
+				box-shadow: 0 28px 70px rgba(0,0,0,0.32);
+			}
+
+			.lux-card.pad { padding: clamp(26px, 3vw, 42px); }
+			.lux-card::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 20% 0%, rgba(212,175,55,0.16), transparent 34%); opacity: 0.75; pointer-events: none; }
+			.lux-card > * { position: relative; z-index: 1; }
+			.lux-card h3 { font-size: 1.35rem; margin-bottom: 12px; color: var(--white); letter-spacing: -0.03em; }
+			.lux-card p, .lux-card li { color: var(--muted); }
+			.lux-card ul { list-style: none; display: grid; gap: 10px; margin-top: 18px; }
+			.lux-card li::before { content: "✦"; color: var(--gold); margin-right: 10px; }
+
+			.split-row { display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(30px, 6vw, 80px); align-items: center; margin-bottom: clamp(72px, 8vw, 120px); }
+			.split-row.reverse { grid-template-columns: 0.9fr 1.1fr; }
+			.split-row.reverse .split-media { order: 2; }
+			.split-media { min-height: 520px; border-radius: 34px; overflow: hidden; border: 1px solid var(--line); box-shadow: 0 35px 90px rgba(0,0,0,0.45); }
+			.split-media img { width: 100%; height: 100%; min-height: 520px; object-fit: cover; filter: saturate(0.88) contrast(1.05); transition: transform 0.8s var(--ease-out), filter 0.8s ease; }
+			.split-row:hover .split-media img { transform: scale(1.045); filter: saturate(1.05) contrast(1.05); }
+			.split-copy h2 { font-size: clamp(2rem, 4vw, 4.4rem); line-height: 1.03; margin-bottom: 24px; }
+			.split-copy p { margin-bottom: 24px; }
+			.pill-list { display: flex; flex-wrap: wrap; gap: 10px; margin: 24px 0 30px; }
+			.pill-list span { border: 1px solid var(--line); color: var(--gold); border-radius: 999px; padding: 10px 14px; font-size: 0.82rem; background: rgba(255,255,255,0.035); }
+
+			.legal-layout { display: grid; grid-template-columns: 280px minmax(0, 1fr); gap: 46px; align-items: start; max-width: 1180px; margin: 0 auto; }
+			.legal-nav { position: sticky; top: 120px; border: 1px solid var(--line); border-radius: 24px; padding: 22px; background: rgba(255,255,255,0.045); }
+			.legal-nav a { display: block; color: var(--muted); text-decoration: none; padding: 10px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 0.9rem; }
+			.legal-nav a:hover { color: var(--gold); }
+			.legal-panel { border: 1px solid var(--line); border-radius: 34px; padding: clamp(26px, 5vw, 64px); background: rgba(255,255,255,0.045); }
+			.legal-panel section { margin-bottom: 52px; }
+			.legal-panel section:last-child { margin-bottom: 0; }
+			.legal-panel h2 { font-size: clamp(1.4rem, 2.4vw, 2.2rem); margin-bottom: 18px; color: var(--white); }
+			.legal-panel p, .legal-panel li { color: var(--muted); margin-bottom: 14px; }
+			.legal-panel ul { padding-left: 20px; margin-bottom: 18px; }
+
+			.cta-band { padding: 0 8% clamp(76px, 9vw, 120px); }
+			.cta-inner { border: 1px solid var(--line); border-radius: 34px; padding: clamp(34px, 6vw, 70px); background: linear-gradient(135deg, rgba(212,175,55,0.14), rgba(255,255,255,0.045)); display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center; }
+			.cta-inner h2 { font-size: clamp(2rem, 4vw, 4rem); color: var(--white); margin-bottom: 10px; }
+
+			.reveal { opacity: 0; transform: translateY(34px); transition: opacity 0.75s var(--ease-out), transform 0.75s var(--ease-out); }
+			.reveal.active { opacity: 1; transform: translateY(0); }
+
+			@media (max-width: 980px) {
+				.desktop-nav { display: none; }
+				.hamburger { display: flex; }
+				.lux-grid, .split-row, .split-row.reverse, .legal-layout, .cta-inner, .footer-container { grid-template-columns: 1fr; }
+				.split-row.reverse .split-media { order: 0; }
+				.legal-nav { position: static; }
+			}
+
+			@media (max-width: 640px) {
+				.page-hero { min-height: 86vh; padding: 138px 6% 70px; }
+				.content-wrap, .cta-band { padding-left: 6%; padding-right: 6%; }
+				.mobile-nav { width: 86%; padding: 0 34px; }
+				.mobile-nav a { font-size: 1.45rem; }
+				.split-media, .split-media img { min-height: 380px; }
+			}
+			
+			.career-form { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 28px; }
+			.career-form .full { grid-column: 1 / -1; }
+			.career-form label { display: block; color: var(--gold); text-transform: uppercase; letter-spacing: 0.18em; font-size: 0.72rem; margin-bottom: 8px; }
+			.career-form input, .career-form textarea { width: 100%; border: 1px solid rgba(212,175,55,0.22); border-radius: 18px; background: rgba(255,255,255,0.045); color: var(--white); padding: 15px 16px; font: inherit; outline: none; }
+			.career-form textarea { min-height: 130px; resize: vertical; }
+			@media (max-width: 700px) { .career-form { grid-template-columns: 1fr; } }
+		</style>
+		<link rel="stylesheet" href="assets/css/booking.css">
+		<link rel="stylesheet" href="assets/css/footer.css">
+	</head>
+	<body>
+		<header class="site-header">
+			<div class="nav-shell">
+				<a href="index.html" class="logo-link">
+					<div class="logo">AARVELLA</div>
+				</a>
+
+				<nav class="desktop-nav">
+					<a href="services-menu/services.html">Services</a>
+					<a href="stylists.html">Stylists</a>
+					<a href="about.html">About</a>
+					<a href="blog.html">Blog</a>
+					<a href="find-us.html">Find Us</a>
+					<button class="btn-gold js-book" type="button">
+						<span class="btn-text">Book Now</span>
+						<div class="btn-ripple-container"></div>
+					</button>
+				</nav>
+
+				<div class="hamburger" id="hamburger" role="button" tabindex="0" aria-label="Open menu">
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
+			</div>
+
+			<div class="nav-overlay" id="navOverlay"></div>
+
+			<div class="mobile-nav" id="mobileNav">
+				<a href="services-menu/services.html">Services</a>
+				<a href="stylists.html">Stylists</a>
+				<a href="about.html">About</a>
+				<a href="blog.html">Blog</a>
+				<a href="find-us.html">Find Us</a>
+				<button class="btn-gold js-book" id="mobileBookBtn" type="button">
+					<span class="btn-text">Book Now</span>
+					<div class="btn-ripple-container"></div>
+				</button>
+			</div>
+		</header>
+
+		<main>
+			<section class="page-hero" style="--hero-bg: url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1800&q=80');">
+				<div class="hero-inner"><p class="eyebrow">Careers at Aarvella</p><h1>Build beauty work that feels <span>world class.</span></h1><p>Join a salon culture shaped around craft, consistency, hospitality and premium client experience.</p><div class="hero-actions"><a href="#apply" class="btn-gold"><span class="btn-text">Apply Now</span><div class="btn-ripple-container"></div></a><a href="#roles" class="btn-outline"><span class="btn-text">View Roles</span></a></div></div>
+			</section>
+
+			<section class="content-wrap" id="roles">
+				<div class="section-head reveal"><p class="eyebrow">Open paths</p><h2>For artists, stylists and service professionals who care about detail.</h2><p>Use this page as a polished hiring landing page for stylists, makeup artists, skin experts, front desk and salon operations talent.</p></div>
+				<div class="lux-grid reveal">
+					<div class="lux-card pad"><h3>Hair Stylist</h3><p>Cut, colour, finishing and consultation-led transformations.</p><ul><li>Portfolio preferred</li><li>Client-first communication</li><li>Growth training</li></ul></div>
+					<div class="lux-card pad"><h3>Makeup Artist</h3><p>Bridal, party, editorial-inspired and occasion beauty looks.</p><ul><li>Strong hygiene standards</li><li>Product knowledge</li><li>Bridal discipline</li></ul></div>
+					<div class="lux-card pad"><h3>Guest Experience</h3><p>Front desk, bookings, client comfort and premium hospitality.</p><ul><li>Clear communication</li><li>CRM-friendly workflow</li><li>Warm presence</li></ul></div>
+				</div>
+			</section>
+
+			<section class="content-wrap" id="apply">
+				<div class="legal-panel reveal">
+					<p class="eyebrow">Application</p><h2>Send your details</h2>
+					<form class="career-form">
+						<div><label>Full Name</label><input type="text" placeholder="Your name"></div>
+						<div><label>Phone</label><input type="tel" placeholder="Your number"></div>
+						<div><label>Role</label><input type="text" placeholder="Stylist, Makeup Artist, Front Desk..."></div>
+						<div><label>Experience</label><input type="text" placeholder="Years of experience"></div>
+						<div class="full"><label>Portfolio / Notes</label><textarea placeholder="Share your experience, Instagram/portfolio link or preferred role"></textarea></div>
+						<button class="btn-gold" type="submit"><span class="btn-text">Submit Application</span><div class="btn-ripple-container"></div></button>
+					</form>
+				</div>
+			</section>
+		</main>
+		<div class="booking-popup" id="bookingPopup">
+			<div class="popup-overlay"></div>
+			<div class="popup-container">
+				<!-- Close -->
+				<span class="popup-close" onclick="closeBooking()">×</span>
+				<!-- Progress -->
+				<div class="popup-progress">
+					<div class="progress-bar" id="progressBar"></div>
+				</div>
+				<!-- Step 1 -->
+				<div class="popup-step active" data-step="1">
+					<h2>Select Your Service</h2>
+					<div class="service-options">
+						<div onclick="selectService(this)">Haircut</div>
+						<div onclick="selectService(this)">Balayage</div>
+						<div onclick="selectService(this)">Facial</div>
+						<div onclick="selectService(this)">Hair Spa</div>
+					</div>
+					<button class="btn-gold" onclick="nextStep()">
+						<span class="btn-text">Continue</span>
+						<div class="btn-ripple-container"></div>
+					</button>
+				</div>
+				<!-- Step 2 -->
+				<div class="popup-step" data-step="2">
+					<h2>Choose Date &amp; Time</h2>
+					<!-- Quick Date -->
+					<div class="quick-dates">
+						<button onclick="setDate(0)" type="button">Today</button>
+						<button onclick="setDate(1)" type="button">Tomorrow</button>
+						<button onclick="setDate(2)" type="button">+2 Days</button>
+					</div>
+					<input id="bookingDate" type="date"/>
+					<!-- Time Slots -->
+					<div class="time-slots">
+						<button onclick="setTime('10:00')" type="button">10:00 AM</button>
+						<button onclick="setTime('13:00')" type="button">1:00 PM</button>
+						<button onclick="setTime('16:00')" type="button">4:00 PM</button>
+						<button onclick="setTime('19:00')" type="button">7:00 PM</button>
+					</div>
+					<input id="bookingTime" type="time"/>
+					<div class="popup-actions">
+						<button class="btn-outline" onclick="prevStep()"><span>Back</span></button>
+						<button class="btn-gold" onclick="nextStep()">Continue</button>
+					</div>
+					<p style="opacity:0.6; font-size:0.85rem;">
+						Optional — you can skip this and we’ll confirm with you
+					</p>
+				</div>
+				<!-- Step 3 -->
+				<div class="popup-step" data-step="3">
+					<h2>Your Details</h2>
+					<input id="name" placeholder="Full Name" type="text"/>
+					<input id="phone" placeholder="Phone Number" type="tel"/>
+					<div class="popup-actions">
+						<button class="btn-outline" onclick="prevStep()"><span>Back</span></button>
+						<button class="btn-gold" onclick="confirmBooking()">Confirm Booking</button>
+					</div>
+				</div>
+				<!-- Step 4 -->
+				<div class="popup-step" data-step="4">
+					<h2>You're Booked ✨</h2>
+					<p>We’ll contact you shortly to confirm your appointment.</p>
+					<a class="btn-outline" id="whatsappBtn" target="_blank">
+						<span class="btn-text">Confirm on WhatsApp</span>
+						<div class="btn-ripple-container"></div>
+					</a>
+				</div>
+			</div>
+		</div>
+		<footer class="main-footer">
+			<div class="footer-container">
+				<div class="footer-col">
+					<div class="logo">AARVELLA</div>
+					<p class="mission-text">Defining the gold standard in hair artistry. Our mission is to provide a transformative luxury experience tailored to your unique beauty.</p>
+					<div class="social-icons">
+						<a href="https://www.instagram.com/aarvella.salon/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+						<a href="https://facebook.com/Aarvella" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+						<a href="https://in.pinterest.com/AarvellaSalon" target="_blank" rel="noopener noreferrer" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+						<a href="https://youtube.com/@AarvellaSalon" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+					</div>
+				</div>
+
+				<div class="footer-col">
+					<h3>Experience</h3>
+					<ul>
+						<li><a href="services-menu/services.html">Hair Services</a></li>
+						<li><a href="skin.html">Skin Treatments</a></li>
+						<li><a href="bridal.html">Bridal Packages</a></li>
+						<li><a href="#">Gift Cards</a></li>
+						<li><a href="careers.html">Careers</a></li>
+					</ul>
+				</div>
+
+				<div class="footer-col">
+					<h3>AARVELLA SALON</h3>
+					<p>Karanpur Road<br>Dehradun, 248001</p>
+					<p class="phone-link">+91 9742049990</p>
+					<div class="hours">
+						<span>Tue - Sun: 10am - 8pm</span>
+						<span>Mon: Closed</span>
+					</div>
+				</div>
+
+				<div class="footer-col">
+					<h3>Stay Inspired</h3>
+					<p>Join our Gold List for exclusive trends and early access to bookings.</p>
+					<form class="newsletter-form">
+						<input type="email" placeholder="Email Address" required>
+						<button type="submit">Join</button>
+					</form>
+				</div>
+			</div>
+
+			<div class="footer-bottom">
+				<p>&copy; 2026 Aarvella Luxury Salon. All Rights Reserved.</p>
+				<div class="legal-links">
+					<a href="privacy.html">Privacy Policy</a>
+					<a href="terms.html">Terms of Service</a>
+					<a href="javascript:window.scrollTo({top: 0, behavior: 'smooth'});">Back to Top ↑</a>
+				</div>
+			</div>
+		</footer>
+
+		<script>
+			document.addEventListener("DOMContentLoaded", () => {
+				const hamburger = document.getElementById("hamburger");
+				const mobileNav = document.getElementById("mobileNav");
+				const overlay = document.getElementById("navOverlay");
+				const header = document.querySelector(".site-header");
+
+				function openMenu() {
+					hamburger?.classList.add("active");
+					mobileNav?.classList.add("active");
+					overlay?.classList.add("active");
+					document.body.classList.add("menu-open");
+				}
+
+				function closeMenu() {
+					hamburger?.classList.remove("active");
+					mobileNav?.classList.remove("active");
+					overlay?.classList.remove("active");
+					document.body.classList.remove("menu-open");
+				}
+
+				hamburger?.addEventListener("click", () => {
+					mobileNav?.classList.contains("active") ? closeMenu() : openMenu();
+				});
+
+				hamburger?.addEventListener("keydown", event => {
+					if (event.key === "Enter" || event.key === " ") {
+						event.preventDefault();
+						hamburger.click();
+					}
+				});
+
+				overlay?.addEventListener("click", closeMenu);
+
+				document.querySelectorAll(".mobile-nav a, .mobile-nav .js-book").forEach(item => {
+					item.addEventListener("click", closeMenu);
+				});
+
+				window.addEventListener("resize", () => {
+					if (window.innerWidth > 768) closeMenu();
+				});
+
+				document.querySelectorAll(".btn-gold, .btn-outline").forEach(button => {
+					button.addEventListener("click", event => {
+						const container = button.querySelector(".btn-ripple-container");
+						if (!container) return;
+
+						const ripple = document.createElement("span");
+						ripple.className = "btn-ripple";
+
+						const rect = button.getBoundingClientRect();
+						ripple.style.setProperty("--ripple-x", `${event.clientX - rect.left}px`);
+						ripple.style.setProperty("--ripple-y", `${event.clientY - rect.top}px`);
+
+						container.appendChild(ripple);
+						setTimeout(() => ripple.remove(), 650);
+					});
+				});
+
+				const revealItems = document.querySelectorAll(".reveal");
+				if ("IntersectionObserver" in window) {
+					const revealObserver = new IntersectionObserver(entries => {
+						entries.forEach(entry => {
+							if (entry.isIntersecting) {
+								entry.target.classList.add("active");
+								revealObserver.unobserve(entry.target);
+							}
+						});
+					}, { threshold: 0.14 });
+
+					revealItems.forEach(item => revealObserver.observe(item));
+				} else {
+					revealItems.forEach(item => item.classList.add("active"));
+				}
+
+				let lastScrollY = window.scrollY;
+				let ticking = false;
+
+				function handleScroll() {
+					if (!header) return;
+
+					const currentScrollY = window.scrollY;
+					if (currentScrollY > lastScrollY && currentScrollY > 120) {
+						header.classList.add("nav-hidden");
+						header.classList.remove("nav-visible");
+					} else {
+						header.classList.remove("nav-hidden");
+						header.classList.add("nav-visible");
+					}
+
+					lastScrollY = currentScrollY;
+					ticking = false;
+				}
+
+				window.addEventListener("scroll", () => {
+					if (!ticking) {
+						requestAnimationFrame(handleScroll);
+						ticking = true;
+					}
+				});
+
+				document.addEventListener("mousemove", event => {
+					if (event.clientY <= 20 && header) {
+						header.classList.remove("nav-hidden");
+						header.classList.add("nav-visible");
+					}
+				});
+			});
+		</script>
+		<script src="assets/js/booking.js" defer></script>
+	</body>
+</html>
