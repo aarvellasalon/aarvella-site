@@ -1,0 +1,7 @@
+{
+  "functions": {
+    "api/ai-stylist.js": {
+      "maxDuration": 30
+    }
+  }
+}
