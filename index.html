@@ -2743,6 +2743,12 @@
 					header.classList.add("nav-visible");
 				}
 			});
+			const whatsappMessage = encodeURIComponent(
+			  `Hi Aarvella, I want to book:\nService: ${service}\nName: ${name}\nPhone: ${phone}\nPreferred time: ${time}`
+			);
+			
+			window.location.href = `https://wa.me/919742049990?text=${whatsappMessage}`;
+			
 			const res = await fetch("https://aarvella-site.vercel.app/api/ai-stylist", {
 			  method: "POST",
 			  headers: {
