@@ -2743,6 +2743,23 @@
 					header.classList.add("nav-visible");
 				}
 			});
+			const res = await fetch("https://aarvella-site.vercel.app/api/ai-stylist", {
+			  method: "POST",
+			  headers: {
+			    "Content-Type": "application/json"
+			  },
+			  body: JSON.stringify({
+			    messages: [
+			      {
+			        role: "user",
+			        content: userMessage
+			      }
+			    ]
+			  })
+			});
+			
+			const data = await res.json();
+			console.log(data.reply);
 		</script>
 		<script src="assets/js/booking.js" defer></script>
 	</body>
