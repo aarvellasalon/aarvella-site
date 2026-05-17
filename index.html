@@ -2261,15 +2261,34 @@
 			</div>
 		</section>
 
-		<button id="ai-chat-button">Ask AI Stylist</button>
-		
-		<div id="ai-chat-box" hidden>
-		  <div class="chat-header">Aarvella AI Stylist</div>
-		  <div id="chat-messages"></div>
-		
-		  <form id="chat-form">
-		    <input id="chat-input" placeholder="Ask about hair, skin, bridal..." />
-		    <button type="submit">Send</button>
+		<button class="btn-gold" id="ai-chat-button">
+			<span class="btn-text">Ask AI Stylist</span>
+			<div class="btn-ripple-container"></div>
+		</button>
+
+		<div id="ai-chat-widget" hidden>
+		  <div class="ai-chat-header">
+			<div>
+			  <strong>Aarvella AI Stylist</strong>
+			  <span>Find the right service</span>
+			</div>
+			<button id="ai-chat-close">×</button>
+		  </div>
+
+		  <div id="ai-chat-messages">
+			<div class="ai-message bot">
+			  Hi, I’m Aarvella’s AI Stylist. Are you looking for hair, skin, makeup, or bridal services?
+			</div>
+		  </div>
+
+		  <form id="ai-chat-form">
+			<input
+			  id="ai-chat-input"
+			  type="text"
+			  placeholder="Type your message..."
+			  autocomplete="off"
+			/>
+			<button type="submit">Send</button>
 		  </form>
 		</div>
 		
@@ -2757,5 +2776,6 @@
 			});
 		</script>
 		<script src="assets/js/booking.js" defer></script>
+		<script src="assets/js/ai-chat.js" defer></script>
 	</body>
 </html>
