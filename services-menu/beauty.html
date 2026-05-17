@@ -13,7 +13,7 @@
   <link href="styles.css" rel="stylesheet"/>
   <link rel="stylesheet" href="../assets/css/booking.css">
   <link rel="stylesheet" href="../assets/css/footer.css">
-
+  <link rel="stylesheet" href="../assets/css/ai-chat.css">
  </head>
  <body style="--hero-img:url('https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&amp;fit=crop&amp;w=1800&amp;q=85')">
 		<header class="site-header">
@@ -371,6 +371,31 @@
 
 			</div>
 		</div>
+		<div id="ai-chat-widget" hidden>
+		  <div class="ai-chat-header">
+			<div>
+			  <strong>Aarvella AI Stylist</strong>
+			  <span>Find the right service</span>
+			</div>
+			<button id="ai-chat-close">×</button>
+		  </div>
+
+		  <div id="ai-chat-messages">
+			<div class="ai-message bot">
+			  Hi, I’m Aarvella’s AI Stylist. Are you looking for hair, skin, makeup, or bridal services?
+			</div>
+		  </div>
+
+		  <form id="ai-chat-form">
+			<input
+			  id="ai-chat-input"
+			  type="text"
+			  placeholder="Type your message..."
+			  autocomplete="off"
+			/>
+			<button type="submit">Send</button>
+		  </form>
+		</div>
 		<footer class="main-footer">
 			<div class="footer-container">
 				<div class="footer-col">
@@ -468,5 +493,6 @@
   </div>
   <script src="app.js"></script>
   <script src="../assets/js/booking.js" defer></script>
+  <script src="../assets/js/ai-chat.js" defer></script>
  </body>
 </html>
