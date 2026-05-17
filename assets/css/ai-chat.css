@@ -100,12 +100,16 @@
 /* Chat Container */
 #ai-chat-widget {
   position: fixed;
-  right: 16px;
+  right: 18px;
   bottom: 72px;
-  z-index: 9999;
+  top: auto;
+  left: auto;
 
-  width: min(380px, calc(100vw - 32px));
-  height: min(560px, calc(100dvh - 96px));
+  width: 360px;
+  height: 520px;
+  max-height: calc(100vh - 110px);
+
+  z-index: 9999;
 
   display: flex;
   flex-direction: column;
@@ -113,10 +117,10 @@
   background: #080808;
   color: #fff;
   border: 1px solid rgba(201, 162, 77, 0.45);
-  border-radius: 20px;
+  border-radius: 18px;
   overflow: hidden;
 
-  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.55);
+  box-shadow: 0 22px 60px rgba(0, 0, 0, 0.5);
 }
 
 #ai-chat-widget[hidden] {
@@ -280,23 +284,14 @@
   }
 
   #ai-chat-widget {
-    position: fixed;
-
     left: 10px;
     right: 10px;
-
-    top: max(10px, env(safe-area-inset-top));
-    bottom: max(10px, env(safe-area-inset-bottom));
+    bottom: 62px;
+    top: auto;
 
     width: auto;
-    height: auto;
-
-    max-height: none;
-
-    display: flex;
-    flex-direction: column;
-
-    overflow: hidden;
+    height: min(560px, calc(100dvh - 78px));
+    max-height: calc(100dvh - 78px);
 
     border-radius: 18px;
   }
