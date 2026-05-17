@@ -21,20 +21,26 @@ chatClose.addEventListener("click", () => {
 
 function resizeChatWidget() {
   const widget = document.getElementById("ai-chat-widget");
-
   if (!widget) return;
 
-  const viewport = window.visualViewport;
+  const isMobile = window.matchMedia("(max-width: 768px)").matches;
 
+  if (!isMobile) {
+    widget.style.top = "";
+    widget.style.height = "";
+    widget.style.bottom = "";
+    return;
+  }
+
+  const viewport = window.visualViewport;
   if (!viewport) return;
 
   const topPadding = 10;
-  const bottomPadding = 10;
+  const bottomPadding = 70;
 
   widget.style.top = `${viewport.offsetTop + topPadding}px`;
-
-  widget.style.height =
-    `${viewport.height - topPadding - bottomPadding}px`;
+  widget.style.bottom = "auto";
+  widget.style.height = `${viewport.height - topPadding - bottomPadding}px`;
 }
 
 window.addEventListener("resize", resizeChatWidget);
@@ -45,7 +51,6 @@ window.addEventListener("orientationchange", () => {
 
 if (window.visualViewport) {
   visualViewport.addEventListener("resize", resizeChatWidget);
-
   visualViewport.addEventListener("scroll", resizeChatWidget);
 }
 
