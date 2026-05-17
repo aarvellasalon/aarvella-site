@@ -108,3 +108,17 @@ chatForm.addEventListener("submit", async (event) => {
     addWhatsAppButton();
   }
 });
+const aiButton = document.getElementById("ai-chat-button");
+
+aiButton.style.opacity = "0";
+aiButton.style.pointerEvents = "none";
+
+window.addEventListener("scroll", () => {
+  if (window.scrollY > 500) {
+    aiButton.style.opacity = "1";
+    aiButton.style.pointerEvents = "auto";
+  } else {
+    aiButton.style.opacity = "0";
+    aiButton.style.pointerEvents = "none";
+  }
+});
