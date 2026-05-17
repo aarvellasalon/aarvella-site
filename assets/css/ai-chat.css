@@ -135,10 +135,6 @@
   padding: 14px;
 }
 
-#ai-chat-form {
-  flex: 0 0 auto;
-}
-
 /* Header */
 .ai-chat-header {
   flex: 0 0 auto;
@@ -214,18 +210,20 @@
 /* Input Area */
 #ai-chat-form {
   flex: 0 0 auto;
-  display: flex;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  align-items: center;
   gap: 8px;
   padding: 10px;
   background: #101010;
-  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  border-top: 1px solid rgba(255,255,255,.08);
 }
 
 #ai-chat-input {
-  flex: 1;
+  width: 100%;
   min-width: 0;
   height: 42px;
-  border: 1px solid rgba(201, 162, 77, 0.25);
+  border: 1px solid rgba(201,162,77,.22);
   border-radius: 999px;
   padding: 0 14px;
   background: #080808;
@@ -238,18 +236,19 @@
   color: #8f8f8f;
 }
 
+/* Send button */
 #ai-chat-form button {
-  flex: 0 0 auto;
+  width: 64px;
+  min-width: 64px;
   height: 42px;
-  min-width: 72px;
   border: 0;
   border-radius: 999px;
-  padding: 0 14px;
   background: #d7b65d;
   color: #080808;
   font-size: 13px;
-  font-weight: 800;
+  font-weight: 700;
   cursor: pointer;
+  flex-shrink: 0;
 }
 
 /* WhatsApp Button - matches black/gold luxury style */
@@ -281,24 +280,36 @@
   }
 
   #ai-chat-widget {
+    position: fixed;
+
     left: 10px;
     right: 10px;
-    bottom: calc(var(--keyboard-offset, 0px) + 62px);
+
+    top: max(10px, env(safe-area-inset-top));
+    bottom: max(10px, env(safe-area-inset-bottom));
 
     width: auto;
-    height: calc(var(--vh, 1vh) * 100 - var(--keyboard-offset, 0px) - 76px);
-    max-height: calc(var(--vh, 1vh) * 100 - var(--keyboard-offset, 0px) - 76px);
+    height: auto;
+
+    max-height: none;
 
     display: flex;
     flex-direction: column;
+
+    overflow: hidden;
+
     border-radius: 18px;
   }
 
   #ai-chat-messages {
     flex: 1 1 auto;
+
     min-height: 0;
+
     overflow-y: auto;
-    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+
+    padding: 12px;
   }
 
   .ai-chat-header {
