@@ -102,23 +102,41 @@
   position: fixed;
   right: 16px;
   bottom: 72px;
-  width: 360px;
-  max-width: calc(100vw - 32px);
-  height: 520px;
-  max-height: calc(100dvh - 96px);
   z-index: 9999;
+
+  width: min(380px, calc(100vw - 32px));
+  height: min(560px, calc(100dvh - 96px));
+
   display: flex;
   flex-direction: column;
+
   background: #080808;
   color: #fff;
   border: 1px solid rgba(201, 162, 77, 0.45);
   border-radius: 20px;
   overflow: hidden;
+
   box-shadow: 0 22px 60px rgba(0, 0, 0, 0.55);
 }
 
 #ai-chat-widget[hidden] {
   display: none;
+}
+
+.ai-chat-header {
+  flex: 0 0 auto;
+}
+
+#ai-chat-messages {
+  flex: 1 1 auto;
+  min-height: 0;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  padding: 14px;
+}
+
+#ai-chat-form {
+  flex: 0 0 auto;
 }
 
 /* Header */
@@ -265,12 +283,17 @@
   #ai-chat-widget {
     left: 10px;
     right: 10px;
-    bottom: 64px;
+    bottom: 62px;
+
     width: auto;
-    height: min(520px, calc(100dvh - 84px));
-    max-width: none;
-    max-height: none;
+    height: min(560px, calc(100dvh - 76px));
+
+    max-height: calc(100dvh - 76px);
     border-radius: 18px;
+  }
+
+  #ai-chat-messages {
+    padding: 12px;
   }
 
   .ai-chat-header {
@@ -306,5 +329,28 @@
   .ai-whatsapp-button {
     font-size: 13px;
     padding: 11px 12px;
+  }
+}
+/* For very small phones */
+@media (max-width: 380px), (max-height: 680px) {
+  #ai-chat-widget {
+    left: 8px;
+    right: 8px;
+    bottom: 58px;
+    height: calc(100dvh - 68px);
+    border-radius: 16px;
+  }
+
+  .ai-chat-header {
+    padding: 10px 12px;
+  }
+
+  #ai-chat-form {
+    padding: 8px;
+  }
+
+  .ai-message {
+    font-size: 13px;
+    line-height: 1.4;
   }
 }
