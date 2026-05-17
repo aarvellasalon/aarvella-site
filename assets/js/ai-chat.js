@@ -19,32 +19,37 @@ chatClose.addEventListener("click", () => {
   chatWidget.hidden = true;
 });
 
-function updateMobileViewport() {
+function resizeChatWidget() {
+  const widget = document.getElementById("ai-chat-widget");
+
+  if (!widget) return;
+
   const viewport = window.visualViewport;
-  const height = viewport ? viewport.height : window.innerHeight;
-  const offsetTop = viewport ? viewport.offsetTop : 0;
 
-  document.documentElement.style.setProperty("--vh", `${height * 0.01}px`);
+  if (!viewport) return;
 
-  const keyboardOffset = Math.max(
-    0,
-    window.innerHeight - height - offsetTop
-  );
+  const topPadding = 10;
+  const bottomPadding = 10;
 
-  document.documentElement.style.setProperty(
-    "--keyboard-offset",
-    `${keyboardOffset}px`
-  );
+  widget.style.top = `${viewport.offsetTop + topPadding}px`;
+
+  widget.style.height =
+    `${viewport.height - topPadding - bottomPadding}px`;
 }
 
-updateMobileViewport();
+window.addEventListener("resize", resizeChatWidget);
 
-window.addEventListener("resize", updateMobileViewport);
+window.addEventListener("orientationchange", () => {
+  setTimeout(resizeChatWidget, 300);
+});
 
 if (window.visualViewport) {
-  window.visualViewport.addEventListener("resize", updateMobileViewport);
-  window.visualViewport.addEventListener("scroll", updateMobileViewport);
+  visualViewport.addEventListener("resize", resizeChatWidget);
+
+  visualViewport.addEventListener("scroll", resizeChatWidget);
 }
+
+resizeChatWidget();
 
 function addMessage(type, text) {
   const message = document.createElement("div");
