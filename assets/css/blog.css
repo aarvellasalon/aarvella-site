@@ -457,17 +457,26 @@ body.blog-page .page-hero {
   background: #090909;
 }
 
-body.blog-page .hero-bg {
+body.blog-page .hero-image {
   position: absolute;
   inset: 0;
-  background-image:
-    linear-gradient(180deg, rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.48), rgba(0, 0, 0, 0.88)),
-    var(--hero-image);
-  background-size: cover;
-  background-position: center;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
   transform: scale(1.06);
   animation: heroDrift 18s ease-in-out infinite alternate;
   will-change: transform;
+}
+
+body.blog-page .hero-bg {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(180deg, rgba(0, 0, 0, 0.64), rgba(0, 0, 0, 0.48), rgba(0, 0, 0, 0.88));
 }
 
 body.blog-page .hero-bg::after {
@@ -774,7 +783,7 @@ body.blog-page .reveal.visible {
     transform: none;
   }
 
-  body.blog-page .hero-bg {
+  body.blog-page .hero-image {
     transform: none;
   }
 }

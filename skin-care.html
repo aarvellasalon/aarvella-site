@@ -1,0 +1,663 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="p:domain_verify" content="1a3a419d7378346d0d870ee6dac051bb">
+	<title>Skin Care | Aarvella Luxury Salon Dehradun</title>
+	<meta name="description" content="Explore Aarvella Skin Care services in Dehradun including deep cleansing, brightening facial, hydra facial and anti-aging facial.">
+	<meta name="keywords" content="facial Dehradun, hydra facial Dehradun, skin care Dehradun, brightening facial Dehradun, anti-aging facial Dehradun, Aarvella skin care">
+	<meta property="og:title" content="Skin Care | Aarvella Luxury Salon">
+	<meta property="og:description" content="Premium skin care rituals at Aarvella Unisex Salon, Dehradun: deep cleansing, brightening, hydra facial and anti-aging facial.">
+	<meta property="og:type" content="website">
+	<meta property="og:image" content="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1600&q=85">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+	<link rel="stylesheet" href="assets/css/services.css">
+	<link rel="stylesheet" href="assets/css/booking.css">
+	<link rel="stylesheet" href="assets/css/footer.css">
+	<link rel="stylesheet" href="assets/css/ai-chat.css">
+
+	<style>
+		/* ==================================================
+		   SKIN CARE PAGE - PAGE-SCOPED REFINEMENT
+		   Reuses services.css/services.js. No separate CSS file needed.
+		   ================================================== */
+
+		.skin-hero {
+			min-height: 94svh;
+			align-items: center;
+		}
+
+		.skin-hero .hero-content h1 {
+			max-width: 980px;
+		}
+
+		.skin-hero-note {
+			position: relative;
+			padding: clamp(24px, 3vw, 34px);
+			border: 1px solid rgba(242, 214, 117, 0.24);
+			border-radius: var(--radius-xl);
+			background:
+				radial-gradient(circle at 18% 0%, rgba(242, 214, 117, 0.16), transparent 54%),
+				linear-gradient(145deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.035)),
+				rgba(10, 10, 10, 0.58);
+			backdrop-filter: blur(22px) saturate(150%);
+			-webkit-backdrop-filter: blur(22px) saturate(150%);
+			box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+			overflow: hidden;
+		}
+
+		.skin-hero-note strong {
+			display: block;
+			margin-bottom: 10px;
+			color: var(--gold-2);
+			font-size: 0.78rem;
+			font-weight: 900;
+			letter-spacing: 0.18em;
+			text-transform: uppercase;
+		}
+
+		.skin-hero-note p {
+			margin: 0;
+			color: var(--muted);
+			line-height: 1.75;
+		}
+
+		.skin-intro {
+			display: grid;
+			grid-template-columns: minmax(0, 0.92fr) minmax(300px, 0.55fr);
+			gap: clamp(26px, 5vw, 72px);
+			align-items: end;
+			padding-bottom: clamp(52px, 7vw, 86px);
+		}
+
+		.skin-intro .intro-copy p {
+			max-width: 790px;
+			margin: 18px 0 0;
+			color: var(--muted);
+			font-size: 1.03rem;
+			line-height: 1.82;
+		}
+
+		.skin-focus-grid {
+			display: grid;
+			grid-template-columns: repeat(3, minmax(0, 1fr));
+			gap: clamp(18px, 2vw, 28px);
+		}
+
+		.skin-focus-card {
+			position: relative;
+			isolation: isolate;
+			min-height: 410px;
+			border: 1px solid rgba(242, 214, 117, 0.2);
+			border-radius: clamp(28px, 3vw, 38px);
+			overflow: hidden;
+			box-shadow: 0 30px 82px rgba(0, 0, 0, 0.45);
+			transition: transform 0.45s var(--ease-soft), border-color 0.35s ease, box-shadow 0.35s ease;
+		}
+
+		.skin-focus-card::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			z-index: 1;
+			background:
+				linear-gradient(180deg, rgba(0,0,0,0.03), rgba(0,0,0,0.78)),
+				radial-gradient(circle at 18% 10%, rgba(242, 214, 117, 0.2), transparent 42%);
+			pointer-events: none;
+		}
+
+		.skin-focus-card img {
+			position: absolute;
+			inset: 0;
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			filter: saturate(0.95) contrast(1.04);
+			transform: scale(1.03);
+			transition: transform 0.95s var(--ease-soft), filter 0.35s ease;
+		}
+
+		.skin-focus-content {
+			position: absolute;
+			inset: auto 0 0;
+			z-index: 2;
+			padding: clamp(24px, 3vw, 34px);
+		}
+
+		.skin-focus-content span {
+			display: inline-flex;
+			margin-bottom: 14px;
+			padding: 8px 11px;
+			border: 1px solid rgba(255, 255, 255, 0.14);
+			border-radius: var(--radius-pill);
+			background: rgba(0, 0, 0, 0.36);
+			backdrop-filter: blur(12px);
+			-webkit-backdrop-filter: blur(12px);
+			color: var(--gold-2);
+			font-size: 0.62rem;
+			font-weight: 900;
+			letter-spacing: 0.14em;
+			text-transform: uppercase;
+		}
+
+		.skin-focus-content h3 {
+			margin: 0 0 12px;
+			font-family: "Playfair Display", Georgia, serif;
+			font-size: clamp(2rem, 3vw, 3rem);
+			line-height: 0.96;
+			letter-spacing: -0.05em;
+			color: var(--ivory);
+		}
+
+		.skin-focus-content p {
+			margin: 0;
+			color: rgba(247, 242, 232, 0.74);
+			line-height: 1.72;
+		}
+
+		.skin-focus-card:hover {
+			transform: translateY(-8px) scale(1.01);
+			border-color: rgba(242, 214, 117, 0.44);
+			box-shadow:
+				0 40px 105px rgba(0, 0, 0, 0.56),
+				0 14px 40px rgba(212, 175, 55, 0.12);
+		}
+
+		.skin-focus-card:hover img {
+			transform: scale(1.09);
+			filter: saturate(1.08) contrast(1.08);
+		}
+
+		.skin-price-section {
+			padding-top: clamp(70px, 8vw, 110px);
+		}
+
+		.skin-price-board {
+			max-width: 860px;
+			margin: clamp(34px, 5vw, 54px) auto 0;
+			border: 1px solid rgba(242, 214, 117, 0.22);
+			border-radius: clamp(28px, 3vw, 42px);
+			background:
+				radial-gradient(circle at 16% 0%, rgba(242, 214, 117, 0.14), transparent 30rem),
+				linear-gradient(145deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.025)),
+				rgba(9, 8, 8, 0.96);
+			box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.08);
+			overflow: hidden;
+		}
+
+		.skin-price-header {
+			padding: clamp(24px, 4vw, 38px);
+			border-bottom: 1px solid rgba(242, 214, 117, 0.14);
+			background: linear-gradient(135deg, rgba(242, 214, 117, 0.08), transparent 58%);
+		}
+
+		.skin-price-header span {
+			display: block;
+			margin-bottom: 10px;
+			color: var(--gold-2);
+			font-size: 0.7rem;
+			font-weight: 900;
+			letter-spacing: 0.18em;
+			text-transform: uppercase;
+		}
+
+		.skin-price-header h3 {
+			margin: 0;
+			font-family: "Playfair Display", Georgia, serif;
+			font-size: clamp(2rem, 4vw, 3.6rem);
+			line-height: 0.98;
+			letter-spacing: -0.05em;
+			color: var(--ivory);
+		}
+
+		.skin-price-list {
+			display: grid;
+			gap: 0;
+			padding: clamp(18px, 2.6vw, 26px);
+		}
+
+		.skin-price-row {
+			position: relative;
+			display: grid;
+			grid-template-columns: 1fr auto;
+			align-items: center;
+			gap: 20px;
+			min-height: 68px;
+			padding: 18px 18px;
+			border-bottom: 1px solid rgba(255, 255, 255, 0.09);
+			border-radius: 18px;
+			transition:
+				transform 0.32s var(--ease-soft),
+				background 0.32s ease,
+				border-color 0.32s ease,
+				box-shadow 0.32s ease;
+		}
+
+		.skin-price-row:last-child {
+			border-bottom-color: transparent;
+		}
+
+		.skin-price-row strong {
+			color: rgba(247, 242, 232, 0.92);
+			font-size: 1rem;
+			font-weight: 750;
+			line-height: 1.4;
+		}
+
+		.skin-price-row em {
+			font-style: normal;
+			color: var(--gold-2);
+			font-weight: 900;
+			white-space: nowrap;
+		}
+
+		.skin-price-row:hover {
+			transform: translateX(8px);
+			border-color: rgba(242, 214, 117, 0.24);
+			background:
+				linear-gradient(135deg, rgba(242, 214, 117, 0.12), rgba(255, 255, 255, 0.035));
+			box-shadow: 0 14px 34px rgba(0, 0, 0, 0.24);
+		}
+
+		.skin-note {
+			max-width: 860px;
+			margin: 18px auto 0;
+			padding: 18px 22px;
+			border: 1px solid rgba(242, 214, 117, 0.16);
+			border-radius: 22px;
+			background: rgba(255, 255, 255, 0.045);
+			color: var(--muted);
+			line-height: 1.7;
+			text-align: center;
+		}
+		
+		.back-link-row {
+			display: flex;
+			justify-content: center;
+			margin-top: 34px;
+		}
+
+		@media (max-width: 980px) {
+			.skin-intro,
+			.skin-focus-grid {
+				grid-template-columns: 1fr;
+			}
+
+			.skin-focus-card {
+				min-height: 360px;
+			}
+		}
+
+		@media (max-width: 560px) {
+			.skin-price-row {
+				padding-inline: 14px;
+				gap: 14px;
+			}
+
+			.skin-price-row:hover {
+				transform: translateY(-3px);
+			}
+		}
+	</style>
+</head>
+<body>
+	<header class="site-header nav-visible" id="siteHeader">
+		<div class="nav-shell">
+			<a href="index.html" class="logo-link" aria-label="Aarvella home">
+				<div class="logo">AARVELLA</div>
+			</a>
+
+			<nav class="desktop-nav" aria-label="Primary navigation">
+				<a href="services.html">Services</a>
+				<a href="stylists.html">Stylists</a>
+				<a href="about.html">About</a>
+				<a href="blog.html">Blog</a>
+				<a href="find-us.html">Find Us</a>
+				<button class="btn-gold js-book" type="button">
+					<span class="btn-text">Book Now</span>
+					<div class="btn-ripple-container"></div>
+				</button>
+			</nav>
+
+			<button class="hamburger" id="hamburger" type="button" aria-label="Open menu" aria-expanded="false">
+				<span></span>
+				<span></span>
+				<span></span>
+			</button>
+		</div>
+
+		<div class="nav-overlay" id="navOverlay"></div>
+
+		<nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
+			<a href="services.html">Services</a>
+			<a href="stylists.html">Stylists</a>
+			<a href="about.html">About</a>
+			<a href="blog.html">Blog</a>
+			<a href="find-us.html">Find Us</a>
+			<button class="btn-gold js-book" id="mobileBookBtn" type="button">
+				<span class="btn-text">Book Now</span>
+				<div class="btn-ripple-container"></div>
+			</button>
+		</nav>
+	</header>
+
+	<main>
+		<section class="services-hero skin-hero">
+			<div class="hero-media">
+				<img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1900&q=85" alt="Aarvella skin care facial ritual in a luxury salon" width="1900" height="1200" fetchpriority="high">
+			</div>
+			<div class="hero-glow hero-glow-one"></div>
+			<div class="hero-glow hero-glow-two"></div>
+
+			<div class="hero-content reveal-block">
+				<p class="eyebrow">Aarvella Skin Care</p>
+				<h1>Fresh skin, refined rituals.</h1>
+				<p>Targeted skin care experiences for cleansing, glow, hydration and age-care. Designed for Dehradun lifestyles, changing weather and the need for polished, camera-ready skin.</p>
+				<div class="hero-actions">
+					<a class="btn-gold" href="#skin-pricing">
+						<span class="btn-text">View Prices</span>
+						<div class="btn-ripple-container"></div>
+					</a>
+					<button class="btn-outline js-book" type="button">
+						<span class="btn-text">Book Skin Consultation</span>
+						<div class="btn-ripple-container"></div>
+					</button>
+				</div>
+			</div>
+
+			<aside class="skin-hero-note reveal-block">
+				<strong>Skin-first approach</strong>
+				<p>Every facial starts with a quick skin check so your therapist can choose the right pressure, product layering and finish for your current skin condition.</p>
+			</aside>
+		</section>
+
+		<section class="trust-strip" aria-label="Skin care highlights">
+			<div>
+				<strong>Cleanse</strong>
+				<span>Build the base</span>
+			</div>
+			<div>
+				<strong>Brighten</strong>
+				<span>Glow support</span>
+			</div>
+			<div>
+				<strong>Hydrate</strong>
+				<span>Fresh finish</span>
+			</div>
+			<div>
+				<strong>Restore</strong>
+				<span>Age-care focus</span>
+			</div>
+		</section>
+
+		<section class="section skin-intro">
+			<div class="intro-copy reveal-block">
+				<p class="eyebrow">Skin care menu</p>
+				<h2>Focused facials without overcomplication.</h2>
+				<p>Aarvella’s skin care menu is kept clear and useful: start with deep cleansing, move into brightening for dullness, choose Hydra Facial for hydration-led freshness, or select anti-aging care for a more restorative ritual.</p>
+			</div>
+			<div class="intro-note reveal-block">
+				<p>Final recommendation may vary after consultation, skin sensitivity, product choice and current skin condition.</p>
+			</div>
+		</section>
+
+		<section class="section" id="skin-services">
+			<div class="section-head center reveal-block">
+				<p class="eyebrow">What we focus on</p>
+				<h2>Three simple skin journeys.</h2>
+				<p>Short, clear service cards help guests understand the purpose of each ritual before booking.</p>
+			</div>
+
+			<div class="skin-focus-grid">
+				<article class="skin-focus-card reveal-block">
+					<img src="https://images.unsplash.com/photo-1556229010-6c3f2c9ca5f8?auto=format&fit=crop&w=1200&q=85" alt="Deep cleansing facial skin care service">
+					<div class="skin-focus-content">
+						<span>Cleanse</span>
+						<h3>Deep Cleansing</h3>
+						<p>A reset ritual for removing buildup, refreshing the skin and preparing it for a cleaner, more balanced look.</p>
+					</div>
+				</article>
+
+				<article class="skin-focus-card reveal-block">
+					<img src="https://images.unsplash.com/photo-1512290923902-8a9f81dc236c?auto=format&fit=crop&w=1200&q=85" alt="Brightening facial glow service">
+					<div class="skin-focus-content">
+						<span>Glow</span>
+						<h3>Brightening Facial</h3>
+						<p>Designed for dullness and uneven-looking skin, with a smoother, fresher finish for everyday confidence.</p>
+					</div>
+				</article>
+
+				<article class="skin-focus-card reveal-block">
+					<img src="https://images.unsplash.com/photo-1620916566398-39f1143ab7be?auto=format&fit=crop&w=1200&q=85" alt="Hydra and anti-aging facial treatment">
+					<div class="skin-focus-content">
+						<span>Hydrate & Restore</span>
+						<h3>Hydra & Anti-Aging</h3>
+						<p>For guests looking for a hydrated glow or a more restorative age-care experience with a premium finish.</p>
+					</div>
+				</article>
+			</div>
+		</section>
+
+		<section class="section skin-price-section" id="skin-pricing">
+			<div class="section-head center reveal-block">
+				<p class="eyebrow">Price Menu</p>
+				<h2>Skin care pricing.</h2>
+				<p>A single-column menu keeps the choices readable and easy to compare on both desktop and mobile.</p>
+			</div>
+
+			<div class="skin-price-board reveal-block">
+				<div class="skin-price-header">
+					<span>Facial rituals</span>
+					<h3>Skin Care</h3>
+				</div>
+				<div class="skin-price-list">
+					<div class="skin-price-row">
+						<strong>Deep Cleansing</strong>
+						<em>₹ 800</em>
+					</div>
+					<div class="skin-price-row">
+						<strong>Brightening Facial</strong>
+						<em>₹ 2,000</em>
+					</div>
+					<div class="skin-price-row">
+						<strong>Hydra Facial</strong>
+						<em>₹ 3,500</em>
+					</div>
+					<div class="skin-price-row">
+						<strong>Anti-Aging Facial</strong>
+						<em>₹ 4,500</em>
+					</div>
+				</div>
+			</div>
+
+			<p class="skin-note reveal-block">Prices are inclusive of taxes. Final service recommendation may depend on skin type, sensitivity and therapist consultation.</p>
+			<div class="back-link-row reveal-block">
+				<a class="btn-outline" href="services.html">
+					<span class="btn-text">Back to Services</span>
+					<div class="btn-ripple-container"></div>
+				</a>
+			</div>
+		</section>
+
+		<section class="cta">
+			<p class="eyebrow">AARVELLA SKIN CONSULTATION</p>
+			<h2>Not sure which facial to choose?</h2>
+			<p>Book a quick consultation and let the Aarvella team guide you toward the right skin care ritual for your current skin needs.</p>
+			<button class="btn-gold js-book" type="button">
+				<span class="btn-text">Book Appointment</span>
+				<div class="btn-ripple-container"></div>
+			</button>
+		</section>
+	</main>
+
+	<div id="bookingPopup" class="booking-popup" aria-hidden="true">
+		<div class="popup-overlay"></div>
+		<div class="popup-container" role="dialog" aria-modal="true" aria-labelledby="bookingTitle">
+			<button class="popup-close" type="button" onclick="closeBooking()" aria-label="Close booking popup">×</button>
+
+			<div class="popup-progress">
+				<div class="progress-bar" id="progressBar"></div>
+			</div>
+
+			<div class="popup-step active" data-step="1">
+				<h2 id="bookingTitle">Select Your Skin Service</h2>
+				<div class="service-options">
+					<div onclick="selectService(this)">Deep Cleansing</div>
+					<div onclick="selectService(this)">Brightening Facial</div>
+					<div onclick="selectService(this)">Hydra Facial</div>
+					<div onclick="selectService(this)">Anti-Aging Facial</div>
+				</div>
+				<button class="btn-gold" type="button" onclick="nextStep()">
+					<span class="btn-text">Continue</span>
+					<div class="btn-ripple-container"></div>
+				</button>
+			</div>
+
+			<div class="popup-step" data-step="2">
+				<h2>Choose Date & Time</h2>
+				<div class="quick-dates">
+					<button type="button" onclick="setDate(0)">Today</button>
+					<button type="button" onclick="setDate(1)">Tomorrow</button>
+					<button type="button" onclick="setDate(2)">+2 Days</button>
+				</div>
+				<input type="date" id="bookingDate">
+				<div class="time-slots">
+					<button type="button" onclick="setTime('10:00')">10:00 AM</button>
+					<button type="button" onclick="setTime('13:00')">1:00 PM</button>
+					<button type="button" onclick="setTime('16:00')">4:00 PM</button>
+					<button type="button" onclick="setTime('19:00')">7:00 PM</button>
+				</div>
+				<input type="time" id="bookingTime">
+				<div class="popup-actions">
+					<button class="btn-outline" type="button" onclick="prevStep()"><span>Back</span></button>
+					<button class="btn-gold" type="button" onclick="nextStep()">Continue</button>
+				</div>
+				<p class="popup-hint">Optional — you can skip this and we’ll confirm with you.</p>
+			</div>
+
+			<div class="popup-step" data-step="3">
+				<h2>Your Details</h2>
+				<input type="text" placeholder="Full Name" id="name">
+				<input type="tel" placeholder="Phone Number" id="phone">
+				<div class="popup-actions">
+					<button class="btn-outline" type="button" onclick="prevStep()"><span>Back</span></button>
+					<button class="btn-gold" type="button" onclick="confirmBooking()">Confirm Booking</button>
+				</div>
+			</div>
+
+			<div class="popup-step" data-step="4">
+				<h2>You're Booked ✨</h2>
+				<p>We’ll contact you shortly to confirm your appointment.</p>
+				<a id="whatsappBtn" target="_blank" rel="noopener" class="btn-outline">
+					<span class="btn-text">Confirm on WhatsApp</span>
+					<div class="btn-ripple-container"></div>
+				</a>
+			</div>
+		</div>
+	</div>
+	
+		<button id="ai-chat-button" aria-label="Open AI Stylist">
+		  <svg
+			width="18"
+			height="18"
+			viewBox="0 0 24 24"
+			fill="none"
+			stroke="currentColor"
+			stroke-width="1.8"
+			stroke-linecap="round"
+			stroke-linejoin="round">
+			<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
+		  </svg>
+		  <span>AI Stylist</span>
+		</button>		
+
+		<div id="ai-chat-widget" hidden>
+		  <div class="ai-chat-header">
+			<div>
+			  <strong>Aarvella AI Stylist</strong>
+			  <span>Find the right service</span>
+			</div>
+			<button id="ai-chat-close">×</button>
+		  </div>
+
+		  <div id="ai-chat-messages">
+			<div class="ai-message bot">
+			  Hi, I’m Aarvella’s AI Stylist. Are you looking for hair, skin, makeup, or bridal services?
+			</div>
+		  </div>
+
+		  <form id="ai-chat-form">
+			<input
+			  id="ai-chat-input"
+			  type="text"
+			  placeholder="Type your message..."
+			  autocomplete="off"
+			/>
+			<button type="submit">Send</button>
+		  </form>
+		</div>
+
+		<footer class="main-footer">
+			<div class="footer-container">
+				<div class="footer-col">
+					<div class="logo">AARVELLA</div>
+					<p class="mission-text">Defining the gold standard in hair artistry. Our mission is to provide a transformative luxury experience tailored to your unique beauty.</p>
+					<div class="social-icons">
+						<a href="https://www.instagram.com/aarvella.salon/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+						<a href="https://facebook.com/Aarvella" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+						<a href="https://in.pinterest.com/AarvellaSalon" target="_blank" rel="noopener noreferrer" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+						<a href="https://youtube.com/@AarvellaSalon" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+						<a href="https://x.com/AarvellaSalon" target="_blank" rel="noopener noreferrer" aria-label="X"><i class="fab fa-x-twitter"></i></a>
+					</div>
+				</div>
+
+				<div class="footer-col">
+					<h3>Experience</h3>
+					<ul>
+						<li><a href="hair.html">Hair Services</a></li>
+						<li><a href="skin.html">Skin Treatments</a></li>
+						<li><a href="bridal.html">Bridal Packages</a></li>
+						<li><a href="#">Gift Cards</a></li>
+						<li><a href="careers.html">Careers</a></li>
+					</ul>
+				</div>
+
+				<div class="footer-col">
+					<h3>AARVELLA SALON</h3>
+					<p>43, Karanpur Road<br>Dehradun, 248001</p>
+					<p class="phone-link">+91 9742049990</p>
+					<div class="hours">
+						<span>Tue - Sun: 10am - 8pm</span>
+						<span>Mon: Closed</span>
+					</div>
+				</div>
+
+				<div class="footer-col">
+					<h3>Stay Inspired</h3>
+					<p>Join our Gold List for exclusive trends and early access to bookings.</p>
+					<form class="newsletter-form">
+						<input type="email" placeholder="Email Address" required>
+						<button type="submit">Join</button>
+					</form>
+				</div>
+		  </div>
+
+			<div class="footer-bottom">
+				<p>&copy; 2026 Aarvella Luxury Salon. All Rights Reserved.</p>
+				<div class="legal-links">
+					<a href="privacy.html">Privacy Policy</a>
+					<a href="terms.html">Terms of Service</a>
+					<a href="javascript:window.scrollTo({top: 0, behavior: 'smooth'});">Back to Top ↑</a>
+				</div>
+			</div>
+		</footer>
+
+	<script src="assets/js/services.js" defer></script>
+	<script src="assets/js/booking.js" defer></script>
+	<script src="assets/js/ai-chat.js" defer></script>
+</body>
+</html>

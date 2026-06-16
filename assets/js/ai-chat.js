@@ -19,43 +19,6 @@ chatClose.addEventListener("click", () => {
   chatWidget.hidden = true;
 });
 
-function resizeChatWidget() {
-  const widget = document.getElementById("ai-chat-widget");
-  if (!widget) return;
-
-  const isMobile = window.matchMedia("(max-width: 768px)").matches;
-
-  if (!isMobile) {
-    widget.style.top = "";
-    widget.style.height = "";
-    widget.style.bottom = "";
-    return;
-  }
-
-  const viewport = window.visualViewport;
-  if (!viewport) return;
-
-  const topPadding = 10;
-  const bottomPadding = 70;
-
-  widget.style.top = `${viewport.offsetTop + topPadding}px`;
-  widget.style.bottom = "auto";
-  widget.style.height = `${viewport.height - topPadding - bottomPadding}px`;
-}
-
-window.addEventListener("resize", resizeChatWidget);
-
-window.addEventListener("orientationchange", () => {
-  setTimeout(resizeChatWidget, 300);
-});
-
-if (window.visualViewport) {
-  visualViewport.addEventListener("resize", resizeChatWidget);
-  visualViewport.addEventListener("scroll", resizeChatWidget);
-}
-
-resizeChatWidget();
-
 function addMessage(type, text) {
   const message = document.createElement("div");
   message.className = `ai-message ${type}`;
@@ -63,18 +26,6 @@ function addMessage(type, text) {
   chatMessages.appendChild(message);
   chatMessages.scrollTop = chatMessages.scrollHeight;
 }
-
-chatInput.addEventListener("focus", () => {
-  updateMobileViewport();
-
-  setTimeout(() => {
-    chatMessages.scrollTop = chatMessages.scrollHeight;
-  }, 250);
-});
-
-chatInput.addEventListener("blur", () => {
-  setTimeout(updateMobileViewport, 250);
-});
 
 function shouldShowBookingButton(text) {
   const keywords = ["book", "appointment", "preferred", "confirm", "whatsapp"];

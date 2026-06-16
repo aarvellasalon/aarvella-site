@@ -8,7 +8,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet"/>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
     <link rel="icon" type="image/x-icon" href="favicon.ico" />
     <link rel="stylesheet" href="assets/css/blog.css" />
 	<link rel="stylesheet" href="assets/css/booking.css">
@@ -23,7 +23,7 @@
 				</a>
 
 				<nav class="desktop-nav">
-					<a href="services-menu/services.html">Services</a>
+					<a href="services.html">Services</a>
 					<a href="stylists.html">Stylists</a>
 					<a href="about.html">About</a>
 					<a href="blog.html">Blog</a>
@@ -42,7 +42,7 @@
 			</div>
 			<div class="nav-overlay" id="navOverlay"></div>
 			<div class="mobile-nav" id="mobileNav">
-				<a href="services-menu/services.html">Services</a>
+				<a href="services.html">Services</a>
 				<a href="stylists.html">Stylists</a>
 				<a href="about.html">About</a>
 				<a href="blog.html">Blog</a>
@@ -53,8 +53,16 @@
 				</button>
 			</div>
 		</header>
-      <section
-        class="page-hero" style="--hero-image: url(&quot;https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=1920&q=80&quot;);">
+      <section class="page-hero">
+        <img
+          class="hero-image"
+          src="assets/images/blog/aarvella_blog_page_main_hero01.webp"
+          alt="Aarvella salon guest enjoying a blowdry consultation with a hair artist"
+          width="1920"
+          height="1080"
+          fetchpriority="high"
+          decoding="async"
+        />
         <div class="hero-bg" aria-hidden="true"></div>
         <div class="hero-content">
           <span class="eyebrow hero-kicker">The Journal</span>
@@ -70,7 +78,7 @@
 						<span class="btn-text">Book Appointment</span>
 						<div class="btn-ripple-container"></div>
 					</button>
-					<a href="services-menu/services.html" class="btn-outline">
+					<a href="services.html" class="btn-outline">
 						<span class="btn-text">Explore Services</span>
 						<div class="btn-ripple-container"></div>
 					</a>
@@ -89,28 +97,28 @@
           </p>
         </div>
         <div class="blog-grid">
-          <article class="glass-card blog-card featured-card">
-            <a href="blog/balayage-vs-global-hair-colour-dehradun.html" class="blog-card-link" target="_blank">
-              <img
-                src="assets/images/blog/balayage-vs-global-hair-colour-dehradun.webp"
-                alt="Balayage hair colour guide for Dehradun"
-                loading="lazy"
-                width="640"
-                height="360"
-              />
-              <div class="pad">
-                <div class="meta">Hair Colour · Dehradun Guide</div>
-                <h3>Balayage vs Global Hair Colour: The Dehradun Guide</h3>
-                <p>
-                  A detailed Aarvella guide to choosing the right hair colour
-                  for Indian hair, Dehradun weather, grey coverage,
-                  maintenance and personal style.
-                </p>
-              </div>
-            </a>
-          </article>
+		<article class="glass-card blog-card featured-card">
+			<a href="blog/balayage-vs-global-hair-colour-dehradun.html" class="blog-card-link">
+				<img
+				src="assets/images/blog/balayage-vs-global-hair-colour-dehradun.webp"
+				alt="Balayage hair colour guide for Dehradun"
+				loading="lazy"
+				width="640"
+				height="360"/>
+				<div class="pad">
+					<div class="meta">Hair Colour · Dehradun Guide</div>
+					<h3>Balayage vs Global Hair Colour: The Dehradun Guide</h3>
+					<p>
+						A detailed Aarvella guide to choosing the right hair colour
+						for Indian hair, Dehradun weather, grey coverage,
+						maintenance and personal style.
+					</p>
+				</div>
+			</a>
+		</article>
+		
 		<article class="glass-card blog-card">
-		  <a href="blog/how-often-should-you-get-facial-in-dehradun-weather.html" class="blog-card-image" target="_blank">
+		  <a href="blog/how-often-should-you-get-facial-in-dehradun-weather.html" class="blog-card-image">
 			<img
 			  src="assets/images/blog/Facial-in-Dehradun-Weather-1.webp"
 			  alt="Woman with glowing skin in Dehradun weather"
@@ -134,9 +142,9 @@
 		  </div>
 		  </a>
 		</article>
-
+		
 		<article class="glass-card blog-card featured-card">
-			<a href="blog/dehraduns-2026-hair-colour-manifesto.html" class="blog-card-image" target="_blank">
+			<a href="blog/dehraduns-2026-hair-colour-manifesto.html" class="blog-card-image">
 				<img
 				  src="assets/images/blog/dehraduns-2026-hair-colour-manifesto.webp"
 				  alt="Young Indian woman with glossy bronde hair colour in Dehradun"
@@ -182,7 +190,7 @@
 			</div>
 		  </div>
 		</article>
-			
+		
           <article class="glass-card blog-card">
             <img
               src="https://images.unsplash.com/photo-1562322140-8baeececf3df?auto=format&fit=crop&w=1200&q=80"
@@ -385,6 +393,7 @@
 						<a href="https://facebook.com/Aarvella" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
 						<a href="https://in.pinterest.com/AarvellaSalon" target="_blank" rel="noopener noreferrer" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
 						<a href="https://youtube.com/@AarvellaSalon" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+						<a href="https://x.com/AarvellaSalon" target="_blank" rel="noopener noreferrer" aria-label="X"><i class="fab fa-x-twitter"></i></a>
 					</div>
 				</div>
 

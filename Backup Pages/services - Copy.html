@@ -1,0 +1,1586 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Services | Aarvella Luxury Salon</title>
+	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600&family=Poppins:wght@600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+	<link rel="icon" type="image/x-icon" href="favicon.ico">
+		<style>
+			:root {
+				--gold: #D4AF37;
+				--dark-gold: #C5A021;
+				--black: #0A0A0A;
+				--charcoal: #1A1A1A;
+				--white: #F4F4F4;
+				--transition: all 0.4s ease;
+				--ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+				--ease-soft: cubic-bezier(0.25, 0.8, 0.25, 1);
+				--duration-fast: 0.25s;
+				--duration-medium: 0.45s;
+			}
+
+			* {
+				margin: 0; 
+				padding: 0; 
+				box-sizing: border-box;
+				will-change: auto;
+			}
+
+			body {
+				background-color: var(--black);
+				color: var(--white);
+				/* font-family: 'Montserrat', sans-serif; */
+				font-family: 'Inter', sans-serif;
+				line-height: 1.6;
+				overflow-x: hidden;
+			}
+			body.menu-open {
+				overflow: hidden;
+			}
+			/* h1, h2, h3 { font-family: 'Playfair Display', serif; color: var(--gold); } */
+			h1, h2, h3 {
+				font-family: 'Inter', sans-serif;
+				font-weight: 600;
+				letter-spacing: -0.5px;
+				color: var(--gold);
+			}
+
+			/* --- Header & Navigation --- */
+			html {
+				scroll-behavior: smooth;
+			}
+			section {
+				scroll-margin-top: 100px; /* Adjust this value to match your header height */
+			}
+			header {
+				position: absolute;
+				top: 24px;
+				left: 5%;
+				width: 90%;
+				padding: 0;
+				background: transparent;
+				border: none;
+				box-shadow: none;
+				backdrop-filter: none;
+				-webkit-backdrop-filter: none;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				z-index: 3000;
+			}
+			.logo { 
+				font-size: 2rem;
+				letter-spacing: 4px;
+				font-weight: bold;
+				position: relative;
+				z-index: 3001;
+				background: transparent !important;
+			}
+			
+			/* Logo Hyperlink Cleanup */
+			.logo-link {
+				text-decoration: none;
+				color: inherit;
+			}
+			
+			.logo-link:hover .logo {
+				text-shadow: 0 0 12px rgba(212, 175, 55, 0.6);
+			}
+			.site-header {
+				position: fixed;
+				top: clamp(12px, 2vw, 22px);
+				left: 0;
+				width: 100%;
+				z-index: 3000;
+				padding-inline: clamp(14px, 3vw, 48px);
+				box-sizing: border-box;
+
+				transition:
+					transform 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+					opacity 0.35s ease;
+			}
+			/* Hidden state */
+			.site-header.nav-hidden {
+				transform: translateY(-140%);
+				opacity: 0;
+			}
+
+			/* Visible state */
+			.site-header.nav-visible {
+				transform: translateY(0);
+				opacity: 1;
+			}
+			.nav-shell {
+				position: relative;
+				z-index: 2600;
+				width: 100%;
+				min-height: clamp(62px, 7vw, 76px);
+				padding-inline: clamp(18px, 3vw, 42px);
+
+				display: flex;
+				align-items: center;
+				justify-content: space-between;
+				gap: clamp(16px, 2.5vw, 36px);
+
+				border-radius: clamp(14px, 1.5vw, 22px);
+				background: rgba(10, 10, 10, 0.42);
+				backdrop-filter: blur(18px) saturate(150%);
+				-webkit-backdrop-filter: blur(18px) saturate(150%);
+				box-sizing: border-box;
+			}
+			.logo-link,
+			.logo {
+				flex-shrink: 0;
+			}
+			.desktop-nav {
+				display: flex;
+				align-items: center;
+				justify-content: flex-end;
+				gap: clamp(18px, 2vw, 34px);
+				min-width: 0;
+				background: transparent !important;
+				backdrop-filter: none !important;
+				-webkit-backdrop-filter: none !important;
+
+				border: none !important;
+				box-shadow: none !important;
+				overflow: visible;
+			}
+			.desktop-nav a {
+				color: var(--white);
+				text-decoration: none;
+				font-family: 'Inter', sans-serif;
+				font-weight: 500;
+				letter-spacing: 1px;
+				font-size: 0.8rem;
+				white-space: nowrap;
+				text-transform: uppercase;
+				background: transparent !important;
+				box-shadow: none !important;
+				position: relative;
+				z-index: 2;
+			}
+			.desktop-nav a:hover {
+				color: var(--gold);
+			}		
+			/* The Magic Fix: Flexbox Gap */
+			.desktop-nav {
+				background: transparent !important;
+				border: none !important;
+				box-shadow: none !important;
+				backdrop-filter: none !important;
+			}
+			.mobile-nav {
+				position: fixed;
+				top: 0;
+				right: -100%;
+				left: auto;
+
+				height: 100vh;
+				min-width: 320px;
+				width: 80%;
+
+				z-index: 2500;
+
+				background: rgba(10, 10, 10, 0.72);
+				backdrop-filter: blur(18px) saturate(150%);
+				-webkit-backdrop-filter: blur(18px) saturate(150%);
+
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: flex-start;
+
+				padding: 0 60px;
+				gap: 2.5rem;
+
+				border-left: 1px solid rgba(212, 175, 55, 0.15);
+				box-shadow: -40px 0 80px rgba(0,0,0,0.75);
+
+				transition: right 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+			}
+			.mobile-nav a,
+			.mobile-nav a:visited,
+			.mobile-nav a:active {
+				right: 0;
+				font-family: 'Playfair Display', serif;
+				font-size: 1.8rem;
+				letter-spacing: 2px;
+				position: relative;
+				opacity: 0;
+				transform: translateY(20px);
+				transition: all 0.5s ease;
+				color: var(--white);
+				text-decoration: none;
+				display: block;
+			}
+			/* Keep links/buttons clean */
+			.desktop-nav a,
+			.mobile-nav a {
+				background: transparent !important;
+				box-shadow: none;
+				position: relative;
+				z-index: 1;
+			}
+
+			.desktop-nav button,
+			.mobile-nav button {
+				position: relative;
+				z-index: 2;
+			}
+			.nav-overlay {
+				position: fixed;
+				inset: 0;
+				z-index: 2400;
+
+				background: rgba(0, 0, 0, 0.45);
+				backdrop-filter: blur(16px) saturate(140%);
+				-webkit-backdrop-filter: blur(16px) saturate(140%);
+
+				opacity: 0;
+				visibility: hidden;
+				pointer-events: none;
+
+				transition:
+					opacity 0.35s ease,
+					visibility 0.35s ease;
+			}
+			body.menu-open .nav-overlay {
+				opacity: 1;
+				visibility: visible;
+				pointer-events: auto;
+			}
+			.nav-overlay.active {
+				opacity: 1;
+				visibility: visible;
+				pointer-events: auto;
+			}
+			.desktop-nav .btn-gold {
+				height: 42px;
+				min-width: 145px;
+				padding: 0 22px;
+				font-size: 0.78rem;
+				flex-shrink: 0;
+				text-transform: uppercase;
+				letter-spacing: 1px;
+			}
+
+			.mobile-nav .btn-gold {
+				width: 100%;
+				max-width: 260px;
+				height: 48px;
+				min-width: 220px;
+				font-size: 0.95rem;
+				margin-top: 1rem;
+			}
+			/* --- Hamburger Icon --- */
+			.hamburger {
+				display: none;
+				flex-direction: column;
+				gap: 6px;
+				cursor: pointer;
+				z-index: 3000; /* Ensure it stays above the overlay */
+				position: relative;
+			}
+			
+			.hamburger span {
+				width: 30px;
+				height: 2px;
+				background-color: var(--gold);
+				transition: all 0.4s ease;
+				transform-origin: center;
+			}
+			.hamburger.active span:nth-child(1) {
+				transform: translateY(8px) rotate(45deg);
+			}
+
+			.hamburger.active span:nth-child(2) {
+				opacity: 0;
+				transform: scaleX(0);
+			}
+
+			.hamburger.active span:nth-child(3) {
+				transform: translateY(-8px) rotate(-45deg);
+			}
+			#crm-booking-widget {
+				max-width: 500px;
+				margin: 40px auto;
+				padding: 30px 20px;
+				border: 1px solid rgba(212, 175, 55, 0.3);
+				background: linear-gradient(145deg, #111, #0a0a0a);
+				text-align: center;
+				border-radius: 10px;
+			}
+			/* Fix text spacing */
+			.booking-note {
+				margin-bottom: 20px;
+				font-size: 0.95rem;
+				opacity: 0.8;
+				line-height: 1.6;
+			}
+
+			/* Buttons FIX */
+			.booking-actions {
+				display: flex;
+				flex-direction: column;
+				gap: 12px;
+				align-items: center;
+			}
+
+			.booking-actions a,
+			.booking-actions button {
+				width: 100%;
+				max-width: 280px;
+			}
+
+			/* Mobile spacing */
+			@media (max-width: 768px) {
+				#crm-booking-widget {
+					padding: 25px 15px;
+				}
+			}
+			@keyframes fadeInUp {
+				to { opacity: 1; transform: translateY(0); }
+			}
+			/* --- Mobile Responsiveness Breakpoint --- */
+			@media (max-width: 768px) {
+				.site-header {
+					top: 14px;
+					padding-inline: 14px;
+				}
+
+				.nav-shell {
+					min-height: 64px;
+					padding-inline: 18px;
+					border-radius: 16px;
+				}
+				.desktop-nav {
+					display: none; /* Hide standard nav */
+				}
+				.hero h1 { font-size: 3rem; }
+				.hamburger {
+					display: flex; /* Show hamburger only on mobile */
+					flex-shrink: 0;
+				}
+				.mobile-nav {
+					position: fixed;
+					top: 0;
+					right: -100%;
+					height: 100vh;
+
+					min-width: 320px;
+					width: 80%;
+
+					background: rgba(10, 10, 10, 0.67);
+					backdrop-filter: blur(12px);
+					-webkit-backdrop-filter: blur(12px);
+					box-shadow: -40px 0 80px rgba(0,0,0,0.8);
+
+					display: flex;
+					flex-direction: column;
+					justify-content: center;
+					align-items: flex-start;
+					
+					padding: 0 60px;
+					gap: 2.5rem;
+
+					border-left: 1px solid rgba(212, 175, 55, 0.15);
+
+					transition: right 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+					z-index: 2500;
+				}
+				.mobile-nav.active {
+					right: 0; /* Slides into view from the right */
+					box-shadow: -20px 0 60px rgba(0,0,0,0.6);
+				}
+				.mobile-nav a {
+					/* font-family: 'Playfair Display', serif; */
+					font-family: 'Inter', sans-serif;
+					font-weight: 600;
+					font-size: 1.8rem;
+					letter-spacing: 2px;
+					position: relative;
+					opacity: 0;
+					transform: translateY(20px);				
+					transition: all 0.5s ease;
+					color: var(--white); /* FORCE it */
+				}
+				.mobile-nav a::after {
+					content: "";
+					position: absolute;
+					bottom: -10px;
+					left: 0;
+					width: 40px;
+					height: 1px;
+					background: rgba(212,175,55,0.2);
+				}
+				.mobile-nav.active a {
+					opacity: 1;
+					transform: translateY(0);
+				}
+
+				/* Staggered delay */
+				.mobile-nav.active a:nth-child(1) { transition-delay: 0.1s; }
+				.mobile-nav.active a:nth-child(2) { transition-delay: 0.2s; }
+				.mobile-nav.active a:nth-child(3) { transition-delay: 0.3s; }
+				.mobile-nav.active a:nth-child(4) { transition-delay: 0.4s; }
+				.mobile-nav.active a:nth-child(5) { transition-delay: 0.5s; }
+				.mobile-nav a:hover {
+					color: var(--gold);
+				}
+				#mobileBookBtn {
+					margin-top: 1rem;
+				}
+				/* Transform hamburger to 'X' when active */
+				.hamburger.active span:nth-child(1) {
+					transform: translateY(8px) rotate(45deg);
+				}
+				.hamburger.active span:nth-child(2) {
+					opacity: 0;
+				}
+				.hamburger.active span:nth-child(3) {
+					transform: translateY(-8px) rotate(-45deg);
+				}
+			}
+			.btn-gold,
+			.btn-outline {
+				--magnetic: translate(0, 0);
+				--glass-bg: rgba(255, 255, 255, 0.12);
+				--glass-border: rgba(255, 255, 255, 0.34);
+				--glass-highlight: rgba(255, 255, 255, 0.7);
+
+				height: 45px;
+				padding: 0 24px;
+				min-width: 180px;
+				border-radius: 999px;
+
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				
+				box-sizing: border-box;
+				white-space: nowrap;
+				flex-shrink: 0;
+				transform-origin: center center;
+
+				position: relative;
+				overflow: hidden;
+				cursor: pointer;
+
+				font-family: inherit;
+				font-weight: 600;
+				line-height: 1;
+				text-decoration: none;
+
+				backdrop-filter: blur(18px) saturate(180%);
+				-webkit-backdrop-filter: blur(18px) saturate(180%);
+
+				transform: var(--magnetic);
+				will-change: transform;
+				
+				isolation: isolate;
+				text-align: center;
+
+				transition:
+					transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+					box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+					background 0.35s ease,
+					border-color 0.35s ease,
+					color 0.35s ease;
+			}
+			.btn-gold span,
+			.btn-outline span {
+				position: relative;
+				z-index: 5;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				width: 100%;
+				height: 100%;
+				text-align: center;
+				transform: none !important;
+				translate: none !important;
+				pointer-events: none;
+			}
+
+			/* GOLD LIQUID GLASS */
+			.btn-gold {
+				border: 1px solid rgba(255, 230, 150, 0.55);
+				color: var(--black);
+
+				background:
+					linear-gradient(
+						135deg,
+						rgba(255, 236, 160, 0.82),
+						rgba(212, 175, 55, 0.42)
+					),
+					rgba(255, 255, 255, 0.16);
+
+				box-shadow:
+					inset 0 1px 1px rgba(255, 255, 255, 0.75),
+					inset 0 -1px 1px rgba(90, 60, 0, 0.18),
+					0 12px 30px rgba(212, 175, 55, 0.28),
+					0 4px 12px rgba(0, 0, 0, 0.28);
+			}
+
+			/* OUTLINE LIQUID GLASS */
+			.btn-outline {
+				border: 1px solid rgba(212, 175, 55, 0.6);
+				color: var(--gold);
+
+				background:
+					linear-gradient(
+						135deg,
+						rgba(255, 255, 255, 0.16),
+						rgba(255, 255, 255, 0.04)
+					);
+
+				box-shadow:
+					inset 0 1px 1px rgba(255, 255, 255, 0.45),
+					inset 0 -1px 1px rgba(255, 255, 255, 0.08),
+					0 10px 26px rgba(212, 175, 55, 0.16),
+					0 4px 12px rgba(0, 0, 0, 0.22);
+			}
+
+			/* Shared glass shine */
+			.btn-gold::before,
+			.btn-outline::before {
+				content: "";
+				position: absolute;
+				inset: 1px;
+				border-radius: inherit;
+				pointer-events: none;
+				z-index: 1;
+
+				background:
+					radial-gradient(
+						circle at 28% 18%,
+						rgba(255, 255, 255, 0.85),
+						rgba(255, 255, 255, 0.25) 18%,
+						transparent 42%
+					),
+					linear-gradient(
+						145deg,
+						rgba(255, 255, 255, 0.4),
+						transparent 38%
+					);
+
+				opacity: 0.75;
+			}
+
+			/* Moving reflective streak */
+			.btn-gold::after,
+			.btn-outline::after {
+				content: "";
+				position: absolute;
+				top: -45%;
+				left: -80%;
+				width: 55%;
+				height: 190%;
+				border-radius: inherit;
+				pointer-events: none;
+				z-index: 2;
+
+				background: linear-gradient(
+					120deg,
+					transparent,
+					rgba(255, 255, 255, 0.55),
+					transparent
+				);
+
+				transform: rotate(18deg) translateX(-120%);
+				transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+			}
+
+			/* Hover states */
+			.btn-gold:hover {
+				transform: translateY(-4px) scale(1.035);
+				background:
+					linear-gradient(
+						135deg,
+						rgba(255, 244, 190, 0.92),
+						rgba(212, 175, 55, 0.52)
+					),
+					rgba(255, 255, 255, 0.22);
+
+				box-shadow:
+					inset 0 1px 1px rgba(255, 255, 255, 0.85),
+					0 18px 42px rgba(212, 175, 55, 0.36),
+					0 8px 18px rgba(0, 0, 0, 0.3);
+			}
+
+			.btn-outline:hover {
+				transform: translateY(-4px) scale(1.035);
+				color: var(--black);
+				border-color: rgba(255, 230, 150, 0.65);
+
+				background:
+					linear-gradient(
+						135deg,
+						rgba(255, 236, 160, 0.8),
+						rgba(212, 175, 55, 0.38)
+					),
+					rgba(255, 255, 255, 0.16);
+
+				box-shadow:
+					inset 0 1px 1px rgba(255, 255, 255, 0.75),
+					0 18px 42px rgba(212, 175, 55, 0.32),
+					0 8px 18px rgba(0, 0, 0, 0.28);
+			}
+
+			.btn-gold:hover::after,
+			.btn-outline:hover::after {
+				transform: rotate(18deg) translateX(420%);
+			}
+
+			/* Click feel */
+			.btn-gold:active,
+			.btn-outline:active {
+				transform: translateY(1px) scale(0.965);
+
+				box-shadow:
+					inset 0 3px 8px rgba(0, 0, 0, 0.28),
+					inset 0 -1px 1px rgba(255, 255, 255, 0.15),
+					0 4px 12px rgba(0, 0, 0, 0.3);
+
+				transition: transform 0.08s ease, box-shadow 0.08s ease;
+			}
+
+			/* Accessible keyboard focus */
+			.btn-gold:focus-visible,
+			.btn-outline:focus-visible {
+				outline: 3px solid rgba(255, 220, 120, 0.65);
+				outline-offset: 4px;
+			}
+
+			/* Existing ripple still works */
+			.btn-ripple {
+				position: absolute;
+				left: var(--ripple-x, 50%);
+				top: var(--ripple-y, 50%);		
+				width: 120px;
+				height: 120px;
+				background: radial-gradient(
+					circle,
+					rgba(255, 255, 255, 0.45) 0%,
+					rgba(255, 255, 255, 0.18) 40%,
+					transparent 70%
+				);
+				border-radius: 50%;
+				transform: translate(-50%, -50%) scale(0);
+				animation: ripple 0.6s ease-out;
+				pointer-events: none;
+				z-index: 3;
+			}
+
+			@keyframes ripple {
+				to {
+					transform: translate(-50%, -50%) scale(2.5);
+					opacity: 0;
+				}
+			}
+		
+			/* Hero */
+			.services-hero {
+				height: 80vh;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				text-align: center;
+
+				padding: 0 20px;
+
+				background: radial-gradient(circle at center, #111 0%, #000 70%);
+			}
+
+			.services-hero h1 {
+				font-size: 3rem;
+				font-family: 'Playfair Display', serif;
+				color: var(--gold);
+				margin-bottom: 20px;
+			}
+
+			.services-hero p {
+				max-width: 600px;
+				margin: auto;
+				opacity: 0.7;
+				line-height: 1.6;
+			}
+
+			.hero-cta {
+				margin-top: 30px;
+			}
+			
+			/* POPUP */
+			.booking-popup {
+				position: fixed;
+				inset: 0;
+				display: none;
+				z-index: 5000;
+			}
+
+			.booking-popup.active {
+				display: block;
+			}
+
+			.popup-overlay {
+				position: absolute;
+				inset: 0;
+
+				background: rgba(0,0,0,0.5);
+				backdrop-filter: blur(6px);
+				-webkit-backdrop-filter: blur(6px);
+			}
+
+			.popup-container {
+				position: relative;
+				max-width: 500px;
+				margin: 80px auto 40px; /* more breathing room top */
+				padding: 50px 35px;
+				padding-top: calc(40px + env(safe-area-inset-top));
+
+				/* Frosted glass */
+				background: rgba(20, 20, 20, 0.45);
+				backdrop-filter: blur(18px) saturate(140%);
+				-webkit-backdrop-filter: blur(18px) saturate(140%);
+
+				/* Thinner, premium border */
+				border: 0.5px solid rgba(212, 175, 55, 0.25);
+
+				/* Depth */
+				box-shadow:
+					0 20px 60px rgba(0,0,0,0.6),
+					inset 0 1px 0 rgba(255,255,255,0.05);
+
+				border-radius: 14px;
+
+				z-index: 10;
+			}
+			.popup-container::before {
+				content: "";
+				position: absolute;
+				inset: 0;
+				border-radius: 14px;
+
+				background: linear-gradient(
+					120deg,
+					rgba(255,255,255,0.08),
+					transparent 40%,
+					transparent 60%,
+					rgba(255,255,255,0.05)
+				);
+				pointer-events: none;
+			}
+			.popup-container button {
+				margin-top: 20px;
+			}
+
+			/* Close */
+			.popup-close {
+				position: absolute;
+				top: 5px;
+				right: 5px;
+				font-size: 22px;
+				cursor: pointer;
+			}
+
+			/* Steps */
+			.popup-step {
+				display: none;
+				text-align: center;
+				gap: 12px;
+			}
+
+			.popup-step.active {
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+			}
+
+			/* Progress */
+			.popup-progress {
+				height: 4px;
+				background: #222;
+				margin-bottom: 20px;
+			}
+
+			.progress-bar {
+				height: 100%;
+				width: 25%;
+				background: var(--gold);
+				transition: 0.3s;
+			}
+			@media (max-width: 768px) {
+				.popup-container {
+					padding: 40px 20px;
+					margin: 100px 15px 30px;
+				}
+			}
+			/* Options */
+			.service-options {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 10px;
+				margin: 20px 0;
+			}
+
+			.service-options div {
+				padding: 15px;
+				border: 1px solid rgba(212,175,55,0.3);
+				cursor: pointer;
+			}
+
+			.service-options div.selected {
+				background: var(--gold);
+				color: black;
+			}
+
+			/* Inputs */
+			.popup-container input {
+				width: 100%;
+				padding: 12px;
+				margin: 12px 0;
+
+				background: rgba(0,0,0,0.4);
+				border: 0.5px solid rgba(255,255,255,0.1);
+
+				color: white;
+				border-radius: 6px;
+
+				backdrop-filter: blur(8px);
+			}
+			
+			/* Services Section */
+			.service-carousel {
+				position: relative;
+				overflow: hidden;
+			}
+
+			.service-carousel img {
+				position: absolute;
+				inset: 0;
+				width: 100%;
+				height: 100%;
+				object-fit: cover;
+
+				opacity: 0;
+				transform: scale(1.06);
+				transition:
+					opacity 1s ease,
+					transform 1.4s cubic-bezier(0.22, 1, 0.36, 1);
+			}
+
+			.service-carousel img.active {
+				opacity: 1;
+				transform: scale(1);
+				z-index: 2;
+			}
+
+			.service-carousel .carousel-dots {
+				position: absolute;
+				left: 50%;
+				bottom: 18px;
+				transform: translateX(-50%);
+				display: flex;
+				gap: 8px;
+				z-index: 5;
+			}
+
+			.service-carousel .carousel-dots span {
+				width: 7px;
+				height: 7px;
+				border-radius: 999px;
+				background: rgba(255,255,255,0.45);
+				transition:
+					width 0.35s ease,
+					background 0.35s ease;
+			}
+
+			.service-carousel .carousel-dots span.active {
+				width: 24px;
+				background: var(--gold);
+			}
+			.services-premium {
+				padding: 100px 10%;
+			}
+
+			.service-block {
+				display: grid;
+				grid-template-columns: 1fr 1fr;
+				gap: 60px;
+				align-items: center;
+				margin-bottom: 80px;
+			}
+
+			.service-block.reverse {
+				direction: rtl;
+			}
+
+			.service-block.reverse .service-content {
+				direction: ltr;
+			}
+
+			/* IMAGE */
+			.service-image {
+				position: relative;
+				min-height: 460px;
+				overflow: hidden;
+				border-radius: 12px;
+			}
+
+			.service-image img {
+				width: 100%;
+				height: 420px;
+				object-fit: cover;
+				transition: transform 0.6s ease;
+			}
+
+			.service-block:hover img {
+				transform: scale(1.05);
+			}
+
+			/* TEXT */
+			.service-content h3 {
+				font-size: 2rem;
+				margin-bottom: 15px;
+				color: var(--gold);
+			}
+
+			.service-content p {
+				opacity: 0.75;
+				line-height: 1.7;
+				max-width: 450px;
+			}
+
+			.service-actions {
+				margin-top: 20px;
+				display: flex;
+				gap: 15px;
+				align-items: center;
+			}
+
+			.service-link {
+				color: var(--gold);
+				text-decoration: none;
+				font-size: 0.9rem;
+			}
+
+			.service-link:hover {
+				opacity: 0.7;
+			}
+			@media (max-width: 768px) {
+				.service-block {
+					grid-template-columns: 1fr;
+					gap: 30px;
+				}
+
+				.service-block.reverse {
+					direction: ltr;
+				}
+
+				.service-image img {
+					height: 260px;
+				}
+
+				.service-content {
+					text-align: center;
+				}
+
+				.service-actions {
+					justify-content: center;
+				}
+			}
+			/*   Main Footer   */
+			.main-footer {
+				position: relative;
+				background-color: var(--black);
+				padding: 100px 10% 20px;
+				border-top: none !important;
+				margin-top: 0;
+			}
+			.main-footer::before {
+				content: "";
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 1px;
+				background: linear-gradient(
+					90deg,
+					transparent,
+					rgba(212,175,55,0.2),
+					transparent
+				);
+			}
+			.footer-container {
+				display: grid;
+				grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
+				gap: 40px;
+				margin-bottom: 60px;
+			}
+
+			.footer-col h3 {
+				font-size: 1.2rem;
+				margin-bottom: 1.5rem;
+				letter-spacing: 2px;
+				text-transform: uppercase;
+			}
+
+			.footer-col p, .footer-col ul {
+				font-size: 0.9rem;
+				color: #999;
+			}
+
+			.footer-col ul { list-style: none; }
+			.footer-col ul li { margin-bottom: 0.8rem; }
+		
+			.footer-col a {
+				color: #999;
+				text-decoration: none;
+				transition: var(--transition);
+			}
+			.footer-col a:hover { color: var(--gold); padding-left: 5px; }
+
+			.mission-text { margin: 20px 0; max-width: 300px; }
+
+			.social-icons {
+				margin-top: 25px;
+				display: flex;
+				gap: 25px; /* Increased gap to account for larger icons */
+			}
+
+			.social-icons a {
+				color: var(--gold);
+				font-size: 1.8rem; /* Made icons significantly bigger */
+				text-decoration: none;
+				transition: var(--transition);
+				display: inline-block;
+				border: none; /* Removes the outline/border */
+				background: none; /* Ensures no background color */
+				width: auto; /* Removes the fixed circular width */
+				height: auto; /* Removes the fixed circular height */
+			}
+
+			.social-icons a:hover {
+				color: var(--white); /* Changes to white on hover for a clean contrast */
+				transform: translateY(-5px); /* Elegant lift effect */
+				background: none; /* Ensures no background appears on hover */
+				box-shadow: none; /* Removes the shadow since there's no circular shape */
+			}
+
+			.hours span { display: block; margin-top: 5px; font-style: italic; }
+
+			/* Newsletter Form */
+			.newsletter-form {
+				display: flex;
+				margin-top: 20px;
+				border-bottom: 1px solid var(--gold);
+			}
+
+			.newsletter-form input {
+				background: transparent;
+				border: none;
+				padding: 10px;
+				color: white;
+				flex-grow: 1;
+				outline: none;
+			}
+
+			.newsletter-form button {
+				background: transparent;
+				color: var(--gold);
+				border: none;
+				font-weight: bold;
+				text-transform: uppercase;
+				cursor: pointer;
+				padding: 10px;
+			}
+
+			/* Bottom Bar */
+			.footer-bottom {
+				border-top: 1px solid rgba(255, 255, 255, 0.1);
+				padding-top: 20px;
+				display: flex;
+				justify-content: space-between;
+				align-items: center;
+				font-size: 0.75rem;
+				color: #666;
+			}
+
+			.legal-links a {
+				margin-left: 20px;
+				color: #666;
+				text-decoration: none;
+			}
+
+			/* Mobile Responsiveness for Footer */
+		   @media (max-width: 992px) {
+				.footer-container {
+					grid-template-columns: 1fr 1fr;
+				}
+			}
+
+			@media (max-width: 600px) {
+				.footer-container {
+					grid-template-columns: 1fr;
+				}
+				.footer-bottom {
+					flex-direction: column;
+					gap: 15px;
+					text-align: center;
+				}
+			}
+		</style>
+</head>
+	<body>
+		<header class="site-header">
+			<div class="nav-shell">
+				<a href="index.html" class="logo-link">
+					<div class="logo">AARVELLA</div>
+				</a>
+
+				<nav class="desktop-nav">
+					<a href="services.html">Services</a>
+					<a href="stylists.html">Stylists</a>
+					<a href="about.html">About</a>
+					<a href="blog.html">Blog</a>
+					<a href="find-us.html">Find Us</a>
+					<button class="btn-gold js-book">
+						<span>Book Now</span>
+					</button>
+				</nav>
+
+				<div class="hamburger" id="hamburger">
+					<span></span>
+					<span></span>
+					<span></span>
+				</div>
+			</div>
+			<div class="nav-overlay" id="navOverlay"></div>
+			<div class="mobile-nav" id="mobileNav">
+				<a href="services.html">Services</a>
+				<a href="stylists.html">Stylists</a>
+				<a href="about.html">About</a>
+				<a href="find-us.html">Find Us</a>
+				<button class="btn-gold js-book" id="mobileBookBtn" type="button">
+					<span>Book Now</span>
+				</button>
+			</div>
+		</header>
+
+		<!-- HERO -->
+		<section class="services-hero">
+
+			<div class="services-hero-content">
+				<h1>Crafted Services.<br>Defined Luxury.</h1>
+
+				<p>
+					Discover precision hair, skin, and beauty services designed to elevate your presence.
+					At Aarvella, every detail is curated for perfection.
+				</p>
+
+				<div class="hero-cta">
+					<a href="#" class="btn-gold js-book">
+						<span>Book Appointment</span>
+					</a>
+				</div>
+			</div>
+
+		</section>
+
+		<!-- SERVICES SECTION -->
+		<section class="services-premium">
+
+			<div class="section-header">
+				<h2>Our Expertise</h2>
+				<p>Precision. Craft. Experience.</p>
+			</div>
+
+			<!-- HAIR -->
+			<div class="service-block">
+				<div class="service-image service-carousel">
+					<img src="images/services-newpage/services-hair-01.jpg" class="active" alt="Hair Services 1">
+					<img src="images/services-newpage/services-hair-02.jpg" alt="Hair Services 2">
+					<img src="images/services-newpage/services-hair-03.jpg" alt="Hair Services 3">
+					<img src="images/services-newpage/services-hair-04.jpg" alt="Hair Services 3">
+
+					<div class="carousel-dots">
+						<span class="active"></span>
+						<span></span>
+						<span></span>
+						<span></span>
+					</div>
+				</div>
+				<div class="service-content">
+					<h3>Hair</h3>
+					<p>
+						Aarvella welcomes you to the enchanting realm of hair artistry, where our expert stylists weave creativity and skill together to craft masterpieces. Whether you crave a chic, trendy cut that complements your style or dream of embracing vibrant, eye-catching colours, our dedicated team is here to turn your hair into a stunning work of art. With their passion for innovation and attention to detail, they transform ordinary locks into extraordinary statements, ensuring you leave our salon feeling confident and beautiful. Discover the endless possibilities and indulge in the artful expertise that awaits you in our salon.
+					</p>
+					<div class="service-actions">
+						<a href="#" class="service-link">View Services →</a>
+						<a href="#" class="btn-outline js-book"><span>Book Now</span></a>
+					</div>
+				</div>
+			</div>
+
+			<!-- BEAUTY -->
+			<div class="service-block reverse">
+				<div class="service-image service-carousel">
+					<img src="images/services-newpage/services-beauty-01.jpg" class="active" alt="Beauty Services 1">
+					<img src="images/services-newpage/services-beauty-02.jpg" alt="Beauty Services 2">
+					<img src="images/services-newpage/services-beauty-03.jpg" alt="Beauty Services 3">
+					
+					<div class="carousel-dots">
+						<span class="active"></span>
+						<span></span>
+						<span></span>
+					</div>
+				</div>
+				<div class="service-content">
+					<h3>Beauty</h3>
+					<p>
+						Indulge in the ultimate pampering experience with our luxurious Unisex Beauty Services, offering rejuvenating facials and customized skincare treatments. Our skilled aestheticians are dedicated to enhancing your natural beauty, ensuring your skin feels refreshed and revitalized. Experience the magic of our specialized treatments, leaving you with a radiant, glowing complexion that captures attention wherever you go. Unwind in our serene atmosphere as we cater to your skincare needs, leaving you feeling confident and utterly pampered.
+					</p>
+					<div class="service-actions">
+						<a href="#" class="service-link">View Services →</a>
+						<a href="#" class="btn-outline js-book"><span>Book Now</span></a>
+					</div>
+				</div>
+			</div>
+
+			<!-- SPA -->
+			<div class="service-block">
+				<div class="service-image">
+					<img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874" alt="Spa Services">
+				</div>
+				<div class="service-content">
+					<h3>Spa</h3>
+					<p>
+						At our spa, surrender yourself to the epitome of relaxation. Discover profound tranquillity and rejuvenation through our diverse array of spa treatments, from expert massages that melt away tension to invigorating body scrubs that leave your skin silky-smooth. Our therapeutic therapies are carefully designed to restore balance to your body and mind, providing a serene escape from the demands of daily life. Let our skilled therapists guide you on a transformative journey, where stress dissipates, and a profound sense of well-being takes over. Immerse yourself in the soothing ambience of our spa and experience the ultimate blissful retreat.
+					</p>
+					<div class="service-actions">
+						<a href="#" class="service-link">View Services →</a>
+						<a href="#" class="btn-outline js-book"><span>Book Now</span></a>
+					</div>
+				</div>
+			</div>
+
+			<!-- NAILS -->
+			<div class="service-block reverse">
+				<div class="service-image">
+					<img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874" alt="Spa Services">
+				</div>
+				<div class="service-content">
+					<h3>Spa</h3>
+					<p>
+						With meticulous attention to detail and a passion for creativity, our technicians craft nail art that reflects your personality and enhances your overall look. Indulge in a pampering session where your hands are transformed into works of art, leaving you with nails that are not just polished but are also a true reflection of your unique style and sophistication. Elevate your nail game to new heights with our unparalleled expertise and creativity.
+					</p>
+					<div class="service-actions">
+						<a href="#" class="service-link">View Services →</a>
+						<a href="#" class="btn-outline js-book"><span>Book Now</span></a>
+					</div>
+				</div>
+			</div>
+
+			<!-- MAKEUP -->
+			<div class="service-block">
+				<div class="service-image">
+					<img src="https://images.unsplash.com/photo-1544161515-4ab6ce6db874" alt="Spa Services">
+				</div>
+				<div class="service-content">
+					<h3>Spa</h3>
+					<p>
+							At Aarvella, we believe that makeup is not just a cosmetic application; it’s an art form that accentuates your natural beauty and enhances your features. Step into our world of creativity, where our talented makeup artists transform faces into canvases, creating mesmerizing looks tailored to your preferences and occasions.
+					</p>
+					<div class="service-actions">
+						<a href="#" class="service-link">View Services →</a>
+						<a href="#" class="btn-outline js-book"><span>Book Now</span></a>
+					</div>
+				</div>
+			</div>
+		</section>		
+
+		<!-- BOOKING POPUP -->
+		<div id="bookingPopup" class="booking-popup">
+
+			<div class="popup-overlay"></div>
+
+			<div class="popup-container">
+
+				<!-- Close -->
+				<span class="popup-close" onclick="closeBooking()">×</span>
+
+				<!-- Progress -->
+				<div class="popup-progress">
+					<div class="progress-bar" id="progressBar"></div>
+				</div>
+
+				<!-- Step 1 -->
+				<div class="popup-step active" data-step="1">
+					<h2>Select Your Service</h2>
+
+					<div class="service-options">
+						<div onclick="selectService(this)">Haircut</div>
+						<div onclick="selectService(this)">Balayage</div>
+						<div onclick="selectService(this)">Facial</div>
+						<div onclick="selectService(this)">Hair Spa</div>
+					</div>
+
+					<button class="btn-gold" onclick="nextStep()">Continue</button>
+				</div>
+
+				<!-- Step 2 -->
+				<div class="popup-step" data-step="2">
+					<h2>Choose Date & Time</h2>
+
+					<input type="date" id="bookingDate">
+					<input type="time" id="bookingTime">
+
+					<button class="btn-gold" onclick="nextStep()">Continue</button>
+				</div>
+
+				<!-- Step 3 -->
+				<div class="popup-step" data-step="3">
+					<h2>Your Details</h2>
+
+					<input type="text" placeholder="Full Name" id="name">
+					<input type="tel" placeholder="Phone Number" id="phone">
+
+					<button class="btn-gold" onclick="confirmBooking()">Confirm Booking</button>
+				</div>
+
+				<!-- Step 4 -->
+				<div class="popup-step" data-step="4">
+					<h2>You're Booked ✨</h2>
+					<p>We’ll contact you shortly to confirm your appointment.</p>
+
+					<a id="whatsappBtn" target="_blank" class="btn-outline">
+						<span>Confirm on WhatsApp</span>
+					</a>
+				</div>
+
+			</div>
+		</div>
+
+		<!-- CTA -->
+		<section class="booking-funnel">
+			<div class="booking-content" style="text-align:center; max-width:700px; margin:auto;">
+				<h2>Your Transformation Starts Here</h2>
+				<p class="booking-subtext">
+					Whether it's a fresh haircut or a complete makeover — we craft results you can't ignore.
+				</p>
+
+				<div class="booking-cta" style="justify-content:center;">
+					<button class="btn-gold large js-book">Book Appointment</button>
+					<a href="#" class="btn-outline"><span>Call Us</span></a>
+				</div>
+			</div>
+		</section>
+		<footer class="main-footer">
+			<div class="footer-container">
+				<div class="footer-col">
+					<div class="logo">AARVELLA</div>
+					<p class="mission-text">Defining the gold standard in hair artistry. Our mission is to provide a transformative luxury experience tailored to your unique beauty.</p>
+					<div class="social-icons">
+						<a href="https://www.instagram.com/aarvella.salon/" target="_blank" rel="noopener noreferrer" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+						<a href="https://facebook.com/Aarvella" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+						<a href="https://in.pinterest.com/AarvellaSalon" target="_blank" rel="noopener noreferrer" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+						<a href="https://youtube.com/@AarvellaSalon" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+					</div>
+				</div>
+
+				<div class="footer-col">
+					<h3>Experience</h3>
+					<ul>
+						<li><a href="services.html">Hair Services</a></li>
+						<li><a href="skin.html">Skin Treatments</a></li>
+						<li><a href="bridal.html">Bridal Packages</a></li>
+						<li><a href="#">Gift Cards</a></li>
+						<li><a href="careers.html">Careers</a></li>
+					</ul>
+				</div>
+
+				<div class="footer-col">
+					<h3>AARVELLA SALON</h3>
+					<p>Karanpur Road<br>Dehradun, 248001</p>
+					<p class="phone-link">+91 9742049990</p>
+					<div class="hours">
+						<span>Tue - Sun: 10am - 8pm</span>
+						<span>Mon: Closed</span>
+					</div>
+				</div>
+
+				<div class="footer-col">
+					<h3>Stay Inspired</h3>
+					<p>Join our Gold List for exclusive trends and early access to bookings.</p>
+					<form class="newsletter-form">
+						<input type="email" placeholder="Email Address" required>
+						<button type="submit">Join</button>
+					</form>
+				</div>
+		  </div>
+
+			<div class="footer-bottom">
+				<p>&copy; 2026 Aarvella Luxury Salon. All Rights Reserved.</p>
+				<div class="legal-links">
+					<a href="privacy.html">Privacy Policy</a>
+					<a href="terms.html">Terms of Service</a>
+					<a href="javascript:window.scrollTo({top: 0, behavior: 'smooth'});">Back to Top ↑</a>
+				</div>
+			</div>
+		</footer>
+
+		<script>
+			document.querySelectorAll('.btn-gold, .btn-outline').forEach(button => {
+				button.addEventListener('click', function (e) {
+					const ripple = document.createElement('span');
+					ripple.classList.add('btn-ripple');
+
+					const rect = button.getBoundingClientRect();
+					ripple.style.left = (e.clientX - rect.left) + 'px';
+					ripple.style.top = (e.clientY - rect.top) + 'px';
+
+					this.appendChild(ripple);
+
+					setTimeout(() => ripple.remove(), 600);
+
+					// Optional delay for booking buttons ONLY
+					if (this.getAttribute('onclick')?.includes('openBookingDelayed') || this.id === 'mobileBookBtn') {
+						e.preventDefault();
+
+						setTimeout(() => {
+							openBooking();
+						}, 140);
+					}
+				});
+			});
+			document.addEventListener('DOMContentLoaded', () => {
+				const hamburger = document.getElementById('hamburger');
+				const mobileNav = document.getElementById('mobileNav');
+				const overlay = document.getElementById('navOverlay');
+				const mobileBookBtn = document.getElementById('mobileBookBtn');
+
+				const toggleMenu = () => {
+					const isActive = mobileNav.classList.toggle('active');
+
+					hamburger.classList.toggle('active');
+					overlay.classList.toggle('active');
+
+					document.body.style.overflow = isActive ? 'hidden' : '';
+					document.body.classList.toggle('menu-open', isActive);
+				};
+
+				hamburger.addEventListener('click', toggleMenu);
+				overlay.addEventListener('click', toggleMenu);
+
+				document.querySelectorAll('.mobile-nav a').forEach(link => {
+					link.addEventListener('click', toggleMenu);
+				});
+
+				if (mobileBookBtn) {
+					mobileBookBtn.addEventListener('click', () => {
+						toggleMenu();
+						setTimeout(() => {
+							openBooking();
+						}, 140);
+					});
+				}
+				document.addEventListener('click', (e) => {
+					if (
+						mobileNav.classList.contains('active') &&
+						!mobileNav.contains(e.target) &&
+						!hamburger.contains(e.target)
+					) {
+						toggleMenu();
+					}
+				});
+				window.addEventListener('resize', () => {
+					if (window.innerWidth > 768) {
+
+						hamburger.classList.remove('active');
+						mobileNav.classList.remove('active');
+						overlay.classList.remove('active');
+
+						document.body.classList.remove('menu-open');
+						document.body.style.overflow = '';
+					}
+				});
+			});
+			document.querySelector('.popup-overlay').addEventListener('click', closeBooking);
+
+			const popup = document.querySelector(".booking-popup");
+			
+			function openBooking() {
+				document.getElementById("bookingPopup").classList.add("active");
+				document.body.classList.add("menu-open");
+			}
+
+			function closeBooking() {
+				document.getElementById("bookingPopup").classList.remove("active");
+				document.body.classList.remove("menu-open");
+			}
+
+			document.querySelectorAll('.js-book, .card-book-btn').forEach(btn => {
+				btn.addEventListener('click', function (e) {
+					e.preventDefault();
+
+					setTimeout(() => {
+						openBooking();
+					}, 120);
+				});
+			});
+
+			document.querySelector(".popup-overlay").addEventListener("click", () => {
+				popup.classList.remove("active");
+				document.body.classList.remove("menu-open");
+			});
+			document.querySelectorAll('.service-block').forEach(el => {
+				el.style.opacity = "0";
+				el.style.transform = "translateY(40px)";
+			});
+
+			const observer = new IntersectionObserver((entries) => {
+				entries.forEach(entry => {
+					if (entry.isIntersecting) {
+						entry.target.style.opacity = "1";
+						entry.target.style.transform = "translateY(0)";
+						entry.target.style.transition = "all 0.8s cubic-bezier(0.22,1,0.36,1)";
+					}
+				});
+			}, { threshold: 0.2 });
+
+			document.querySelectorAll('.service-block').forEach(el => observer.observe(el));
+			
+			document.querySelectorAll(".service-carousel").forEach(carousel => {
+				const images = carousel.querySelectorAll("img");
+				const dots = carousel.querySelectorAll(".carousel-dots span");
+
+				let index = 0;
+
+				function showSlide(nextIndex) {
+					images[index].classList.remove("active");
+					dots[index]?.classList.remove("active");
+
+					index = nextIndex;
+
+					images[index].classList.add("active");
+					dots[index]?.classList.add("active");
+				}
+
+				setInterval(() => {
+					const nextIndex = (index + 1) % images.length;
+					showSlide(nextIndex);
+				}, 3500);
+
+				dots.forEach((dot, dotIndex) => {
+					dot.addEventListener("click", () => {
+						showSlide(dotIndex);
+					});
+				});
+			});			
+		</script>
+	</body>
+</html>

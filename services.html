@@ -1,21 +1,29 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
-		<meta charset="utf-8"/>
-		<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-		<meta content="1a3a419d7378346d0d870ee6dac051bb" name="p:domain_verify"/>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<meta name="p:domain_verify" content="1a3a419d7378346d0d870ee6dac051bb" />
 		<title>Services | Aarvella Luxury Salon</title>
-		<meta content="Aarvella service directory for hair, beauty, spa and makeup." name="description"/>
-		<link href="https://fonts.googleapis.com" rel="preconnect"/>
-		<link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
-		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=Poppins:wght@500;600;700&amp;family=Playfair+Display:wght@600;700&amp;display=swap" rel="stylesheet"/>
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-		<link rel="stylesheet" href="assets/css/services.css">
-		<link rel="stylesheet" href="assets/css/booking.css">
-		<link rel="stylesheet" href="assets/css/footer.css">
+		<meta name="description" content="Explore Aarvella Unisex Salon services in Dehradun: hair colour, haircuts, beauty rituals, skin care, spa, nails, bridal and makeup artistry." />
+		<link rel="canonical" href="https://aarvella.com/services.html" />
+		<meta property="og:title" content="Services | Aarvella Luxury Salon" />
+		<meta property="og:description" content="A modern Aarvella service directory featuring men's hair, women's hair, hair coloring, hair texture, hand and foot spa, skin care and beauty essentials." />
+		<meta property="og:type" content="website" />
+		<meta property="og:url" content="https://aarvella.com/services.html" />
+		<meta property="og:image" content="https://aarvella.com/assets/images/services/services-hero.webp" />
+		<meta name="twitter:card" content="summary_large_image" />
+		<link rel="preconnect" href="https://fonts.googleapis.com" />
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+		<link rel="stylesheet" href="assets/css/services.css" />
+		<link rel="stylesheet" href="assets/css/booking.css" />
+		<link rel="stylesheet" href="assets/css/footer.css" />
 		<link rel="stylesheet" href="assets/css/ai-chat.css">
 	</head>
-	<body style="--hero-img:url('https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&amp;fit=crop&amp;w=1800&amp;q=85')">
+
+	<body>
 		<header class="site-header">
 			<div class="nav-shell">
 				<a href="index.html" class="logo-link">
@@ -45,7 +53,6 @@
 				<a href="services.html">Services</a>
 				<a href="stylists.html">Stylists</a>
 				<a href="about.html">About</a>
-				<a href="blog.html">Blog</a>
 				<a href="find-us.html">Find Us</a>
 				<button class="btn-gold js-book" id="mobileBookBtn" type="button">
 					<span class="btn-text">Book Now</span>
@@ -53,29 +60,56 @@
 				</button>
 			</div>
 		</header>
+
 		<main>
-			<section class="hero">
-				<div>
-					<div class="eyebrow">
-						Aarvella Services
-					</div>
-					<h1>
-						One salon. Four luxury worlds.
-					</h1>
+			<section class="services-hero" aria-labelledby="servicesHeroTitle">
+				<div class="hero-media" aria-hidden="true">
+					<img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1800&q=85" alt="" />
+				</div>
+
+				<div class="hero-glow hero-glow-one" aria-hidden="true"></div>
+				<div class="hero-glow hero-glow-two" aria-hidden="true"></div>
+
+				<div class="hero-content reveal-block">
+					<p class="eyebrow">Aarvella Service Atelier</p>
+					<h1 id="servicesHeroTitle">Beauty, hair and skin rituals designed around you.</h1>
 					<p>
-						Explore Aarvella&rsquo;s premium service pillars: Hair, Beauty, Spa and Makeup. Each page is designed as an individual landing page so you can link it from your service cards, booking CRM and Google profile.
+						Explore premium service worlds built for Dehradun's modern clients: high-impact hair colour, refined skin care,
+						calming spa rituals, bridal artistry and polished everyday grooming.
 					</p>
 					<div class="hero-actions">
-						<a class="btn-gold" href="#services">
-						Explore Services
+						<a class="btn-gold" href="#serviceDirectory">
+							<span class="btn-text">Explore Services</span>
+							<span class="btn-ripple-container" aria-hidden="true"></span>
 						</a>
-						<button class="btn-outline js-book">
-						Book Consultation
+						<button class="btn-outline js-book" type="button" data-book="Services Consultation">
+							<span class="btn-text">Book Consultation</span>
+							<span class="btn-ripple-container" aria-hidden="true"></span>
 						</button>
 					</div>
 				</div>
+
+				<div class="hero-panel reveal-block" style="--delay: 120ms;">
+					<div class="hero-panel-topline">Signature Flow</div>
+					<div class="hero-panel-grid">
+						<div>
+							<strong>01</strong>
+							<span>Consult</span>
+						</div>
+						<div>
+							<strong>02</strong>
+							<span>Customize</span>
+						</div>
+						<div>
+							<strong>03</strong>
+							<span>Create</span>
+						</div>
+					</div>
+					<p>Every service starts with a short consultation so the result fits your lifestyle, skin, hair condition and event need.</p>
+				</div>
 			</section>
-			<section class="trust-strip">
+
+			<section class="trust-strip" aria-label="Aarvella service highlights">
 				<div>
 					<strong>Consult-first</strong>
 					<span>Personalized plans</span>
@@ -93,165 +127,257 @@
 					<span>Simple booking flow</span>
 				</div>
 			</section>
-			<section class="section" id="services">
-				<div class="section-head center">
-					<div class="eyebrow">
-						Service Directory
-					</div>
-					<h2>
-						Choose your experience
-					</h2>
+
+			<section class="section intro-section">
+				<div class="intro-copy reveal-block">
+					<p class="eyebrow">Designed like a luxury menu</p>
+					<h2>Choose the exact Aarvella ritual without searching through a long price list.</h2>
+				</div>
+				<div class="intro-note reveal-block" style="--delay: 120ms;">
 					<p>
-						Built like premium salon websites: strong photography, clear categories, concise service anchors and prominent appointment CTAs.
+						The page now works like a premium salon concierge: one service story at a time, richer descriptions, clear service cues and smooth motion that feels elegant instead of noisy.
 					</p>
 				</div>
-				<div class="grid cards-2">
-					<a class="service-card" href="hair.html">
-						<img src="https://images.unsplash.com/photo-1522338242992-e1a54906a8da?auto=format&amp;fit=crop&amp;w=1200&amp;q=80"/>
-						<div class="body">
-							<h3>Hair Craft</h3>
-							<p>Ladies and Gentlemen sections with cuts, colour, texture, spa and grooming.</p>
-							<span class="btn-outline">View Hair Menu</span>
+			</section>
+
+			<section class="section service-directory" id="serviceDirectory" aria-labelledby="directoryTitle">
+				<div class="section-head center reveal-block">
+					<p class="eyebrow">Service Directory</p>
+					<h2 id="directoryTitle">Choose your Aarvella experience</h2>
+					<p>
+						Seven focused service sections arranged one below the other, with deeper service context and one clear link at the end of every card.
+					</p>
+				</div>
+
+				<div class="service-stack" aria-label="Aarvella service categories">
+					<article class="service-card service-panel" data-accent="Cuts • Grooming • Styling">
+						<div class="card-image">
+							<img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1400&q=82" alt="Men's haircut and grooming service at Aarvella" loading="lazy" decoding="async" />
 						</div>
-					</a>
-					<a class="service-card" href="beauty.html">
-						<img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&amp;fit=crop&amp;w=1200&amp;q=80"/>
-						<div class="body">
-							<h3>Beauty Rituals</h3>
-							<p>Facials, cleanups, waxing, threading, bleach and de-tan in a premium structure.</p>
-							<span class="btn-outline">View Beauty Menu</span>
+						<div class="card-content">
+							<div class="panel-count">01</div>
+							<div class="card-kicker">Sharp grooming</div>
+							<h3>Men's Hair</h3>
+							<p>Clean, confident grooming for men who want structure without looking overdone. This section covers precision haircuts, fades, classic scissor work, beard shaping, shampoo, styling and finish guidance for everyday maintenance.</p>
+							<div class="card-meta"><span>Precision cuts</span><span>Fades</span><span>Beard shaping</span><span>Styling finish</span></div>
+							<a class="card-link" href="mens-hair.html">View Men's Hair <i class="fa-solid fa-arrow-right"></i></a>
 						</div>
-					</a>
-					<a class="service-card" href="spa.html">
-						<img src="https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&amp;fit=crop&amp;w=1200&amp;q=80"/>
-						<div class="body">
-							<h3>Spa &amp; Nail Rituals</h3>
-							<p>Body spa, polish, manicure, pedicure and hand-foot rituals.</p>
-							<span class="btn-outline">View Spa Menu</span>
+					</article>
+
+					<article class="service-card service-panel" data-accent="Cuts • Blowdry • Styling">
+						<div class="card-image">
+							<img src="https://images.unsplash.com/photo-1522338242992-e1a54906a8da?auto=format&fit=crop&w=1400&q=82" alt="Women's hair styling service at Aarvella" loading="lazy" decoding="async" />
 						</div>
-					</a>
-					<a class="service-card" href="makeup.html">
-						<img src="https://images.unsplash.com/photo-1487412947147-5cebf100ffc2?auto=format&amp;fit=crop&amp;w=1200&amp;q=80"/>
-						<div class="body">
-							<h3>Makeup Artistry</h3>
-							<p>Occasion, HD, airbrush, bridal, groom and event-ready artistry.</p>
-							<span class="btn-outline">View Makeup Menu</span>
+						<div class="card-content">
+							<div class="panel-count">02</div>
+							<div class="card-kicker">Signature finish</div>
+							<h3>Women's Hair</h3>
+							<p>Designed for shape, movement and a salon-fresh finish. Explore women’s cuts, layers, fringes, blowdry, styling, hair spa and repair-led routines based on your hair density, face shape and day-to-day styling needs.</p>
+							<div class="card-meta"><span>Layers</span><span>Blowdry</span><span>Hair spa</span><span>Occasion styling</span></div>
+							<a class="card-link" href="womens-hair.html">View Women's Hair <i class="fa-solid fa-arrow-right"></i></a>
 						</div>
-					</a>
-					<a class="service-card" href="bridal.html">
-						<img src="../assets/images/bridal/bridal_image_landscape003.jpg"/>
-						<div class="body">
-							<h3>Bridal Artistry</h3>
-							<p>Skin prep, Makeup, Hair styling, Draping support and Final Touch-ups.</p>
-							<span class="btn-outline">View Bridal Menu</span>
+					</article>
+
+					<article class="service-card service-panel" data-accent="Balayage • Global • Highlights">
+						<div class="card-image">
+							<img src="https://images.unsplash.com/photo-1620331311520-246422fd82f9?auto=format&fit=crop&w=1400&q=82" alt="Hair coloring and balayage service at Aarvella" loading="lazy" decoding="async" />
 						</div>
-					</a>
-					<a class="service-card" href="skin.html">
-						<img src="../assets/images/services/services-skincare1.jpg"/>
-						<div class="body">
+						<div class="card-content">
+							<div class="panel-count">03</div>
+							<div class="card-kicker">Colour studio</div>
+							<h3>Hair Coloring</h3>
+							<p>Colour should look expensive, not accidental. This section includes global colour, balayage, highlights, root touch-up, toning, glossing and corrective colour planning after a consultation on base shade, skin tone and hair history.</p>
+							<div class="card-meta"><span>Balayage</span><span>Highlights</span><span>Global colour</span><span>Toner</span></div>
+							<a class="card-link" href="hair-coloring.html">View Colour Menu <i class="fa-solid fa-arrow-right"></i></a>
+						</div>
+					</article>
+
+					<article class="service-card service-panel" data-accent="Keratin • Smoothening • Curls">
+						<div class="card-image">
+							<img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?auto=format&fit=crop&w=1400&q=82" alt="Hair texture, keratin and smoothening service at Aarvella" loading="lazy" decoding="async" />
+						</div>
+						<div class="card-content">
+							<div class="panel-count">04</div>
+							<div class="card-kicker">Texture control</div>
+							<h3>Hair Texture</h3>
+							<p>For hair that needs discipline, softness or shape. Aarvella’s texture section covers keratin, smoothening, straightening, curl definition and repair support, with the right service chosen after checking strength, porosity and frizz level.</p>
+							<div class="card-meta"><span>Keratin</span><span>Smoothening</span><span>Curl care</span><span>Repair rituals</span></div>
+							<a class="card-link" href="hair-texture.html">View Texture Menu <i class="fa-solid fa-arrow-right"></i></a>
+						</div>
+					</article>
+
+					<article class="service-card service-panel" data-accent="Manicure • Pedicure • Polish">
+						<div class="card-image">
+							<img src="https://images.unsplash.com/photo-1610992015732-2449b76344bc?auto=format&fit=crop&w=1400&q=82" alt="Hand and foot spa service at Aarvella" loading="lazy" decoding="async" />
+						</div>
+						<div class="card-content">
+							<div class="panel-count">05</div>
+							<div class="card-kicker">Hands & feet</div>
+							<h3>Hand and Foot Spa</h3>
+							<p>A polished finishing ritual for hands and feet. Choose from manicure, pedicure, foot spa, hand care, cuticle work, scrub, massage and polish services designed to leave the details looking clean and cared for.</p>
+							<div class="card-meta"><span>Manicure</span><span>Pedicure</span><span>Foot spa</span><span>Polish</span></div>
+							<a class="card-link" href="hand-foot-spa.html">View Spa Menu <i class="fa-solid fa-arrow-right"></i></a>
+						</div>
+					</article>
+
+					<article class="service-card service-panel" data-accent="Facials • Cleanup • De-tan">
+						<div class="card-image">
+							<img src="assets/images/services/services-skincare1.jpg" alt="Skin care and facial service at Aarvella" loading="lazy" decoding="async" />
+						</div>
+						<div class="card-content">
+							<div class="panel-count">06</div>
+							<div class="card-kicker">Skin confidence</div>
 							<h3>Skin Care</h3>
-							<p>Facials, cleanups, waxing, threading, bleach and de-tan in a premium structure.</p>
-							<span class="btn-outline">View Skin-care Menu</span>
+							<p>Glow-focused services planned around Dehradun’s dust, sun exposure and seasonal dryness. This section includes facials, cleanups, de-tan, hydration and maintenance rituals that keep skin looking fresh without overcomplication.</p>
+							<div class="card-meta"><span>Facials</span><span>Cleanup</span><span>De-tan</span><span>Hydration</span></div>
+							<a class="card-link" href="skin-care.html">View Skin Care <i class="fa-solid fa-arrow-right"></i></a>
 						</div>
-					</a>
+					</article>
+
+					<article class="service-card service-panel" data-accent="Threading • Waxing • Grooming">
+						<div class="card-image">
+							<img src="https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?auto=format&fit=crop&w=1400&q=82" alt="Beauty essentials service at Aarvella" loading="lazy" decoding="async" />
+						</div>
+						<div class="card-content">
+							<div class="panel-count">07</div>
+							<div class="card-kicker">Everyday polish</div>
+							<h3>Beauty Essentials</h3>
+							<p>The quick but important services that keep your look neat between bigger salon visits. Explore threading, waxing, bleach, de-tan and grooming essentials delivered with hygienic technique and a premium finish.</p>
+							<div class="card-meta"><span>Threading</span><span>Waxing</span><span>Bleach</span><span>De-tan</span></div>
+							<a class="card-link" href="beauty-essentials.html">View Beauty Essentials <i class="fa-solid fa-arrow-right"></i></a>
+						</div>
+					</article>
 				</div>
 			</section>
+
+			<section class="section signature-section" aria-labelledby="signatureTitle">
+				<div class="signature-card reveal-block">
+					<div>
+						<p class="eyebrow">Premium service logic</p>
+						<h2 id="signatureTitle">A page that makes each service category feel intentional.</h2>
+					</div>
+					<div class="signature-list">
+						<div>
+							<span>01</span>
+							<h3>Visual hierarchy</h3>
+							<p>Single-column service cards make each category feel intentional, premium and easier to explore without visual clutter.</p>
+						</div>
+						<div>
+							<span>02</span>
+							<h3>Clear category routes</h3>
+							<p>Each card routes users to the correct page or page section for SEO, ads and CRM tracking.</p>
+						</div>
+						<div>
+							<span>03</span>
+							<h3>Motion with restraint</h3>
+							<p>Cards glide in, hover softly and respect reduced-motion accessibility preferences.</p>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="section process-section" aria-labelledby="processTitle">
+				<div class="section-head reveal-block">
+					<p class="eyebrow">Booking journey</p>
+					<h2 id="processTitle">From curiosity to appointment in three steps.</h2>
+				</div>
+
+				<div class="process-grid">
+					<div class="process-step reveal-block">
+						<span>01</span>
+						<h3>Pick your world</h3>
+						<p>Men's hair, women's hair, colour, texture, spa, skin or beauty — the user reaches the right category instantly.</p>
+					</div>
+					<div class="process-step reveal-block" style="--delay: 100ms;">
+						<span>02</span>
+						<h3>Understand the offer</h3>
+						<p>Short descriptions and tags communicate scope without overwhelming the page.</p>
+					</div>
+					<div class="process-step reveal-block" style="--delay: 200ms;">
+						<span>03</span>
+						<h3>Book the consult</h3>
+						<p>Persistent appointment CTAs make conversion easy from desktop and mobile.</p>
+					</div>
+				</div>
+			</section>
+
+			<section class="cta reveal-block">
+				<p class="eyebrow">Aarvella consultation</p>
+				<h2>Begin with a conversation.</h2>
+				<p>Tell us your hair goal, skin concern or grooming need. We will guide you to the right service path before the appointment.</p>
+				<button class="btn-gold js-book" type="button" data-book="Services Consultation">
+					<span class="btn-text">Book Appointment</span>
+					<span class="btn-ripple-container" aria-hidden="true"></span>
+				</button>
+			</section>
 		</main>
-		<section class="cta">
-			<div class="eyebrow">
-				AARVELLA CONSULTATION
-			</div>
-			<h2>Begin with a conversation.</h2>
-			<p>Every premium service starts with a short consultation so the stylist can understand your lifestyle, face shape, skin needs and event expectations.</p>
-			<button class="btn-gold js-book">Book Appointment</button>
-		</section>
-		<!-- BOOKING POPUP -->
-		<div id="bookingPopup" class="booking-popup">
 
+		<div id="bookingPopup" class="booking-popup" aria-hidden="true">
 			<div class="popup-overlay"></div>
+			<div class="popup-container" role="dialog" aria-modal="true" aria-labelledby="bookingTitle">
+				<button class="popup-close close-popup" type="button" aria-label="Close booking popup" onclick="closeBooking()">×</button>
 
-			<div class="popup-container">
-
-				<!-- Close -->
-				<span class="popup-close" onclick="closeBooking()">×</span>
-
-				<!-- Progress -->
 				<div class="popup-progress">
 					<div class="progress-bar" id="progressBar"></div>
 				</div>
 
-				<!-- Step 1 -->
 				<div class="popup-step active" data-step="1">
-					<h2>Select Your Service</h2>
-
+					<h2 id="bookingTitle">Select Your Service</h2>
 					<div class="service-options">
-						<div onclick="selectService(this)">Haircut</div>
-						<div onclick="selectService(this)">Balayage</div>
-						<div onclick="selectService(this)">Facial</div>
-						<div onclick="selectService(this)">Hair Spa</div>
+						<div onclick="selectService(this)">Men's Hair</div>
+						<div onclick="selectService(this)">Women's Hair</div>
+						<div onclick="selectService(this)">Hair Coloring</div>
+						<div onclick="selectService(this)">Hair Texture</div>
+						<div onclick="selectService(this)">Hand and Foot Spa</div>
+						<div onclick="selectService(this)">Skin Care</div>
+						<div onclick="selectService(this)">Beauty Essentials</div>
 					</div>
-
-					<button class="btn-gold" onclick="nextStep()">
+					<button class="btn-gold" type="button" onclick="nextStep()">
 						<span class="btn-text">Continue</span>
-						<div class="btn-ripple-container"></div>
+						<span class="btn-ripple-container" aria-hidden="true"></span>
 					</button>
 				</div>
 
-				<!-- Step 2 -->
 				<div class="popup-step" data-step="2">
 					<h2>Choose Date & Time</h2>
-
-					<!-- Quick Date -->
 					<div class="quick-dates">
 						<button type="button" onclick="setDate(0)">Today</button>
 						<button type="button" onclick="setDate(1)">Tomorrow</button>
 						<button type="button" onclick="setDate(2)">+2 Days</button>
 					</div>
-
-					<input type="date" id="bookingDate">
-
-					<!-- Time Slots -->
+					<input type="date" id="bookingDate" />
 					<div class="time-slots">
 						<button type="button" onclick="setTime('10:00')">10:00 AM</button>
 						<button type="button" onclick="setTime('13:00')">1:00 PM</button>
 						<button type="button" onclick="setTime('16:00')">4:00 PM</button>
 						<button type="button" onclick="setTime('19:00')">7:00 PM</button>
 					</div>
-
-					<input type="time" id="bookingTime">
+					<input type="time" id="bookingTime" />
 					<div class="popup-actions">
-						<button class="btn-outline" onclick="prevStep()"><span>Back</span></button>
-						<button class="btn-gold" onclick="nextStep()">Continue</button>
+						<button class="btn-outline" type="button" onclick="prevStep()"><span>Back</span></button>
+						<button class="btn-gold" type="button" onclick="nextStep()"><span class="btn-text">Continue</span></button>
 					</div>
-					<p style="opacity:0.6; font-size:0.85rem;">
-						Optional — you can skip this and we’ll confirm with you
-					</p>
+					<p class="popup-hint">Optional — you can skip this and we’ll confirm with you.</p>
 				</div>
 
-				<!-- Step 3 -->
 				<div class="popup-step" data-step="3">
 					<h2>Your Details</h2>
-
-					<input type="text" placeholder="Full Name" id="name">
-					<input type="tel" placeholder="Phone Number" id="phone">
-
+					<input type="text" placeholder="Full Name" id="name" />
+					<input type="tel" placeholder="Phone Number" id="phone" />
 					<div class="popup-actions">
-						<button class="btn-outline" onclick="prevStep()"><span>Back</span></button>
-						<button class="btn-gold" onclick="confirmBooking()">Confirm Booking</button>
+						<button class="btn-outline" type="button" onclick="prevStep()"><span>Back</span></button>
+						<button class="btn-gold" type="button" onclick="confirmBooking()"><span class="btn-text">Confirm Booking</span></button>
 					</div>
 				</div>
 
-				<!-- Step 4 -->
 				<div class="popup-step" data-step="4">
 					<h2>You're Booked ✨</h2>
 					<p>We’ll contact you shortly to confirm your appointment.</p>
-
-					<a id="whatsappBtn" target="_blank" class="btn-outline">
+					<a id="whatsappBtn" target="_blank" rel="noopener" class="btn-outline">
 						<span class="btn-text">Confirm on WhatsApp</span>
-						<div class="btn-ripple-container"></div>
+						<span class="btn-ripple-container" aria-hidden="true"></span>
 					</a>
 				</div>
-
 			</div>
 		</div>
 		
@@ -295,7 +421,7 @@
 			<button type="submit">Send</button>
 		  </form>
 		</div>
-		
+
 		<footer class="main-footer">
 			<div class="footer-container">
 				<div class="footer-col">
@@ -306,6 +432,7 @@
 						<a href="https://facebook.com/Aarvella" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
 						<a href="https://in.pinterest.com/AarvellaSalon" target="_blank" rel="noopener noreferrer" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
 						<a href="https://youtube.com/@AarvellaSalon" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+						<a href="https://x.com/AarvellaSalon" target="_blank" rel="noopener noreferrer" aria-label="X"><i class="fab fa-x-twitter"></i></a>
 					</div>
 				</div>
 
@@ -349,32 +476,7 @@
 				</div>
 			</div>
 		</footer>
-		<div class="booking-popup" id="bookingPopup">
-			<div class="popup-overlay">
-			</div>
-			<div class="popup-container">
-				<button class="close-popup">&times;</button>
-				<h3>Request an Appointment</h3>
-				<p>Connect this form to your CRM booking widget. This placeholder keeps the page launch-ready without locking you to one vendor.</p>
-				<div class="quick-form">
-					<input placeholder="Full name"/>
-					<input placeholder="Phone number"/>
-					<select>
-						<option>Choose service category</option>
-						<option>Hair</option>
-						<option>Beauty</option>
-						<option>Spa</option>
-						<option>Makeup</option>
-					</select>
-					<button class="btn-gold">
-						Submit Request
-					</button>
-				</div>
-				<div class="note">
-					Final pricing may vary after consultation, hair length, product selection and artist level.
-				</div>
-			</div>
-		</div>
+
 		<script src="assets/js/services.js" defer></script>
 		<script src="assets/js/booking.js" defer></script>
 		<script src="assets/js/ai-chat.js" defer></script>

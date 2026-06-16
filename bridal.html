@@ -6,7 +6,7 @@
 		<meta name="p:domain_verify" content="1a3a419d7378346d0d870ee6dac051bb">
 		<title>Bridal Packages | Aarvella Luxury Salon</title>
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 		<link rel="icon" type="image/x-icon" href="favicon.ico">
 		<style>
 			:root {
@@ -437,39 +437,36 @@
 
 			/* --- Premium Bridal Hero --- */
 			.page-hero {
-				min-height: 100vh;
-				padding: clamp(150px, 15vw, 210px) 8% clamp(70px, 8vw, 110px);
-				display: grid;
-				align-items: center;
-				position: relative;
-				overflow: hidden;
-				background-image:
-					linear-gradient(90deg, rgba(10,10,10,0.94) 0%, rgba(10,10,10,0.78) 28%, rgba(10,10,10,0.35) 56%, rgba(10,10,10,0.18) 100%),
-					radial-gradient(circle at 16% 42%, rgba(212,175,55,0.22), transparent 34%),
-					var(--hero-bg);
-				background-size: cover;
-				background-position: center;
-				isolation: isolate;
+			  min-height: 100vh;
+			  padding: clamp(150px, 15vw, 210px) 8% clamp(70px, 8vw, 110px);
+			  display: grid;
+			  align-items: center;
+			  position: relative;
+			  overflow: hidden;
+			  background: #080808;
+			  isolation: isolate;
+			}
+
+			.hero-image {
+			  position: absolute;
+			  inset: 0;
+			  z-index: -3;
+			  width: 100%;
+			  height: 100%;
+			  object-fit: cover;
+			  object-position: center;
+			  filter: saturate(0.95) contrast(1.04);
 			}
 
 			.page-hero::before {
-				content: "";
-				position: absolute;
-				inset: 0;
-				z-index: -1;
-				background:
-					linear-gradient(180deg, rgba(0,0,0,0.28), transparent 34%, rgba(0,0,0,0.52)),
-					radial-gradient(circle at 78% 58%, rgba(255,220,170,0.14), transparent 28%);
-				pointer-events: none;
-			}
-
-			.page-hero::after {
-				content: "";
-				position: absolute;
-				inset: auto 8% 40px 8%;
-				height: 1px;
-				z-index: 1;
-				background: linear-gradient(90deg, rgba(212,175,55,0.6), rgba(255,255,255,0.18), transparent);
+			  content: "";
+			  position: absolute;
+			  inset: 0;
+			  z-index: -2;
+			  background:
+				linear-gradient(90deg, rgba(10,10,10,0.94) 0%, rgba(10,10,10,0.78) 28%, rgba(10,10,10,0.35) 56%, rgba(10,10,10,0.18) 100%),
+				radial-gradient(circle at 16% 42%, rgba(212,175,55,0.22), transparent 34%);
+			  pointer-events: none;
 			}
 
 			.hero-inner {
@@ -619,12 +616,35 @@
 			.reveal { opacity: 0; transform: translateY(34px); transition: opacity 0.75s var(--ease-out), transform 0.75s var(--ease-out); }
 			.reveal.active { opacity: 1; transform: translateY(0); }
 
+			.main-footer { background-color: var(--black); padding: 80px 10% 20px; border-top: 1px solid rgba(212,175,55,0.3); }
+			.footer-container { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.5fr; gap: 40px; margin-bottom: 60px; }
+			.footer-col h3 { font-size: 1.05rem; margin-bottom: 1.5rem; letter-spacing: 2px; text-transform: uppercase; }
+			.footer-col p, .footer-col ul { font-size: 0.9rem; color: #999; }
+			.footer-col ul { list-style: none; }
+			.footer-col ul li { margin-bottom: 0.8rem; }
+			.footer-col a { color: #999; text-decoration: none; transition: var(--transition); }
+			.footer-col a:hover { color: var(--gold); padding-left: 5px; }
+			.mission-text { margin: 20px 0; max-width: 300px; }
+			.social-icons { margin-top: 25px; display: flex; gap: 25px; }
+			.social-icons a { color: var(--gold); font-size: 1.7rem; text-decoration: none; transition: var(--transition); }
+			.social-icons a:hover { color: var(--white); transform: translateY(-3px); padding-left: 0; }
+			.hours { margin-top: 15px; display: grid; gap: 6px; color: #999; font-size: 0.9rem; }
+			.newsletter-form { margin-top: 20px; display: flex; border-bottom: 1px solid var(--gold); }
+			.newsletter-form input { flex: 1; background: transparent; border: none; color: var(--white); padding: 12px 0; outline: none; }
+			.newsletter-form button { background: transparent; border: none; color: var(--gold); font-weight: 700; cursor: pointer; padding-left: 15px; }
+			.footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 25px; display: flex; justify-content: space-between; gap: 20px; color: #777; font-size: 0.85rem; }
+			.legal-links { display: flex; flex-wrap: wrap; gap: 20px; }
+			.legal-links a { color: #777; text-decoration: none; }
+			.legal-links a:hover { color: var(--gold); }
+
+
 			@media (max-width: 980px) {
 				.desktop-nav { display: none; }
 				.hamburger { display: flex; }
 				.lux-grid, .split-row, .split-row.reverse, .legal-layout, .cta-inner, .footer-container { grid-template-columns: 1fr; }
 				.split-row.reverse .split-media { order: 0; }
 				.legal-nav { position: static; }
+				.footer-bottom { flex-direction: column; }
 			}
 
 			@media (max-width: 640px) {
@@ -639,8 +659,6 @@
 			}
 		</style>
 		<link rel="stylesheet" href="assets/css/booking.css">
-		<link rel="stylesheet" href="assets/css/footer.css">
-		<link rel="stylesheet" href="assets/css/ai-chat.css">
 	</head>
 	<body>
 		<header class="site-header">
@@ -650,7 +668,7 @@
 				</a>
 
 				<nav class="desktop-nav">
-					<a href="services-menu/services.html">Services</a>
+					<a href="services.html">Services</a>
 					<a href="stylists.html">Stylists</a>
 					<a href="about.html">About</a>
 					<a href="blog.html">Blog</a>
@@ -671,7 +689,7 @@
 			<div class="nav-overlay" id="navOverlay"></div>
 
 			<div class="mobile-nav" id="mobileNav">
-				<a href="services-menu/services.html">Services</a>
+				<a href="services.html">Services</a>
 				<a href="stylists.html">Stylists</a>
 				<a href="about.html">About</a>
 				<a href="blog.html">Blog</a>
@@ -684,7 +702,16 @@
 		</header>
 
 		<main>
-			<section class="page-hero" style="--hero-bg: url('assets/images/bridal/bridal_hero_image_landscape001.jpg');">
+			<section class="page-hero">
+				<img
+				  class="hero-image"
+				  src="assets/images/bridal/bridal_hero_image_landscape001.webp"
+				  alt="Aarvella salon guest enjoying a blowdry consultation with a hair artist"
+				  width="1920"
+				  height="1080"
+				  fetchpriority="high"
+				  decoding="async"
+				/>
 				<div class="hero-inner">
 					<p class="eyebrow">Aarvella Bridal Atelier</p>
 					<h1>Bridal beauty, <span>made unforgettable.</span></h1>
@@ -709,7 +736,7 @@
 				</div>
 
 				<div class="split-row reveal">
-					<div class="split-media"><img src="assets/images/bridal/bridal_image_landscape001.jpg" alt="Luxury bridal makeup preparation"></div>
+					<div class="split-media"><img src="assets/images/bridal/bridal_image_landscape001.webp" alt="Luxury bridal makeup preparation"></div>
 					<div class="split-copy">
 						<p class="eyebrow">The Signature Bride</p>
 						<h2>Modern bridal glow, sculpted softly.</h2>
@@ -720,7 +747,7 @@
 				</div>
 
 				<div class="split-row reverse reveal">
-					<div class="split-media"><img src="assets/images/bridal/bridal_image_landscape002.jpg" alt="Reception ready bridal styling"></div>
+					<div class="split-media"><img src="assets/images/bridal/bridal_image_landscape002.webp" alt="Reception ready bridal styling"></div>
 					<div class="split-copy">
 						<p class="eyebrow">Complete Celebration</p>
 						<h2>One beauty language across every event.</h2>
@@ -731,7 +758,7 @@
 				</div>
 
 				<div class="split-row reveal">
-					<div class="split-media"><img src="assets/images/bridal/bridal_image_landscape004.jpg" alt="Aarvella baby pink bridal salon hero look"></div>
+					<div class="split-media"><img src="assets/images/bridal/bridal_image_landscape004.webp" alt="Aarvella baby pink bridal salon hero look"></div>
 					<div class="split-copy">
 						<p class="eyebrow">Final Touch Atelier</p>
 						<h2>The finishing details that make the bride feel complete.</h2>
@@ -819,31 +846,6 @@
 				</div>
 			</div>
 		</div>
-		<div id="ai-chat-widget" hidden>
-		  <div class="ai-chat-header">
-			<div>
-			  <strong>Aarvella AI Stylist</strong>
-			  <span>Find the right service</span>
-			</div>
-			<button id="ai-chat-close">×</button>
-		  </div>
-
-		  <div id="ai-chat-messages">
-			<div class="ai-message bot">
-			  Hi, I’m Aarvella’s AI Stylist. Are you looking for hair, skin, makeup, or bridal services?
-			</div>
-		  </div>
-
-		  <form id="ai-chat-form">
-			<input
-			  id="ai-chat-input"
-			  type="text"
-			  placeholder="Type your message..."
-			  autocomplete="off"
-			/>
-			<button type="submit">Send</button>
-		  </form>
-		</div>
 		<footer class="main-footer">
 			<div class="footer-container">
 				<div class="footer-col">
@@ -854,13 +856,14 @@
 						<a href="https://facebook.com/Aarvella" target="_blank" rel="noopener noreferrer" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
 						<a href="https://in.pinterest.com/AarvellaSalon" target="_blank" rel="noopener noreferrer" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
 						<a href="https://youtube.com/@AarvellaSalon" target="_blank" rel="noopener noreferrer" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+						<a href="https://x.com/AarvellaSalon" target="_blank" rel="noopener noreferrer" aria-label="X"><i class="fab fa-x-twitter"></i></a>
 					</div>
 				</div>
 
 				<div class="footer-col">
 					<h3>Experience</h3>
 					<ul>
-						<li><a href="services-menu/services.html">Hair Services</a></li>
+						<li><a href="services.html">Hair Services</a></li>
 						<li><a href="skin.html">Skin Treatments</a></li>
 						<li><a href="javascript:window.scrollTo({top: 0, behavior: 'smooth'});">Bridal Packages</a></li>
 						<li><a href="#">Gift Cards</a></li>
@@ -1008,6 +1011,5 @@
 			});
 		</script>
 		<script src="assets/js/booking.js" defer></script>
-		<script src="assets/js/ai-chat.js" defer></script>
 	</body>
 </html>
