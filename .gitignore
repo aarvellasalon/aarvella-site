@@ -1,0 +1,19 @@
+# Sensitive backend config
+/api/config/db.php
+.env
+
+# Logs
+*.log
+error_log
+
+# OS/system files
+.DS_Store
+Thumbs.db
+
+# Editor files
+.vscode/
+.idea/
+
+# Temporary files
+*.tmp
+*.bak
