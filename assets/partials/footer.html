@@ -36,8 +36,14 @@
 		<div class="footer-col">
 			<h3>Stay Inspired</h3>
 			<p>Join our Gold List for exclusive trends and early access to bookings.</p>
-			<form class="newsletter-form" id="newsletterForm">
-				<input type="email" name="email" placeholder="Email Address" required>
+			<form class="newsletter-form" id="newsletterForm" novalidate>
+				<input
+					type="email"
+					name="email"
+					placeholder="Email Address"
+					autocomplete="email"
+					required
+				>
 				<button type="submit">Join</button>
 			</form>
 			<p class="newsletter-message" id="newsletterMessage" aria-live="polite"></p>
