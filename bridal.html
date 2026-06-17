@@ -616,35 +616,12 @@
 			.reveal { opacity: 0; transform: translateY(34px); transition: opacity 0.75s var(--ease-out), transform 0.75s var(--ease-out); }
 			.reveal.active { opacity: 1; transform: translateY(0); }
 
-			.main-footer { background-color: var(--black); padding: 80px 10% 20px; border-top: 1px solid rgba(212,175,55,0.3); }
-			.footer-container { display: grid; grid-template-columns: 1.5fr 1fr 1fr 1.5fr; gap: 40px; margin-bottom: 60px; }
-			.footer-col h3 { font-size: 1.05rem; margin-bottom: 1.5rem; letter-spacing: 2px; text-transform: uppercase; }
-			.footer-col p, .footer-col ul { font-size: 0.9rem; color: #999; }
-			.footer-col ul { list-style: none; }
-			.footer-col ul li { margin-bottom: 0.8rem; }
-			.footer-col a { color: #999; text-decoration: none; transition: var(--transition); }
-			.footer-col a:hover { color: var(--gold); padding-left: 5px; }
-			.mission-text { margin: 20px 0; max-width: 300px; }
-			.social-icons { margin-top: 25px; display: flex; gap: 25px; }
-			.social-icons a { color: var(--gold); font-size: 1.7rem; text-decoration: none; transition: var(--transition); }
-			.social-icons a:hover { color: var(--white); transform: translateY(-3px); padding-left: 0; }
-			.hours { margin-top: 15px; display: grid; gap: 6px; color: #999; font-size: 0.9rem; }
-			.newsletter-form { margin-top: 20px; display: flex; border-bottom: 1px solid var(--gold); }
-			.newsletter-form input { flex: 1; background: transparent; border: none; color: var(--white); padding: 12px 0; outline: none; }
-			.newsletter-form button { background: transparent; border: none; color: var(--gold); font-weight: 700; cursor: pointer; padding-left: 15px; }
-			.footer-bottom { border-top: 1px solid rgba(255,255,255,0.08); padding-top: 25px; display: flex; justify-content: space-between; gap: 20px; color: #777; font-size: 0.85rem; }
-			.legal-links { display: flex; flex-wrap: wrap; gap: 20px; }
-			.legal-links a { color: #777; text-decoration: none; }
-			.legal-links a:hover { color: var(--gold); }
-
-
 			@media (max-width: 980px) {
 				.desktop-nav { display: none; }
 				.hamburger { display: flex; }
 				.lux-grid, .split-row, .split-row.reverse, .legal-layout, .cta-inner, .footer-container { grid-template-columns: 1fr; }
 				.split-row.reverse .split-media { order: 0; }
 				.legal-nav { position: static; }
-				.footer-bottom { flex-direction: column; }
 			}
 
 			@media (max-width: 640px) {
@@ -659,6 +636,7 @@
 			}
 		</style>
 		<link rel="stylesheet" href="assets/css/booking.css">
+		<link rel="stylesheet" href="assets/css/footer.css?v=20260617-1">
 	</head>
 	<body>
 		<header class="site-header">
