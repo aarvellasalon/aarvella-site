@@ -1,188 +1,313 @@
-document.addEventListener("DOMContentLoaded", () => {
+/* ==========================================================
+   Aarvella shared booking popup
+   File: assets/js/booking.js
+========================================================== */
+
+(() => {
+	const scriptElement = document.currentScript;
+	const partialUrl = scriptElement?.src
+		? new URL("../partials/booking-popup.html", scriptElement.src).href
+		: "assets/partials/booking-popup.html";
+
+	const whatsappNumber = "919742049990";
+
+	let popup = null;
 	let currentStep = 1;
 	let selectedService = "";
+	let previouslyFocused = null;
 
-	const bookingPopup = document.getElementById("bookingPopup");
-	const progressBar = document.getElementById("progressBar");
-	const popupOverlay = document.querySelector(".popup-overlay");
+	async function mountPopup() {
+		const existingPopup = document.getElementById("bookingPopup");
 
-	if (!bookingPopup) return;
-
-	function showStep(stepNumber) {
-		document.querySelectorAll(".popup-step").forEach((step) => {
-			step.classList.remove("active");
-		});
-
-		const targetStep = document.querySelector(
-			`.popup-step[data-step="${stepNumber}"]`
-		);
-
-		if (targetStep) {
-			targetStep.classList.add("active");
+		if (existingPopup) {
+			popup = existingPopup;
+			initialize();
+			return;
 		}
 
-		if (progressBar) {
-			progressBar.style.width = `${stepNumber * 25}%`;
+		const mount = document.getElementById("booking-popup-placeholder");
+
+		if (!mount) {
+			console.warn("Booking popup placeholder not found.");
+			return;
+		}
+
+		try {
+			const response = await fetch(partialUrl, { cache: "no-cache" });
+
+			if (!response.ok) {
+				throw new Error(`Booking popup failed to load: HTTP ${response.status}`);
+			}
+
+			mount.innerHTML = await response.text();
+			popup = document.getElementById("bookingPopup");
+			initialize();
+		} catch (error) {
+			console.error("Booking popup include error:", error);
 		}
 	}
 
-	window.openBooking = function () {
+	function initialize() {
+		if (!popup || popup.dataset.initialized === "true") return;
+
+		popup.dataset.initialized = "true";
+		popup.addEventListener("click", handlePopupClick);
+		document.addEventListener("click", handleBookingTrigger);
+		document.addEventListener("keydown", handleKeydown);
+
+		showStep(1);
+	}
+
+	function handleBookingTrigger(event) {
+		const trigger = event.target.closest(
+			".js-book, .card-book-btn, [data-booking-trigger]"
+		);
+
+		if (!trigger) return;
+
+		event.preventDefault();
+		openBooking(trigger.dataset.book || "");
+	}
+
+	function handlePopupClick(event) {
+		if (event.target.closest("[data-booking-close]")) {
+			closeBooking();
+			return;
+		}
+
+		const service = event.target.closest(".service-option");
+		if (service) {
+			selectService(service);
+			return;
+		}
+
+		if (event.target.closest("[data-booking-next]")) {
+			nextStep();
+			return;
+		}
+
+		if (event.target.closest("[data-booking-prev]")) {
+			previousStep();
+			return;
+		}
+
+		if (event.target.closest("[data-booking-confirm]")) {
+			confirmBooking();
+			return;
+		}
+
+		const dateButton = event.target.closest("[data-date-offset]");
+		if (dateButton) {
+			setDate(Number(dateButton.dataset.dateOffset), dateButton);
+			return;
+		}
+
+		const timeButton = event.target.closest("[data-time]");
+		if (timeButton) {
+			setTime(timeButton.dataset.time, timeButton);
+		}
+	}
+
+	function openBooking(preselectedService = "") {
+		if (!popup) return;
+
+		previouslyFocused = document.activeElement;
 		currentStep = 1;
 		selectedService = "";
 
-		document.querySelectorAll(".service-options div").forEach((option) => {
-			option.classList.remove("selected");
-		});
-
+		resetPopup();
 		showStep(1);
 
-		bookingPopup.classList.add("active");
+		if (preselectedService) {
+			const matchingService = [...popup.querySelectorAll(".service-option")]
+				.find((button) => button.textContent.trim() === preselectedService);
+
+			if (matchingService) selectService(matchingService);
+		}
+
+		popup.classList.add("active");
+		popup.setAttribute("aria-hidden", "false");
 		document.body.classList.add("booking-open");
-		document.body.style.overflow = "hidden";
-	};
 
-	window.closeBooking = function () {
-		bookingPopup.classList.remove("active");
+		requestAnimationFrame(() => {
+			popup.querySelector(".popup-container")?.focus();
+		});
+	}
+
+	function closeBooking() {
+		if (!popup) return;
+
+		popup.classList.remove("active");
+		popup.setAttribute("aria-hidden", "true");
 		document.body.classList.remove("booking-open");
-		document.body.style.overflow = "";
-	};
 
-	window.selectService = function (el) {
-		document.querySelectorAll(".service-options div").forEach((option) => {
-			option.classList.remove("selected");
+		if (previouslyFocused instanceof HTMLElement) {
+			previouslyFocused.focus();
+		}
+	}
+
+	function showStep(stepNumber) {
+		currentStep = stepNumber;
+
+		popup.querySelectorAll(".popup-step").forEach((step) => {
+			step.classList.toggle(
+				"active",
+				Number(step.dataset.step) === stepNumber
+			);
 		});
 
-		el.classList.add("selected");
-		selectedService = el.textContent.trim();
-	};
+		const progressBar = popup.querySelector("#progressBar");
+		if (progressBar) {
+			progressBar.style.width = `${stepNumber * 25}%`;
+		}
 
-	window.nextStep = function () {
+		const container = popup.querySelector(".popup-container");
+		if (container) container.scrollTop = 0;
+	}
+
+	function selectService(button) {
+		popup.querySelectorAll(".service-option").forEach((option) => {
+			const isSelected = option === button;
+			option.classList.toggle("selected", isSelected);
+			option.setAttribute("aria-checked", String(isSelected));
+		});
+
+		selectedService = button.textContent.trim();
+		setError("bookingError", "");
+	}
+
+	function nextStep() {
 		if (currentStep === 1 && !selectedService) {
-			showBookingError("Please select a service");
+			setError("bookingError", "Please select a service.");
 			return;
 		}
 
-		if (currentStep >= 4) return;
+		if (currentStep < 4) showStep(currentStep + 1);
+	}
 
-		currentStep++;
-		showStep(currentStep);
-	};
+	function previousStep() {
+		if (currentStep > 1) showStep(currentStep - 1);
+	}
 
-	window.prevStep = function () {
-		if (currentStep <= 1) return;
-
-		currentStep--;
-		showStep(currentStep);
-	};
-
-	window.setDate = function (offset) {
-		const dateInput = document.getElementById("bookingDate");
+	function setDate(offset, activeButton) {
+		const dateInput = popup.querySelector("#bookingDate");
 		if (!dateInput) return;
 
 		const date = new Date();
+		date.setHours(12, 0, 0, 0);
 		date.setDate(date.getDate() + offset);
 
-		dateInput.value = date.toISOString().split("T")[0];
-	};
+		dateInput.value = [
+			date.getFullYear(),
+			String(date.getMonth() + 1).padStart(2, "0"),
+			String(date.getDate()).padStart(2, "0")
+		].join("-");
 
-	window.setTime = function (time) {
-		const timeInput = document.getElementById("bookingTime");
+		popup.querySelectorAll("[data-date-offset]").forEach((button) => {
+			button.classList.toggle("selected", button === activeButton);
+		});
+	}
+
+	function setTime(time, activeButton) {
+		const timeInput = popup.querySelector("#bookingTime");
 		if (!timeInput) return;
 
 		timeInput.value = time;
-	};
 
-	window.confirmBooking = function () {
-		const name = document.getElementById("name")?.value.trim();
-		const phone = document.getElementById("phone")?.value.trim();
-		const date = document.getElementById("bookingDate")?.value || "";
-		const time = document.getElementById("bookingTime")?.value || "";
+		popup.querySelectorAll("[data-time]").forEach((button) => {
+			button.classList.toggle("selected", button === activeButton);
+		});
+	}
+
+	function confirmBooking() {
+		const name = popup.querySelector("#bookingName")?.value.trim() || "";
+		const phone = popup.querySelector("#bookingPhone")?.value.trim() || "";
+		const date = popup.querySelector("#bookingDate")?.value || "To be confirmed";
+		const time = popup.querySelector("#bookingTime")?.value || "To be confirmed";
 
 		if (!name || !phone) {
-			alert("Please fill all details");
+			setError("detailsError", "Please enter your name and phone number.");
 			return;
 		}
 
-		currentStep = 4;
+		const message = [
+			"Hi Aarvella, I want to book an appointment.",
+			"",
+			`Service: ${selectedService}`,
+			`Date: ${date}`,
+			`Time: ${time}`,
+			`Name: ${name}`,
+			`Phone: ${phone}`
+		].join("\n");
+
+		const whatsappButton = popup.querySelector("#whatsappBtn");
+
+		if (whatsappButton) {
+			whatsappButton.href =
+				`https://wa.me/${whatsappNumber}?text=${encodeURIComponent(message)}`;
+		}
+
 		showStep(4);
-
-		const message = `
-Hi Aarvella, I want to book an appointment.
-
-Service: ${selectedService}
-Date: ${date}
-Time: ${time}
-Name: ${name}
-Phone: ${phone}
-		`;
-
-		const whatsappBtn = document.getElementById("whatsappBtn");
-
-		if (whatsappBtn) {
-			whatsappBtn.href =
-				"https://wa.me/919742049990?text=" + encodeURIComponent(message);
-		}
-	};
-
-	function showBookingError(message) {
-		const stepOne = document.querySelector('.popup-step[data-step="1"]');
-		if (!stepOne) return;
-
-		const existingError = stepOne.querySelector(".booking-error");
-		if (existingError) existingError.remove();
-
-		const error = document.createElement("div");
-		error.className = "booking-error";
-		error.textContent = message;
-		error.style.color = "#ff6b6b";
-		error.style.marginTop = "12px";
-		error.style.fontSize = "0.9rem";
-
-		stepOne.appendChild(error);
-
-		setTimeout(() => {
-			error.remove();
-		}, 2200);
 	}
 
-	function spawnRipple(button, e) {
-		const container = button.querySelector(".btn-ripple-container");
-		if (!container) return;
-
-		const ripple = document.createElement("span");
-		ripple.classList.add("btn-ripple");
-
-		const rect = button.getBoundingClientRect();
-
-		ripple.style.setProperty("--ripple-x", `${e.clientX - rect.left}px`);
-		ripple.style.setProperty("--ripple-y", `${e.clientY - rect.top}px`);
-
-		container.appendChild(ripple);
-
-		setTimeout(() => {
-			ripple.remove();
-		}, 700);
-	}
-
-	document.querySelectorAll(".js-book, .card-book-btn").forEach((button) => {
-		button.addEventListener("click", (e) => {
-			e.preventDefault();
-
-			spawnRipple(button, e);
-
-			setTimeout(() => {
-				openBooking();
-			}, 120);
+	function resetPopup() {
+		popup.querySelectorAll(".service-option").forEach((button) => {
+			button.classList.remove("selected");
+			button.setAttribute("aria-checked", "false");
 		});
-	});
 
-	if (popupOverlay) {
-		popupOverlay.addEventListener("click", closeBooking);
+		popup.querySelectorAll("input").forEach((input) => {
+			input.value = "";
+		});
+
+		popup.querySelectorAll("[data-date-offset], [data-time]").forEach((button) => {
+			button.classList.remove("selected");
+		});
+
+		setError("bookingError", "");
+		setError("detailsError", "");
 	}
 
-	document.addEventListener("keydown", (e) => {
-		if (e.key === "Escape" && bookingPopup.classList.contains("active")) {
+	function setError(id, message) {
+		const element = popup.querySelector(`#${id}`);
+		if (element) element.textContent = message;
+	}
+
+	function handleKeydown(event) {
+		if (!popup?.classList.contains("active")) return;
+
+		if (event.key === "Escape") {
 			closeBooking();
+			return;
 		}
-	});
-});
+
+		if (event.key === "Tab") {
+			trapFocus(event);
+		}
+	}
+
+	function trapFocus(event) {
+		const focusable = [...popup.querySelectorAll(
+			'button:not([disabled]), a[href], input:not([disabled]), [tabindex]:not([tabindex="-1"])'
+		)].filter((element) => element.offsetParent !== null);
+
+		if (!focusable.length) return;
+
+		const first = focusable[0];
+		const last = focusable[focusable.length - 1];
+
+		if (event.shiftKey && document.activeElement === first) {
+			event.preventDefault();
+			last.focus();
+		} else if (!event.shiftKey && document.activeElement === last) {
+			event.preventDefault();
+			first.focus();
+		}
+	}
+
+	document.addEventListener("DOMContentLoaded", mountPopup);
+
+	/* Compatibility with any existing inline calls */
+	window.openBooking = openBooking;
+	window.closeBooking = closeBooking;
+})();

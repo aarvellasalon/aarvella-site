@@ -1,0 +1,124 @@
+<div id="bookingPopup" class="booking-popup" aria-hidden="true">
+	<div class="popup-overlay" data-booking-close></div>
+
+	<div
+		class="popup-container"
+		role="dialog"
+		aria-modal="true"
+		aria-labelledby="bookingTitle"
+		tabindex="-1"
+	>
+		<div class="popup-topbar">
+			<div class="popup-progress" aria-label="Booking progress">
+				<div class="progress-bar" id="progressBar"></div>
+			</div>
+
+			<button
+				class="popup-close"
+				type="button"
+				aria-label="Close booking popup"
+				data-booking-close
+			>
+				<span aria-hidden="true">×</span>
+			</button>
+		</div>
+
+		<section class="popup-step active" data-step="1">
+			<p class="popup-eyebrow">Aarvella appointment</p>
+			<h2 id="bookingTitle">Select Your Service</h2>
+
+			<div class="service-options" role="radiogroup" aria-label="Select a service">
+				<button type="button" class="service-option" role="radio" aria-checked="false">Men's Hair</button>
+				<button type="button" class="service-option" role="radio" aria-checked="false">Women's Hair</button>
+				<button type="button" class="service-option" role="radio" aria-checked="false">Hair Coloring</button>
+				<button type="button" class="service-option" role="radio" aria-checked="false">Hair Texture</button>
+				<button type="button" class="service-option" role="radio" aria-checked="false">Hand and Foot Spa</button>
+				<button type="button" class="service-option" role="radio" aria-checked="false">Skin Care</button>
+				<button type="button" class="service-option" role="radio" aria-checked="false">Beauty Essentials</button>
+				<button type="button" class="service-option" role="radio" aria-checked="false">Makeup and Bridal</button>
+			</div>
+
+			<p class="booking-error" id="bookingError" aria-live="polite"></p>
+
+			<button class="btn-gold popup-primary" type="button" data-booking-next>
+				<span class="btn-text">Continue</span>
+				<span class="btn-ripple-container" aria-hidden="true"></span>
+			</button>
+		</section>
+
+		<section class="popup-step" data-step="2">
+			<p class="popup-eyebrow">Preferred slot</p>
+			<h2>Choose Date &amp; Time</h2>
+
+			<div class="quick-dates">
+				<button type="button" data-date-offset="0">Today</button>
+				<button type="button" data-date-offset="1">Tomorrow</button>
+				<button type="button" data-date-offset="2">+2 Days</button>
+			</div>
+
+			<label class="popup-field">
+				<span>Date</span>
+				<input type="date" id="bookingDate">
+			</label>
+
+			<div class="time-slots">
+				<button type="button" data-time="10:00">10:00 AM</button>
+				<button type="button" data-time="13:00">1:00 PM</button>
+				<button type="button" data-time="16:00">4:00 PM</button>
+				<button type="button" data-time="19:00">7:00 PM</button>
+			</div>
+
+			<label class="popup-field">
+				<span>Time</span>
+				<input type="time" id="bookingTime">
+			</label>
+
+			<div class="popup-actions">
+				<button class="btn-outline" type="button" data-booking-prev>
+					<span class="btn-text">Back</span>
+				</button>
+				<button class="btn-gold" type="button" data-booking-next>
+					<span class="btn-text">Continue</span>
+				</button>
+			</div>
+
+			<p class="popup-hint">Date and time are optional. Our team will confirm availability.</p>
+		</section>
+
+		<section class="popup-step" data-step="3">
+			<p class="popup-eyebrow">Your details</p>
+			<h2>Tell Us About You</h2>
+
+			<label class="popup-field">
+				<span>Full name</span>
+				<input type="text" id="bookingName" autocomplete="name" placeholder="Full Name">
+			</label>
+
+			<label class="popup-field">
+				<span>Phone number</span>
+				<input type="tel" id="bookingPhone" autocomplete="tel" inputmode="tel" placeholder="Phone Number">
+			</label>
+
+			<p class="booking-error" id="detailsError" aria-live="polite"></p>
+
+			<div class="popup-actions">
+				<button class="btn-outline" type="button" data-booking-prev>
+					<span class="btn-text">Back</span>
+				</button>
+				<button class="btn-gold" type="button" data-booking-confirm>
+					<span class="btn-text">Confirm Booking</span>
+				</button>
+			</div>
+		</section>
+
+		<section class="popup-step" data-step="4">
+			<p class="popup-eyebrow">Request received</p>
+			<h2>You're Booked ✨</h2>
+			<p>We’ll contact you shortly to confirm your appointment.</p>
+
+			<a id="whatsappBtn" target="_blank" rel="noopener" class="btn-outline popup-whatsapp">
+				<span class="btn-text">Confirm on WhatsApp</span>
+			</a>
+		</section>
+	</div>
+</div>

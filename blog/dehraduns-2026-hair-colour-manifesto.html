@@ -1130,86 +1130,6 @@
     </section>
   </main>
 
-  <!-- BOOKING POPUP -->
-  <div id="bookingPopup" class="booking-popup">
-    <div class="popup-overlay"></div>
-
-    <div class="popup-container">
-      <span class="popup-close" onclick="closeBooking()">×</span>
-
-      <div class="popup-progress">
-        <div class="progress-bar" id="progressBar"></div>
-      </div>
-
-      <div class="popup-step active" data-step="1">
-        <h2>Select Your Service</h2>
-
-        <div class="service-options">
-          <div onclick="selectService(this)">Haircut</div>
-          <div onclick="selectService(this)">Balayage</div>
-          <div onclick="selectService(this)">French Blending</div>
-          <div onclick="selectService(this)">Global Hair Colour</div>
-          <div onclick="selectService(this)">Hair Spa</div>
-        </div>
-
-        <button class="btn-gold" onclick="nextStep()" type="button">
-          <span class="btn-text">Continue</span>
-          <div class="btn-ripple-container"></div>
-        </button>
-      </div>
-
-      <div class="popup-step" data-step="2">
-        <h2>Choose Date & Time</h2>
-
-        <div class="quick-dates">
-          <button type="button" onclick="setDate(0)">Today</button>
-          <button type="button" onclick="setDate(1)">Tomorrow</button>
-          <button type="button" onclick="setDate(2)">+2 Days</button>
-        </div>
-
-        <input type="date" id="bookingDate" />
-
-        <div class="time-slots">
-          <button type="button" onclick="setTime('10:00')">10:00 AM</button>
-          <button type="button" onclick="setTime('13:00')">1:00 PM</button>
-          <button type="button" onclick="setTime('16:00')">4:00 PM</button>
-          <button type="button" onclick="setTime('19:00')">7:00 PM</button>
-        </div>
-
-        <input type="time" id="bookingTime" />
-        <div class="popup-actions">
-          <button class="btn-outline" onclick="prevStep()" type="button"><span>Back</span></button>
-          <button class="btn-gold" onclick="nextStep()" type="button">Continue</button>
-        </div>
-        <p style="opacity:0.6; font-size:0.85rem;">
-          Optional — you can skip this and we’ll confirm with you
-        </p>
-      </div>
-
-      <div class="popup-step" data-step="3">
-        <h2>Your Details</h2>
-
-        <input type="text" placeholder="Full Name" id="name" />
-        <input type="tel" placeholder="Phone Number" id="phone" />
-
-        <div class="popup-actions">
-          <button class="btn-outline" onclick="prevStep()" type="button"><span>Back</span></button>
-          <button class="btn-gold" onclick="confirmBooking()" type="button">Confirm Booking</button>
-        </div>
-      </div>
-
-      <div class="popup-step" data-step="4">
-        <h2>You're Booked ✨</h2>
-        <p>We’ll contact you shortly to confirm your appointment.</p>
-
-        <a id="whatsappBtn" target="_blank" rel="noopener noreferrer" class="btn-outline">
-          <span class="btn-text">Confirm on WhatsApp</span>
-          <div class="btn-ripple-container"></div>
-        </a>
-      </div>
-    </div>
-  </div>
-
   <button id="ai-chat-button" aria-label="Open AI Stylist">
     <svg
       width="18"
@@ -1263,6 +1183,8 @@
       <a href="../find-us.html">Find Us</a>
     </div>
   </footer>
+
+  <div id="booking-popup-placeholder"></div>
 
   <script src="../assets/js/article.js"></script>
   <script src="../assets/js/booking.js" defer></script>
