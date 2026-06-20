@@ -1,6 +1,16 @@
+# Server deployment files
+deploy-webhook.php
+deploy_log.txt
+
+# Hosting-generated files
+.well-known/
+parking-page.shtml
+nc_assets/
+
 # Sensitive backend config
-/api/config/db.php
-.env
+api/config/db.php
+api/config/config.php
+api/.env
 
 # Logs
 *.log
