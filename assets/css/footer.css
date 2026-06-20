@@ -437,3 +437,26 @@
 	cursor: wait;
 	transform: none !important;
 }
+.main-footer .newsletter-form input,
+.main-footer .newsletter-form input:hover,
+.main-footer .newsletter-form input:focus,
+.main-footer .newsletter-form input:active {
+	background-color: transparent !important;
+	background-image: none !important;
+	color: var(--footer-ivory) !important;
+	-webkit-text-fill-color: var(--footer-ivory) !important;
+	caret-color: var(--footer-gold-soft) !important;
+	box-shadow: none !important;
+	-webkit-box-shadow: none !important;
+}
+
+.main-footer .newsletter-form input:-webkit-autofill,
+.main-footer .newsletter-form input:-webkit-autofill:hover,
+.main-footer .newsletter-form input:-webkit-autofill:focus,
+.main-footer .newsletter-form input:-webkit-autofill:active {
+	-webkit-text-fill-color: var(--footer-ivory) !important;
+	caret-color: var(--footer-gold-soft) !important;
+	-webkit-box-shadow: 0 0 0 1000px #111 inset !important;
+	box-shadow: 0 0 0 1000px #111 inset !important;
+	border-radius: inherit;
+}
