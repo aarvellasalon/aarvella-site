@@ -384,44 +384,114 @@
 		animation: none !important;
 	}
 }
-.main-footer .newsletter-form input {
-	background: transparent !important;
+
+/* ==========================================================
+   Newsletter form — consolidated input, autofill and status styles
+========================================================== */
+
+.main-footer .newsletter-form {
+	overflow: hidden;
+	color-scheme: dark;
+}
+
+.main-footer .newsletter-form input[type="email"] {
+	-webkit-appearance: none;
+	appearance: none;
+	min-width: 0;
+	width: 100%;
+	flex: 1;
+	padding: 12px 14px;
+	border: 0;
+	border-radius: 999px;
+	outline: 0;
+
+	/* Use a real dark fill instead of transparent.
+	   This prevents Chrome/Edge from exposing their autofill colour. */
+	background: #111 !important;
+	background-color: #111 !important;
+	background-image: none !important;
+	background-clip: padding-box !important;
+
 	color: var(--footer-ivory) !important;
-	caret-color: var(--footer-gold-soft);
 	-webkit-text-fill-color: var(--footer-ivory) !important;
-	box-shadow: none !important;
+	caret-color: var(--footer-gold-soft) !important;
+
+	font-family: "Inter", "Segoe UI", Arial, sans-serif;
+	font-size: 0.96rem;
+	font-weight: 600;
+	letter-spacing: 0;
+	line-height: 1.4;
+
+	box-shadow: 0 0 0 1000px #111 inset !important;
+	-webkit-box-shadow: 0 0 0 1000px #111 inset !important;
+	filter: none !important;
 }
 
-.main-footer .newsletter-form input:focus {
-	background: transparent !important;
+.main-footer .newsletter-form input[type="email"]::placeholder {
+	color: rgba(247, 242, 232, 0.48);
+	-webkit-text-fill-color: rgba(247, 242, 232, 0.48);
+	font-weight: 500;
+	opacity: 1;
+}
+
+.main-footer .newsletter-form input[type="email"]:hover,
+.main-footer .newsletter-form input[type="email"]:focus,
+.main-footer .newsletter-form input[type="email"]:active {
+	background: #111 !important;
+	background-color: #111 !important;
+	background-image: none !important;
 	color: var(--footer-ivory) !important;
-	outline: none !important;
-}
-
-/* Chrome / Edge autofill fix */
-.main-footer .newsletter-form input:-webkit-autofill,
-.main-footer .newsletter-form input:-webkit-autofill:hover,
-.main-footer .newsletter-form input:-webkit-autofill:focus,
-.main-footer .newsletter-form input:-webkit-autofill:active {
 	-webkit-text-fill-color: var(--footer-ivory) !important;
-	caret-color: var(--footer-gold-soft);
-	box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.045) inset !important;
-	-webkit-box-shadow: 0 0 0 1000px rgba(255, 255, 255, 0.045) inset !important;
-	transition: background-color 9999s ease-in-out 0s;
+	box-shadow: 0 0 0 1000px #111 inset !important;
+	-webkit-box-shadow: 0 0 0 1000px #111 inset !important;
 }
 
-/* Firefox autofill fix */
-.main-footer .newsletter-form input:autofill {
-	background: transparent !important;
+/* Chrome, Edge and Safari saved-address/autofill state */
+.main-footer .newsletter-form input[type="email"]:-webkit-autofill,
+.main-footer .newsletter-form input[type="email"]:-webkit-autofill:hover,
+.main-footer .newsletter-form input[type="email"]:-webkit-autofill:focus,
+.main-footer .newsletter-form input[type="email"]:-webkit-autofill:active {
+	-webkit-appearance: none !important;
+	appearance: none !important;
+	background: #111 !important;
+	background-color: #111 !important;
+	background-image: none !important;
+	background-clip: padding-box !important;
+
 	color: var(--footer-ivory) !important;
+	-webkit-text-fill-color: var(--footer-ivory) !important;
+	caret-color: var(--footer-gold-soft) !important;
+
+	font-family: "Inter", "Segoe UI", Arial, sans-serif !important;
+	font-size: 0.96rem !important;
+	font-weight: 600 !important;
+
+	box-shadow: 0 0 0 1000px #111 inset !important;
+	-webkit-box-shadow: 0 0 0 1000px #111 inset !important;
+	filter: none !important;
+
+	/* Prevent the browser from repainting its light autofill colour. */
+	transition:
+		background-color 9999s ease-out 0s,
+		color 9999s ease-out 0s;
 }
 
-/* Message under newsletter form */
+/* Firefox autofill */
+.main-footer .newsletter-form input[type="email"]:autofill {
+	background: #111 !important;
+	background-color: #111 !important;
+	color: var(--footer-ivory) !important;
+	box-shadow: 0 0 0 1000px #111 inset !important;
+}
+
+/* Newsletter response message */
 .main-footer .newsletter-message {
-	margin-top: 12px;
-	font-size: 0.82rem;
-	line-height: 1.5;
+	min-height: 1.4em;
+	margin-top: 10px;
 	color: rgba(247, 242, 232, 0.68);
+	font-size: 0.82rem;
+	font-weight: 500;
+	line-height: 1.5;
 }
 
 .main-footer .newsletter-message.success {
@@ -436,100 +506,4 @@
 	opacity: 0.7;
 	cursor: wait;
 	transform: none !important;
-}
-.main-footer .newsletter-form input,
-.main-footer .newsletter-form input:hover,
-.main-footer .newsletter-form input:focus,
-.main-footer .newsletter-form input:active {
-	background-color: transparent !important;
-	background-image: none !important;
-	color: var(--footer-ivory) !important;
-	-webkit-text-fill-color: var(--footer-ivory) !important;
-	caret-color: var(--footer-gold-soft) !important;
-	box-shadow: none !important;
-	-webkit-box-shadow: none !important;
-}
-
-.main-footer .newsletter-form input:-webkit-autofill,
-.main-footer .newsletter-form input:-webkit-autofill:hover,
-.main-footer .newsletter-form input:-webkit-autofill:focus,
-.main-footer .newsletter-form input:-webkit-autofill:active {
-	-webkit-text-fill-color: var(--footer-ivory) !important;
-	caret-color: var(--footer-gold-soft) !important;
-	-webkit-box-shadow: 0 0 0 1000px #111 inset !important;
-	box-shadow: 0 0 0 1000px #111 inset !important;
-	border-radius: inherit;
-}
-/* ==========================================================
-   Newsletter input typography and browser autofill fix
-========================================================== */
-
-.main-footer .newsletter-form input[type="email"] {
-	font-family: "Inter", Arial, sans-serif;
-	font-size: 0.95rem;
-	font-weight: 500;
-	letter-spacing: 0.01em;
-	line-height: 1.4;
-
-	background-color: transparent !important;
-	background-image: none !important;
-
-	color: var(--footer-ivory) !important;
-	-webkit-text-fill-color: var(--footer-ivory) !important;
-	caret-color: var(--footer-gold-soft);
-
-	border: 0;
-	outline: 0;
-	box-shadow: none !important;
-	-webkit-box-shadow: none !important;
-}
-
-/* Normal interaction states */
-.main-footer .newsletter-form input[type="email"]:hover,
-.main-footer .newsletter-form input[type="email"]:focus,
-.main-footer .newsletter-form input[type="email"]:active {
-	font-family: "Inter", Arial, sans-serif;
-	font-size: 0.95rem;
-	font-weight: 500;
-
-	background-color: transparent !important;
-	background-image: none !important;
-
-	color: var(--footer-ivory) !important;
-	-webkit-text-fill-color: var(--footer-ivory) !important;
-
-	box-shadow: none !important;
-	-webkit-box-shadow: none !important;
-}
-
-/* Chrome and Edge saved-email/autofill fix */
-.main-footer .newsletter-form input[type="email"]:-webkit-autofill,
-.main-footer .newsletter-form input[type="email"]:-webkit-autofill:hover,
-.main-footer .newsletter-form input[type="email"]:-webkit-autofill:focus,
-.main-footer .newsletter-form input[type="email"]:-webkit-autofill:active {
-	font-family: "Inter", Arial, sans-serif !important;
-	font-size: 0.95rem !important;
-	font-weight: 500 !important;
-
-	-webkit-text-fill-color: var(--footer-ivory) !important;
-	caret-color: var(--footer-gold-soft) !important;
-
-	-webkit-box-shadow:
-		0 0 0 1000px rgba(18, 18, 18, 0.98) inset !important;
-
-	box-shadow:
-		0 0 0 1000px rgba(18, 18, 18, 0.98) inset !important;
-
-	border-radius: 999px;
-	transition: background-color 9999s ease-out 0s;
-}
-
-/* Firefox autofill */
-.main-footer .newsletter-form input[type="email"]:autofill {
-	font-family: "Inter", Arial, sans-serif;
-	font-size: 0.95rem;
-	font-weight: 500;
-
-	background-color: transparent !important;
-	color: var(--footer-ivory) !important;
 }
