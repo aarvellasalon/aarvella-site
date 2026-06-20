@@ -419,6 +419,37 @@
 		);
 	}
 
+	function validateIndianMobileNumber(rawValue) {
+		const compact = rawValue
+			.trim()
+			.replace(/[\s().-]/g, "");
+
+		/*
+			Accepted:
+			9876543210
+			09876543210
+			919876543210
+			+919876543210
+
+			The actual 10-digit number must start with 6, 7, 8 or 9.
+		*/
+		const match = compact.match(
+			/^(?:\+91|91|0)?([6-9]\d{9})$/
+		);
+
+		if (!match) {
+			return null;
+		}
+
+		const nationalNumber = match[1];
+
+		return {
+			national: nationalNumber,
+			international: `+91${nationalNumber}`,
+			whatsapp: `91${nationalNumber}`
+		};
+	}
+
 	function confirmBooking() {
 		const nameInput =
 			popup.querySelector("#bookingName");
@@ -433,12 +464,12 @@
 			phoneInput?.value.trim() || "";
 
 		const date =
-			popup.querySelector("#bookingDate")
-				?.value || "To be confirmed";
+			popup.querySelector("#bookingDate")?.value ||
+			"To be confirmed";
 
 		const time =
-			popup.querySelector("#bookingTime")
-				?.value || "To be confirmed";
+			popup.querySelector("#bookingTime")?.value ||
+			"To be confirmed";
 
 		if (!name) {
 			setError(
@@ -456,21 +487,37 @@
 				"Please enter your mobile number."
 			);
 
-			phoneInput?.setAttribute(
-				"aria-invalid",
-				"true"
-			);
+			if (phoneInput) {
+				phoneInput.setAttribute(
+					"aria-invalid",
+					"true"
+				);
 
-			phoneInput?.focus();
+				phoneInput.focus();
+			}
+
 			return;
 		}
 
-		const phone =
-			normalizeIndianMobileNumber(rawPhone);
+		const validatedPhone =
+			validateIndianMobileNumber(rawPhone);
 
-		if (!phone) {
+		if (!validatedPhone) {
+			setError(
+				"detailsError",
+				"Enter a valid Indian mobile number, such as 9876543210, 09876543210, 919876543210 or +919876543210."
+			);
+
 			if (phoneInput) {
-				showPhoneError(phoneInput);
+				phoneInput.setAttribute(
+					"aria-invalid",
+					"true"
+				);
+
+				phoneInput.setCustomValidity(
+					"Enter a valid 10-digit Indian mobile number."
+				);
+
 				phoneInput.focus();
 			}
 
@@ -479,7 +526,7 @@
 
 		if (phoneInput) {
 			phoneInput.value =
-				phone.international;
+				validatedPhone.international;
 
 			phoneInput.removeAttribute(
 				"aria-invalid"
@@ -497,7 +544,7 @@
 			`Date: ${date}`,
 			`Time: ${time}`,
 			`Name: ${name}`,
-			`Phone: ${phone.international}`
+			`Phone: ${validatedPhone.international}`
 		].join("\n");
 
 		const whatsappButton =
