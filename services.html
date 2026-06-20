@@ -18,7 +18,7 @@
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet" />
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 		<link rel="stylesheet" href="assets/css/services.css" />
-		<link rel="stylesheet" href="assets/css/booking.css" />
+		<link rel="stylesheet" href="assets/css/booking.css?v=20260620-6" />
 		<link rel="stylesheet" href="assets/css/ai-chat.css" />
 		<link rel="stylesheet" href="assets/css/footer.css?v=20260620-4" />
 	</head>
@@ -312,75 +312,6 @@
 				</button>
 			</section>
 		</main>
-
-		<div id="bookingPopup" class="booking-popup" aria-hidden="true">
-			<div class="popup-overlay"></div>
-			<div class="popup-container" role="dialog" aria-modal="true" aria-labelledby="bookingTitle">
-				<button class="popup-close close-popup" type="button" aria-label="Close booking popup" onclick="closeBooking()">×</button>
-
-				<div class="popup-progress">
-					<div class="progress-bar" id="progressBar"></div>
-				</div>
-
-				<div class="popup-step active" data-step="1">
-					<h2 id="bookingTitle">Select Your Service</h2>
-					<div class="service-options">
-						<div onclick="selectService(this)">Men's Hair</div>
-						<div onclick="selectService(this)">Women's Hair</div>
-						<div onclick="selectService(this)">Hair Coloring</div>
-						<div onclick="selectService(this)">Hair Texture</div>
-						<div onclick="selectService(this)">Hand and Foot Spa</div>
-						<div onclick="selectService(this)">Skin Care</div>
-						<div onclick="selectService(this)">Beauty Essentials</div>
-					</div>
-					<button class="btn-gold" type="button" onclick="nextStep()">
-						<span class="btn-text">Continue</span>
-						<span class="btn-ripple-container" aria-hidden="true"></span>
-					</button>
-				</div>
-
-				<div class="popup-step" data-step="2">
-					<h2>Choose Date & Time</h2>
-					<div class="quick-dates">
-						<button type="button" onclick="setDate(0)">Today</button>
-						<button type="button" onclick="setDate(1)">Tomorrow</button>
-						<button type="button" onclick="setDate(2)">+2 Days</button>
-					</div>
-					<input type="date" id="bookingDate" />
-					<div class="time-slots">
-						<button type="button" onclick="setTime('10:00')">10:00 AM</button>
-						<button type="button" onclick="setTime('13:00')">1:00 PM</button>
-						<button type="button" onclick="setTime('16:00')">4:00 PM</button>
-						<button type="button" onclick="setTime('19:00')">7:00 PM</button>
-					</div>
-					<input type="time" id="bookingTime" />
-					<div class="popup-actions">
-						<button class="btn-outline" type="button" onclick="prevStep()"><span>Back</span></button>
-						<button class="btn-gold" type="button" onclick="nextStep()"><span class="btn-text">Continue</span></button>
-					</div>
-					<p class="popup-hint">Optional — you can skip this and we’ll confirm with you.</p>
-				</div>
-
-				<div class="popup-step" data-step="3">
-					<h2>Your Details</h2>
-					<input type="text" placeholder="Full Name" id="name" />
-					<input type="tel" placeholder="Phone Number" id="phone" />
-					<div class="popup-actions">
-						<button class="btn-outline" type="button" onclick="prevStep()"><span>Back</span></button>
-						<button class="btn-gold" type="button" onclick="confirmBooking()"><span class="btn-text">Confirm Booking</span></button>
-					</div>
-				</div>
-
-				<div class="popup-step" data-step="4">
-					<h2>You're Booked ✨</h2>
-					<p>We’ll contact you shortly to confirm your appointment.</p>
-					<a id="whatsappBtn" target="_blank" rel="noopener" class="btn-outline">
-						<span class="btn-text">Confirm on WhatsApp</span>
-						<span class="btn-ripple-container" aria-hidden="true"></span>
-					</a>
-				</div>
-			</div>
-		</div>
 		
 		<button id="ai-chat-button" aria-label="Open AI Stylist">
 		  <svg
@@ -424,9 +355,10 @@
 		</div>
 
 		<div id="footer-placeholder"></div>
+		<div id="booking-popup-placeholder"></div>
 
 		<script src="assets/js/services.js" defer></script>
-		<script src="assets/js/booking.js" defer></script>
+		<script src="assets/js/booking.js?v=20260620-6" defer></script>
 		<script src="assets/js/ai-chat.js" defer></script>
 		<script src="assets/js/includes.js" defer></script>
 		<script src="assets/js/footer-loader.js" defer></script>

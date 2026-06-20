@@ -635,7 +635,7 @@
 				.split-media, .split-media img { min-height: 380px; }
 			}
 		</style>
-		<link rel="stylesheet" href="assets/css/booking.css">
+		<link rel="stylesheet" href="assets/css/booking.css?v=20260620-6">
 		<link rel="stylesheet" href="assets/css/footer.css?v=20260620-4">
 	</head>
 	<body>
@@ -754,78 +754,9 @@
 				</div>
 			</section>
 		</main>
-		<div class="booking-popup" id="bookingPopup">
-			<div class="popup-overlay"></div>
-			<div class="popup-container">
-				<!-- Close -->
-				<span class="popup-close" onclick="closeBooking()">×</span>
-				<!-- Progress -->
-				<div class="popup-progress">
-					<div class="progress-bar" id="progressBar"></div>
-				</div>
-				<!-- Step 1 -->
-				<div class="popup-step active" data-step="1">
-					<h2>Select Your Service</h2>
-					<div class="service-options">
-						<div onclick="selectService(this)">Haircut</div>
-						<div onclick="selectService(this)">Balayage</div>
-						<div onclick="selectService(this)">Facial</div>
-						<div onclick="selectService(this)">Hair Spa</div>
-					</div>
-					<button class="btn-gold" onclick="nextStep()">
-						<span class="btn-text">Continue</span>
-						<div class="btn-ripple-container"></div>
-					</button>
-				</div>
-				<!-- Step 2 -->
-				<div class="popup-step" data-step="2">
-					<h2>Choose Date &amp; Time</h2>
-					<!-- Quick Date -->
-					<div class="quick-dates">
-						<button onclick="setDate(0)" type="button">Today</button>
-						<button onclick="setDate(1)" type="button">Tomorrow</button>
-						<button onclick="setDate(2)" type="button">+2 Days</button>
-					</div>
-					<input id="bookingDate" type="date"/>
-					<!-- Time Slots -->
-					<div class="time-slots">
-						<button onclick="setTime('10:00')" type="button">10:00 AM</button>
-						<button onclick="setTime('13:00')" type="button">1:00 PM</button>
-						<button onclick="setTime('16:00')" type="button">4:00 PM</button>
-						<button onclick="setTime('19:00')" type="button">7:00 PM</button>
-					</div>
-					<input id="bookingTime" type="time"/>
-					<div class="popup-actions">
-						<button class="btn-outline" onclick="prevStep()"><span>Back</span></button>
-						<button class="btn-gold" onclick="nextStep()">Continue</button>
-					</div>
-					<p style="opacity:0.6; font-size:0.85rem;">
-						Optional — you can skip this and we’ll confirm with you
-					</p>
-				</div>
-				<!-- Step 3 -->
-				<div class="popup-step" data-step="3">
-					<h2>Your Details</h2>
-					<input id="name" placeholder="Full Name" type="text"/>
-					<input id="phone" placeholder="Phone Number" type="tel"/>
-					<div class="popup-actions">
-						<button class="btn-outline" onclick="prevStep()"><span>Back</span></button>
-						<button class="btn-gold" onclick="confirmBooking()">Confirm Booking</button>
-					</div>
-				</div>
-				<!-- Step 4 -->
-				<div class="popup-step" data-step="4">
-					<h2>You're Booked ✨</h2>
-					<p>We’ll contact you shortly to confirm your appointment.</p>
-					<a class="btn-outline" id="whatsappBtn" target="_blank">
-						<span class="btn-text">Confirm on WhatsApp</span>
-						<div class="btn-ripple-container"></div>
-					</a>
-				</div>
-			</div>
-		</div>
 
 		<div id="footer-placeholder"></div>
+		<div id="booking-popup-placeholder"></div>
 
 		<script>
 			document.addEventListener("DOMContentLoaded", () => {
@@ -936,7 +867,7 @@
 				});
 			});
 		</script>
-		<script src="assets/js/booking.js" defer></script>
+		<script src="assets/js/booking.js?v=20260620-6" defer></script>
 		<script src="assets/js/includes.js" defer></script>
 		<script src="assets/js/footer-loader.js" defer></script>
 		<script src="assets/js/newsletter.js?v=20260618-1" defer></script>

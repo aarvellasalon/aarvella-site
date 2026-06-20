@@ -372,7 +372,7 @@
 			.popup-actions .btn-gold, .popup-actions .btn-outline { width: 100%; }
 		}
 		</style>
-		<link rel="stylesheet" href="assets/css/booking.css">
+		<link rel="stylesheet" href="assets/css/booking.css?v=20260620-6">
 		<link rel="stylesheet" href="assets/css/footer.css?v=20260620-4">
 	</head>
 	<body>
@@ -424,96 +424,9 @@
 				<div class="legal-layout reveal"><aside class="legal-nav"><p class="eyebrow">Sections</p><a href="#overview">Overview</a><a href="#information-we-collect">Information We Collect</a><a href="#how-we-use-information">How We Use Information</a><a href="#data-care">Data Care</a><a href="#contact">Contact</a></aside><article class="legal-panel"><section id="overview"><h2>Overview</h2><p>This Privacy Policy explains how Aarvella collects, uses and protects basic customer information shared during enquiries, bookings, consultations, newsletter signups and salon visits.</p></section><section id="information-we-collect"><h2>Information We Collect</h2><p>We may collect your name, phone number, email address, service preferences, appointment details and any voluntary information you share for consultation or follow-up.</p></section><section id="how-we-use-information"><h2>How We Use Information</h2><p>We use information to manage bookings, confirm appointments, improve service quality, send relevant updates and maintain customer communication.</p></section><section id="data-care"><h2>Data Care</h2><p>We aim to keep your information secure, limited and used only for legitimate salon operations. Do not share sensitive personal information unless required for a specific service consultation.</p></section><section id="contact"><h2>Contact</h2><p>For privacy questions or update requests, contact Aarvella Salon through the official phone number or booking channels listed on this website.</p></section></article></div>
 			</section>
 		</main>
-		<!-- BOOKING POPUP -->
-		<div id="bookingPopup" class="booking-popup">
 
-			<div class="popup-overlay"></div>
-
-			<div class="popup-container">
-
-				<!-- Close -->
-				<span class="popup-close" onclick="closeBooking()">×</span>
-
-				<!-- Progress -->
-				<div class="popup-progress">
-					<div class="progress-bar" id="progressBar"></div>
-				</div>
-
-				<!-- Step 1 -->
-				<div class="popup-step active" data-step="1">
-					<h2>Select Your Service</h2>
-
-					<div class="service-options">
-						<div onclick="selectService(this)">Haircut</div>
-						<div onclick="selectService(this)">Balayage</div>
-						<div onclick="selectService(this)">Facial</div>
-						<div onclick="selectService(this)">Hair Spa</div>
-					</div>
-
-					<button class="btn-gold" onclick="nextStep()">
-						<span class="btn-text">Continue</span>
-						<div class="btn-ripple-container"></div>
-					</button>
-				</div>
-
-				<!-- Step 2 -->
-				<div class="popup-step" data-step="2">
-					<h2>Choose Date & Time</h2>
-
-					<!-- Quick Date -->
-					<div class="quick-dates">
-						<button type="button" onclick="setDate(0)">Today</button>
-						<button type="button" onclick="setDate(1)">Tomorrow</button>
-						<button type="button" onclick="setDate(2)">+2 Days</button>
-					</div>
-
-					<input type="date" id="bookingDate">
-
-					<!-- Time Slots -->
-					<div class="time-slots">
-						<button type="button" onclick="setTime('10:00')">10:00 AM</button>
-						<button type="button" onclick="setTime('13:00')">1:00 PM</button>
-						<button type="button" onclick="setTime('16:00')">4:00 PM</button>
-						<button type="button" onclick="setTime('19:00')">7:00 PM</button>
-					</div>
-
-					<input type="time" id="bookingTime">
-					<div class="popup-actions">
-						<button class="btn-outline" onclick="prevStep()"><span>Back</span></button>
-						<button class="btn-gold" onclick="nextStep()">Continue</button>
-					</div>
-					<p style="opacity:0.6; font-size:0.85rem;">
-						Optional — you can skip this and we’ll confirm with you
-					</p>
-				</div>
-
-				<!-- Step 3 -->
-				<div class="popup-step" data-step="3">
-					<h2>Your Details</h2>
-
-					<input type="text" placeholder="Full Name" id="name">
-					<input type="tel" placeholder="Phone Number" id="phone">
-
-					<div class="popup-actions">
-						<button class="btn-outline" onclick="prevStep()"><span>Back</span></button>
-						<button class="btn-gold" onclick="confirmBooking()">Confirm Booking</button>
-					</div>
-				</div>
-
-				<!-- Step 4 -->
-				<div class="popup-step" data-step="4">
-					<h2>You're Booked ✨</h2>
-					<p>We’ll contact you shortly to confirm your appointment.</p>
-
-					<a id="whatsappBtn" target="_blank" class="btn-outline">
-						<span class="btn-text">Confirm on WhatsApp</span>
-						<div class="btn-ripple-container"></div>
-					</a>
-				</div>
-
-			</div>
-		</div>
 		<div id="footer-placeholder"></div>
+		<div id="booking-popup-placeholder"></div>
 
 		<script>
 			document.addEventListener("DOMContentLoaded", () => {
@@ -668,7 +581,7 @@
 				});
 			});
 		</script>
-		<script src="assets/js/booking.js" defer></script>
+		<script src="assets/js/booking.js?v=20260620-6" defer></script>
 		<script src="assets/js/includes.js" defer></script>
 		<script src="assets/js/footer-loader.js" defer></script>
 		<script src="assets/js/newsletter.js?v=20260618-1" defer></script>
