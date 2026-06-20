@@ -95,8 +95,18 @@
 			</label>
 
 			<label class="popup-field">
-				<span>Phone number</span>
-				<input type="tel" id="bookingPhone" autocomplete="tel" inputmode="tel" placeholder="Phone Number">
+				<span>Mobile number</span>
+
+				<input
+					type="tel"
+					id="bookingPhone"
+					name="phone"
+					inputmode="tel"
+					autocomplete="tel"
+					maxlength="18"
+					placeholder="+91 9876543210"
+					aria-describedby="detailsError"
+				>
 			</label>
 
 			<p class="booking-error" id="detailsError" aria-live="polite"></p>

@@ -73,7 +73,52 @@
 		document.addEventListener("click", handleBookingTrigger);
 		document.addEventListener("keydown", handleKeydown);
 
-		initializePhoneValidation();
+		const phoneInput = popup.querySelector("#bookingPhone");
+
+		if (phoneInput) {
+			phoneInput.addEventListener("input", () => {
+				phoneInput.removeAttribute("aria-invalid");
+				phoneInput.setCustomValidity("");
+				setError("detailsError", "");
+			});
+
+			phoneInput.addEventListener("blur", () => {
+				const rawPhone = phoneInput.value.trim();
+
+				if (!rawPhone) {
+					return;
+				}
+
+				const validatedPhone =
+					validateIndianMobileNumber(rawPhone);
+
+				if (!validatedPhone) {
+					phoneInput.setAttribute(
+						"aria-invalid",
+						"true"
+					);
+
+					phoneInput.setCustomValidity(
+						"Enter a valid 10-digit Indian mobile number."
+					);
+
+					setError(
+						"detailsError",
+						"Enter a valid Indian mobile number, such as 9876543210, 09876543210, 919876543210 or +919876543210."
+					);
+
+					return;
+				}
+
+				phoneInput.value =
+					validatedPhone.international;
+
+				phoneInput.removeAttribute("aria-invalid");
+				phoneInput.setCustomValidity("");
+				setError("detailsError", "");
+			});
+		}
+
 		showStep(1);
 	}
 
