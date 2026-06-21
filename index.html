@@ -1185,18 +1185,24 @@
 					padding: 15px 24px;
 				}
 			}
-			/* Initial hidden state */
+			/* Visible by default so content never disappears if JavaScript fails. */
 			.reveal {
-				opacity: 0;
-				transform: translateY(40px);
+				opacity: 1;
+				transform: translateY(0);
 				transition:
 					opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1),
 					transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+			}
+
+			/* JavaScript adds this class only after the observer is ready. */
+			.reveal.reveal-ready {
+				opacity: 0;
+				transform: translateY(40px);
 				will-change: transform, opacity;
 			}
 
 			/* Visible state */
-			.reveal.active {
+			.reveal.reveal-ready.active {
 				opacity: 1;
 				transform: translateY(0);
 			}
@@ -2200,18 +2206,31 @@
 				}
 			});
 
-			document.querySelector('.popup-overlay').addEventListener('click', closeBooking);
-
+			/*
+			 * The booking popup is injected asynchronously into
+			 * #booking-popup-placeholder. Never assume it already exists here;
+			 * an unguarded querySelector(...).addEventListener(...) stopped the
+			 * rest of this script, including the transformation reveal observer.
+			 */
 			const popup = document.querySelector(".booking-popup");
+			const popupOverlay = document.querySelector(".popup-overlay");
 
 			function openBooking() {
-				document.getElementById("bookingPopup").classList.add("active");
+				const bookingPopup = document.getElementById("bookingPopup");
+				if (!bookingPopup) return;
+				bookingPopup.classList.add("active");
 				document.body.classList.add("menu-open");
 			}
 
 			function closeBooking() {
-				document.getElementById("bookingPopup").classList.remove("active");
+				const bookingPopup = document.getElementById("bookingPopup");
+				if (!bookingPopup) return;
+				bookingPopup.classList.remove("active");
 				document.body.classList.remove("menu-open");
+			}
+
+			if (popupOverlay) {
+				popupOverlay.addEventListener("click", closeBooking);
 			}
 
 			document.querySelectorAll('.js-book, .card-book-btn').forEach(btn => {
@@ -2223,10 +2242,12 @@
 				});
 			});
 
-			document.querySelector(".popup-overlay").addEventListener("click", () => {
-				popup.classList.remove("active");
-				document.body.classList.remove("menu-open");
-			});
+			if (popupOverlay && popup) {
+				popupOverlay.addEventListener("click", () => {
+					popup.classList.remove("active");
+					document.body.classList.remove("menu-open");
+				});
+			}
 
 			// ✅ FIXED: ripple now appends into .btn-ripple-container, not the button itself
 			function spawnRipple(button, e) {
@@ -2350,7 +2371,7 @@
 			});
 
 			const revealElements = document.querySelectorAll(
-				'.service-card, .transform-card, .pillar, .proof-card'
+				'.service-card, .pillar, .proof-card'
 			);
 
 			const revealObserver = new IntersectionObserver((entries) => {
@@ -2577,15 +2598,22 @@
 			});
 
 			const reveals = document.querySelectorAll(".reveal");
-			const observer = new IntersectionObserver((entries) => {
-				entries.forEach(entry => {
-					if (entry.isIntersecting) {
-						entry.target.classList.add("active");
-						observer.unobserve(entry.target);
-					}
+
+			if ("IntersectionObserver" in window) {
+				const observer = new IntersectionObserver((entries) => {
+					entries.forEach(entry => {
+						if (entry.isIntersecting) {
+							entry.target.classList.add("active");
+							observer.unobserve(entry.target);
+						}
+					});
+				}, { threshold: 0.12 });
+
+				reveals.forEach(el => {
+					el.classList.add("reveal-ready");
+					observer.observe(el);
 				});
-			}, { threshold: 0.2 });
-			reveals.forEach(el => observer.observe(el));
+			}
 
 			let lastScrollY = window.scrollY;
 			let ticking = false;
