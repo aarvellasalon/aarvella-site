@@ -1646,7 +1646,7 @@
 			}
 		</style>
 		<link rel="stylesheet" href="assets/css/booking.css?v=20260620-6">
-		<link rel="stylesheet" href="assets/css/ai-chat.css?v=20260620-2">
+		<link rel="stylesheet" href="assets/css/ai-chat.css?v=20260621-3">
 		<link rel="stylesheet" href="assets/css/footer.css?v=20260620-4">
 	</head>
 	<body>
@@ -2130,71 +2130,9 @@
 			</div>
 		</section>
 		
-<!--		<button class="btn-gold" id="ai-chat-button">
-			<span class="btn-text">Ask AI Stylist</span>
-			<div class="btn-ripple-container"></div>
-		</button>
-		<div id="ai-chat-box" hidden>
-		  <div class="chat-header">Aarvella AI Stylist</div>
-		  <div id="chat-messages"></div>
-
-		  <form id="chat-form">
-			<input id="chat-input" placeholder="Ask about hair, skin, bridal..." />
-			<button type="submit">Send</button>
-		  </form>
-		</div> -->
-		
-		<!--<button class="btn-gold" id="ai-chat-button">
-			<span class="btn-text">AI Stylist</span>
-			<div class="btn-ripple-container"></div>
-		</button>-->
-		<button id="ai-chat-button" aria-label="Open AI Stylist">
-		  <svg
-			width="18"
-			height="18"
-			viewBox="0 0 24 24"
-			fill="none"
-			stroke="currentColor"
-			stroke-width="1.8"
-			stroke-linecap="round"
-			stroke-linejoin="round">
-			<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-		  </svg>
-		  <span>AI Stylist</span>
-		</button>
-
-		<div id="ai-chat-widget" hidden>
-		  <div class="ai-chat-header">
-			<div>
-			  <strong>Aarvella AI Stylist</strong>
-			  <span>Find the right service</span>
-			</div>
-			<button id="ai-chat-close">×</button>
-		  </div>
-
-		  <div id="ai-chat-messages">
-			<div class="ai-message bot">
-			  Hi, I’m Aarvella’s AI Stylist. Are you looking for hair, skin, makeup, or bridal services?
-			</div>
-		  </div>
-
-		  <form id="ai-chat-form">
-			<input
-			  id="ai-chat-input"
-			  type="text"
-			  placeholder="Type your message..."
-			  autocomplete="off"
-			/>
-			<button type="submit">Send</button>
-			<!--<button class="btn-gold" type="submit">
-				<span class="btn-text">Send</span>
-				<div class="btn-ripple-container"></div>
-			</button>-->
-		  </form>
-		</div>
-		
 		<div id="footer-placeholder"></div>
 		<div id="booking-popup-placeholder"></div>
+		<div id="ai-chat-root"></div>
 		
 		<script>
 			window.addEventListener("DOMContentLoaded", () => {
@@ -2646,8 +2584,9 @@
 				}
 			});
 		</script>
+
+		<script src="/assets/js/ai-chat-loader.js?v=20260621-1" defer></script>
 		<script src="assets/js/booking.js?v=20260620-2" defer></script>
-		<script src="assets/js/ai-chat.js?v=20260620-2" defer></script>
 		<script src="assets/js/includes.js?v=20260620-2" defer></script>
 		<script src="assets/js/footer-loader.js?v=20260620-2" defer></script>
 		<script src="assets/js/newsletter.js?v=20260618-1" defer></script>
