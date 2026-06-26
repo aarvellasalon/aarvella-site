@@ -104,5 +104,9 @@ $profileImage = htmlspecialchars(
             </a>
         </section>
     </main>
+    <script
+        src="/assets/js/customer-portal.js?v=20260626-2"
+        defer
+    ></script>
 </body>
 </html>
