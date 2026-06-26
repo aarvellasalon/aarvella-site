@@ -17,6 +17,47 @@ function e(?string $value): string
     );
 }
 
+
+function portalAppointmentDate(string $value): DateTimeImmutable
+{
+    return new DateTimeImmutable(
+        $value,
+        new DateTimeZone('Asia/Kolkata')
+    );
+}
+
+function portalStatusLabel(string $status): string
+{
+    return match ($status) {
+        'pending' => 'Pending',
+        'confirmed' => 'Confirmed',
+        'rescheduled' => 'Rescheduled',
+        'completed' => 'Completed',
+        'cancelled' => 'Cancelled',
+        'no_show' => 'No show',
+        default => ucfirst(str_replace('_', ' ', $status)),
+    };
+}
+
+function portalStatusClass(string $status): string
+{
+    return match ($status) {
+        'confirmed', 'completed' => 'is-success',
+        'pending', 'rescheduled' => 'is-warning',
+        'cancelled', 'no_show' => 'is-danger',
+        default => 'is-neutral',
+    };
+}
+
+function portalMoney(null|string|float|int $value): ?string
+{
+    if ($value === null || $value === '') {
+        return null;
+    }
+
+    return '₹' . number_format((float) $value, 0);
+}
+
 $displayName = trim(
     (string) ($customer['full_name'] ?? '')
 );
@@ -78,13 +119,109 @@ $profileCompletion = (int) round(
 );
 
 /*
- * Appointment and reward values are intentionally empty
- * until the live appointments/rewards table structures are
- * connected. The UI already supports populated data later.
+ * Customer data is always derived from the authenticated
+ * Auth0 session. No customer ID is accepted from the browser.
  */
+$customerId = (int) ($customer['id'] ?? 0);
+
 $upcomingAppointment = null;
 $recentAppointments = [];
+$appointmentDataError = false;
 $loyaltyPoints = 0;
+
+if ($customerId > 0) {
+    try {
+        $database = getDatabase();
+
+        /*
+         * appointments.appointment_start stores Aarvella's
+         * local appointment time. Use the India offset for
+         * the current database session.
+         */
+        $database->exec("SET time_zone = '+05:30'");
+
+        $upcomingQuery = $database->prepare(
+            "SELECT
+                a.id,
+                a.appointment_code,
+                a.appointment_start,
+                a.appointment_end,
+                a.status,
+                a.total_price,
+                a.advance_paid,
+                a.payment_status,
+                s.name AS service_name,
+                s.duration_minutes,
+                st.name AS stylist_name,
+                st.specialty AS stylist_specialty
+             FROM appointments AS a
+             INNER JOIN services AS s
+                ON s.id = a.service_id
+             LEFT JOIN stylists AS st
+                ON st.id = a.stylist_id
+             WHERE a.customer_id = :customer_id
+               AND a.appointment_start >= NOW()
+               AND a.status IN (
+                    'pending',
+                    'confirmed',
+                    'rescheduled'
+               )
+             ORDER BY a.appointment_start ASC
+             LIMIT 1"
+        );
+
+        $upcomingQuery->execute([
+            'customer_id' => $customerId,
+        ]);
+
+        $upcomingAppointment =
+            $upcomingQuery->fetch() ?: null;
+
+        $recentQuery = $database->prepare(
+            "SELECT
+                a.id,
+                a.appointment_code,
+                a.appointment_start,
+                a.appointment_end,
+                a.status,
+                a.total_price,
+                a.payment_status,
+                s.name AS service_name,
+                s.duration_minutes,
+                st.name AS stylist_name
+             FROM appointments AS a
+             INNER JOIN services AS s
+                ON s.id = a.service_id
+             LEFT JOIN stylists AS st
+                ON st.id = a.stylist_id
+             WHERE a.customer_id = :customer_id
+               AND (
+                    a.appointment_start < NOW()
+                    OR a.status IN (
+                        'completed',
+                        'cancelled',
+                        'no_show'
+                    )
+               )
+             ORDER BY a.appointment_start DESC
+             LIMIT 3"
+        );
+
+        $recentQuery->execute([
+            'customer_id' => $customerId,
+        ]);
+
+        $recentAppointments =
+            $recentQuery->fetchAll();
+    } catch (Throwable $error) {
+        $appointmentDataError = true;
+
+        error_log(
+            'Aarvella dashboard appointment query failed: '
+            . $error->getMessage()
+        );
+    }
+}
 
 $cssPath = $_SERVER['DOCUMENT_ROOT']
     . '/assets/css/customer-portal.css';
@@ -380,9 +517,132 @@ $jsVersion = is_file($jsPath)
                             </div>
 
                             <?php if ($upcomingAppointment !== null): ?>
-                                <article class="appointment-card">
-                                    <!-- Live appointment data will be inserted here. -->
+                                <?php
+                                $upcomingStart = portalAppointmentDate(
+                                    (string) $upcomingAppointment['appointment_start']
+                                );
+
+                                $upcomingEnd = portalAppointmentDate(
+                                    (string) $upcomingAppointment['appointment_end']
+                                );
+
+                                $upcomingStatus = (string) $upcomingAppointment['status'];
+                                $upcomingPrice = portalMoney(
+                                    $upcomingAppointment['total_price']
+                                );
+                                ?>
+
+                                <article
+                                    id="appointment-<?= (int) $upcomingAppointment['id'] ?>"
+                                    class="appointment-card"
+                                >
+                                    <div class="appointment-date-tile">
+                                        <strong><?= e($upcomingStart->format('d')) ?></strong>
+                                        <span><?= e(strtoupper($upcomingStart->format('M'))) ?></span>
+                                    </div>
+
+                                    <div class="appointment-card-content">
+                                        <div class="appointment-card-title-row">
+                                            <div>
+                                                <p class="appointment-code">
+                                                    <?= e((string) $upcomingAppointment['appointment_code']) ?>
+                                                </p>
+
+                                                <h3>
+                                                    <?= e((string) $upcomingAppointment['service_name']) ?>
+                                                </h3>
+                                            </div>
+
+                                            <span
+                                                class="appointment-status <?= e(portalStatusClass($upcomingStatus)) ?>"
+                                            >
+                                                <?= e(portalStatusLabel($upcomingStatus)) ?>
+                                            </span>
+                                        </div>
+
+                                        <div class="appointment-meta">
+                                            <span>
+                                                <i class="fa-regular fa-clock" aria-hidden="true"></i>
+                                                <?= e($upcomingStart->format('D, d M Y')) ?>
+                                                ·
+                                                <?= e($upcomingStart->format('h:i A')) ?>
+                                                –
+                                                <?= e($upcomingEnd->format('h:i A')) ?>
+                                            </span>
+
+                                            <span>
+                                                <i class="fa-regular fa-user" aria-hidden="true"></i>
+                                                <?= e(
+                                                    $upcomingAppointment['stylist_name']
+                                                        ? 'With ' . (string) $upcomingAppointment['stylist_name']
+                                                        : 'Stylist to be assigned'
+                                                ) ?>
+                                            </span>
+
+                                            <span>
+                                                <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
+                                                Aarvella · Karanpur, Dehradun
+                                            </span>
+
+                                            <?php if ($upcomingPrice !== null): ?>
+                                                <span>
+                                                    <i class="fa-solid fa-indian-rupee-sign" aria-hidden="true"></i>
+                                                    <?= e($upcomingPrice) ?>
+                                                    ·
+                                                    <?= e(ucwords(str_replace('_', ' ', (string) $upcomingAppointment['payment_status']))) ?>
+                                                </span>
+                                            <?php endif; ?>
+                                        </div>
+
+                                        <div class="appointment-card-actions">
+                                            <a
+                                                href="/account/appointments.php#appointment-<?= (int) $upcomingAppointment['id'] ?>"
+                                                class="portal-secondary-button"
+                                            >
+                                                View details
+                                            </a>
+
+                                            <button
+                                                type="button"
+                                                class="appointment-text-action"
+                                                data-coming-soon="Online rescheduling"
+                                            >
+                                                Reschedule
+                                            </button>
+
+                                            <button
+                                                type="button"
+                                                class="appointment-text-action is-danger"
+                                                data-coming-soon="Online cancellation"
+                                            >
+                                                Cancel
+                                            </button>
+                                        </div>
+                                    </div>
                                 </article>
+                            <?php elseif ($appointmentDataError): ?>
+                                <div class="portal-empty-state is-error">
+                                    <span class="empty-state-icon">
+                                        <i class="fa-solid fa-triangle-exclamation" aria-hidden="true"></i>
+                                    </span>
+
+                                    <div>
+                                        <h3>Appointments are temporarily unavailable</h3>
+
+                                        <p>
+                                            Your account is safe. Please refresh the page or contact Aarvella if the issue continues.
+                                        </p>
+                                    </div>
+
+                                    <a
+                                        href="https://wa.me/919742049990"
+                                        class="portal-secondary-button"
+                                        target="_blank"
+                                        rel="noopener noreferrer"
+                                    >
+                                        Contact salon
+                                    </a>
+                                </div>
                             <?php else: ?>
                                 <div class="portal-empty-state">
                                     <span class="empty-state-icon">
@@ -422,9 +682,53 @@ $jsVersion = is_file($jsPath)
 
                             <?php if ($recentAppointments !== []): ?>
                                 <div class="recent-appointment-list">
-                                    <!-- Live recent appointments will be inserted here. -->
+                                    <?php foreach ($recentAppointments as $recentAppointment): ?>
+                                        <?php
+                                        $recentStart = portalAppointmentDate(
+                                            (string) $recentAppointment['appointment_start']
+                                        );
+
+                                        $recentStatus = (string) $recentAppointment['status'];
+                                        ?>
+
+                                        <a
+                                            id="appointment-<?= (int) $recentAppointment['id'] ?>"
+                                            href="/account/appointments.php#appointment-<?= (int) $recentAppointment['id'] ?>"
+                                            class="recent-appointment-item"
+                                        >
+                                            <span class="recent-appointment-icon">
+                                                <i class="fa-solid fa-scissors" aria-hidden="true"></i>
+                                            </span>
+
+                                            <span class="recent-appointment-copy">
+                                                <strong>
+                                                    <?= e((string) $recentAppointment['service_name']) ?>
+                                                </strong>
+
+                                                <small>
+                                                    <?= e($recentStart->format('D, d M Y · h:i A')) ?>
+                                                </small>
+
+                                                <small>
+                                                    <?= e(
+                                                        $recentAppointment['stylist_name']
+                                                            ? 'With ' . (string) $recentAppointment['stylist_name']
+                                                            : 'Aarvella stylist'
+                                                    ) ?>
+                                                </small>
+                                            </span>
+
+                                            <span
+                                                class="appointment-status <?= e(portalStatusClass($recentStatus)) ?>"
+                                            >
+                                                <?= e(portalStatusLabel($recentStatus)) ?>
+                                            </span>
+
+                                            <i class="fa-solid fa-chevron-right recent-row-arrow" aria-hidden="true"></i>
+                                        </a>
+                                    <?php endforeach; ?>
                                 </div>
-                            <?php else: ?>
+                            <?php elseif (!$appointmentDataError): ?>
                                 <div class="compact-empty-state">
                                     <i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i>
 
