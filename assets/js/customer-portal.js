@@ -1,394 +1,200 @@
 (() => {
 	"use strict";
 
-	const BOOKING_URL = "/#booking";
+	const profileTrigger = document.querySelector(
+		"[data-profile-menu-trigger]"
+	);
 
-	const selectors = {
-		welcomeText: ".portal-welcome p",
-		profileImage: ".portal-welcome img",
-		bookingButtons: ".js-book",
-		logoutLinks: ".portal-logout",
-		navigationLinks: ".portal-nav a",
-		menuButton: "[data-portal-menu-button]",
-		sidebar: "[data-portal-sidebar]",
-		overlay: "[data-portal-overlay]"
-	};
+	const profileDropdown = document.querySelector(
+		"[data-profile-dropdown]"
+	);
 
-	let lastFocusedElement = null;
+	const toast = document.querySelector(
+		"[data-portal-toast]"
+	);
 
-	/**
-	 * Return an appropriate greeting based on the user's
-	 * local device time.
-	 */
-	function getGreeting() {
+	let toastTimer = 0;
+
+	function setGreeting() {
+		const greeting = document.querySelector(
+			"[data-greeting]"
+		);
+
+		if (!greeting) {
+			return;
+		}
+
 		const hour = new Date().getHours();
 
 		if (hour < 12) {
-			return "Good morning";
+			greeting.textContent = "Good morning,";
+			return;
 		}
 
 		if (hour < 17) {
-			return "Good afternoon";
-		}
-
-		return "Good evening";
-	}
-
-	/**
-	 * Update the welcome label without changing the
-	 * customer's name rendered by PHP.
-	 */
-	function updateGreeting() {
-		const welcomeText = document.querySelector(
-			selectors.welcomeText
-		);
-
-		if (!welcomeText) {
+			greeting.textContent = "Good afternoon,";
 			return;
 		}
 
-		welcomeText.textContent = getGreeting();
+		greeting.textContent = "Good evening,";
 	}
 
-	/**
-	 * Replace a broken Google/Auth0 profile image with
-	 * a local Aarvella fallback image.
-	 */
-	function initializeProfileImageFallback() {
-		const profileImage = document.querySelector(
-			selectors.profileImage
-		);
-
-		if (!profileImage) {
+	function showToast(message) {
+		if (!toast) {
 			return;
 		}
 
-		const fallbackImage =
-			"/assets/images/default-profile.webp";
+		window.clearTimeout(toastTimer);
 
-		profileImage.addEventListener(
-			"error",
-			() => {
-				if (
-					profileImage.src.includes(
-						"default-profile.webp"
-					)
-				) {
-					return;
-				}
+		toast.textContent = message;
+		toast.hidden = false;
 
-				profileImage.src = fallbackImage;
-			},
-			{ once: true }
-		);
-	}
-
-	/**
-	 * Send customers to the existing Aarvella booking
-	 * section. This prevents a non-functional button on
-	 * portal pages where the booking popup is not loaded.
-	 */
-	function initializeBookingButtons() {
-		const buttons = document.querySelectorAll(
-			selectors.bookingButtons
-		);
-
-		buttons.forEach((button) => {
-			button.addEventListener("click", (event) => {
-				event.preventDefault();
-
-				if (
-					button.dataset.loading === "true"
-				) {
-					return;
-				}
-
-				button.dataset.loading = "true";
-				button.setAttribute(
-					"aria-busy",
-					"true"
-				);
-
-				const originalText =
-					button.textContent.trim();
-
-				button.dataset.originalText =
-					originalText;
-
-				button.textContent =
-					"Opening booking…";
-
-				window.setTimeout(() => {
-					window.location.assign(
-						BOOKING_URL
-					);
-				}, 180);
-			});
+		requestAnimationFrame(() => {
+			toast.classList.add("is-visible");
 		});
-	}
 
-	/**
-	 * Mark the current portal navigation item.
-	 */
-	function setActiveNavigation() {
-		const currentPath =
-			window.location.pathname.replace(
-				/\/+$/,
-				""
-			);
-
-		const links = document.querySelectorAll(
-			selectors.navigationLinks
-		);
-
-		links.forEach((link) => {
-			const linkUrl = new URL(
-				link.href,
-				window.location.origin
-			);
-
-			const linkPath =
-				linkUrl.pathname.replace(
-					/\/+$/,
-					""
-				);
-
-			if (linkPath === currentPath) {
-				link.classList.add("is-active");
-
-				link.setAttribute(
-					"aria-current",
-					"page"
-				);
-			} else {
-				link.classList.remove("is-active");
-				link.removeAttribute("aria-current");
-			}
-		});
-	}
-
-	/**
-	 * Optional mobile portal navigation support.
-	 *
-	 * This becomes active only when the related data
-	 * attributes exist in the dashboard HTML.
-	 */
-	function initializeMobileNavigation() {
-		const menuButton = document.querySelector(
-			selectors.menuButton
-		);
-
-		const sidebar = document.querySelector(
-			selectors.sidebar
-		);
-
-		const overlay = document.querySelector(
-			selectors.overlay
-		);
-
-		if (!menuButton || !sidebar) {
-			return;
-		}
-
-		function openMenu() {
-			lastFocusedElement =
-				document.activeElement;
-
-			sidebar.classList.add("is-open");
-			overlay?.classList.add("is-visible");
-
-			document.body.classList.add(
-				"portal-menu-open"
-			);
-
-			menuButton.setAttribute(
-				"aria-expanded",
-				"true"
-			);
-
-			sidebar.setAttribute(
-				"aria-hidden",
-				"false"
-			);
-
-			const firstLink =
-				sidebar.querySelector("a, button");
+		toastTimer = window.setTimeout(() => {
+			toast.classList.remove("is-visible");
 
 			window.setTimeout(() => {
-				firstLink?.focus();
-			}, 100);
+				toast.hidden = true;
+			}, 250);
+		}, 2600);
+	}
+
+	function closeProfileMenu() {
+		if (!profileTrigger || !profileDropdown) {
+			return;
 		}
 
-		function closeMenu() {
-			sidebar.classList.remove("is-open");
-			overlay?.classList.remove("is-visible");
+		profileTrigger.setAttribute(
+			"aria-expanded",
+			"false"
+		);
 
-			document.body.classList.remove(
-				"portal-menu-open"
-			);
+		profileDropdown.hidden = true;
+	}
 
-			menuButton.setAttribute(
-				"aria-expanded",
-				"false"
-			);
-
-			sidebar.setAttribute(
-				"aria-hidden",
-				"true"
-			);
-
-			lastFocusedElement?.focus();
+	function openProfileMenu() {
+		if (!profileTrigger || !profileDropdown) {
+			return;
 		}
 
-		menuButton.addEventListener(
+		profileTrigger.setAttribute(
+			"aria-expanded",
+			"true"
+		);
+
+		profileDropdown.hidden = false;
+	}
+
+	function initializeProfileMenu() {
+		if (!profileTrigger || !profileDropdown) {
+			return;
+		}
+
+		profileTrigger.addEventListener(
 			"click",
-			() => {
-				if (
-					sidebar.classList.contains(
-						"is-open"
-					)
-				) {
-					closeMenu();
+			(event) => {
+				event.stopPropagation();
+
+				if (profileDropdown.hidden) {
+					openProfileMenu();
 				} else {
-					openMenu();
+					closeProfileMenu();
 				}
 			}
 		);
 
-		overlay?.addEventListener(
-			"click",
-			closeMenu
-		);
-
-		sidebar.addEventListener(
+		profileDropdown.addEventListener(
 			"click",
 			(event) => {
-				const link =
-					event.target.closest("a");
-
-				if (link) {
-					closeMenu();
-				}
+				event.stopPropagation();
 			}
+		);
+
+		document.addEventListener(
+			"click",
+			closeProfileMenu
 		);
 
 		document.addEventListener(
 			"keydown",
 			(event) => {
-				if (
-					event.key === "Escape" &&
-					sidebar.classList.contains(
-						"is-open"
-					)
-				) {
-					closeMenu();
+				if (event.key === "Escape") {
+					closeProfileMenu();
+					profileTrigger.focus();
 				}
 			}
 		);
 	}
 
-	/**
-	 * Prevent repeated logout clicks while the Auth0
-	 * logout redirect is starting.
-	 */
-	function initializeLogoutLinks() {
-		const logoutLinks =
-			document.querySelectorAll(
-				selectors.logoutLinks
-			);
+	function initializeComingSoonActions() {
+		document
+			.querySelectorAll("[data-coming-soon]")
+			.forEach((element) => {
+				element.addEventListener(
+					"click",
+					(event) => {
+						event.preventDefault();
 
-		logoutLinks.forEach((link) => {
-			link.addEventListener("click", () => {
-				if (
-					link.dataset.loading === "true"
-				) {
-					return;
-				}
+						const feature =
+							element.dataset.comingSoon
+							|| "This feature";
 
-				link.dataset.loading = "true";
-
-				link.setAttribute(
-					"aria-busy",
-					"true"
+						showToast(
+							`${feature} will be available in the next portal phase.`
+						);
+					}
 				);
-
-				link.textContent = "Logging out…";
 			});
-		});
 	}
 
-	/**
-	 * Add keyboard-visible focus behaviour for users
-	 * navigating through the portal without a mouse.
-	 */
-	function initializeKeyboardDetection() {
-		document.addEventListener(
-			"keydown",
-			(event) => {
-				if (event.key === "Tab") {
-					document.documentElement.classList.add(
-						"keyboard-navigation"
-					);
-				}
-			}
-		);
-
-		document.addEventListener(
-			"mousedown",
-			() => {
-				document.documentElement.classList.remove(
-					"keyboard-navigation"
+	function initializeProfileImageFallback() {
+		document
+			.querySelectorAll("[data-profile-image]")
+			.forEach((image) => {
+				image.addEventListener(
+					"error",
+					() => {
+						image.remove();
+					},
+					{ once: true }
 				);
-			}
-		);
+			});
 	}
 
-	/**
-	 * Restore buttons if the user returns using the
-	 * browser's back-forward cache.
-	 */
-	function handlePageRestore() {
-		window.addEventListener(
-			"pageshow",
-			(event) => {
-				if (!event.persisted) {
-					return;
-				}
-
-				document
-					.querySelectorAll(
-						'[data-loading="true"]'
-					)
-					.forEach((element) => {
-						element.dataset.loading =
-							"false";
-
-						element.removeAttribute(
-							"aria-busy"
+	function initializeLogoutState() {
+		document
+			.querySelectorAll(".js-logout")
+			.forEach((link) => {
+				link.addEventListener(
+					"click",
+					() => {
+						link.setAttribute(
+							"aria-busy",
+							"true"
 						);
 
-						if (
-							element.dataset
-								.originalText
-						) {
-							element.textContent =
-								element.dataset
-									.originalText;
+						const text = link.querySelector(
+							"span"
+						);
+
+						if (text) {
+							text.textContent =
+								"Logging out…";
 						}
-					});
-			}
-		);
+					}
+				);
+			});
 	}
 
 	function initializePortal() {
-		updateGreeting();
+		setGreeting();
+		initializeProfileMenu();
+		initializeComingSoonActions();
 		initializeProfileImageFallback();
-		initializeBookingButtons();
-		setActiveNavigation();
-		initializeMobileNavigation();
-		initializeLogoutLinks();
-		initializeKeyboardDetection();
-		handlePageRestore();
+		initializeLogoutState();
 
 		document.documentElement.classList.add(
 			"portal-js-ready"
