@@ -106,7 +106,7 @@ $jsVersion = is_file($jsFilePath)
             </p>
 
             <button
-                class="btn-outline js-book"
+                class="btn-gold js-book"
                 type="button"
             >
                 Book an appointment
