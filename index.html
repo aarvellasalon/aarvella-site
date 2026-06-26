@@ -164,7 +164,92 @@
 			}
 			.desktop-nav a:hover {
 				color: var(--gold);
-			}		
+			}
+
+			/* Customer account actions */
+			.nav-account-actions {
+				display: inline-flex;
+				align-items: center;
+				gap: 8px;
+				flex-shrink: 0;
+				padding-left: clamp(4px, 0.7vw, 10px);
+				border-left: 1px solid rgba(212, 175, 55, 0.22);
+			}
+
+			.desktop-nav .nav-account-link {
+				min-height: 38px;
+				padding: 0 13px;
+				border-radius: 999px;
+				display: inline-flex;
+				align-items: center;
+				justify-content: center;
+				gap: 7px;
+				font-size: 0.74rem;
+				font-weight: 600;
+				letter-spacing: 0.75px;
+				line-height: 1;
+				white-space: nowrap;
+				border: 1px solid transparent;
+				transition:
+					transform 0.3s var(--ease-out),
+					color 0.3s ease,
+					background 0.3s ease,
+					border-color 0.3s ease,
+					box-shadow 0.3s ease;
+			}
+
+			.desktop-nav .nav-account-link i {
+				font-size: 0.9rem;
+				color: var(--gold);
+			}
+
+			.desktop-nav .nav-account-link.nav-signin {
+				color: rgba(255, 255, 255, 0.9);
+				border-color: rgba(212, 175, 55, 0.28);
+				background:
+					linear-gradient(
+						135deg,
+						rgba(255, 255, 255, 0.08),
+						rgba(255, 255, 255, 0.025)
+					) !important;
+				backdrop-filter: blur(14px);
+				-webkit-backdrop-filter: blur(14px);
+			}
+
+			.desktop-nav .nav-account-link.nav-join {
+				color: #0a0a0a !important;
+				border-color: rgba(255, 232, 160, 0.58);
+				background:
+					linear-gradient(
+						135deg,
+						rgba(255, 240, 183, 0.96),
+						rgba(212, 175, 55, 0.72)
+					) !important;
+				box-shadow:
+					inset 0 1px 0 rgba(255, 255, 255, 0.7),
+					0 7px 20px rgba(212, 175, 55, 0.18);
+			}
+
+			.desktop-nav .nav-account-link:hover {
+				transform: translateY(-2px);
+			}
+
+			.desktop-nav .nav-account-link.nav-signin:hover {
+				color: var(--gold);
+				border-color: rgba(212, 175, 55, 0.52);
+				background: rgba(212, 175, 55, 0.08) !important;
+			}
+
+			.desktop-nav .nav-account-link.nav-join:hover {
+				color: #000 !important;
+				box-shadow:
+					inset 0 1px 0 rgba(255, 255, 255, 0.8),
+					0 10px 28px rgba(212, 175, 55, 0.3);
+			}
+
+			.mobile-account-panel {
+				display: none;
+			}
 			/* The Magic Fix: Flexbox Gap */
 			.desktop-nav {
 				background: transparent !important;
@@ -427,11 +512,119 @@
 				.mobile-nav.active a:nth-child(3) { transition-delay: 0.3s; }
 				.mobile-nav.active a:nth-child(4) { transition-delay: 0.4s; }
 				.mobile-nav.active a:nth-child(5) { transition-delay: 0.5s; }
+
+				.mobile-account-panel {
+					width: 100%;
+					max-width: 300px;
+					display: grid;
+					grid-template-columns: 1fr 1fr;
+					gap: 10px;
+					padding: 10px;
+					margin-top: -0.4rem;
+					border: 1px solid rgba(212, 175, 55, 0.18);
+					border-radius: 18px;
+					background:
+						linear-gradient(
+							135deg,
+							rgba(255, 255, 255, 0.07),
+							rgba(255, 255, 255, 0.02)
+						);
+					backdrop-filter: blur(16px) saturate(140%);
+					-webkit-backdrop-filter: blur(16px) saturate(140%);
+					opacity: 0;
+					transform: translateY(20px);
+					transition:
+						opacity 0.45s ease,
+						transform 0.45s var(--ease-out);
+				}
+
+				.mobile-nav.active .mobile-account-panel {
+					opacity: 1;
+					transform: translateY(0);
+					transition-delay: 0.55s;
+				}
+
+				.mobile-account-panel .mobile-account-link {
+					width: 100%;
+					min-height: 46px;
+					padding: 10px 8px;
+					margin: 0;
+					border-radius: 13px;
+					display: inline-flex;
+					align-items: center;
+					justify-content: center;
+					gap: 7px;
+					font-family: 'Inter', sans-serif;
+					font-size: clamp(0.78rem, 3.2vw, 0.9rem);
+					font-weight: 650;
+					letter-spacing: 0.55px;
+					line-height: 1.2;
+					text-align: center;
+					opacity: 1;
+					transform: none;
+					white-space: nowrap;
+				}
+
+				.mobile-account-panel .mobile-account-link::after {
+					display: none;
+				}
+
+				.mobile-account-panel .mobile-account-link i {
+					font-size: 0.92rem;
+					flex-shrink: 0;
+				}
+
+				.mobile-account-panel .mobile-signin {
+					color: rgba(255, 255, 255, 0.92);
+					border: 1px solid rgba(212, 175, 55, 0.3);
+					background: rgba(255, 255, 255, 0.035) !important;
+				}
+
+				.mobile-account-panel .mobile-signin i {
+					color: var(--gold);
+				}
+
+				.mobile-account-panel .mobile-join {
+					color: #070707 !important;
+					border: 1px solid rgba(255, 232, 160, 0.6);
+					background:
+						linear-gradient(
+							135deg,
+							rgba(255, 239, 176, 0.96),
+							rgba(212, 175, 55, 0.74)
+						) !important;
+					box-shadow:
+						inset 0 1px 0 rgba(255, 255, 255, 0.7),
+						0 8px 22px rgba(212, 175, 55, 0.2);
+				}
+
 				.mobile-nav a:hover {
 					color: var(--gold);
 				}
+
+				.mobile-account-panel .mobile-join:hover {
+					color: #000 !important;
+				}
 				#mobileBookBtn {
 					margin-top: 1rem;
+				}
+
+				@media (max-width: 390px), (max-height: 700px) {
+					.mobile-nav {
+						gap: 1.35rem;
+						padding-top: 88px;
+						padding-bottom: 28px;
+						overflow-y: auto;
+					}
+
+					.mobile-account-panel {
+						grid-template-columns: 1fr;
+						max-width: 270px;
+					}
+
+					.mobile-account-panel .mobile-account-link {
+						min-height: 42px;
+					}
 				}
 				/* Transform hamburger to 'X' when active */
 				.hamburger.active span:nth-child(1) {
@@ -1706,6 +1899,26 @@
 					<a href="about.html">About</a>
 					<a href="blog.html">Blog</a>
 					<a href="find-us.html">Find Us</a>
+
+					<div class="nav-account-actions" aria-label="Customer account">
+						<a
+							href="/account/login.php"
+							class="nav-account-link nav-signin"
+							aria-label="Sign in to your Aarvella account"
+						>
+							<i class="fa-regular fa-user" aria-hidden="true"></i>
+							<span>Sign In</span>
+						</a>
+
+						<a
+							href="/account/register.php"
+							class="nav-account-link nav-join"
+							aria-label="Create an Aarvella customer account"
+						>
+							<span>Join</span>
+						</a>
+					</div>
+
 					<button class="btn-gold js-book">
 						<span class="btn-text">Book Now</span>
 						<div class="btn-ripple-container"></div>
@@ -1725,6 +1938,25 @@
 				<a href="about.html">About</a>
 				<a href="blog.html">Blog</a>
 				<a href="find-us.html">Find Us</a>
+
+				<div class="mobile-account-panel" aria-label="Customer account">
+					<a
+						href="/account/login.php"
+						class="mobile-account-link mobile-signin"
+					>
+						<i class="fa-regular fa-user" aria-hidden="true"></i>
+						<span>Sign In</span>
+					</a>
+
+					<a
+						href="/account/register.php"
+						class="mobile-account-link mobile-join"
+					>
+						<i class="fa-solid fa-user-plus" aria-hidden="true"></i>
+						<span>Join Aarvella</span>
+					</a>
+				</div>
+
 				<button class="btn-gold js-book" id="mobileBookBtn" type="button">
 					<span class="btn-text">Book Now</span>
 					<div class="btn-ripple-container"></div>
