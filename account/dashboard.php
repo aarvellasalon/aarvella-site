@@ -24,6 +24,23 @@ $profileImage = htmlspecialchars(
     ENT_QUOTES,
     'UTF-8'
 );
+
+$cssFilePath =
+    $_SERVER['DOCUMENT_ROOT']
+    . '/assets/css/customer-portal.css';
+
+$jsFilePath =
+    $_SERVER['DOCUMENT_ROOT']
+    . '/assets/js/customer-portal.js';
+
+$cssVersion = is_file($cssFilePath)
+    ? (string) filemtime($cssFilePath)
+    : '1';
+
+$jsVersion = is_file($jsFilePath)
+    ? (string) filemtime($jsFilePath)
+    : '1';
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -44,7 +61,11 @@ $profileImage = htmlspecialchars(
 
     <link
         rel="stylesheet"
-        href="/assets/css/customer-portal.css"
+        href="/assets/css/customer-portal.css?v=<?= htmlspecialchars(
+            $cssVersion,
+            ENT_QUOTES,
+            'UTF-8'
+        ) ?>"
     >
 </head>
 
@@ -85,7 +106,7 @@ $profileImage = htmlspecialchars(
             </p>
 
             <button
-                class="btn-gold js-book"
+                class="btn-outline js-book"
                 type="button"
             >
                 Book an appointment
@@ -105,7 +126,11 @@ $profileImage = htmlspecialchars(
         </section>
     </main>
     <script
-        src="/assets/js/customer-portal.js?v=20260626-2"
+        src="/assets/js/customer-portal.js?v=<?= htmlspecialchars(
+            $jsVersion,
+            ENT_QUOTES,
+            'UTF-8'
+        ) ?>"
         defer
     ></script>
 </body>
