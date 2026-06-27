@@ -1,236 +1,239 @@
 (() => {
-	"use strict";
+    "use strict";
 
-	const BOOKING_URL = "/#booking";
+    const selectors = {
+        greeting: "[data-greeting]",
+        profileImages: "[data-profile-image]",
+        menuButton: "[data-portal-menu-button]",
+        sidebar: "[data-portal-sidebar]",
+        overlay: "[data-portal-overlay]",
+        profileMenuButton: "[data-profile-menu-trigger]",
+        profileDropdown: "[data-profile-dropdown]",
+        comingSoon: "[data-coming-soon]",
+        toast: "[data-portal-toast]",
+        cards: ".portal-card, .portal-panel",
+        logoutLinks: ".js-logout",
+        navigationLinks: ".portal-nav a, .portal-mobile-nav a"
+    };
 
-	const selectors = {
-		welcomeText: ".portal-welcome p",
-		profileImage: ".portal-welcome img",
-		bookingButtons: ".js-book",
-		logoutLinks: ".portal-logout",
-		navigationLinks: ".portal-nav a",
-		menuButton: "[data-portal-menu-button]",
-		sidebar: "[data-portal-sidebar]",
-		overlay: "[data-portal-overlay]",
-		cards: ".portal-card"
-	};
+    let lastFocusedElement = null;
+    let toastTimer = null;
 
-	let lastFocusedElement = null;
+    function getGreeting() {
+        const hour = new Date().getHours();
 
-	function getGreeting() {
-		const hour = new Date().getHours();
+        if (hour < 12) return "Good morning,";
+        if (hour < 17) return "Good afternoon,";
+        return "Good evening,";
+    }
 
-		if (hour < 12) return "Good morning";
-		if (hour < 17) return "Good afternoon";
-		return "Good evening";
-	}
+    function updateGreeting() {
+        const element = document.querySelector(selectors.greeting);
+        if (element) element.textContent = getGreeting();
+    }
 
-	function updateGreeting() {
-		const welcomeText = document.querySelector(selectors.welcomeText);
-		if (!welcomeText) return;
-		welcomeText.textContent = getGreeting();
-	}
+    function initializeProfileImages() {
+        document.querySelectorAll(selectors.profileImages).forEach((image) => {
+            image.addEventListener(
+                "error",
+                () => image.classList.add("is-broken"),
+                { once: true }
+            );
+        });
+    }
 
-	function initializeProfileImageFallback() {
-		const profileImage = document.querySelector(selectors.profileImage);
-		if (!profileImage) return;
+    function initializeMobileSidebar() {
+        const button = document.querySelector(selectors.menuButton);
+        const sidebar = document.querySelector(selectors.sidebar);
+        const overlay = document.querySelector(selectors.overlay);
 
-		const fallbackImage = "/assets/images/default-profile.webp";
+        if (!button || !sidebar) return;
 
-		profileImage.addEventListener(
-			"error",
-			() => {
-				if (profileImage.src.includes("default-profile.webp")) return;
-				profileImage.src = fallbackImage;
-			},
-			{ once: true }
-		);
-	}
+        const isMobile = () => window.matchMedia("(max-width: 980px)").matches;
 
-	function initializeBookingButtons() {
-		const buttons = document.querySelectorAll(selectors.bookingButtons);
+        function setMenuState(open) {
+            const shouldOpen = Boolean(open && isMobile());
 
-		buttons.forEach((button) => {
-			button.addEventListener("click", (event) => {
-				event.preventDefault();
+            sidebar.classList.toggle("is-open", shouldOpen);
+            overlay?.classList.toggle("is-visible", shouldOpen);
+            document.body.classList.toggle("portal-menu-open", shouldOpen);
+            button.setAttribute("aria-expanded", String(shouldOpen));
+            button.setAttribute(
+                "aria-label",
+                shouldOpen ? "Close account menu" : "Open account menu"
+            );
+            overlay?.setAttribute("aria-hidden", String(!shouldOpen));
 
-				if (button.dataset.loading === "true") return;
+            if (isMobile()) {
+                sidebar.setAttribute("aria-hidden", String(!shouldOpen));
+            } else {
+                sidebar.removeAttribute("aria-hidden");
+            }
 
-				button.dataset.loading = "true";
-				button.setAttribute("aria-busy", "true");
+            if (shouldOpen) {
+                lastFocusedElement = document.activeElement;
+                window.setTimeout(() => {
+                    sidebar.querySelector("a, button")?.focus();
+                }, 90);
+            } else if (lastFocusedElement instanceof HTMLElement) {
+                lastFocusedElement.focus({ preventScroll: true });
+            }
+        }
 
-				const originalText = button.textContent.trim();
-				button.dataset.originalText = originalText;
-				button.textContent = "Opening booking…";
+        button.addEventListener("click", () => {
+            setMenuState(!sidebar.classList.contains("is-open"));
+        });
 
-				window.setTimeout(() => {
-					window.location.assign(BOOKING_URL);
-				}, 180);
-			});
-		});
-	}
+        overlay?.addEventListener("click", () => setMenuState(false));
 
-	function setActiveNavigation() {
-		const currentPath = window.location.pathname.replace(/\/+$/, "");
-		const links = document.querySelectorAll(selectors.navigationLinks);
+        sidebar.addEventListener("click", (event) => {
+            if (isMobile() && event.target.closest("a")) {
+                setMenuState(false);
+            }
+        });
 
-		links.forEach((link) => {
-			const linkUrl = new URL(link.href, window.location.origin);
-			const linkPath = linkUrl.pathname.replace(/\/+$/, "");
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && sidebar.classList.contains("is-open")) {
+                setMenuState(false);
+            }
+        });
 
-			if (linkPath === currentPath) {
-				link.classList.add("is-active");
-				link.setAttribute("aria-current", "page");
-			} else {
-				link.classList.remove("is-active");
-				link.removeAttribute("aria-current");
-			}
-		});
-	}
+        window.addEventListener("resize", () => {
+            if (!isMobile()) setMenuState(false);
+        });
 
-	function initializeMobileNavigation() {
-		const menuButton = document.querySelector(selectors.menuButton);
-		const sidebar = document.querySelector(selectors.sidebar);
-		const overlay = document.querySelector(selectors.overlay);
+        if (isMobile()) {
+            sidebar.setAttribute("aria-hidden", "true");
+        }
+    }
 
-		if (!menuButton || !sidebar) return;
+    function initializeProfileMenu() {
+        const button = document.querySelector(selectors.profileMenuButton);
+        const dropdown = document.querySelector(selectors.profileDropdown);
 
-		function openMenu() {
-			lastFocusedElement = document.activeElement;
-			sidebar.classList.add("is-open");
-			overlay?.classList.add("is-visible");
-			document.body.classList.add("portal-menu-open");
-			menuButton.setAttribute("aria-expanded", "true");
-			sidebar.setAttribute("aria-hidden", "false");
+        if (!button || !dropdown) return;
 
-			const firstLink = sidebar.querySelector("a, button");
-			window.setTimeout(() => {
-				firstLink?.focus();
-			}, 100);
-		}
+        function setOpen(open) {
+            dropdown.hidden = !open;
+            button.setAttribute("aria-expanded", String(open));
+        }
 
-		function closeMenu() {
-			sidebar.classList.remove("is-open");
-			overlay?.classList.remove("is-visible");
-			document.body.classList.remove("portal-menu-open");
-			menuButton.setAttribute("aria-expanded", "false");
-			sidebar.setAttribute("aria-hidden", "true");
-			lastFocusedElement?.focus();
-		}
+        button.addEventListener("click", (event) => {
+            event.stopPropagation();
+            setOpen(dropdown.hidden);
+        });
 
-		menuButton.addEventListener("click", () => {
-			if (sidebar.classList.contains("is-open")) {
-				closeMenu();
-			} else {
-				openMenu();
-			}
-		});
+        dropdown.addEventListener("click", (event) => event.stopPropagation());
+        document.addEventListener("click", () => setOpen(false));
 
-		overlay?.addEventListener("click", closeMenu);
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Escape" && !dropdown.hidden) {
+                setOpen(false);
+                button.focus();
+            }
+        });
+    }
 
-		sidebar.addEventListener("click", (event) => {
-			const link = event.target.closest("a");
-			if (link && window.innerWidth <= 980) {
-				closeMenu();
-			}
-		});
+    function showToast(message) {
+        const toast = document.querySelector(selectors.toast);
+        if (!toast) return;
 
-		document.addEventListener("keydown", (event) => {
-			if (event.key === "Escape" && sidebar.classList.contains("is-open")) {
-				closeMenu();
-			}
-		});
-	}
+        window.clearTimeout(toastTimer);
+        toast.textContent = message;
+        toast.hidden = false;
 
-	function initializeLogoutLinks() {
-		const logoutLinks = document.querySelectorAll(selectors.logoutLinks);
+        toastTimer = window.setTimeout(() => {
+            toast.hidden = true;
+        }, 3200);
+    }
 
-		logoutLinks.forEach((link) => {
-			link.addEventListener("click", () => {
-				if (link.dataset.loading === "true") return;
-				link.dataset.loading = "true";
-				link.setAttribute("aria-busy", "true");
-				link.textContent = "Logging out…";
-			});
-		});
-	}
+    function initializeComingSoonActions() {
+        document.querySelectorAll(selectors.comingSoon).forEach((element) => {
+            element.addEventListener("click", (event) => {
+                event.preventDefault();
+                const feature = element.dataset.comingSoon || "This feature";
+                showToast(`${feature} will be available in a later portal phase.`);
+            });
+        });
+    }
 
-	function initializeKeyboardDetection() {
-		document.addEventListener("keydown", (event) => {
-			if (event.key === "Tab") {
-				document.documentElement.classList.add("keyboard-navigation");
-			}
-		});
+    function initializeCardSheen() {
+        if (!window.matchMedia("(pointer: fine)").matches) return;
 
-		document.addEventListener("mousedown", () => {
-			document.documentElement.classList.remove("keyboard-navigation");
-		});
-	}
+        document.querySelectorAll(selectors.cards).forEach((card) => {
+            card.addEventListener("pointermove", (event) => {
+                const rect = card.getBoundingClientRect();
+                const x = ((event.clientX - rect.left) / rect.width) * 100;
+                const y = ((event.clientY - rect.top) / rect.height) * 100;
 
-	function handlePageRestore() {
-		window.addEventListener("pageshow", (event) => {
-			if (!event.persisted) return;
+                card.style.setProperty("--sheen-x", `${x}%`);
+                card.style.setProperty("--sheen-y", `${y}%`);
+                card.style.setProperty("--sheen-opacity", "1");
+            });
 
-			document
-				.querySelectorAll('[data-loading="true"]')
-				.forEach((element) => {
-					element.dataset.loading = "false";
-					element.removeAttribute("aria-busy");
+            card.addEventListener("pointerleave", () => {
+                card.style.setProperty("--sheen-opacity", "0");
+            });
+        });
+    }
 
-					if (element.dataset.originalText) {
-						element.textContent = element.dataset.originalText;
-					}
-				});
-		});
-	}
+    function setActiveNavigation() {
+        const currentPath = window.location.pathname.replace(/\/+$/, "");
 
-	function initializeCardSheen() {
-		const cards = document.querySelectorAll(selectors.cards);
-		if (!cards.length) return;
+        document.querySelectorAll(selectors.navigationLinks).forEach((link) => {
+            if (link.hasAttribute("data-coming-soon")) return;
 
-		const supportsFinePointer = window.matchMedia("(pointer: fine)").matches;
+            const url = new URL(link.href, window.location.origin);
+            const linkPath = url.pathname.replace(/\/+$/, "");
+            const active = linkPath === currentPath;
 
-		if (!supportsFinePointer) {
-			cards.forEach((card) => {
-				card.style.setProperty("--glow-opacity", "0.16");
-			});
-			return;
-		}
+            link.classList.toggle("is-active", active);
+            if (active) link.setAttribute("aria-current", "page");
+            else link.removeAttribute("aria-current");
+        });
+    }
 
-		cards.forEach((card) => {
-			card.addEventListener("mousemove", (event) => {
-				const rect = card.getBoundingClientRect();
-				const x = ((event.clientX - rect.left) / rect.width) * 100;
-				const y = ((event.clientY - rect.top) / rect.height) * 100;
+    function initializeLogoutLinks() {
+        document.querySelectorAll(selectors.logoutLinks).forEach((link) => {
+            link.addEventListener("click", () => {
+                if (link.dataset.loading === "true") return;
+                link.dataset.loading = "true";
+                link.setAttribute("aria-busy", "true");
 
-				card.style.setProperty("--mx", `${x}%`);
-				card.style.setProperty("--my", `${y}%`);
-				card.style.setProperty("--glow-opacity", "1");
-			});
+                const label = link.querySelector("span");
+                if (label) label.textContent = "Logging out…";
+            });
+        });
+    }
 
-			card.addEventListener("mouseleave", () => {
-				card.style.setProperty("--glow-opacity", "0");
-			});
-		});
-	}
+    function initializeKeyboardNavigation() {
+        document.addEventListener("keydown", (event) => {
+            if (event.key === "Tab") {
+                document.documentElement.classList.add("keyboard-navigation");
+            }
+        });
 
-	function initializePortal() {
-		updateGreeting();
-		initializeProfileImageFallback();
-		initializeBookingButtons();
-		setActiveNavigation();
-		initializeMobileNavigation();
-		initializeLogoutLinks();
-		initializeKeyboardDetection();
-		handlePageRestore();
-		initializeCardSheen();
+        document.addEventListener("pointerdown", () => {
+            document.documentElement.classList.remove("keyboard-navigation");
+        });
+    }
 
-		document.documentElement.classList.add("portal-js-ready");
-	}
+    function initializePortal() {
+        updateGreeting();
+        initializeProfileImages();
+        initializeMobileSidebar();
+        initializeProfileMenu();
+        initializeComingSoonActions();
+        initializeCardSheen();
+        setActiveNavigation();
+        initializeLogoutLinks();
+        initializeKeyboardNavigation();
+        document.documentElement.classList.add("portal-js-ready");
+    }
 
-	if (document.readyState === "loading") {
-		document.addEventListener("DOMContentLoaded", initializePortal, { once: true });
-	} else {
-		initializePortal();
-	}
+    if (document.readyState === "loading") {
+        document.addEventListener("DOMContentLoaded", initializePortal, { once: true });
+    } else {
+        initializePortal();
+    }
 })();

@@ -971,7 +971,7 @@ $jsVersion = is_file($jsPath)
                         </section>
 
                         <section class="portal-panel portal-card profile-completion-card">
-                            <div class="progress-ring" style="--progress: <?= $profileCompletion ?>;">
+                            <div class="progress-ring" style="--progress: <?= $profileCompletion ?>%;">
                                 <span><?= $profileCompletion ?>%</span>
                             </div>
 
