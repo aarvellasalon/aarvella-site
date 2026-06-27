@@ -1498,3 +1498,493 @@ img {
         transition-duration: 0.01ms !important;
     }
 }
+/* =========================================================
+   BACKGROUND IMAGE + ACRYLIC SHELL REDESIGN
+   Added for Aarvella portal visual coherence with index.html
+========================================================= */
+
+:root {
+    --portal-background-image: url("/assets/images/customer-portal/portal-background.webp");
+    --portal-acrylic: rgba(12, 12, 12, 0.42);
+    --portal-acrylic-strong: rgba(12, 12, 12, 0.58);
+    --portal-acrylic-border: rgba(255, 255, 255, 0.14);
+    --portal-acrylic-highlight: rgba(255, 255, 255, 0.18);
+}
+
+body.portal-body {
+    position: relative;
+    isolation: isolate;
+    background: #050505;
+}
+
+body.portal-body::before,
+body.portal-body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+}
+
+body.portal-body::before {
+    z-index: 0;
+    background-image: var(--portal-background-image);
+    background-size: cover;
+    background-position: center 32%;
+    background-repeat: no-repeat;
+    filter: saturate(0.86) contrast(1.06) brightness(0.62);
+    transform: scale(1.015);
+}
+
+body.portal-body::after {
+    z-index: 0;
+    background:
+        linear-gradient(90deg, rgba(2, 2, 2, 0.82) 0%, rgba(3, 3, 3, 0.56) 36%, rgba(3, 3, 3, 0.58) 100%),
+        linear-gradient(180deg, rgba(0, 0, 0, 0.34) 0%, rgba(0, 0, 0, 0.60) 100%);
+}
+
+.portal-app {
+    position: relative;
+    z-index: 1;
+    background: transparent;
+}
+
+.portal-main-shell,
+.portal-content {
+    background: transparent;
+}
+
+.portal-sidebar {
+    background:
+        linear-gradient(150deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.018)),
+        rgba(7, 7, 7, 0.48);
+    border-right: 1px solid rgba(255, 225, 137, 0.17);
+    box-shadow:
+        18px 0 54px rgba(0, 0, 0, 0.30),
+        inset -1px 0 0 rgba(255, 255, 255, 0.035);
+    backdrop-filter: blur(30px) saturate(155%);
+    -webkit-backdrop-filter: blur(30px) saturate(155%);
+}
+
+.portal-topbar {
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.075), rgba(255, 255, 255, 0.018)),
+        rgba(8, 8, 8, 0.42);
+    border-bottom: 1px solid rgba(255, 225, 137, 0.17);
+    box-shadow: 0 18px 46px rgba(0, 0, 0, 0.24);
+    backdrop-filter: blur(28px) saturate(155%);
+    -webkit-backdrop-filter: blur(28px) saturate(155%);
+}
+
+.profile-dropdown,
+.portal-footer,
+.portal-mobile-nav {
+    background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.085), rgba(255, 255, 255, 0.018)),
+        rgba(9, 9, 9, 0.58);
+    backdrop-filter: blur(28px) saturate(155%);
+    -webkit-backdrop-filter: blur(28px) saturate(155%);
+}
+
+.portal-footer {
+    border-top-color: rgba(255, 225, 137, 0.16);
+}
+
+/* Cards now float over the single page background. */
+.portal-panel,
+.portal-card {
+    background:
+        linear-gradient(145deg, rgba(255, 255, 255, 0.105), rgba(255, 255, 255, 0.018) 48%),
+        rgba(14, 14, 14, 0.40);
+    border-color: rgba(255, 229, 153, 0.20);
+    box-shadow:
+        0 26px 64px rgba(0, 0, 0, 0.36),
+        inset 0 1px 0 rgba(255, 255, 255, 0.10),
+        inset 0 -1px 0 rgba(255, 255, 255, 0.025);
+    backdrop-filter: blur(25px) saturate(150%);
+    -webkit-backdrop-filter: blur(25px) saturate(150%);
+}
+
+.portal-panel::before,
+.portal-card::before {
+    z-index: 0;
+    background:
+        radial-gradient(circle at 18% 0%, rgba(255, 255, 255, 0.16), transparent 34%),
+        linear-gradient(135deg, rgba(255, 255, 255, 0.07), transparent 44%);
+    opacity: 1;
+    filter: none;
+    transform: none;
+}
+
+.portal-panel::after,
+.portal-card::after {
+    z-index: 1;
+}
+
+.portal-panel > *,
+.portal-card > * {
+    position: relative;
+    z-index: 2;
+}
+
+.portal-card-feature::before {
+    opacity: 1;
+    background-position: initial;
+}
+
+.portal-panel:hover,
+.portal-card:hover {
+    transform: translateY(-5px);
+    border-color: rgba(255, 225, 137, 0.38);
+    box-shadow:
+        0 34px 78px rgba(0, 0, 0, 0.46),
+        0 0 0 1px rgba(212, 175, 55, 0.08),
+        inset 0 1px 0 rgba(255, 255, 255, 0.15);
+}
+
+.appointment-card,
+.portal-empty-state,
+.compact-empty-state,
+.quick-action-list > a {
+    background: rgba(5, 5, 5, 0.25);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+/* =========================================================
+   PORTAL THUMBNAILS
+========================================================= */
+
+.recent-appointment-item {
+    grid-template-columns: 78px minmax(0, 1fr) auto auto;
+    padding-inline: 6px;
+}
+
+.recent-appointment-thumb {
+    width: 72px;
+    height: 54px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 230, 154, 0.22);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.045);
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.24);
+}
+
+.recent-appointment-thumb img,
+.compact-empty-thumbnail img,
+.feature-card-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.compact-empty-state-with-image {
+    display: grid;
+    grid-template-columns: 88px minmax(0, 1fr);
+}
+
+.compact-empty-thumbnail {
+    width: 82px;
+    height: 62px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 230, 154, 0.20);
+    border-radius: 14px;
+    box-shadow: 0 10px 24px rgba(0, 0, 0, 0.24);
+}
+
+.referral-banner,
+.member-offer-card {
+    align-items: stretch;
+}
+
+.feature-card-media {
+    position: relative;
+    min-height: 128px;
+    overflow: hidden;
+    flex: 0 0 34%;
+    align-self: stretch;
+    border: 1px solid rgba(255, 229, 153, 0.18);
+    border-radius: 18px;
+    background: rgba(255, 255, 255, 0.035);
+    box-shadow: 0 18px 36px rgba(0, 0, 0, 0.30);
+}
+
+.feature-card-media::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+        linear-gradient(90deg, rgba(8, 8, 8, 0.58), transparent 42%),
+        linear-gradient(180deg, transparent 52%, rgba(4, 4, 4, 0.60));
+    pointer-events: none;
+}
+
+.feature-card-media-icon {
+    position: absolute;
+    right: 12px;
+    bottom: 10px;
+    z-index: 2;
+    width: 42px;
+    height: 42px;
+    border: 1px solid rgba(255, 232, 161, 0.34);
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+    background: rgba(8, 8, 8, 0.52);
+    color: var(--portal-gold-soft);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+}
+
+.member-offer-card .feature-card-media {
+    flex-basis: 42%;
+}
+
+/* =========================================================
+   WEBSITE-CONSISTENT LIQUID GLASS BUTTONS
+========================================================= */
+
+.btn-gold,
+.btn-outline,
+.portal-primary-button,
+.portal-secondary-button {
+    --magnetic: translate(0, 0);
+    min-height: 45px;
+    min-width: 0;
+    padding: 0 20px;
+    border-radius: 999px;
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    isolation: isolate;
+    white-space: nowrap;
+    transform: var(--magnetic);
+    font-family: inherit;
+    font-size: clamp(0.80rem, 0.76rem + 0.14vw, 0.90rem);
+    font-weight: 650;
+    line-height: 1;
+    text-decoration: none;
+    cursor: pointer;
+    backdrop-filter: blur(18px) saturate(180%);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    transition:
+        transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+        box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
+        background 0.35s ease,
+        border-color 0.35s ease,
+        color 0.35s ease;
+}
+
+.btn-gold,
+.portal-primary-button {
+    border: 1px solid rgba(255, 230, 150, 0.55);
+    color: #0a0a0a;
+    background:
+        linear-gradient(135deg, rgba(255, 236, 160, 0.88), rgba(212, 175, 55, 0.52)),
+        rgba(255, 255, 255, 0.16);
+    box-shadow:
+        inset 0 1px 1px rgba(255, 255, 255, 0.75),
+        inset 0 -1px 1px rgba(90, 60, 0, 0.18),
+        0 12px 30px rgba(212, 175, 55, 0.26),
+        0 4px 12px rgba(0, 0, 0, 0.28);
+}
+
+.btn-outline,
+.portal-secondary-button {
+    border: 1px solid rgba(212, 175, 55, 0.60);
+    color: var(--portal-gold-soft);
+    background:
+        linear-gradient(135deg, rgba(255, 255, 255, 0.15), rgba(255, 255, 255, 0.035));
+    box-shadow:
+        inset 0 1px 1px rgba(255, 255, 255, 0.38),
+        0 10px 26px rgba(212, 175, 55, 0.12),
+        0 4px 12px rgba(0, 0, 0, 0.22);
+}
+
+.btn-gold::before,
+.btn-outline::before,
+.portal-primary-button::before,
+.portal-secondary-button::before {
+    content: "";
+    position: absolute;
+    inset: 1px;
+    z-index: 1;
+    border-radius: inherit;
+    background:
+        radial-gradient(circle at 28% 18%, rgba(255, 255, 255, 0.78), rgba(255, 255, 255, 0.18) 18%, transparent 42%),
+        linear-gradient(145deg, rgba(255, 255, 255, 0.32), transparent 38%);
+    opacity: 0.72;
+    pointer-events: none;
+}
+
+.btn-gold::after,
+.btn-outline::after,
+.portal-primary-button::after,
+.portal-secondary-button::after {
+    content: "";
+    position: absolute;
+    top: -45%;
+    left: -80%;
+    z-index: 2;
+    width: 55%;
+    height: 190%;
+    border-radius: inherit;
+    background: linear-gradient(120deg, transparent, rgba(255, 255, 255, 0.55), transparent);
+    transform: rotate(18deg) translateX(-120%);
+    transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+    pointer-events: none;
+}
+
+.btn-text {
+    position: relative;
+    z-index: 5;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    pointer-events: none;
+}
+
+.btn-ripple-container {
+    position: absolute;
+    inset: 0;
+    z-index: 3;
+    overflow: hidden;
+    border-radius: inherit;
+    pointer-events: none;
+}
+
+.btn-gold:hover,
+.portal-primary-button:hover {
+    transform: var(--magnetic) translateY(-3px) scale(1.025);
+    filter: none;
+    background:
+        linear-gradient(135deg, rgba(255, 244, 190, 0.94), rgba(212, 175, 55, 0.60)),
+        rgba(255, 255, 255, 0.22);
+    box-shadow:
+        inset 0 1px 1px rgba(255, 255, 255, 0.85),
+        0 18px 42px rgba(212, 175, 55, 0.34),
+        0 8px 18px rgba(0, 0, 0, 0.30);
+}
+
+.btn-outline:hover,
+.portal-secondary-button:hover {
+    transform: var(--magnetic) translateY(-3px) scale(1.025);
+    color: #0a0a0a;
+    border-color: rgba(255, 230, 150, 0.68);
+    background:
+        linear-gradient(135deg, rgba(255, 236, 160, 0.82), rgba(212, 175, 55, 0.44)),
+        rgba(255, 255, 255, 0.16);
+}
+
+.btn-gold:hover::after,
+.btn-outline:hover::after,
+.portal-primary-button:hover::after,
+.portal-secondary-button:hover::after {
+    transform: rotate(18deg) translateX(420%);
+}
+
+.btn-gold:active,
+.btn-outline:active,
+.portal-primary-button:active,
+.portal-secondary-button:active {
+    transform: translateY(1px) scale(0.97);
+    transition-duration: 0.08s;
+}
+
+.portal-button-compact {
+    min-height: 40px;
+    padding-inline: 16px;
+}
+
+.dashboard-book-button {
+    min-width: 190px;
+}
+
+.btn-ripple {
+    position: absolute;
+    left: var(--ripple-x, 50%);
+    top: var(--ripple-y, 50%);
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(255, 255, 255, 0.45) 0%, rgba(255, 255, 255, 0.18) 40%, transparent 70%);
+    transform: translate(-50%, -50%) scale(0);
+    animation: portalButtonRipple 0.62s ease-out;
+    pointer-events: none;
+}
+
+@keyframes portalButtonRipple {
+    to {
+        transform: translate(-50%, -50%) scale(2.5);
+        opacity: 0;
+    }
+}
+
+@media (max-width: 980px) {
+    body.portal-body::before {
+        background-position: 58% center;
+    }
+
+    .portal-sidebar {
+        background:
+            linear-gradient(150deg, rgba(255, 255, 255, 0.085), rgba(255, 255, 255, 0.02)),
+            rgba(7, 7, 7, 0.72);
+    }
+}
+
+@media (max-width: 760px) {
+    body.portal-body::after {
+        background: rgba(2, 2, 2, 0.62);
+    }
+
+    .recent-appointment-item {
+        grid-template-columns: 64px minmax(0, 1fr) auto;
+    }
+
+    .recent-appointment-thumb {
+        width: 60px;
+        height: 52px;
+    }
+
+    .referral-banner,
+    .member-offer-card {
+        align-items: flex-start;
+    }
+
+    .feature-card-media {
+        position: absolute;
+        right: 14px;
+        bottom: 12px;
+        width: 116px;
+        min-height: 92px;
+        opacity: 0.60;
+    }
+
+    .referral-copy,
+    .member-offer-card > div:first-child {
+        max-width: calc(100% - 82px);
+    }
+
+    .dashboard-book-button {
+        width: 100%;
+    }
+}
+
+@media (max-width: 470px) {
+    .compact-empty-state-with-image {
+        grid-template-columns: 68px minmax(0, 1fr);
+    }
+
+    .compact-empty-thumbnail {
+        width: 62px;
+        height: 54px;
+    }
+
+    .feature-card-media {
+        width: 96px;
+        min-height: 78px;
+    }
+}

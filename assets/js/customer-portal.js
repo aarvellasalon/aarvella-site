@@ -13,7 +13,8 @@
         toast: "[data-portal-toast]",
         cards: ".portal-card, .portal-panel",
         logoutLinks: ".js-logout",
-        navigationLinks: ".portal-nav a, .portal-mobile-nav a"
+        navigationLinks: ".portal-nav a, .portal-mobile-nav a",
+        liquidButtons: ".btn-gold, .btn-outline"
     };
 
     let lastFocusedElement = null;
@@ -177,6 +178,57 @@
         });
     }
 
+
+    function initializeLiquidButtons() {
+        const reducedMotion = window.matchMedia(
+            "(prefers-reduced-motion: reduce)"
+        ).matches;
+
+        document.querySelectorAll(selectors.liquidButtons).forEach((button) => {
+            if (!reducedMotion && window.matchMedia("(pointer: fine)").matches) {
+                button.addEventListener("pointermove", (event) => {
+                    const rect = button.getBoundingClientRect();
+                    const offsetX = event.clientX - rect.left - rect.width / 2;
+                    const offsetY = event.clientY - rect.top - rect.height / 2;
+                    const moveX = Math.max(-4, Math.min(4, offsetX * 0.08));
+                    const moveY = Math.max(-3, Math.min(3, offsetY * 0.08));
+
+                    button.style.setProperty(
+                        "--magnetic",
+                        `translate(${moveX}px, ${moveY}px)`
+                    );
+                });
+
+                button.addEventListener("pointerleave", () => {
+                    button.style.setProperty("--magnetic", "translate(0, 0)");
+                });
+            }
+
+            button.addEventListener("click", (event) => {
+                const container = button.querySelector(
+                    ".btn-ripple-container"
+                );
+
+                if (!container || reducedMotion) return;
+
+                const rect = button.getBoundingClientRect();
+                const ripple = document.createElement("span");
+                ripple.className = "btn-ripple";
+                ripple.style.setProperty(
+                    "--ripple-x",
+                    `${event.clientX - rect.left}px`
+                );
+                ripple.style.setProperty(
+                    "--ripple-y",
+                    `${event.clientY - rect.top}px`
+                );
+
+                container.appendChild(ripple);
+                window.setTimeout(() => ripple.remove(), 700);
+            });
+        });
+    }
+
     function setActiveNavigation() {
         const currentPath = window.location.pathname.replace(/\/+$/, "");
 
@@ -225,6 +277,7 @@
         initializeProfileMenu();
         initializeComingSoonActions();
         initializeCardSheen();
+        initializeLiquidButtons();
         setActiveNavigation();
         initializeLogoutLinks();
         initializeKeyboardNavigation();

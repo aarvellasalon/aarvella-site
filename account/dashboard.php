@@ -61,6 +61,47 @@ function portalMoney(null|string|float|int $value): ?string
     return '₹' . number_format((float) $value, 0);
 }
 
+
+function portalServiceThumbnail(string $serviceName): string
+{
+    $name = mb_strtolower(trim($serviceName));
+
+    $skinKeywords = [
+        'facial',
+        'skin',
+        'glow',
+        'detan',
+        'wax',
+        'thread',
+        'cleanup',
+        'clean up',
+        'hydra',
+    ];
+
+    foreach ($skinKeywords as $keyword) {
+        if (str_contains($name, $keyword)) {
+            return '/assets/images/customer-portal/thumb-skin.webp';
+        }
+    }
+
+    $groomingKeywords = [
+        'beard',
+        'shave',
+        'moustache',
+        'men',
+        'male',
+        'grooming',
+    ];
+
+    foreach ($groomingKeywords as $keyword) {
+        if (str_contains($name, $keyword)) {
+            return '/assets/images/customer-portal/thumb-grooming.webp';
+        }
+    }
+
+    return '/assets/images/customer-portal/thumb-hair.webp';
+}
+
 $displayName = trim(
     (string) ($customer['full_name'] ?? '')
 );
@@ -596,10 +637,13 @@ $jsVersion = is_file($jsPath)
 
                     <a
                         href="/#booking"
-                        class="portal-primary-button dashboard-book-button"
+                        class="btn-gold portal-primary-button dashboard-book-button"
                     >
-                        <i class="fa-regular fa-calendar-plus" aria-hidden="true"></i>
-                        Book appointment
+                        <span class="btn-text">
+                            <i class="fa-regular fa-calendar-plus" aria-hidden="true"></i>
+                            Book appointment
+                        </span>
+                        <span class="btn-ripple-container" aria-hidden="true"></span>
                     </a>
                 </section>
 
@@ -704,9 +748,10 @@ $jsVersion = is_file($jsPath)
                                         <div class="appointment-card-actions">
                                             <a
                                                 href="/account/appointments.php#appointment-<?= (int) $upcomingAppointment['id'] ?>"
-                                                class="portal-secondary-button"
+                                                class="btn-outline portal-secondary-button portal-button-compact"
                                             >
-                                                View details
+                                                <span class="btn-text">View details</span>
+                                                <span class="btn-ripple-container" aria-hidden="true"></span>
                                             </a>
 
                                             <button
@@ -743,11 +788,12 @@ $jsVersion = is_file($jsPath)
 
                                     <a
                                         href="https://wa.me/919742049990"
-                                        class="portal-secondary-button"
+                                        class="btn-outline portal-secondary-button portal-button-compact"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
-                                        Contact salon
+                                        <span class="btn-text">Contact salon</span>
+                                        <span class="btn-ripple-container" aria-hidden="true"></span>
                                     </a>
                                 </div>
                             <?php else: ?>
@@ -766,9 +812,10 @@ $jsVersion = is_file($jsPath)
 
                                     <a
                                         href="/#booking"
-                                        class="portal-secondary-button"
+                                        class="btn-gold portal-primary-button portal-button-compact"
                                     >
-                                        Book now
+                                        <span class="btn-text">Book now</span>
+                                        <span class="btn-ripple-container" aria-hidden="true"></span>
                                     </a>
                                 </div>
                             <?php endif; ?>
@@ -803,8 +850,13 @@ $jsVersion = is_file($jsPath)
                                             href="/account/appointments.php#appointment-<?= (int) $recentAppointment['id'] ?>"
                                             class="recent-appointment-item"
                                         >
-                                            <span class="recent-appointment-icon">
-                                                <i class="fa-solid fa-scissors" aria-hidden="true"></i>
+                                            <span class="recent-appointment-thumb">
+                                                <img
+                                                    src="<?= e(portalServiceThumbnail((string) $recentAppointment['service_name'])) ?>"
+                                                    alt=""
+                                                    loading="lazy"
+                                                    decoding="async"
+                                                >
                                             </span>
 
                                             <span class="recent-appointment-copy">
@@ -836,8 +888,15 @@ $jsVersion = is_file($jsPath)
                                     <?php endforeach; ?>
                                 </div>
                             <?php elseif (!$appointmentDataError): ?>
-                                <div class="compact-empty-state">
-                                    <i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i>
+                                <div class="compact-empty-state compact-empty-state-with-image">
+                                    <span class="compact-empty-thumbnail" aria-hidden="true">
+                                        <img
+                                            src="/assets/images/customer-portal/thumb-hair.webp"
+                                            alt=""
+                                            loading="lazy"
+                                            decoding="async"
+                                        >
+                                    </span>
 
                                     <div>
                                         <strong>Your service history will appear here</strong>
@@ -861,16 +920,24 @@ $jsVersion = is_file($jsPath)
 
                                 <button
                                     type="button"
-                                    class="portal-primary-button"
+                                    class="btn-gold portal-primary-button"
                                     data-coming-soon="Referral rewards"
                                 >
-                                    Refer a friend
+                                    <span class="btn-text">Refer a friend</span>
+                                    <span class="btn-ripple-container" aria-hidden="true"></span>
                                 </button>
                             </div>
 
-                            <div class="referral-art" aria-hidden="true">
-                                <i class="fa-solid fa-gift"></i>
-                                <i class="fa-regular fa-heart"></i>
+                            <div class="feature-card-media feature-card-media-community" aria-hidden="true">
+                                <img
+                                    src="/assets/images/customer-portal/community-thumb.webp"
+                                    alt=""
+                                    loading="lazy"
+                                    decoding="async"
+                                >
+                                <span class="feature-card-media-icon">
+                                    <i class="fa-solid fa-gift"></i>
+                                </span>
                             </div>
                         </section>
                     </div>
@@ -960,14 +1027,25 @@ $jsVersion = is_file($jsPath)
 
                                 <button
                                     type="button"
-                                    class="portal-primary-button"
+                                    class="btn-gold portal-primary-button"
                                     data-coming-soon="Member offers"
                                 >
-                                    Explore offers
+                                    <span class="btn-text">Explore offers</span>
+                                    <span class="btn-ripple-container" aria-hidden="true"></span>
                                 </button>
                             </div>
 
-                            <i class="fa-solid fa-sparkles" aria-hidden="true"></i>
+                            <div class="feature-card-media feature-card-media-offer" aria-hidden="true">
+                                <img
+                                    src="/assets/images/customer-portal/offer-thumb.webp"
+                                    alt=""
+                                    loading="lazy"
+                                    decoding="async"
+                                >
+                                <span class="feature-card-media-icon">
+                                    <i class="fa-solid fa-sparkles"></i>
+                                </span>
+                            </div>
                         </section>
 
                         <section class="portal-panel portal-card profile-completion-card">
