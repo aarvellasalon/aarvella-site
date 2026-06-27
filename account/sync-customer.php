@@ -2,320 +2,227 @@
 
 declare(strict_types=1);
 
-require_once dirname(__DIR__)
-    . '/api/config/database.php';
+require_once dirname(__DIR__) . '/api/config/database.php';
 
-/**
- * Create or update the local Aarvella customer linked
- * to an authenticated Auth0 user.
- */
 function syncAuth0Customer(array $auth0User): int
 {
-    $authUserId = trim(
-        (string) ($auth0User['sub'] ?? '')
-    );
+    $provider = 'auth0';
+    $providerSubject = trim((string) ($auth0User['sub'] ?? ''));
+    $email = strtolower(trim((string) ($auth0User['email'] ?? '')));
+    $emailVerified = !empty($auth0User['email_verified']) ? 1 : 0;
+    $fullName = trim((string) ($auth0User['name'] ?? $auth0User['nickname'] ?? ''));
+    $profileImage = trim((string) ($auth0User['picture'] ?? ''));
 
-    $email = strtolower(
-        trim((string) ($auth0User['email'] ?? ''))
-    );
-
-    /*
-     * Auth0 may return "name", or separate given/family names.
-     */
-    $fullName = trim(
-        (string) ($auth0User['name'] ?? '')
-    );
-
-    if ($fullName === '') {
-        $givenName = trim(
-            (string) ($auth0User['given_name'] ?? '')
-        );
-
-        $familyName = trim(
-            (string) ($auth0User['family_name'] ?? '')
-        );
-
-        $fullName = trim(
-            $givenName . ' ' . $familyName
-        );
+    if ($fullName === '' && $email !== '') {
+        $localPart = strstr($email, '@', true);
+        $fullName = $localPart !== false ? trim((string) $localPart) : '';
     }
-
-    /*
-     * Google normally does not return a phone number.
-     * It may be available for other Auth0 connections.
-     */
-    $phone = trim(
-        (string) ($auth0User['phone_number'] ?? '')
-    );
-
-    $profileImage = trim(
-        (string) ($auth0User['picture'] ?? '')
-    );
-
-    $emailVerified =
-        !empty($auth0User['email_verified']) ? 1 : 0;
-
-    if ($authUserId === '') {
-        throw new RuntimeException(
-            'Auth0 did not provide a user identifier.'
-        );
-    }
-
-    if ($email === '') {
-        throw new RuntimeException(
-            'Auth0 did not provide an email address.'
-        );
-    }
-
-    if ($emailVerified !== 1) {
-        throw new RuntimeException(
-            'A verified email address is required.'
-        );
-    }
-
-    /*
-     * full_name is NOT NULL in your database.
-     * Generate a sensible fallback when Auth0 provides no name.
-     */
-    if ($fullName === '') {
-        $emailUsername = explode('@', $email)[0];
-
-        $emailUsername = str_replace(
-            ['.', '_', '-'],
-            ' ',
-            $emailUsername
-        );
-
-        $fullName = ucwords(
-            trim($emailUsername)
-        );
-    }
-
     if ($fullName === '') {
         $fullName = 'Aarvella Customer';
+    }
+    if ($providerSubject === '') {
+        throw new RuntimeException('Auth0 did not provide a user subject.');
+    }
+    if ($email === '') {
+        throw new RuntimeException('Auth0 did not provide an email address.');
     }
 
     $database = getDatabase();
     $database->beginTransaction();
 
     try {
-        /*
-         * First, find the customer using the immutable Auth0
-         * subject identifier.
-         */
-        $findByAuthId = $database->prepare(
-            "SELECT
-                id,
-                full_name,
-                phone
-             FROM customers
-             WHERE auth_user_id = :auth_user_id
+        $findIdentity = $database->prepare(
+            'SELECT cai.id AS identity_id, cai.customer_id
+             FROM customer_auth_identities AS cai
+             WHERE cai.provider = :provider
+               AND cai.provider_subject = :provider_subject
              LIMIT 1
-             FOR UPDATE"
+             FOR UPDATE'
         );
-
-        $findByAuthId->execute([
-            'auth_user_id' => $authUserId,
+        $findIdentity->execute([
+            'provider' => $provider,
+            'provider_subject' => $providerSubject,
         ]);
+        $identity = $findIdentity->fetch();
 
-        $customer = $findByAuthId->fetch();
+        if ($identity) {
+            $customerId = (int) $identity['customer_id'];
 
-        /*
-         * Existing Auth0-linked customer:
-         * update profile and login information.
-         */
-        if ($customer) {
-            $customerId = (int) $customer['id'];
-
-            $update = $database->prepare(
-                "UPDATE customers
-                 SET
-                    full_name = COALESCE(
-                        NULLIF(:full_name, ''),
-                        full_name
-                    ),
-
-                    email = :email,
-
-                    phone = COALESCE(
-                        NULLIF(:phone, ''),
-                        phone
-                    ),
-
-                    email_verified = :email_verified,
-
-                    profile_image_url = COALESCE(
-                        NULLIF(:profile_image_url, ''),
-                        profile_image_url
-                    ),
-
-                    last_login_at = NOW(),
-                    account_status = 'active'
-
-                 WHERE id = :customer_id"
+            $updateCustomer = $database->prepare(
+                'UPDATE customers
+                 SET full_name = :full_name,
+                     email = CASE
+                         WHEN :email_verified = 1 THEN :verified_email
+                         ELSE email
+                     END,
+                     profile_image_url = :profile_image_url,
+                     account_status = "active",
+                     customer_since = COALESCE(customer_since, CURRENT_DATE),
+                     last_login_at = NOW()
+                 WHERE id = :customer_id'
             );
-
-            $update->execute([
+            $updateCustomer->execute([
                 'full_name' => $fullName,
-                'email' => $email,
-                'phone' => $phone,
                 'email_verified' => $emailVerified,
-                'profile_image_url' => $profileImage,
+                'verified_email' => $email,
+                'profile_image_url' => $profileImage !== '' ? $profileImage : null,
                 'customer_id' => $customerId,
             ]);
 
-            $database->commit();
+            $updateIdentity = $database->prepare(
+                'UPDATE customer_auth_identities
+                 SET email_snapshot = :email,
+                     email_verified = :email_verified,
+                     last_login_at = NOW()
+                 WHERE id = :identity_id'
+            );
+            $updateIdentity->execute([
+                'email' => $email,
+                'email_verified' => $emailVerified,
+                'identity_id' => (int) $identity['identity_id'],
+            ]);
 
+            $database->commit();
             return $customerId;
         }
 
-        /*
-         * No Auth0-linked record was found.
-         *
-         * Look for an existing guest/website customer using the
-         * same verified email so previous appointments can be
-         * associated with the login.
-         */
-        $findByEmail = $database->prepare(
-            "SELECT
-                id,
-                auth_user_id,
-                full_name,
-                phone
-             FROM customers
-             WHERE LOWER(email) = :email
-             ORDER BY id ASC
-             LIMIT 1
-             FOR UPDATE"
-        );
+        $customerId = null;
 
-        $findByEmail->execute([
-            'email' => $email,
-        ]);
-
-        $existingCustomer = $findByEmail->fetch();
-
-        if ($existingCustomer) {
-            $existingAuthId = trim(
-                (string) (
-                    $existingCustomer['auth_user_id']
-                    ?? ''
-                )
+        if ($emailVerified === 1) {
+            $findCustomerByEmail = $database->prepare(
+                'SELECT id
+                 FROM customers
+                 WHERE LOWER(email) = :email
+                 LIMIT 1
+                 FOR UPDATE'
             );
+            $findCustomerByEmail->execute(['email' => $email]);
+            $existingCustomer = $findCustomerByEmail->fetch();
 
-            /*
-             * Do not overwrite an existing different Auth0 account.
-             */
-            if (
-                $existingAuthId !== '' &&
-                $existingAuthId !== $authUserId
-            ) {
-                throw new RuntimeException(
-                    'This email is already linked to another Aarvella account.'
+            if ($existingCustomer) {
+                $customerId = (int) $existingCustomer['id'];
+
+                $existingIdentity = $database->prepare(
+                    'SELECT provider_subject
+                     FROM customer_auth_identities
+                     WHERE customer_id = :customer_id
+                       AND provider = :provider
+                     LIMIT 1
+                     FOR UPDATE'
                 );
+                $existingIdentity->execute([
+                    'customer_id' => $customerId,
+                    'provider' => $provider,
+                ]);
+                $linked = $existingIdentity->fetch();
+
+                if ($linked && (string) $linked['provider_subject'] !== $providerSubject) {
+                    throw new RuntimeException('This email is already linked to another Auth0 identity.');
+                }
+
+                $updateCustomer = $database->prepare(
+                    'UPDATE customers
+                     SET full_name = :full_name,
+                         profile_image_url = :profile_image_url,
+                         account_status = "active",
+                         customer_since = COALESCE(customer_since, CURRENT_DATE),
+                         last_login_at = NOW()
+                     WHERE id = :customer_id'
+                );
+                $updateCustomer->execute([
+                    'full_name' => $fullName,
+                    'profile_image_url' => $profileImage !== '' ? $profileImage : null,
+                    'customer_id' => $customerId,
+                ]);
             }
-
-            $customerId =
-                (int) $existingCustomer['id'];
-
-            $attach = $database->prepare(
-                "UPDATE customers
-                 SET
-                    auth_user_id = :auth_user_id,
-
-                    full_name = COALESCE(
-                        NULLIF(:full_name, ''),
-                        full_name
-                    ),
-
-                    phone = COALESCE(
-                        NULLIF(:phone, ''),
-                        phone
-                    ),
-
-                    email_verified = 1,
-
-                    profile_image_url = COALESCE(
-                        NULLIF(:profile_image_url, ''),
-                        profile_image_url
-                    ),
-
-                    last_login_at = NOW(),
-                    account_status = 'active'
-
-                 WHERE id = :customer_id"
-            );
-
-            $attach->execute([
-                'auth_user_id' => $authUserId,
-                'full_name' => $fullName,
-                'phone' => $phone,
-                'profile_image_url' => $profileImage,
-                'customer_id' => $customerId,
-            ]);
-
-            $database->commit();
-
-            return $customerId;
         }
 
-        /*
-         * No existing Aarvella customer was found.
-         * Create a new local customer record.
-         *
-         * city and customer_type will use their database defaults:
-         * city          = Dehradun
-         * customer_type = website_lead
-         */
-        $insert = $database->prepare(
-            "INSERT INTO customers (
-                full_name,
-                email,
-                phone,
-                auth_user_id,
-                email_verified,
-                profile_image_url,
-                marketing_consent,
-                account_status,
-                last_login_at
+        if ($customerId === null) {
+            $customerCode = createUniqueCustomerCode($database);
+            $insertCustomer = $database->prepare(
+                'INSERT INTO customers (
+                    customer_code, full_name, email, customer_type,
+                    profile_image_url, account_status, customer_since, last_login_at
+                 ) VALUES (
+                    :customer_code, :full_name, :email, "website_lead",
+                    :profile_image_url, "active", CURRENT_DATE, NOW()
+                 )'
+            );
+            $insertCustomer->execute([
+                'customer_code' => $customerCode,
+                'full_name' => $fullName,
+                'email' => $emailVerified === 1 ? $email : null,
+                'profile_image_url' => $profileImage !== '' ? $profileImage : null,
+            ]);
+            $customerId = (int) $database->lastInsertId();
+        }
+
+        $insertIdentity = $database->prepare(
+            'INSERT INTO customer_auth_identities (
+                customer_id, provider, provider_subject,
+                email_snapshot, email_verified, last_login_at
              ) VALUES (
-                :full_name,
-                :email,
-                NULLIF(:phone, ''),
-                :auth_user_id,
-                :email_verified,
-                NULLIF(:profile_image_url, ''),
-                0,
-                'active',
-                NOW()
-             )"
+                :customer_id, :provider, :provider_subject,
+                :email, :email_verified, NOW()
+             )'
         );
-
-        $insert->execute([
-            'full_name' => $fullName,
+        $insertIdentity->execute([
+            'customer_id' => $customerId,
+            'provider' => $provider,
+            'provider_subject' => $providerSubject,
             'email' => $email,
-            'phone' => $phone,
-            'auth_user_id' => $authUserId,
             'email_verified' => $emailVerified,
-            'profile_image_url' => $profileImage,
         ]);
-
-        $customerId =
-            (int) $database->lastInsertId();
 
         $database->commit();
-
         return $customerId;
     } catch (Throwable $error) {
         if ($database->inTransaction()) {
             $database->rollBack();
         }
-
-        error_log(
-            'Auth0 customer synchronisation failed: '
-            . $error->getMessage()
-        );
-
+        error_log('Aarvella Auth0 customer sync failed: ' . $error->getMessage());
         throw $error;
     }
+}
+
+function createUniqueCustomerCode(PDO $database): string
+{
+    for ($attempt = 0; $attempt < 5; $attempt++) {
+        $code = 'ARV-CUS-' . strtoupper(bin2hex(random_bytes(6)));
+        $check = $database->prepare(
+            'SELECT 1 FROM customers WHERE customer_code = :code LIMIT 1'
+        );
+        $check->execute(['code' => $code]);
+        if (!$check->fetchColumn()) {
+            return $code;
+        }
+    }
+    throw new RuntimeException('Unable to generate a unique customer code.');
+}
+
+function findCustomerByAuth0Subject(string $providerSubject): ?array
+{
+    $providerSubject = trim($providerSubject);
+    if ($providerSubject === '') {
+        return null;
+    }
+
+    $database = getDatabase();
+    $query = $database->prepare(
+        'SELECT c.*,
+                cai.provider,
+                cai.provider_subject,
+                cai.email_snapshot AS auth_email,
+                cai.email_verified AS auth_email_verified,
+                cai.last_login_at AS auth_last_login_at
+         FROM customer_auth_identities AS cai
+         INNER JOIN customers AS c ON c.id = cai.customer_id
+         WHERE cai.provider = "auth0"
+           AND cai.provider_subject = :provider_subject
+           AND c.account_status = "active"
+         LIMIT 1'
+    );
+    $query->execute(['provider_subject' => $providerSubject]);
+    $customer = $query->fetch();
+    return $customer ?: null;
 }
