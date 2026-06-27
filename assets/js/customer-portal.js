@@ -73,6 +73,7 @@
 
             if (shouldOpen) {
                 lastFocusedElement = document.activeElement;
+                sidebar.scrollTop = 0;
                 window.setTimeout(() => {
                     sidebar.querySelector("a, button")?.focus();
                 }, 90);
@@ -117,6 +118,7 @@
         function setOpen(open) {
             dropdown.hidden = !open;
             button.setAttribute("aria-expanded", String(open));
+            document.body.classList.toggle("portal-profile-open", open);
         }
 
         button.addEventListener("click", (event) => {
