@@ -29,8 +29,11 @@ function portalAppointmentDate(string $value): DateTimeImmutable
 function portalStatusLabel(string $status): string
 {
     return match ($status) {
+        'draft' => 'Draft',
         'pending' => 'Pending',
         'confirmed' => 'Confirmed',
+        'checked_in' => 'Checked in',
+        'in_progress' => 'In progress',
         'rescheduled' => 'Rescheduled',
         'completed' => 'Completed',
         'cancelled' => 'Cancelled',
@@ -42,8 +45,8 @@ function portalStatusLabel(string $status): string
 function portalStatusClass(string $status): string
 {
     return match ($status) {
-        'confirmed', 'completed' => 'is-success',
-        'pending', 'rescheduled' => 'is-warning',
+        'confirmed', 'checked_in', 'in_progress', 'completed' => 'is-success',
+        'pending', 'rescheduled', 'draft' => 'is-warning',
         'cancelled', 'no_show' => 'is-danger',
         default => 'is-neutral',
     };
@@ -99,8 +102,6 @@ $profileFields = [
     $customer['phone'] ?? null,
     $customer['date_of_birth'] ?? null,
     $customer['gender'] ?? null,
-    $customer['city'] ?? null,
-    $customer['area'] ?? null,
     $customer['preferred_contact_method'] ?? null,
     $customer['profile_image_url'] ?? null,
 ];
@@ -140,6 +141,11 @@ if ($customerId > 0) {
          */
         $database->exec("SET time_zone = '+05:30'");
 
+        /*
+         * DBv2 stores one or more services against an appointment in
+         * appointment_services. The correlated subqueries avoid
+         * ONLY_FULL_GROUP_BY issues and preserve one row per appointment.
+         */
         $upcomingQuery = $database->prepare(
             "SELECT
                 a.id,
@@ -150,20 +156,50 @@ if ($customerId > 0) {
                 a.total_price,
                 a.advance_paid,
                 a.payment_status,
-                s.name AS service_name,
-                s.duration_minutes,
-                st.name AS stylist_name,
-                st.specialty AS stylist_specialty
+                b.name AS branch_name,
+                COALESCE(
+                    (
+                        SELECT GROUP_CONCAT(
+                            aps.service_name_snapshot
+                            ORDER BY aps.id
+                            SEPARATOR ', '
+                        )
+                        FROM appointment_services AS aps
+                        WHERE aps.appointment_id = a.id
+                          AND aps.status <> 'cancelled'
+                    ),
+                    'Aarvella service'
+                ) AS service_name,
+                COALESCE(
+                    (
+                        SELECT GROUP_CONCAT(
+                            DISTINCT st.public_name
+                            ORDER BY st.public_name
+                            SEPARATOR ', '
+                        )
+                        FROM appointment_services AS aps
+                        INNER JOIN stylists AS st
+                            ON st.id = aps.stylist_id
+                        WHERE aps.appointment_id = a.id
+                          AND aps.status <> 'cancelled'
+                    ),
+                    (
+                        SELECT st2.public_name
+                        FROM stylists AS st2
+                        WHERE st2.id = a.primary_stylist_id
+                        LIMIT 1
+                    )
+                ) AS stylist_name
              FROM appointments AS a
-             INNER JOIN services AS s
-                ON s.id = a.service_id
-             LEFT JOIN stylists AS st
-                ON st.id = a.stylist_id
+             INNER JOIN branches AS b
+                ON b.id = a.branch_id
              WHERE a.customer_id = :customer_id
                AND a.appointment_start >= NOW()
                AND a.status IN (
                     'pending',
                     'confirmed',
+                    'checked_in',
+                    'in_progress',
                     'rescheduled'
                )
              ORDER BY a.appointment_start ASC
@@ -186,14 +222,41 @@ if ($customerId > 0) {
                 a.status,
                 a.total_price,
                 a.payment_status,
-                s.name AS service_name,
-                s.duration_minutes,
-                st.name AS stylist_name
+                b.name AS branch_name,
+                COALESCE(
+                    (
+                        SELECT GROUP_CONCAT(
+                            aps.service_name_snapshot
+                            ORDER BY aps.id
+                            SEPARATOR ', '
+                        )
+                        FROM appointment_services AS aps
+                        WHERE aps.appointment_id = a.id
+                    ),
+                    'Aarvella service'
+                ) AS service_name,
+                COALESCE(
+                    (
+                        SELECT GROUP_CONCAT(
+                            DISTINCT st.public_name
+                            ORDER BY st.public_name
+                            SEPARATOR ', '
+                        )
+                        FROM appointment_services AS aps
+                        INNER JOIN stylists AS st
+                            ON st.id = aps.stylist_id
+                        WHERE aps.appointment_id = a.id
+                    ),
+                    (
+                        SELECT st2.public_name
+                        FROM stylists AS st2
+                        WHERE st2.id = a.primary_stylist_id
+                        LIMIT 1
+                    )
+                ) AS stylist_name
              FROM appointments AS a
-             INNER JOIN services AS s
-                ON s.id = a.service_id
-             LEFT JOIN stylists AS st
-                ON st.id = a.stylist_id
+             INNER JOIN branches AS b
+                ON b.id = a.branch_id
              WHERE a.customer_id = :customer_id
                AND (
                     a.appointment_start < NOW()
@@ -213,6 +276,22 @@ if ($customerId > 0) {
 
         $recentAppointments =
             $recentQuery->fetchAll();
+
+        /*
+         * Loyalty is optional in Phase 1. No account simply means zero points.
+         */
+        $loyaltyQuery = $database->prepare(
+            "SELECT COALESCE(SUM(points_balance), 0)
+             FROM loyalty_accounts
+             WHERE customer_id = :customer_id
+               AND status = 'active'"
+        );
+
+        $loyaltyQuery->execute([
+            'customer_id' => $customerId,
+        ]);
+
+        $loyaltyPoints = (int) $loyaltyQuery->fetchColumn();
     } catch (Throwable $error) {
         $appointmentDataError = true;
 
@@ -286,11 +365,19 @@ $jsVersion = is_file($jsPath)
     >
 </head>
 
-<body>
+<body class="portal-body">
+    <div
+        class="portal-mobile-overlay"
+        data-portal-overlay
+        aria-hidden="true"
+    ></div>
+
     <div class="portal-app">
         <aside
+            id="portalSidebar"
             class="portal-sidebar"
             aria-label="Customer portal navigation"
+            data-portal-sidebar
         >
             <a
                 href="/"
@@ -398,13 +485,28 @@ $jsVersion = is_file($jsPath)
 
         <div class="portal-main-shell">
             <header class="portal-topbar">
-                <a
-                    href="/"
-                    class="mobile-brand"
-                    aria-label="Return to Aarvella homepage"
-                >
-                    AARVELLA
-                </a>
+                <div class="portal-topbar-leading">
+                    <button
+                        class="portal-menu-toggle portal-menu-button"
+                        type="button"
+                        aria-label="Open account menu"
+                        aria-controls="portalSidebar"
+                        aria-expanded="false"
+                        data-portal-menu-button
+                    >
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                        <span aria-hidden="true"></span>
+                    </button>
+
+                    <a
+                        href="/"
+                        class="mobile-brand"
+                        aria-label="Return to Aarvella homepage"
+                    >
+                        AARVELLA
+                    </a>
+                </div>
 
                 <div class="portal-topbar-actions">
                     <button
@@ -503,7 +605,7 @@ $jsVersion = is_file($jsPath)
 
                 <div class="dashboard-layout">
                     <div class="dashboard-primary-column">
-                        <section class="portal-panel upcoming-panel">
+                        <section class="portal-panel portal-card upcoming-panel">
                             <div class="portal-panel-heading">
                                 <div>
                                     <p class="panel-kicker">Next visit</p>
@@ -581,7 +683,12 @@ $jsVersion = is_file($jsPath)
 
                                             <span>
                                                 <i class="fa-solid fa-location-dot" aria-hidden="true"></i>
-                                                Aarvella · Karanpur, Dehradun
+                                                <?= e(
+                                                    (string) (
+                                                        $upcomingAppointment['branch_name']
+                                                        ?? 'Aarvella Karanpur'
+                                                    )
+                                                ) ?>
                                             </span>
 
                                             <?php if ($upcomingPrice !== null): ?>
@@ -667,7 +774,7 @@ $jsVersion = is_file($jsPath)
                             <?php endif; ?>
                         </section>
 
-                        <section class="portal-panel recent-panel">
+                        <section class="portal-panel portal-card recent-panel">
                             <div class="portal-panel-heading">
                                 <div>
                                     <p class="panel-kicker">Your history</p>
@@ -743,7 +850,7 @@ $jsVersion = is_file($jsPath)
                             <?php endif; ?>
                         </section>
 
-                        <section class="referral-banner">
+                        <section class="portal-panel portal-card portal-card-feature referral-banner">
                             <div class="referral-copy">
                                 <p class="panel-kicker">Aarvella community</p>
                                 <h2>Refer and earn rewards</h2>
@@ -769,7 +876,7 @@ $jsVersion = is_file($jsPath)
                     </div>
 
                     <aside class="dashboard-secondary-column">
-                        <section class="portal-panel loyalty-card">
+                        <section class="portal-panel portal-card loyalty-card">
                             <div class="loyalty-card-copy">
                                 <p class="panel-kicker">Loyalty points</p>
 
@@ -798,7 +905,7 @@ $jsVersion = is_file($jsPath)
                             ></i>
                         </section>
 
-                        <section class="portal-panel quick-actions-card">
+                        <section class="portal-panel portal-card quick-actions-card">
                             <div class="portal-panel-heading portal-panel-heading-compact">
                                 <div>
                                     <p class="panel-kicker">Shortcuts</p>
@@ -842,7 +949,7 @@ $jsVersion = is_file($jsPath)
                             </div>
                         </section>
 
-                        <section class="member-offer-card">
+                        <section class="portal-panel portal-card portal-card-feature member-offer-card">
                             <div>
                                 <p class="panel-kicker">Member benefits</p>
                                 <h2>Exclusive offers</h2>
@@ -863,7 +970,7 @@ $jsVersion = is_file($jsPath)
                             <i class="fa-solid fa-sparkles" aria-hidden="true"></i>
                         </section>
 
-                        <section class="portal-panel profile-completion-card">
+                        <section class="portal-panel portal-card profile-completion-card">
                             <div class="progress-ring" style="--progress: <?= $profileCompletion ?>;">
                                 <span><?= $profileCompletion ?>%</span>
                             </div>
