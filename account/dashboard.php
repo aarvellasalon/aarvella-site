@@ -407,13 +407,18 @@ $jsVersion = is_file($jsPath)
 </head>
 
 <body class="portal-body">
-    <div
-        class="portal-mobile-overlay"
-        data-portal-overlay
-        aria-hidden="true"
-    ></div>
-
     <div class="portal-app">
+        <!--
+            The overlay must live inside .portal-app so it shares the same
+            stacking context as the mobile sidebar. The sidebar can then sit
+            above the overlay instead of being blurred behind it.
+        -->
+        <div
+            class="portal-mobile-overlay"
+            data-portal-overlay
+            aria-hidden="true"
+        ></div>
+
         <aside
             id="portalSidebar"
             class="portal-sidebar"
