@@ -23,18 +23,34 @@ try {
 
     $auth0User = $credentials->user;
 
-    if (
-        empty($auth0User['email']) ||
-        empty($auth0User['email_verified'])
-    ) {
+    $email = trim((string) ($auth0User['email'] ?? ''));
+    $emailVerified = (bool) ($auth0User['email_verified'] ?? false);
+
+    if ($email === '') {
         throw new RuntimeException(
-            'A verified email address is required.'
+            'No email address was returned by Auth0.'
         );
     }
 
+    /*
+     * A newly registered Auth0 user normally reaches this callback before
+     * verifying their email. This is an expected signup state, not an error.
+     */
+    if (!$emailVerified) {
+        $verificationPage = '/account/verify-email.php'
+            . '?email=' . rawurlencode($email);
+
+        header('Location: ' . $verificationPage, true, 302);
+        exit;
+    }
+
+    /*
+     * Only create or update the local customer record after Auth0 confirms
+     * that the user's email address has been verified.
+     */
     syncAuth0Customer($auth0User);
 
-    header('Location: /account/dashboard.php');
+    header('Location: /account/dashboard.php', true, 302);
     exit;
 } catch (Throwable $error) {
     error_log(
@@ -43,7 +59,9 @@ try {
     );
 
     header(
-        'Location: /account/account-error.php'
+        'Location: /account/account-error.php?source=callback',
+        true,
+        302
     );
 
     exit;
