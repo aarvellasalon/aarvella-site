@@ -6,17 +6,11 @@ require dirname(__DIR__) . '/vendor/autoload.php';
 require __DIR__ . '/auth0.php';
 
 try {
-    $redirectUrl = 'https://aarvella.com/account/callback.php';
+    $callbackUrl = 'https://aarvella.com/account/callback.php';
 
-    $signupUrl = $auth0->signup(
-        $redirectUrl,
-        [
-            'screen_hint' => 'signup',
-            'prompt' => 'login',
-        ]
-    );
+    $signupUrl = $auth0->signup($callbackUrl);
 
-    header('Location: ' . $signupUrl);
+    header('Location: ' . $signupUrl, true, 302);
     exit;
 } catch (Throwable $exception) {
     error_log(
