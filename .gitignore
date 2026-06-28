@@ -31,3 +31,4 @@ Thumbs.db
 # Backup Pages directory
 backup_pages/
 /private/
+/vendor/

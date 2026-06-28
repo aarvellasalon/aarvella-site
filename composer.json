@@ -1,0 +1,12 @@
+{
+    "require": {
+        "auth0/auth0-php": "^8.19",
+        "nyholm/psr7": "^1.8",
+        "symfony/http-client": "^7.4"
+    },
+    "config": {
+        "allow-plugins": {
+            "php-http/discovery": true
+        }
+    }
+}
