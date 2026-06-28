@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-require dirname(__DIR__) . '/vendor/autoload.php';
-require __DIR__ . '/auth0.php';
-
 try {
+    require dirname(__DIR__) . '/vendor/autoload.php';
+    require __DIR__ . '/auth0-bootstrap.php';
+
     $callbackUrl = 'https://aarvella.com/account/callback.php';
 
     $signupUrl = $auth0->signup($callbackUrl);
