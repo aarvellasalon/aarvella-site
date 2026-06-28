@@ -6,7 +6,48 @@ require_once __DIR__ . '/auth0-bootstrap.php';
 require_once __DIR__ . '/sync-customer.php';
 
 try {
-    if ($auth0->getExchangeParameters() !== null) {
+    $exchangeParameters = $auth0->getExchangeParameters();
+
+    /*
+     * A Post-Login Action can deny access for an unverified email.
+     * In that case Auth0 returns error=access_denied instead of a code,
+     * so no authenticated session or credentials will be created.
+     */
+    $authError = trim((string) ($_GET['error'] ?? ''));
+    $authErrorDescription = trim(
+        (string) ($_GET['error_description'] ?? '')
+    );
+
+    if ($authError !== '') {
+        $isVerificationRequired =
+            $authError === 'access_denied'
+            && (
+                stripos($authErrorDescription, 'verify') !== false
+                || stripos($authErrorDescription, 'verification') !== false
+                || stripos($authErrorDescription, 'email address') !== false
+            );
+
+        if ($isVerificationRequired) {
+            header(
+                'Location: /account/verify-email.php',
+                true,
+                302
+            );
+            exit;
+        }
+
+        throw new RuntimeException(
+            'Auth0 authorization failed: '
+            . $authError
+            . (
+                $authErrorDescription !== ''
+                    ? ' - ' . $authErrorDescription
+                    : ''
+            )
+        );
+    }
+
+    if ($exchangeParameters !== null) {
         $auth0->exchange();
     }
 
@@ -23,8 +64,13 @@ try {
 
     $auth0User = $credentials->user;
 
-    $email = trim((string) ($auth0User['email'] ?? ''));
-    $emailVerified = (bool) ($auth0User['email_verified'] ?? false);
+    $email = trim(
+        (string) ($auth0User['email'] ?? '')
+    );
+
+    $emailVerified = (bool) (
+        $auth0User['email_verified'] ?? false
+    );
 
     if ($email === '') {
         throw new RuntimeException(
@@ -33,24 +79,26 @@ try {
     }
 
     /*
-     * A newly registered Auth0 user normally reaches this callback before
-     * verifying their email. This is an expected signup state, not an error.
+     * This is a fallback in case the Auth0 Action is later removed
+     * or changed and an unverified user reaches the callback.
      */
     if (!$emailVerified) {
-        $verificationPage = '/account/verify-email.php'
-            . '?email=' . rawurlencode($email);
-
-        header('Location: ' . $verificationPage, true, 302);
+        header(
+            'Location: /account/verify-email.php'
+                . '?email=' . rawurlencode($email),
+            true,
+            302
+        );
         exit;
     }
 
-    /*
-     * Only create or update the local customer record after Auth0 confirms
-     * that the user's email address has been verified.
-     */
     syncAuth0Customer($auth0User);
 
-    header('Location: /account/dashboard.php', true, 302);
+    header(
+        'Location: /account/dashboard.php',
+        true,
+        302
+    );
     exit;
 } catch (Throwable $error) {
     error_log(
@@ -63,6 +111,5 @@ try {
         true,
         302
     );
-
     exit;
 }
