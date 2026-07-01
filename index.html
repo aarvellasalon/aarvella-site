@@ -7,6 +7,7 @@
 		<title>Aarvella | Luxury Hair & Beauty Salon</title>
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
+		<link rel="stylesheet" href="/assets/css/navigation.css?v=20260702-1">
 		<link rel="icon" type="image/x-icon" href="favicon.ico">
 		<style>
 			:root {
@@ -1887,84 +1888,9 @@
 		<link rel="stylesheet" href="assets/css/footer.css?v=20260620-4">
 	</head>
 	<body>
-		<header class="site-header">
-			<div class="nav-shell">
-				<a href="index.html" class="logo-link">
-					<div class="logo">AARVELLA</div>
-				</a>
+		<div id="site-navigation" data-navigation-partial="/assets/partials/navigation.html"></div>
 
-				<nav class="desktop-nav">
-					<a href="services.html">Services</a>
-					<a href="stylists.html">Stylists</a>
-					<a href="about.html">About</a>
-					<a href="blog.html">Blog</a>
-					<a href="find-us.html">Find Us</a>
-
-					<div class="nav-account-actions" aria-label="Customer account">
-						<a
-							href="/account/login.php"
-							class="nav-account-link nav-signin"
-							aria-label="Sign in to your Aarvella account"
-						>
-							<i class="fa-regular fa-user" aria-hidden="true"></i>
-							<span>Sign In</span>
-						</a>
-
-						<a
-							href="/account/register.php"
-							class="nav-account-link nav-join"
-							aria-label="Create an Aarvella customer account"
-						>
-							<span>Join</span>
-						</a>
-					</div>
-
-					<button class="btn-gold js-book">
-						<span class="btn-text">Book Now</span>
-						<div class="btn-ripple-container"></div>
-					</button>
-				</nav>
-
-				<div class="hamburger" id="hamburger">
-					<span></span>
-					<span></span>
-					<span></span>
-				</div>
-			</div>
-			<div class="nav-overlay" id="navOverlay"></div>
-			<div class="mobile-nav" id="mobileNav">
-				<a href="services.html">Services</a>
-				<a href="stylists.html">Stylists</a>
-				<a href="about.html">About</a>
-				<a href="blog.html">Blog</a>
-				<a href="find-us.html">Find Us</a>
-
-				<div class="mobile-account-panel" aria-label="Customer account">
-					<a
-						href="/account/login.php"
-						class="btn-gold mobile-account-link mobile-signin"
-					>
-						<i class="fa-regular fa-user" aria-hidden="true"></i>
-						<span>Sign In</span>
-					</a>
-
-					<a
-						href="/account/register.php"
-						class="btn-outline mobile-account-link mobile-join"
-					>
-						<i class="fa-solid fa-user-plus" aria-hidden="true"></i>
-						<span>Join Aarvella</span>
-					</a>
-				</div>
-
-				<button class="btn-gold js-book" id="mobileBookBtn" type="button">
-					<span class="btn-text">Book Now</span>
-					<div class="btn-ripple-container"></div>
-				</button>
-			</div>
-		</header>
-
-		<section class="hero">
+		<section class="hero" id="main-content">
 			<div class="hero-bg"></div>
 			<div class="hero-overlay"></div>
 
@@ -2566,61 +2492,6 @@
 				document.querySelector('.hero').classList.add('loaded');
 			});
 
-			document.addEventListener("DOMContentLoaded", () => {
-				const hamburger = document.getElementById("hamburger");
-				const mobileNav = document.getElementById("mobileNav");
-				const overlay = document.getElementById("navOverlay");
-				const mobileBookBtn = document.getElementById("mobileBookBtn");
-
-				if (!hamburger || !mobileNav || !overlay) return;
-
-				function openMenu() {
-					hamburger.classList.add("active");
-					mobileNav.classList.add("active");
-					overlay.classList.add("active");
-					document.body.classList.add("menu-open");
-					document.body.style.overflow = "hidden";
-				}
-
-				function closeMenu() {
-					hamburger.classList.remove("active");
-					mobileNav.classList.remove("active");
-					overlay.classList.remove("active");
-					document.body.classList.remove("menu-open");
-					document.body.style.overflow = "";
-				}
-
-				hamburger.addEventListener("click", e => {
-					e.stopPropagation();
-					if (mobileNav.classList.contains("active")) {
-						closeMenu();
-					} else {
-						openMenu();
-					}
-				});
-
-				overlay.addEventListener("click", closeMenu);
-
-				document.querySelectorAll(".mobile-nav a").forEach(link => {
-					link.addEventListener("click", closeMenu);
-				});
-
-				if (mobileBookBtn) {
-					mobileBookBtn.addEventListener("click", e => {
-						e.preventDefault();
-						closeMenu();
-						setTimeout(() => {
-							openBooking();
-						}, 180);
-					});
-				}
-
-				window.addEventListener("resize", () => {
-					if (window.innerWidth > 768) {
-						closeMenu();
-					}
-				});
-			});
 
 			const revealElements = document.querySelectorAll(
 				'.service-card, .pillar, .proof-card'
@@ -2867,36 +2738,6 @@
 				});
 			}
 
-			let lastScrollY = window.scrollY;
-			let ticking = false;
-			const header = document.querySelector(".site-header");
-
-			function handleScroll() {
-				const currentScrollY = window.scrollY;
-				if (currentScrollY > lastScrollY && currentScrollY > 100) {
-					header.classList.add("nav-hidden");
-					header.classList.remove("nav-visible");
-				} else {
-					header.classList.remove("nav-hidden");
-					header.classList.add("nav-visible");
-				}
-				lastScrollY = currentScrollY;
-				ticking = false;
-			}
-
-			window.addEventListener("scroll", () => {
-				if (!ticking) {
-					requestAnimationFrame(handleScroll);
-					ticking = true;
-				}
-			});
-
-			document.addEventListener("mousemove", (e) => {
-				if (e.clientY <= 20) {
-					header.classList.remove("nav-hidden");
-					header.classList.add("nav-visible");
-				}
-			});
 		</script>
 
 		<script src="/assets/js/ai-chat-loader.js?v=20260621-1" defer></script>
@@ -2904,5 +2745,6 @@
 		<script src="assets/js/includes.js?v=20260620-2" defer></script>
 		<script src="assets/js/footer-loader.js?v=20260620-2" defer></script>
 		<script src="assets/js/newsletter.js?v=20260618-1" defer></script>
+		<script src="/assets/js/navigation.js?v=20260702-1" defer></script>
 	</body>
 </html>
