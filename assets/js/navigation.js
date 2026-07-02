@@ -14,6 +14,11 @@
     book: "[data-av-book]"
   };
 
+  const DESKTOP_QUERY = "(min-width: 1121px)";
+  const HOVER_QUERY = "(min-width: 1121px) and (hover: hover) and (pointer: fine)";
+  const CLOSE_DELAY = 170;
+  const PANEL_TRANSITION = 240;
+
   const focusableSelector = [
     "a[href]",
     "button:not([disabled])",
@@ -51,6 +56,10 @@
     const mobileDrawer = root.querySelector(SELECTORS.mobileDrawer);
     const mobileOverlay = root.querySelector(SELECTORS.mobileOverlay);
     const accordionButtons = [...root.querySelectorAll(SELECTORS.accordion)];
+    const desktopMedia = window.matchMedia(DESKTOP_QUERY);
+    const hoverMedia = window.matchMedia(HOVER_QUERY);
+    const closeTimers = new Map();
+
     let lastFocusedElement = null;
     let lastScrollY = window.scrollY;
     let ticking = false;
@@ -59,39 +68,71 @@
       return menuPanels.find(panel => panel.dataset.avMenuPanel === name);
     }
 
+    function triggerFor(name) {
+      return menuTriggers.find(trigger => trigger.dataset.avMenuTrigger === name);
+    }
+
+    function clearCloseTimer(name) {
+      const timer = closeTimers.get(name);
+      if (timer) window.clearTimeout(timer);
+      closeTimers.delete(name);
+    }
+
+    function hidePanel(name) {
+      const trigger = triggerFor(name);
+      const panel = panelFor(name);
+      if (!trigger || !panel) return;
+
+      clearCloseTimer(name);
+      trigger.setAttribute("aria-expanded", "false");
+      panel.classList.remove("is-open");
+
+      window.setTimeout(() => {
+        if (!panel.classList.contains("is-open")) panel.hidden = true;
+      }, PANEL_TRANSITION);
+    }
+
+    function showPanel(trigger) {
+      if (!desktopMedia.matches) return;
+
+      const name = trigger.dataset.avMenuTrigger;
+      const panel = panelFor(name);
+      if (!name || !panel) return;
+
+      clearCloseTimer(name);
+      closeDesktopMenus(name);
+      panel.hidden = false;
+      root.classList.remove("av-nav-hidden");
+
+      requestAnimationFrame(() => {
+        panel.classList.add("is-open");
+        trigger.setAttribute("aria-expanded", "true");
+      });
+    }
+
+    function schedulePanelClose(name, delay = CLOSE_DELAY) {
+      clearCloseTimer(name);
+      closeTimers.set(name, window.setTimeout(() => hidePanel(name), delay));
+    }
+
     function closeDesktopMenus(exceptName = "") {
       menuTriggers.forEach(trigger => {
         const name = trigger.dataset.avMenuTrigger;
         if (name === exceptName) return;
-        trigger.setAttribute("aria-expanded", "false");
-        const panel = panelFor(name);
-        if (!panel) return;
-        panel.classList.remove("is-open");
-        window.setTimeout(() => {
-          if (!panel.classList.contains("is-open")) panel.hidden = true;
-        }, 260);
+        hidePanel(name);
       });
     }
 
-    function openDesktopMenu(trigger) {
+    function toggleDesktopMenu(trigger) {
       const name = trigger.dataset.avMenuTrigger;
-      const panel = panelFor(name);
-      if (!panel) return;
       const isOpen = trigger.getAttribute("aria-expanded") === "true";
-      closeDesktopMenus(isOpen ? "" : name);
-      if (isOpen) {
-        trigger.setAttribute("aria-expanded", "false");
-        panel.classList.remove("is-open");
-        window.setTimeout(() => { if (!panel.classList.contains("is-open")) panel.hidden = true; }, 260);
-        return;
-      }
-      panel.hidden = false;
-      requestAnimationFrame(() => panel.classList.add("is-open"));
-      trigger.setAttribute("aria-expanded", "true");
+      if (isOpen) hidePanel(name);
+      else showPanel(trigger);
     }
 
     function setMobileMenu(open) {
       if (!mobileDrawer || !mobileToggle || !mobileOverlay) return;
+
       if (open) {
         lastFocusedElement = document.activeElement;
         closeDesktopMenus();
@@ -104,6 +145,7 @@
         mobileToggle.setAttribute("aria-label", "Close menu");
         window.setTimeout(() => mobileClose?.focus(), 80);
       } else {
+        const wasOpen = mobileDrawer.classList.contains("is-open");
         mobileDrawer.classList.remove("is-open");
         mobileOverlay.classList.remove("is-open");
         root.classList.remove("av-menu-active");
@@ -111,16 +153,22 @@
         mobileDrawer.setAttribute("aria-hidden", "true");
         mobileToggle.setAttribute("aria-expanded", "false");
         mobileToggle.setAttribute("aria-label", "Open menu");
-        if (lastFocusedElement instanceof HTMLElement) lastFocusedElement.focus({ preventScroll: true });
+        if (wasOpen && lastFocusedElement instanceof HTMLElement) {
+          lastFocusedElement.focus({ preventScroll: true });
+        }
       }
     }
 
     function trapFocus(event) {
       if (event.key !== "Tab" || !mobileDrawer?.classList.contains("is-open")) return;
-      const items = [...mobileDrawer.querySelectorAll(focusableSelector)].filter(item => item.offsetParent !== null);
+
+      const items = [...mobileDrawer.querySelectorAll(focusableSelector)]
+        .filter(item => item.offsetParent !== null);
       if (!items.length) return;
+
       const first = items[0];
       const last = items[items.length - 1];
+
       if (event.shiftKey && document.activeElement === first) {
         event.preventDefault();
         last.focus();
@@ -162,6 +210,7 @@
 
     function markCurrentPage() {
       const current = (window.location.pathname.split("/").pop() || "index.html").toLowerCase();
+
       root.querySelectorAll("[data-av-route]").forEach(link => {
         const route = (link.dataset.avRoute || "").toLowerCase();
         const active = route === current;
@@ -174,9 +223,9 @@
         "hair-texture.html", "skin-care.html", "beauty-essentials.html",
         "hand-foot-spa.html", "makeup.html", "bridal.html"
       ]);
+
       if (servicePages.has(current)) {
-        const trigger = root.querySelector('[data-av-menu-trigger="services"]');
-        trigger?.classList.add("is-active");
+        root.querySelector('[data-av-menu-trigger="services"]')?.classList.add("is-active");
       }
     }
 
@@ -184,22 +233,57 @@
       const currentY = Math.max(window.scrollY, 0);
       root.classList.toggle("av-scrolled", currentY > 18);
 
-      const desktop = window.matchMedia("(min-width: 1181px)").matches;
-      const anyMenuOpen = menuTriggers.some(trigger => trigger.getAttribute("aria-expanded") === "true");
-      if (desktop && !anyMenuOpen && !root.classList.contains("av-menu-active")) {
+      const anyMenuOpen = menuTriggers.some(
+        trigger => trigger.getAttribute("aria-expanded") === "true"
+      );
+
+      if (desktopMedia.matches && !anyMenuOpen && !root.classList.contains("av-menu-active")) {
         if (currentY > lastScrollY && currentY > 170) root.classList.add("av-nav-hidden");
         else if (currentY < lastScrollY - 4 || currentY < 90) root.classList.remove("av-nav-hidden");
       } else {
         root.classList.remove("av-nav-hidden");
       }
+
       lastScrollY = currentY;
       ticking = false;
     }
 
-    menuTriggers.forEach(trigger => trigger.addEventListener("click", event => {
-      event.stopPropagation();
-      openDesktopMenu(trigger);
-    }));
+    menuTriggers.forEach(trigger => {
+      const name = trigger.dataset.avMenuTrigger;
+      const group = trigger.closest(".av-menu-group, .av-account-wrap");
+      const panel = panelFor(name);
+
+      trigger.addEventListener("click", event => {
+        event.stopPropagation();
+        toggleDesktopMenu(trigger);
+      });
+
+      if (group) {
+        group.addEventListener("pointerenter", () => {
+          if (hoverMedia.matches) showPanel(trigger);
+        });
+
+        group.addEventListener("pointerleave", event => {
+          if (!hoverMedia.matches) return;
+          if (event.relatedTarget instanceof Node && group.contains(event.relatedTarget)) return;
+          schedulePanelClose(name);
+        });
+
+        group.addEventListener("focusin", () => {
+          if (desktopMedia.matches) showPanel(trigger);
+        });
+
+        group.addEventListener("focusout", event => {
+          if (event.relatedTarget instanceof Node && group.contains(event.relatedTarget)) return;
+          schedulePanelClose(name, 80);
+        });
+      }
+
+      panel?.addEventListener("pointerenter", () => clearCloseTimer(name));
+      panel?.addEventListener("pointerleave", () => {
+        if (hoverMedia.matches) schedulePanelClose(name);
+      });
+    });
 
     root.addEventListener("click", event => {
       const bookButton = event.target.closest(SELECTORS.book);
@@ -209,7 +293,9 @@
       if (mobileLink) setMobileMenu(false);
     });
 
-    mobileToggle?.addEventListener("click", () => setMobileMenu(mobileToggle.getAttribute("aria-expanded") !== "true"));
+    mobileToggle?.addEventListener("click", () => {
+      setMobileMenu(mobileToggle.getAttribute("aria-expanded") !== "true");
+    });
     mobileClose?.addEventListener("click", () => setMobileMenu(false));
     mobileOverlay?.addEventListener("click", () => setMobileMenu(false));
 
@@ -221,8 +307,12 @@
     }));
 
     document.addEventListener("click", event => {
-      if (!root.contains(event.target)) closeDesktopMenus();
-      else if (!event.target.closest(SELECTORS.menuTrigger) && !event.target.closest(SELECTORS.menuPanel)) closeDesktopMenus();
+      if (!root.contains(event.target)) {
+        closeDesktopMenus();
+      } else if (!event.target.closest(SELECTORS.menuTrigger) &&
+                 !event.target.closest(SELECTORS.menuPanel)) {
+        closeDesktopMenus();
+      }
     });
 
     document.addEventListener("keydown", event => {
@@ -234,8 +324,8 @@
     });
 
     window.addEventListener("resize", () => {
-      if (window.innerWidth > 1180) setMobileMenu(false);
-      closeDesktopMenus();
+      if (desktopMedia.matches) setMobileMenu(false);
+      else closeDesktopMenus();
     }, { passive: true });
 
     window.addEventListener("scroll", () => {
