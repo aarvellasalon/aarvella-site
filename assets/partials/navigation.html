@@ -124,14 +124,14 @@
         <div class="av-popover av-account-menu" id="av-account-menu" data-av-menu-panel="account" hidden>
           <span class="av-menu-kicker">Your Aarvella</span>
           <strong>Appointments, preferences and rewards.</strong>
-          <a class="av-account-primary" href="/account/login.php">Sign in</a>
-          <a class="av-account-secondary" href="/account/register.php">Create account</a>
+          <a class="av-btn av-btn--primary av-btn--sm av-btn--block av-account-primary" href="/account/login.php"><span class="av-btn__label">Sign in</span></a>
+          <a class="av-btn av-btn--secondary av-btn--sm av-btn--block av-account-secondary" href="/account/register.php"><span class="av-btn__label">Create account</span></a>
         </div>
       </div>
 
-      <button class="av-book-button js-book" type="button" data-av-book data-booking-trigger="popup">
-        <span>Book</span>
-        <svg viewBox="0 0 18 12" aria-hidden="true"><path d="M1 6h15M11 1l5 5-5 5" /></svg>
+      <button class="av-btn av-btn--primary av-btn--nav js-book" type="button" data-av-book data-booking-trigger="popup" data-av-magnetic="true">
+        <span class="av-btn__label">Book</span>
+        <svg class="av-btn__icon" viewBox="0 0 18 12" aria-hidden="true"><path d="M1 6h15M11 1l5 5-5 5" /></svg>
       </button>
 
       <button
@@ -197,8 +197,8 @@
           <p>Manage appointments and keep your beauty journey in one place.</p>
         </div>
         <div class="av-mobile-account-actions">
-          <a href="/account/login.php">Sign in</a>
-          <a href="/account/register.php">Join Aarvella</a>
+          <a class="av-btn av-btn--secondary av-btn--sm av-btn--block" href="/account/login.php"><span class="av-btn__label">Sign in</span></a>
+          <a class="av-btn av-btn--primary av-btn--sm av-btn--block" href="/account/register.php"><span class="av-btn__label">Join Aarvella</span></a>
         </div>
       </div>
 
@@ -209,9 +209,9 @@
     </div>
 
     <div class="av-mobile-book-bar">
-      <button class="av-book-button js-book" type="button" data-av-book data-booking-trigger="popup">
-        <span>Book an appointment</span>
-        <svg viewBox="0 0 18 12" aria-hidden="true"><path d="M1 6h15M11 1l5 5-5 5" /></svg>
+      <button class="av-btn av-btn--primary av-btn--nav js-book" type="button" data-av-book data-booking-trigger="popup" data-av-magnetic="true">
+        <span class="av-btn__label">Book an appointment</span>
+        <svg class="av-btn__icon" viewBox="0 0 18 12" aria-hidden="true"><path d="M1 6h15M11 1l5 5-5 5" /></svg>
       </button>
     </div>
   </aside>

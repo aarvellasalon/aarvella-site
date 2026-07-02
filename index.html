@@ -7,7 +7,8 @@
 		<title>Aarvella | Luxury Hair & Beauty Salon</title>
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" />
-		<link rel="stylesheet" href="/assets/css/navigation.css?v=20260702-1">
+		<link rel="stylesheet" href="/assets/css/buttons.css?v=20260703-1">
+		<link rel="stylesheet" href="/assets/css/navigation.css?v=20260703-3">
 		<link rel="icon" type="image/x-icon" href="favicon.ico">
 		<style>
 			:root {
@@ -135,261 +136,7 @@
 			.logo {
 				flex-shrink: 0;
 			}
-			.btn-gold,
-			.btn-outline {
-				--magnetic: translate(0, 0);
-				--glass-bg: rgba(255, 255, 255, 0.12);
-				--glass-border: rgba(255, 255, 255, 0.34);
-				--glass-highlight: rgba(255, 255, 255, 0.7);
 
-				height: 45px;
-				padding: 0 24px;
-				min-width: 180px;
-				border-radius: 999px;
-
-				display: inline-flex;
-				align-items: center;
-				justify-content: center;
-				
-				box-sizing: border-box;
-				white-space: nowrap;
-				flex-shrink: 0;
-				transform-origin: center center;
-
-				position: relative;
-				overflow: hidden;
-				cursor: pointer;
-
-				font-family: inherit;
-				font-weight: 600;
-				line-height: 1;
-				text-decoration: none;
-
-				backdrop-filter: blur(18px) saturate(180%);
-				-webkit-backdrop-filter: blur(18px) saturate(180%);
-
-				transform: var(--magnetic);
-				will-change: transform;
-				
-				isolation: isolate;
-				text-align: center;
-
-				transition:
-					transform 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-					box-shadow 0.35s cubic-bezier(0.22, 1, 0.36, 1),
-					background 0.35s ease,
-					border-color 0.35s ease,
-					color 0.35s ease;
-			}
-			.btn-gold span,
-			.btn-outline span {
-				position: relative;
-				z-index: 5;
-				display:  flex;
-				align-items: center;
-				justify-content: center;
-				width: 100%;
-				height: 100%;
-				text-align: center;
-				transform: none !important;
-				translate: none !important;
-				pointer-events: none;
-			}
-			.btn-text {
-			  position: absolute;
-			  inset: 0;
-			  display: flex;
-			  align-items: center;
-			  justify-content: center;
-			  pointer-events: none;
-			  z-index: 5;
-			}
-
-			.btn-ripple-container {
-			  position: absolute;
-			  inset: 0;
-			  pointer-events: none;
-			  z-index: 3;
-			  overflow: hidden;
-			  border-radius: inherit;
-			}
-			/* GOLD LIQUID GLASS */
-			.btn-gold {
-				border: 1px solid rgba(255, 230, 150, 0.55);
-				color: var(--black);
-
-				background:
-					linear-gradient(
-						135deg,
-						rgba(255, 236, 160, 0.82),
-						rgba(212, 175, 55, 0.42)
-					),
-					rgba(255, 255, 255, 0.16);
-
-				box-shadow:
-					inset 0 1px 1px rgba(255, 255, 255, 0.75),
-					inset 0 -1px 1px rgba(90, 60, 0, 0.18),
-					0 12px 30px rgba(212, 175, 55, 0.28),
-					0 4px 12px rgba(0, 0, 0, 0.28);
-			}
-
-			/* OUTLINE LIQUID GLASS */
-			.btn-outline {
-				border: 1px solid rgba(212, 175, 55, 0.6);
-				color: var(--gold);
-
-				background:
-					linear-gradient(
-						135deg,
-						rgba(255, 255, 255, 0.16),
-						rgba(255, 255, 255, 0.04)
-					);
-
-				box-shadow:
-					inset 0 1px 1px rgba(255, 255, 255, 0.45),
-					inset 0 -1px 1px rgba(255, 255, 255, 0.08),
-					0 10px 26px rgba(212, 175, 55, 0.16),
-					0 4px 12px rgba(0, 0, 0, 0.22);
-			}
-
-			/* Shared glass shine */
-			.btn-gold::before,
-			.btn-outline::before {
-				content: "";
-				position: absolute;
-				inset: 1px;
-				border-radius: inherit;
-				pointer-events: none;
-				z-index: 1;
-
-				background:
-					radial-gradient(
-						circle at 28% 18%,
-						rgba(255, 255, 255, 0.85),
-						rgba(255, 255, 255, 0.25) 18%,
-						transparent 42%
-					),
-					linear-gradient(
-						145deg,
-						rgba(255, 255, 255, 0.4),
-						transparent 38%
-					);
-
-				opacity: 0.75;
-			}
-
-			/* Moving reflective streak */
-			.btn-gold::after,
-			.btn-outline::after {
-				content: "";
-				position: absolute;
-				top: -45%;
-				left: -80%;
-				width: 55%;
-				height: 190%;
-				border-radius: inherit;
-				pointer-events: none;
-				z-index: 2;
-
-				background: linear-gradient(
-					120deg,
-					transparent,
-					rgba(255, 255, 255, 0.55),
-					transparent
-				);
-
-				transform: rotate(18deg) translateX(-120%);
-				transition: transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
-			}
-
-			/* Hover states */
-			.btn-gold:hover {
-				transform: translateY(-4px) scale(1.035);
-				background:
-					linear-gradient(
-						135deg,
-						rgba(255, 244, 190, 0.92),
-						rgba(212, 175, 55, 0.52)
-					),
-					rgba(255, 255, 255, 0.22);
-
-				box-shadow:
-					inset 0 1px 1px rgba(255, 255, 255, 0.85),
-					0 18px 42px rgba(212, 175, 55, 0.36),
-					0 8px 18px rgba(0, 0, 0, 0.3);
-			}
-
-			.btn-outline:hover {
-				transform: translateY(-4px) scale(1.035);
-				color: var(--black);
-				border-color: rgba(255, 230, 150, 0.65);
-
-				background:
-					linear-gradient(
-						135deg,
-						rgba(255, 236, 160, 0.8),
-						rgba(212, 175, 55, 0.38)
-					),
-					rgba(255, 255, 255, 0.16);
-
-				box-shadow:
-					inset 0 1px 1px rgba(255, 255, 255, 0.75),
-					0 18px 42px rgba(212, 175, 55, 0.32),
-					0 8px 18px rgba(0, 0, 0, 0.28);
-			}
-
-			.btn-gold:hover::after,
-			.btn-outline:hover::after {
-				transform: rotate(18deg) translateX(420%);
-			}
-
-			/* Click feel */
-			.btn-gold:active,
-			.btn-outline:active {
-				transform: translateY(1px) scale(0.965);
-
-				box-shadow:
-					inset 0 3px 8px rgba(0, 0, 0, 0.28),
-					inset 0 -1px 1px rgba(255, 255, 255, 0.15),
-					0 4px 12px rgba(0, 0, 0, 0.3);
-
-				transition: transform 0.08s ease, box-shadow 0.08s ease;
-			}
-
-			/* Accessible keyboard focus */
-			.btn-gold:focus-visible,
-			.btn-outline:focus-visible {
-				outline: 3px solid rgba(255, 220, 120, 0.65);
-				outline-offset: 4px;
-			}
-
-			/* Existing ripple still works */
-			.btn-ripple {
-				position: absolute;
-				left: var(--ripple-x, 50%);
-				top: var(--ripple-y, 50%);		
-				width: 120px;
-				height: 120px;
-				background: radial-gradient(
-					circle,
-					rgba(255, 255, 255, 0.45) 0%,
-					rgba(255, 255, 255, 0.18) 40%,
-					transparent 70%
-				);
-				border-radius: 50%;
-				transform: translate(-50%, -50%) scale(0);
-				animation: ripple 0.6s ease-out;
-				pointer-events: none;
-				z-index: 3;
-			}
-
-			@keyframes ripple {
-				to {
-					transform: translate(-50%, -50%) scale(2.5);
-					opacity: 0;
-				}
-			}
-			
 			/*  --Redesign Hero code--  */ 
 			.hero {
 				position: relative;
@@ -523,13 +270,9 @@
 				.hero-cta {
 					flex-direction: column;
 				}
-				.btn-gold,
-				.btn-outline {
+				.hero-cta .av-btn {
 					width: 100%;
 					max-width: 280px;
-					will-change: transform;
-					backface-visibility: hidden;
-					transform: var(--magnetic, translate(0,0)) translateY(0) scale(1);
 				}
 			}
 			
@@ -618,18 +361,7 @@
 				position: absolute;
 				bottom: 12px;
 				right: 12px;
-				background: var(--gold);
-				color: black;
-				border: none;
-				padding: 6px 14px;
-				font-size: 0.75rem;
-				font-weight: 600;
-				cursor: pointer;
-				border-radius: 20px;
-				transition: 0.3s ease;
-			}
-			.card-book-btn:hover {
-				transform: scale(1.05);
+				z-index: 3;
 			}
 			/* Content */
 			.service-content {
@@ -672,19 +404,12 @@
 			}
 			/* Mobile Fix */
 			@media (max-width: 768px) {
-				.btn-gold.small-btn {
+				.service-actions .av-btn--sm {
 					width: auto;
-					min-width: unset;
-					padding: 10px 16px;
-					font-size: 0.85rem;
-				}
-				.card-book-btn {
-					padding: 5px 10px;
-					font-size: 0.7rem;
-				}
-				.small-btn {
-					margin-top: 1rem;
-					height: 35px;
+					min-width: 0;
+					--av-btn-height: 38px;
+					--av-btn-padding-x: 16px;
+					--av-btn-font-size: 0.8rem;
 				}
 			}		
 			/* --- Transformation Section --- */
@@ -872,21 +597,12 @@
 				);
 			}
 
-			.transform-cta .btn-gold {
+			.transform-cta .av-btn {
 				min-width: 240px;
-				padding: 15px 30px;
-				border-radius: 999px;
-				font-size: 0.85rem;
-				letter-spacing: 1.4px;
-				transition:
-					transform 0.3s ease,
-					box-shadow 0.3s ease,
-					background 0.3s ease;
-			}
-
-			.transform-cta .btn-gold:hover {
-				transform: translateY(-3px);
-				box-shadow: 0 14px 36px rgba(212,175,55,0.28);
+				--av-btn-height: 50px;
+				--av-btn-padding-x: 30px;
+				--av-btn-font-size: 0.85rem;
+				--av-btn-letter-spacing: 0.1em;
 			}
 			/* Tablet: two cards per row */
 			@media (max-width: 1100px) {
@@ -913,11 +629,11 @@
 					padding-top: 1.5rem;
 				}
 
-				.transform-cta .btn-gold {
+				.transform-cta .av-btn {
 					width: 100%;
 					max-width: 320px;
-					min-width: unset;
-					padding: 15px 24px;
+					min-width: 0;
+					--av-btn-padding-x: 24px;
 				}
 			}
 			/* Visible by default so content never disappears if JavaScript fails. */
@@ -1098,11 +814,6 @@
 				flex-wrap: wrap;
 			}
 
-			.btn-gold.large {
-				height: 50px;
-				padding: 0 32px;
-				font-size: 1rem;
-			}
 
 			/* RIGHT IMAGE */
 			.booking-visual img {
@@ -1397,13 +1108,11 @@
 				<p>Precision hair. Radiant skin. A luxury experience designed around you. Trusted by 1000+ clients. Premium treatments. Flawless results.</p>
 
 				<div class="hero-cta">
-					<button class="btn-gold js-book">
-						<span class="btn-text">Book Appointment</span>
-						<div class="btn-ripple-container"></div>
+					<button class="av-btn av-btn--primary js-book" data-av-magnetic="true">
+						<span class="av-btn__label">Book Appointment</span>
 					</button>
-					<a href="services.html" class="btn-outline">
-						<span class="btn-text">Explore Services</span>
-						<div class="btn-ripple-container"></div>
+					<a href="services.html" class="av-btn av-btn--secondary">
+						<span class="av-btn__label">Explore Services</span>
 					</a>
 				</div>
 
@@ -1444,7 +1153,7 @@
 
 					<div class="service-img">
 						<img src="assets/images/services/index-services-balayage-1.jpg" alt="Balayage">
-						<button class="card-book-btn js-book">Book</button>
+						<button class="av-btn av-btn--primary av-btn--card js-book card-book-btn">Book</button>
 					</div>
 
 					<div class="service-content">
@@ -1452,7 +1161,7 @@
 						<p>Seamless, natural-looking highlights designed to elevate your entire look.</p>
 
 						<div class="service-actions">
-							<button class="btn-gold small-btn js-book">Book Appointment</button>
+							<button class="av-btn av-btn--primary av-btn--sm js-book">Book Appointment</button>
 							<a href="services.html" class="price-link">View Price List →</a>
 						</div>
 					</div>
@@ -1462,7 +1171,7 @@
 				<div class="service-card">
 					<div class="service-img">
 						<img src="assets/images/services/index-services-facial-1.jpg" alt="Facial">
-						<button class="card-book-btn js-book">Book</button>
+						<button class="av-btn av-btn--primary av-btn--card js-book card-book-btn">Book</button>
 					</div>
 
 					<div class="service-content">
@@ -1470,7 +1179,7 @@
 						<p>Deep rejuvenation treatment for visibly brighter, tighter, glowing skin.</p>
 
 						<div class="service-actions">
-							<button class="btn-gold small-btn js-book">Book Appointment</button>
+							<button class="av-btn av-btn--primary av-btn--sm js-book">Book Appointment</button>
 							<a href="services.html" class="price-link">View Price List →</a>
 						</div>
 					</div>
@@ -1480,7 +1189,7 @@
 				<div class="service-card">
 					<div class="service-img">
 						<img src="assets/images/services/index-services-haircut-1.jpg" alt="Hair Cut">
-						<button class="card-book-btn js-book">Book</button>
+						<button class="av-btn av-btn--primary av-btn--card js-book card-book-btn">Book</button>
 					</div>
 
 					<div class="service-content">
@@ -1488,7 +1197,7 @@
 						<p>Tailored haircut that complements your face shape and daily lifestyle.</p>
 
 						<div class="service-actions">
-							<button class="btn-gold small-btn js-book">Book Appointment</button>
+							<button class="av-btn av-btn--primary av-btn--sm js-book">Book Appointment</button>
 							<a href="services.html" class="price-link">View Price List →</a>
 						</div>
 					</div>
@@ -1498,14 +1207,14 @@
 				<div class="service-card">
 					<div class="service-img">
 						<img src="assets/images/services/index-services-hair-spa-1.jpg" alt="Hair Spa">
-						<button class="card-book-btn js-book">Book</button>
+						<button class="av-btn av-btn--primary av-btn--card js-book card-book-btn">Book</button>
 					</div>
 					<div class="service-content">
 						<h3>Luxury Hair Spa</h3>
 						<p>Deep nourishment therapy to repair damage, restore shine, and strengthen your hair from within.</p>
 
 						<div class="service-actions">
-							<button class="btn-gold small-btn js-book">Book Appointment</button>
+							<button class="av-btn av-btn--primary av-btn--sm js-book">Book Appointment</button>
 							<a href="services.html" class="price-link">View Price List →</a>
 						</div>
 					</div>
@@ -1604,9 +1313,8 @@
 
 				<!-- CTA -->
 				<div class="transform-cta reveal">
-					<button class="btn-gold js-book">
-						<span class="btn-text">Book Your Transformation</span>
-						<div class="btn-ripple-container"></div>
+					<button class="av-btn av-btn--primary js-book" data-av-magnetic="true">
+						<span class="av-btn__label">Book Your Transformation</span>
 					</button>
 				</div>
 			</div>
@@ -1660,9 +1368,8 @@
 				</div>
 
 				<div class="why-cta">
-					<button class="btn-gold js-book">
-						<span class="btn-text">Experience Aarvella</span>
-						<div class="btn-ripple-container"></div>
+					<button class="av-btn av-btn--primary js-book" data-av-magnetic="true">
+						<span class="av-btn__label">Experience Aarvella</span>
 					</button>
 				</div>
 
@@ -1716,15 +1423,13 @@
 						</p>
 
 						<div class="booking-actions">
-							<button class="btn-gold">
-								<span class="btn-text">Book via App</span>
-								<div class="btn-ripple-container"></div>
+							<button class="av-btn av-btn--primary">
+								<span class="av-btn__label">Book via App</span>
 							</button>
 
 							<a href="https://wa.me/919742049990" 
-							   class="btn-outline" target="_blank">
-								<span class="btn-text">WhatsApp Booking</span>
-								<div class="btn-ripple-container"></div>
+							   class="av-btn av-btn--secondary" target="_blank">
+								<span class="av-btn__label">WhatsApp Booking</span>
 							</a>
 						</div>
 					</div>
@@ -1745,9 +1450,8 @@
 			</div>
 
 			<div class="insta-cta">
-				<a href="https://www.instagram.com/aarvella.salon/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="btn-outline">
-					<span class="btn-text">View More on Instagram</span>
-					<div class="btn-ripple-container"></div>
+				<a href="https://www.instagram.com/aarvella.salon/" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="av-btn av-btn--secondary">
+					<span class="av-btn__label">View More on Instagram</span>
 				</a>
 			</div>
 
@@ -1923,35 +1627,6 @@
 					document.body.classList.remove("menu-open");
 				});
 			}
-
-			// ✅ FIXED: ripple now appends into .btn-ripple-container, not the button itself
-			function spawnRipple(button, e) {
-				const container = button.querySelector('.btn-ripple-container');
-				if (!container) return;
-
-				const ripple = document.createElement('span');
-				ripple.classList.add('btn-ripple');
-
-				const rect = button.getBoundingClientRect();
-				ripple.style.setProperty("--ripple-x", `${e.clientX - rect.left}px`);
-				ripple.style.setProperty("--ripple-y", `${e.clientY - rect.top}px`);
-
-				container.appendChild(ripple);
-				setTimeout(() => ripple.remove(), 600);
-			}
-
-			document.querySelectorAll('.btn-gold, .btn-outline').forEach(button => {
-				button.addEventListener('click', function (e) {
-					spawnRipple(button, e);
-
-					if (this.getAttribute('onclick')?.includes('openBookingDelayed') || this.id === 'mobileBookBtn') {
-						e.preventDefault();
-						setTimeout(() => {
-							openBooking();
-						}, 600);
-					}
-				});
-			});
 
 			document.querySelectorAll('.service-card').forEach(card => {
 				card.addEventListener('mousemove', (e) => {
@@ -2242,6 +1917,7 @@
 		<script src="assets/js/includes.js?v=20260620-2" defer></script>
 		<script src="assets/js/footer-loader.js?v=20260620-2" defer></script>
 		<script src="assets/js/newsletter.js?v=20260618-1" defer></script>
-		<script src="/assets/js/navigation.js?v=20260702-1" defer></script>
+		<script src="/assets/js/buttons.js?v=20260703-1" defer></script>
+		<script src="/assets/js/navigation.js?v=20260703-3" defer></script>
 	</body>
 </html>

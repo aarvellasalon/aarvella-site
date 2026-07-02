@@ -1,0 +1,418 @@
+/*
+ * Aarvella shared button system
+ * Reusable across the public website, injected partials and customer portal.
+ *
+ * Preferred markup:
+ *   <button class="av-btn av-btn--primary"><span class="av-btn__label">Continue</span></button>
+ *
+ * Legacy aliases .btn-gold and .btn-outline remain supported during migration.
+ */
+:root {
+  --av-btn-gold: #d4af37;
+  --av-btn-gold-deep: #b88b22;
+  --av-btn-gold-soft: #f4dc91;
+  --av-btn-ink: #080808;
+  --av-btn-paper: #f8f5ec;
+  --av-btn-danger: #d95454;
+  --av-btn-danger-deep: #a72f2f;
+  --av-btn-secondary-text: var(--av-btn-gold-soft);
+  --av-btn-font: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --av-btn-ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --av-btn-radius: 999px;
+  --av-btn-height: 46px;
+  --av-btn-padding-x: 24px;
+  --av-btn-font-size: 0.86rem;
+  --av-btn-letter-spacing: 0.075em;
+}
+
+/* Optional light-surface token adjustment for customer-portal pages. */
+[data-av-ui-theme="light"],
+.av-ui-light {
+  --av-btn-paper: #17130b;
+  --av-btn-secondary-text: #76540a;
+}
+
+.av-btn,
+.btn-gold,
+.btn-outline {
+  --av-btn-x: 0px;
+  --av-btn-y: 0px;
+  --av-btn-lift: 0px;
+  --av-btn-scale: 1;
+
+  position: relative;
+  min-height: var(--av-btn-height);
+  padding: 0 var(--av-btn-padding-x);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+  border-radius: var(--av-btn-radius);
+  appearance: none;
+  -webkit-appearance: none;
+  overflow: hidden;
+  isolation: isolate;
+
+  font-family: var(--av-btn-font);
+  font-size: var(--av-btn-font-size);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: var(--av-btn-letter-spacing);
+  text-align: center;
+  text-decoration: none;
+  text-transform: uppercase;
+  white-space: nowrap;
+
+  cursor: pointer;
+  user-select: none;
+  -webkit-tap-highlight-color: transparent;
+  touch-action: manipulation;
+  transform: translate3d(
+      var(--av-btn-x),
+      calc(var(--av-btn-y) + var(--av-btn-lift)),
+      0
+    ) scale(var(--av-btn-scale));
+  transform-origin: center;
+  transition:
+    transform 0.34s var(--av-btn-ease),
+    color 0.28s ease,
+    background 0.28s ease,
+    border-color 0.28s ease,
+    box-shadow 0.34s var(--av-btn-ease),
+    opacity 0.2s ease;
+}
+
+.av-btn > *,
+.btn-gold > *,
+.btn-outline > * {
+  position: relative;
+  z-index: 4;
+}
+
+.av-btn__label,
+.btn-text {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  pointer-events: none;
+}
+
+.av-btn__icon {
+  width: 1.15em;
+  height: 1.15em;
+  flex: 0 0 auto;
+  fill: none;
+  stroke: currentColor;
+  stroke-width: 1.6;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  pointer-events: none;
+  transition: transform 0.28s var(--av-btn-ease);
+}
+
+/* Inner glass highlight. */
+.av-btn::before,
+.btn-gold::before,
+.btn-outline::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  z-index: 1;
+  border-radius: inherit;
+  background:
+    radial-gradient(circle at 27% 10%, rgba(255,255,255,0.72), transparent 25%),
+    linear-gradient(145deg, rgba(255,255,255,0.24), transparent 42%);
+  opacity: 0.64;
+  pointer-events: none;
+}
+
+/* Reflective sweep. */
+.av-btn::after,
+.btn-gold::after,
+.btn-outline::after {
+  content: "";
+  position: absolute;
+  top: -65%;
+  left: -72%;
+  z-index: 2;
+  width: 38%;
+  height: 230%;
+  border-radius: inherit;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.62), transparent);
+  transform: rotate(22deg);
+  transition: left 0.68s var(--av-btn-ease);
+  pointer-events: none;
+}
+
+.av-btn:hover::after,
+.btn-gold:hover::after,
+.btn-outline:hover::after,
+.av-btn:focus-visible::after,
+.btn-gold:focus-visible::after,
+.btn-outline:focus-visible::after {
+  left: 132%;
+}
+
+.av-btn:hover,
+.btn-gold:hover,
+.btn-outline:hover {
+  --av-btn-lift: -3px;
+  --av-btn-scale: 1.025;
+}
+
+.av-btn:active,
+.btn-gold:active,
+.btn-outline:active {
+  --av-btn-lift: 1px;
+  --av-btn-scale: 0.975;
+  transition-duration: 0.08s;
+}
+
+.av-btn:focus-visible,
+.btn-gold:focus-visible,
+.btn-outline:focus-visible {
+  outline: 3px solid rgba(244, 220, 145, 0.62);
+  outline-offset: 4px;
+}
+
+/* Primary / gold liquid-glass action. */
+.av-btn--primary,
+.btn-gold {
+  color: var(--av-btn-ink);
+  border-color: rgba(255, 235, 170, 0.68);
+  background:
+    radial-gradient(circle at 28% 15%, rgba(255,255,255,0.68), transparent 23%),
+    linear-gradient(135deg, var(--av-btn-gold-soft), var(--av-btn-gold-deep));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.8),
+    inset 0 -1px 1px rgba(86,56,0,0.18),
+    0 10px 28px rgba(184,139,34,0.25),
+    0 4px 12px rgba(0,0,0,0.24);
+}
+
+.av-btn--primary:hover,
+.btn-gold:hover,
+.av-btn--primary:focus-visible,
+.btn-gold:focus-visible {
+  color: var(--av-btn-ink);
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.9),
+    0 17px 40px rgba(184,139,34,0.36),
+    0 8px 18px rgba(0,0,0,0.28);
+}
+
+/* Secondary / outlined glass action. */
+.av-btn--secondary,
+.btn-outline {
+  color: var(--av-btn-secondary-text);
+  border-color: rgba(212,175,55,0.58);
+  background: linear-gradient(135deg, rgba(255,255,255,0.13), rgba(255,255,255,0.035));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.32),
+    0 10px 26px rgba(184,139,34,0.13),
+    0 4px 12px rgba(0,0,0,0.2);
+  backdrop-filter: blur(16px) saturate(155%);
+  -webkit-backdrop-filter: blur(16px) saturate(155%);
+}
+
+.av-btn--secondary:hover,
+.btn-outline:hover,
+.av-btn--secondary:focus-visible,
+.btn-outline:focus-visible {
+  color: var(--av-btn-ink);
+  border-color: rgba(255,235,170,0.7);
+  background: linear-gradient(135deg, rgba(244,220,145,0.92), rgba(184,139,34,0.72));
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,0.75),
+    0 16px 38px rgba(184,139,34,0.3),
+    0 8px 18px rgba(0,0,0,0.24);
+}
+
+/* Quiet actions used in account forms, tables and dialogs. */
+.av-btn--ghost {
+  color: var(--av-btn-paper);
+  border-color: rgba(127,127,127,0.24);
+  background: rgba(127,127,127,0.07);
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.07);
+}
+
+.av-btn--ghost:hover,
+.av-btn--ghost:focus-visible {
+  color: var(--av-btn-gold-soft);
+  border-color: rgba(212,175,55,0.42);
+  background: rgba(212,175,55,0.09);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.16);
+}
+
+/* Destructive portal action. Keep this visually distinct from booking. */
+.av-btn--danger {
+  color: #fff;
+  border-color: rgba(255,184,184,0.38);
+  background: linear-gradient(135deg, #dd6262, var(--av-btn-danger-deep));
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.28), 0 10px 26px rgba(167,47,47,0.22);
+}
+
+.av-btn--danger:hover,
+.av-btn--danger:focus-visible {
+  color: #fff;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.34), 0 16px 34px rgba(167,47,47,0.32);
+}
+
+/* Sizes */
+.av-btn--xs {
+  --av-btn-height: 32px;
+  --av-btn-padding-x: 13px;
+  --av-btn-font-size: 0.68rem;
+  --av-btn-letter-spacing: 0.055em;
+  gap: 6px;
+}
+
+.av-btn--sm {
+  --av-btn-height: 40px;
+  --av-btn-padding-x: 18px;
+  --av-btn-font-size: 0.76rem;
+}
+
+.av-btn--lg {
+  --av-btn-height: 52px;
+  --av-btn-padding-x: 30px;
+  --av-btn-font-size: 0.92rem;
+}
+
+.av-btn--xl {
+  --av-btn-height: 58px;
+  --av-btn-padding-x: 34px;
+  --av-btn-font-size: 0.98rem;
+}
+
+.av-btn--block { width: 100%; }
+
+.av-btn--icon {
+  width: var(--av-btn-height);
+  min-width: var(--av-btn-height);
+  padding: 0;
+  border-radius: 50%;
+}
+
+/* Navigation can set contextual font and height without re-owning the visual design. */
+.av-btn--nav {
+  --av-btn-height: clamp(48px, 2.9vw, 54px);
+  --av-btn-padding-x: clamp(20px, 1.4vw, 28px);
+  --av-btn-font-size: clamp(0.76rem, 0.64rem + 0.16vw, 0.9rem);
+  --av-btn-letter-spacing: 0.1em;
+  gap: 12px;
+}
+
+.av-btn--nav:hover .av-btn__icon,
+.av-btn--arrow:hover .av-btn__icon { transform: translateX(3px); }
+
+/* Small floating card CTA. Position remains page-component responsibility. */
+.av-btn--card {
+  --av-btn-height: 32px;
+  --av-btn-padding-x: 14px;
+  --av-btn-font-size: 0.68rem;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.78), 0 8px 20px rgba(0,0,0,0.26);
+}
+
+/* State handling */
+.av-btn[disabled],
+.av-btn[aria-disabled="true"],
+.btn-gold[disabled],
+.btn-outline[disabled] {
+  opacity: 0.46;
+  cursor: not-allowed;
+  pointer-events: none;
+  filter: grayscale(0.28);
+  box-shadow: none;
+}
+
+.av-btn[data-av-loading="true"] {
+  cursor: wait;
+  pointer-events: none;
+}
+
+.av-btn[data-av-loading="true"] .av-btn__label { opacity: 0; }
+
+.av-btn__spinner {
+  position: absolute !important;
+  top: 50%;
+  left: 50%;
+  z-index: 6 !important;
+  width: 1.1em;
+  height: 1.1em;
+  margin: -0.55em 0 0 -0.55em;
+  border: 2px solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  animation: av-btn-spin 0.7s linear infinite;
+  pointer-events: none;
+}
+
+.av-btn__ripple,
+.btn-ripple {
+  position: absolute !important;
+  left: var(--av-ripple-x, 50%);
+  top: var(--av-ripple-y, 50%);
+  z-index: 3 !important;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(255,255,255,0.56), rgba(255,255,255,0.18) 45%, transparent 72%);
+  transform: translate(-50%, -50%) scale(0);
+  animation: av-btn-ripple 0.62s ease-out forwards;
+  pointer-events: none;
+}
+
+.btn-ripple-container {
+  position: absolute !important;
+  inset: 0;
+  z-index: 3 !important;
+  overflow: hidden;
+  border-radius: inherit;
+  pointer-events: none;
+}
+
+@keyframes av-btn-ripple {
+  to { transform: translate(-50%, -50%) scale(8); opacity: 0; }
+}
+
+@keyframes av-btn-spin {
+  to { transform: rotate(360deg); }
+}
+
+@media (max-width: 768px) {
+  .av-btn,
+  .btn-gold,
+  .btn-outline {
+    max-width: 100%;
+  }
+
+  .av-btn--mobile-block { width: 100%; }
+}
+
+@media (hover: none), (pointer: coarse) {
+  .av-btn:hover,
+  .btn-gold:hover,
+  .btn-outline:hover {
+    --av-btn-lift: 0px;
+    --av-btn-scale: 1;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .av-btn,
+  .btn-gold,
+  .btn-outline,
+  .av-btn::after,
+  .btn-gold::after,
+  .btn-outline::after,
+  .av-btn__icon {
+    transition-duration: 0.01ms !important;
+  }
+
+  .av-btn__ripple,
+  .btn-ripple { display: none !important; }
+}
