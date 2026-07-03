@@ -343,14 +343,28 @@ if ($customerId > 0) {
     }
 }
 
+$buttonsCssPath = $_SERVER['DOCUMENT_ROOT']
+    . '/assets/css/buttons.css';
+
 $cssPath = $_SERVER['DOCUMENT_ROOT']
     . '/assets/css/customer-portal.css';
+
+$buttonsJsPath = $_SERVER['DOCUMENT_ROOT']
+    . '/assets/js/buttons.js';
 
 $jsPath = $_SERVER['DOCUMENT_ROOT']
     . '/assets/js/customer-portal.js';
 
+$buttonsCssVersion = is_file($buttonsCssPath)
+    ? (string) filemtime($buttonsCssPath)
+    : '1';
+
 $cssVersion = is_file($cssPath)
     ? (string) filemtime($cssPath)
+    : '1';
+
+$buttonsJsVersion = is_file($buttonsJsPath)
+    ? (string) filemtime($buttonsJsPath)
     : '1';
 
 $jsVersion = is_file($jsPath)
@@ -398,6 +412,11 @@ $jsVersion = is_file($jsPath)
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    >
+
+    <link
+        rel="stylesheet"
+        href="/assets/css/buttons.css?v=<?= e($buttonsCssVersion) ?>"
     >
 
     <link
@@ -556,7 +575,7 @@ $jsVersion = is_file($jsPath)
 
                 <div class="portal-topbar-actions">
                     <button
-                        class="topbar-icon-button"
+                        class="av-btn av-btn--ghost av-btn--icon topbar-icon-button"
                         type="button"
                         aria-label="Notifications"
                         data-coming-soon="Notifications"
@@ -642,13 +661,14 @@ $jsVersion = is_file($jsPath)
 
                     <a
                         href="/#booking"
-                        class="btn-gold portal-primary-button dashboard-book-button"
+                        class="av-btn av-btn--primary dashboard-book-button"
+                        data-av-magnetic="true"
+                        data-av-magnetic-strength="6"
                     >
-                        <span class="btn-text">
+                        <span class="av-btn__label">
                             <i class="fa-regular fa-calendar-plus" aria-hidden="true"></i>
                             Book appointment
                         </span>
-                        <span class="btn-ripple-container" aria-hidden="true"></span>
                     </a>
                 </section>
 
@@ -753,26 +773,25 @@ $jsVersion = is_file($jsPath)
                                         <div class="appointment-card-actions">
                                             <a
                                                 href="/account/appointments.php#appointment-<?= (int) $upcomingAppointment['id'] ?>"
-                                                class="btn-outline portal-secondary-button portal-button-compact"
+                                                class="av-btn av-btn--secondary av-btn--sm portal-button-compact"
                                             >
-                                                <span class="btn-text">View details</span>
-                                                <span class="btn-ripple-container" aria-hidden="true"></span>
+                                                <span class="av-btn__label">View details</span>
                                             </a>
 
                                             <button
                                                 type="button"
-                                                class="appointment-text-action"
+                                                class="av-btn av-btn--ghost av-btn--sm portal-button-compact"
                                                 data-coming-soon="Online rescheduling"
                                             >
-                                                Reschedule
+                                                <span class="av-btn__label">Reschedule</span>
                                             </button>
 
                                             <button
                                                 type="button"
-                                                class="appointment-text-action is-danger"
+                                                class="av-btn av-btn--danger av-btn--sm portal-button-compact"
                                                 data-coming-soon="Online cancellation"
                                             >
-                                                Cancel
+                                                <span class="av-btn__label">Cancel</span>
                                             </button>
                                         </div>
                                     </div>
@@ -793,12 +812,11 @@ $jsVersion = is_file($jsPath)
 
                                     <a
                                         href="https://wa.me/919742049990"
-                                        class="btn-outline portal-secondary-button portal-button-compact"
+                                        class="av-btn av-btn--secondary av-btn--sm portal-button-compact"
                                         target="_blank"
                                         rel="noopener noreferrer"
                                     >
-                                        <span class="btn-text">Contact salon</span>
-                                        <span class="btn-ripple-container" aria-hidden="true"></span>
+                                        <span class="av-btn__label">Contact salon</span>
                                     </a>
                                 </div>
                             <?php else: ?>
@@ -817,10 +835,9 @@ $jsVersion = is_file($jsPath)
 
                                     <a
                                         href="/#booking"
-                                        class="btn-gold portal-primary-button portal-button-compact"
+                                        class="av-btn av-btn--primary av-btn--sm portal-button-compact"
                                     >
-                                        <span class="btn-text">Book now</span>
-                                        <span class="btn-ripple-container" aria-hidden="true"></span>
+                                        <span class="av-btn__label">Book now</span>
                                     </a>
                                 </div>
                             <?php endif; ?>
@@ -925,11 +942,10 @@ $jsVersion = is_file($jsPath)
 
                                 <button
                                     type="button"
-                                    class="btn-gold portal-primary-button"
+                                    class="av-btn av-btn--primary av-btn--sm"
                                     data-coming-soon="Referral rewards"
                                 >
-                                    <span class="btn-text">Refer a friend</span>
-                                    <span class="btn-ripple-container" aria-hidden="true"></span>
+                                    <span class="av-btn__label">Refer a friend</span>
                                 </button>
                             </div>
 
@@ -963,11 +979,13 @@ $jsVersion = is_file($jsPath)
 
                                 <button
                                     type="button"
-                                    class="text-link-button"
+                                    class="av-btn av-btn--ghost av-btn--sm"
                                     data-coming-soon="Loyalty rewards"
                                 >
-                                    View rewards
-                                    <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                                    <span class="av-btn__label">
+                                        View rewards
+                                        <i class="fa-solid fa-arrow-right" aria-hidden="true"></i>
+                                    </span>
                                 </button>
                             </div>
 
@@ -1032,11 +1050,10 @@ $jsVersion = is_file($jsPath)
 
                                 <button
                                     type="button"
-                                    class="btn-gold portal-primary-button"
+                                    class="av-btn av-btn--primary av-btn--sm"
                                     data-coming-soon="Member offers"
                                 >
-                                    <span class="btn-text">Explore offers</span>
-                                    <span class="btn-ripple-container" aria-hidden="true"></span>
+                                    <span class="av-btn__label">Explore offers</span>
                                 </button>
                             </div>
 
@@ -1126,7 +1143,7 @@ $jsVersion = is_file($jsPath)
 
         <a
             href="/#booking"
-            class="mobile-book-action"
+            class="av-btn av-btn--primary av-btn--icon mobile-book-action"
             aria-label="Book an appointment"
         >
             <i class="fa-solid fa-plus" aria-hidden="true"></i>
@@ -1153,6 +1170,11 @@ $jsVersion = is_file($jsPath)
         hidden
         data-portal-toast
     ></div>
+
+    <script
+        src="/assets/js/buttons.js?v=<?= e($buttonsJsVersion) ?>"
+        defer
+    ></script>
 
     <script
         src="/assets/js/customer-portal.js?v=<?= e($jsVersion) ?>"
