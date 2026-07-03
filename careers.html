@@ -8,6 +8,7 @@
 		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
 		<link rel="icon" type="image/x-icon" href="favicon.ico">
+		<link rel="stylesheet" href="assets/css/navigation.css?v=20260702-1">
 		<style>
 			:root {
 				--gold: #D4AF37;
@@ -92,27 +93,6 @@
 
 			.logo-link { text-decoration: none; color: inherit; }
 			.logo-link:hover .logo { text-shadow: 0 0 12px rgba(212, 175, 55, 0.6); }
-
-			.desktop-nav {
-				display: flex;
-				align-items: center;
-				justify-content: flex-end;
-				gap: clamp(18px, 2vw, 34px);
-				min-width: 0;
-			}
-
-			.desktop-nav a {
-				color: var(--white);
-				text-decoration: none;
-				font-weight: 500;
-				letter-spacing: 1px;
-				font-size: 0.8rem;
-				white-space: nowrap;
-				text-transform: uppercase;
-				transition: color 0.3s ease;
-			}
-
-			.desktop-nav a:hover { color: var(--gold); }
 
 			.btn-gold,
 			.btn-outline {
@@ -368,70 +348,6 @@
 					opacity: 0;
 				}
 			}
-			.hamburger {
-				display: none;
-				flex-direction: column;
-				gap: 6px;
-				cursor: pointer;
-				z-index: 3000;
-				position: relative;
-			}
-
-			.hamburger span {
-				width: 30px;
-				height: 2px;
-				background-color: var(--gold);
-				transition: all 0.4s ease;
-				transform-origin: center;
-			}
-
-			.hamburger.active span:nth-child(1) { transform: translateY(8px) rotate(45deg); }
-			.hamburger.active span:nth-child(2) { opacity: 0; transform: scaleX(0); }
-			.hamburger.active span:nth-child(3) { transform: translateY(-8px) rotate(-45deg); }
-
-			.mobile-nav {
-				position: fixed;
-				top: 0;
-				right: -100%;
-				height: 100vh;
-				min-width: 320px;
-				width: 80%;
-				z-index: 2500;
-				background: rgba(10,10,10,0.72);
-				backdrop-filter: blur(18px) saturate(150%);
-				-webkit-backdrop-filter: blur(18px) saturate(150%);
-				display: flex;
-				flex-direction: column;
-				justify-content: center;
-				align-items: flex-start;
-				padding: 0 60px;
-				gap: 2.5rem;
-				border-left: 1px solid rgba(212,175,55,0.15);
-				box-shadow: -40px 0 80px rgba(0,0,0,0.75);
-				transition: right 0.5s var(--ease-out);
-			}
-
-			.mobile-nav.active { right: 0; }
-			.mobile-nav a { color: var(--white); text-decoration: none; font-weight: 600; font-size: 1.8rem; letter-spacing: 2px; opacity: 0; transform: translateY(20px); transition: all 0.5s ease; }
-			.mobile-nav.active a { opacity: 1; transform: translateY(0); }
-			.mobile-nav a:hover { color: var(--gold); }
-			.mobile-nav .btn-gold { width: 100%; max-width: 260px; }
-
-			.nav-overlay {
-				position: fixed;
-				inset: 0;
-				z-index: 2400;
-				background: rgba(0,0,0,0.45);
-				backdrop-filter: blur(16px) saturate(140%);
-				-webkit-backdrop-filter: blur(16px) saturate(140%);
-				opacity: 0;
-				visibility: hidden;
-				pointer-events: none;
-				transition: opacity 0.35s ease, visibility 0.35s ease;
-			}
-
-			.nav-overlay.active,
-			body.menu-open .nav-overlay { opacity: 1; visibility: visible; pointer-events: auto; }
 
 			.page-hero {
 				min-height: 92vh;
@@ -525,8 +441,6 @@
 			.reveal.active { opacity: 1; transform: translateY(0); }
 
 			@media (max-width: 980px) {
-				.desktop-nav { display: none; }
-				.hamburger { display: flex; }
 				.lux-grid, .split-row, .split-row.reverse, .legal-layout, .cta-inner, .footer-container { grid-template-columns: 1fr; }
 				.split-row.reverse .split-media { order: 0; }
 				.legal-nav { position: static; }
@@ -535,8 +449,6 @@
 			@media (max-width: 640px) {
 				.page-hero { min-height: 86vh; padding: 138px 6% 70px; }
 				.content-wrap, .cta-band { padding-left: 6%; padding-right: 6%; }
-				.mobile-nav { width: 86%; padding: 0 34px; }
-				.mobile-nav a { font-size: 1.45rem; }
 				.split-media, .split-media img { min-height: 380px; }
 			}
 			
@@ -552,48 +464,9 @@
 		<link rel="stylesheet" href="assets/css/footer.css?v=20260620-4">
 	</head>
 	<body>
-		<header class="site-header">
-			<div class="nav-shell">
-				<a href="index.html" class="logo-link">
-					<div class="logo">AARVELLA</div>
-				</a>
-
-				<nav class="desktop-nav">
-					<a href="services-menu/services.html">Services</a>
-					<a href="stylists.html">Stylists</a>
-					<a href="about.html">About</a>
-					<a href="blog.html">Blog</a>
-					<a href="find-us.html">Find Us</a>
-					<button class="btn-gold js-book" type="button">
-						<span class="btn-text">Book Now</span>
-						<div class="btn-ripple-container"></div>
-					</button>
-				</nav>
-
-				<div class="hamburger" id="hamburger" role="button" tabindex="0" aria-label="Open menu">
-					<span></span>
-					<span></span>
-					<span></span>
-				</div>
-			</div>
-
-			<div class="nav-overlay" id="navOverlay"></div>
-
-			<div class="mobile-nav" id="mobileNav">
-				<a href="services-menu/services.html">Services</a>
-				<a href="stylists.html">Stylists</a>
-				<a href="about.html">About</a>
-				<a href="blog.html">Blog</a>
-				<a href="find-us.html">Find Us</a>
-				<button class="btn-gold js-book" id="mobileBookBtn" type="button">
-					<span class="btn-text">Book Now</span>
-					<div class="btn-ripple-container"></div>
-				</button>
-			</div>
-		</header>
-
+		<div id="site-navigation" data-navigation-partial="assets/partials/navigation.html"></div>
 		<main>
-			<section class="page-hero" style="--hero-bg: url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1800&q=80');">
+			<section class="page-hero" id="main-content" style="--hero-bg: url('https://images.unsplash.com/photo-1521737711867-e3b97375f902?auto=format&fit=crop&w=1800&q=80');">
 				<div class="hero-inner"><p class="eyebrow">Careers at Aarvella</p><h1>Build beauty work that feels <span>world class.</span></h1><p>Join a salon culture shaped around craft, consistency, hospitality and premium client experience.</p><div class="hero-actions"><a href="#apply" class="btn-gold"><span class="btn-text">Apply Now</span><div class="btn-ripple-container"></div></a><a href="#roles" class="btn-outline"><span class="btn-text">View Roles</span></a></div></div>
 			</section>
 
@@ -735,6 +608,7 @@
 			});
 		</script>
 
+		<script src="assets/js/navigation.js?v=20260702-1" defer></script>
 		<script src="assets/js/ai-chat-loader.js?v=20260621-1" defer></script>
 		<script src="assets/js/booking.js?v=20260620-6" defer></script>
 		<script src="assets/js/includes.js" defer></script>
