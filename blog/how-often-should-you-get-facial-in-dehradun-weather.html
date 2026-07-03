@@ -31,6 +31,7 @@
     href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@600;700&display=swap"
     rel="stylesheet"
   />
+  <link rel="stylesheet" href="../assets/css/navigation.css?v=20260702-1">
   <link rel="stylesheet" href="../assets/css/article.css" />
   <link rel="stylesheet" href="../assets/css/booking.css" />
   <link rel="stylesheet" href="../assets/css/ai-chat.css?v=20260621-3">
@@ -500,43 +501,8 @@
 </head>
 
 <body>
-  <header class="article-site-header" id="siteHeader">
-    <a class="brand" href="../index.html" aria-label="Aarvella home">AARVELLA</a>
-
-    <nav class="desktop-nav" aria-label="Primary navigation">
-      <a href="../services-menu/services.html">Services</a>
-      <a href="../hair.html">Hair</a>
-      <a href="../skin.html">Skin</a>
-      <a href="../bridal.html">Bridal</a>
-      <a href="../blog.html">Blog</a>
-      <a href="../find-us.html">Find Us</a>
-      <button class="btn-gold js-book" type="button">
-        <span class="btn-text">Book Now</span>
-        <div class="btn-ripple-container"></div>
-      </button>
-    </nav>
-
-    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-  </header>
-
-  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
-    <a href="../services-menu/services.html">Services</a>
-    <a href="../hair.html">Hair Services</a>
-    <a href="../skin.html">Skin Services</a>
-    <a href="../bridal.html">Bridal</a>
-    <a href="../blog.html">Blog</a>
-    <a href="../find-us.html">Find Us</a>
-    <button class="btn-gold js-book" id="mobileBookBtn" type="button">
-      <span class="btn-text">Book Facial Consultation</span>
-      <div class="btn-ripple-container"></div>
-    </button>
-  </nav>
-
-  <main>
+  <div id="site-navigation" data-navigation-partial="../assets/partials/navigation.html"></div>
+  <main id="main-content">
     <section class="doon-hero">
       <div class="doon-hero-grid reveal-on-load">
         <div class="doon-hero-copy">
@@ -897,6 +863,7 @@
   <div id="booking-popup-placeholder"></div>
   <div id="ai-chat-root"></div>
 
+  <script src="../assets/js/navigation.js?v=20260702-1" defer></script>
 	<script src="../assets/js/ai-chat-loader.js?v=20260621-1" defer></script>
   <script src="../assets/js/article.js"></script>
   <script src="../assets/js/booking.js" defer></script>

@@ -30,6 +30,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Playfair+Display:wght@600;700;800&display=swap" rel="stylesheet" />
 
+  <link rel="stylesheet" href="../assets/css/navigation.css?v=20260702-1">
   <link rel="stylesheet" href="../assets/css/article.css" />
   <link rel="stylesheet" href="../assets/css/booking.css" />
   <link rel="stylesheet" href="../assets/css/ai-chat.css?v=20260621-3">
@@ -131,35 +132,8 @@
 </head>
 
 <body>
-  <header class="article-site-header" id="siteHeader">
-    <a class="brand" href="../index.html" aria-label="Aarvella home">AARVELLA</a>
-
-    <nav class="desktop-nav" aria-label="Primary navigation">
-      <a href="../services.html">Services</a>
-      <a href="../hair.html">Hair</a>
-      <a href="../stylists.html">Stylists</a>
-      <a href="../blog.html">Blog</a>
-      <a href="../find-us.html">Find Us</a>
-      <a class="nav-cta" href="../hair.html">Explore Hair Services</a>
-    </nav>
-
-    <button class="menu-toggle" id="menuToggle" type="button" aria-label="Open menu" aria-expanded="false">
-      <span></span>
-      <span></span>
-      <span></span>
-    </button>
-  </header>
-
-  <nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
-    <a href="../services.html">Services</a>
-    <a href="../hair.html">Hair</a>
-    <a href="../stylists.html">Stylists</a>
-    <a href="../blog.html">Blog</a>
-    <a href="../find-us.html">Find Us</a>
-    <a class="mobile-cta" href="../hair.html">Explore Hair Services</a>
-  </nav>
-
-  <main>
+  <div id="site-navigation" data-navigation-partial="../assets/partials/navigation.html"></div>
+  <main id="main-content">
     <section class="compact-hero">
       <div class="hero-inner">
         <div class="hero-copy-panel reveal-on-load">
@@ -455,6 +429,7 @@
   <div id="booking-popup-placeholder"></div>
   <div id="ai-chat-root"></div>
 
+    <script src="../assets/js/navigation.js?v=20260702-1" defer></script>
 	  <script src="../assets/js/ai-chat-loader.js?v=20260621-1" defer></script>
 		<script src="../assets/js/article.js"></script>
 		<script src="../assets/js/booking.js" defer></script>
