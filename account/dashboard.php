@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 require_once __DIR__ . '/require-auth.php';
+require_once __DIR__ . '/portal-common.php';
 
 $identity = requireAuthenticatedCustomer($auth0);
 $customer = $identity['customer'];
@@ -166,6 +167,13 @@ $profileCompletion = (int) round(
  */
 $customerId = (int) ($customer['id'] ?? 0);
 
+$portalSettings = [
+    'compact_mode' => 0,
+    'reduce_motion' => 0,
+    'high_contrast' => 0,
+    'timezone' => 'Asia/Kolkata',
+];
+
 $upcomingAppointment = null;
 $recentAppointments = [];
 $appointmentDataError = false;
@@ -174,6 +182,7 @@ $loyaltyPoints = 0;
 if ($customerId > 0) {
     try {
         $database = getDatabase();
+        $portalSettings = portalLoadPortalSettings($database, $customerId);
 
         /*
          * appointments.appointment_start stores Aarvella's
@@ -349,6 +358,9 @@ $buttonsCssPath = $_SERVER['DOCUMENT_ROOT']
 $cssPath = $_SERVER['DOCUMENT_ROOT']
     . '/assets/css/customer-portal.css';
 
+$pagesCssPath = $_SERVER['DOCUMENT_ROOT']
+    . '/assets/css/customer-portal-pages.css';
+
 $buttonsJsPath = $_SERVER['DOCUMENT_ROOT']
     . '/assets/js/buttons.js';
 
@@ -363,6 +375,10 @@ $cssVersion = is_file($cssPath)
     ? (string) filemtime($cssPath)
     : '1';
 
+$pagesCssVersion = is_file($pagesCssPath)
+    ? (string) filemtime($pagesCssPath)
+    : '1';
+
 $buttonsJsVersion = is_file($buttonsJsPath)
     ? (string) filemtime($buttonsJsPath)
     : '1';
@@ -370,6 +386,20 @@ $buttonsJsVersion = is_file($buttonsJsPath)
 $jsVersion = is_file($jsPath)
     ? (string) filemtime($jsPath)
     : '1';
+
+$portalBodyClasses = ['portal-body'];
+
+if (!empty($portalSettings['compact_mode'])) {
+    $portalBodyClasses[] = 'portal-compact-mode';
+}
+
+if (!empty($portalSettings['reduce_motion'])) {
+    $portalBodyClasses[] = 'portal-reduce-motion';
+}
+
+if (!empty($portalSettings['high_contrast'])) {
+    $portalBodyClasses[] = 'portal-high-contrast';
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -423,9 +453,14 @@ $jsVersion = is_file($jsPath)
         rel="stylesheet"
         href="/assets/css/customer-portal.css?v=<?= e($cssVersion) ?>"
     >
+
+    <link
+        rel="stylesheet"
+        href="/assets/css/customer-portal-pages.css?v=<?= e($pagesCssVersion) ?>"
+    >
 </head>
 
-<body class="portal-body">
+<body class="<?= e(implode(' ', $portalBodyClasses)) ?>">
     <div class="portal-app">
         <!--
             The overlay must live inside .portal-app so it shares the same
@@ -530,9 +565,8 @@ $jsVersion = is_file($jsPath)
                 </a>
 
                 <a
-                    href="#"
+                    href="/account/settings.php"
                     class="portal-nav-link"
-                    data-coming-soon="Account settings"
                 >
                     <i class="fa-solid fa-gear" aria-hidden="true"></i>
                     <span>Settings</span>
@@ -631,6 +665,11 @@ $jsVersion = is_file($jsPath)
                             <a href="/account/profile.php">
                                 <i class="fa-regular fa-user" aria-hidden="true"></i>
                                 Profile
+                            </a>
+
+                            <a href="/account/settings.php">
+                                <i class="fa-solid fa-gear" aria-hidden="true"></i>
+                                Settings
                             </a>
 
                             <a href="/account/logout.php" class="js-logout">
