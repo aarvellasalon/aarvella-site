@@ -8,6 +8,7 @@
   <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect"/>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&amp;family=Poppins:wght@500;600;700&amp;family=Playfair+Display:wght@600;700&amp;display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="assets/css/navigation.css?v=20260702-1">
   <link rel="stylesheet" href="assets/css/services.css">
   <link rel="stylesheet" href="assets/css/booking.css?v=20260620-6">
   <link rel="stylesheet" href="assets/css/ai-chat.css?v=20260621-3">
@@ -18,44 +19,8 @@
   <meta content="Aarvella spa, manicure, pedicure and body rituals." name="description"/>
  </head>
  <body style="--hero-img:url('https://images.unsplash.com/photo-1519823551278-64ac92734fb1?auto=format&amp;fit=crop&amp;w=1800&amp;q=85')">
-		<header class="site-header">
-			<div class="nav-shell">
-				<a href="../index.html" class="logo-link">
-					<div class="logo">AARVELLA</div>
-				</a>
-
-				<nav class="desktop-nav">
-					<a href="services.html">Services</a>
-					<a href="stylists.html">Stylists</a>
-					<a href="about.html">About</a>
-					<a href="blog.html">Blog</a>
-					<a href="find-us.html">Find Us</a>
-					<button class="btn-gold js-book">
-						<span class="btn-text">Book Now</span>
-						<div class="btn-ripple-container"></div>
-					</button>
-				</nav>
-
-				<div class="hamburger" id="hamburger">
-					<span></span>
-					<span></span>
-					<span></span>
-				</div>
-			</div>
-			<div class="nav-overlay" id="navOverlay"></div>
-			<div class="mobile-nav" id="mobileNav">
-				<a href="services.html">Services</a>
-				<a href="stylists.html">Stylists</a>
-				<a href="about.html">About</a>
-        <a href="blog.html">Blog</a>
-				<a href="find-us.html">Find Us</a>
-				<button class="btn-gold js-book" id="mobileBookBtn" type="button">
-					<span class="btn-text">Book Now</span>
-					<div class="btn-ripple-container"></div>
-				</button>
-			</div>
-		</header>
-  <main>
+  <div id="site-navigation" data-navigation-partial="assets/partials/navigation.html"></div>
+  <main id="main-content">
    <section class="hero">
     <div>
      <div class="eyebrow">
@@ -311,6 +276,7 @@
   <div id="booking-popup-placeholder"></div>
   <div id="ai-chat-root"></div>
 
+  <script src="assets/js/navigation.js?v=20260702-1" defer></script>
 	<script src="/assets/js/ai-chat-loader.js?v=20260621-1" defer></script>
   <script src="assets/js/services.js"></script>
   <script src="assets/js/booking.js?v=20260620-6" defer></script>

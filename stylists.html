@@ -10,50 +10,15 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
   <link rel="icon" type="image/x-icon" href="favicon.ico" />
+  <link rel="stylesheet" href="assets/css/navigation.css?v=20260702-1">
   <link rel="stylesheet" href="assets/css/aarvella-pages.css" />
   <link rel="stylesheet" href="assets/css/booking.css?v=20260620-6">
   <link rel="stylesheet" href="assets/css/ai-chat.css?v=20260621-3">
   <link rel="stylesheet" href="assets/css/footer.css?v=20260620-4">
 </head>
 	<body id="top">
-		<header class="site-header">
-			<div class="nav-shell">
-				<a href="index.html" class="logo-link">
-					<div class="logo">AARVELLA</div>
-				</a>
-
-				<nav class="desktop-nav">
-					<a href="services.html">Services</a>
-					<a href="stylists.html">Stylists</a>
-					<a href="about.html">About</a>
-					<a href="blog.html">Blog</a>
-					<a href="find-us.html">Find Us</a>
-					<button class="btn-gold js-book">
-						<span class="btn-text">Book Now</span>
-						<div class="btn-ripple-container"></div>
-					</button>
-				</nav>
-
-				<div class="hamburger" id="hamburger">
-					<span></span>
-					<span></span>
-					<span></span>
-				</div>
-			</div>
-			<div class="nav-overlay" id="navOverlay"></div>
-			<div class="mobile-nav" id="mobileNav">
-				<a href="services.html">Services</a>
-				<a href="stylists.html">Stylists</a>
-				<a href="about.html">About</a>
-				<a href="blog.html">Blog</a>
-				<a href="find-us.html">Find Us</a>
-				<button class="btn-gold js-book" id="mobileBookBtn" type="button">
-					<span class="btn-text">Book Now</span>
-					<div class="btn-ripple-container"></div>
-				</button>
-			</div>
-		</header>
-		<section class="page-hero" style="--hero-image: url(&quot;https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1920&q=80&quot;);">
+		<div id="site-navigation" data-navigation-partial="assets/partials/navigation.html"></div>
+		<section class="page-hero" id="main-content" style="--hero-image: url(&quot;https://images.unsplash.com/photo-1560066984-138dadb4c035?auto=format&fit=crop&w=1920&q=80&quot;);">
 			<div class="hero-bg" aria-hidden="true"></div>
 			<div class="hero-content">
 				<span class="eyebrow hero-kicker">The Artists</span>
@@ -180,6 +145,7 @@
 		<div id="booking-popup-placeholder"></div>
 		<div id="ai-chat-root"></div>
 
+		<script src="assets/js/navigation.js?v=20260702-1" defer></script>
 		<script src="/assets/js/ai-chat-loader.js?v=20260621-1" defer></script>
 		<script src="assets/js/aarvella-pages.js"></script>
 		<script src="assets/js/booking.js?v=20260620-6" defer></script>

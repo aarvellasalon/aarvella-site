@@ -15,6 +15,7 @@
 	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 	<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
 	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+	<link rel="stylesheet" href="assets/css/navigation.css?v=20260702-1">
 	<link rel="stylesheet" href="assets/css/services.css">
 	<link rel="stylesheet" href="assets/css/booking.css?v=20260620-6">
 	<link rel="stylesheet" href="assets/css/ai-chat.css?v=20260621-3">
@@ -286,47 +287,8 @@
 	</style>
 </head>
 <body>
-	<header class="site-header nav-visible" id="siteHeader">
-		<div class="nav-shell">
-			<a href="index.html" class="logo-link" aria-label="Aarvella Home">
-				<div class="logo">AARVELLA</div>
-			</a>
-
-			<nav class="desktop-nav" aria-label="Primary navigation">
-				<a href="services.html">Services</a>
-				<a href="stylists.html">Stylists</a>
-				<a href="about.html">About</a>
-				<a href="blog.html">Blog</a>
-				<a href="find-us.html">Find Us</a>
-				<button class="btn-gold js-book" type="button">
-					<span class="btn-text">Book Now</span>
-					<div class="btn-ripple-container"></div>
-				</button>
-			</nav>
-
-			<button class="hamburger" id="hamburger" type="button" aria-label="Open menu" aria-expanded="false">
-				<span></span>
-				<span></span>
-				<span></span>
-			</button>
-		</div>
-
-		<div class="nav-overlay" id="navOverlay"></div>
-
-		<nav class="mobile-nav" id="mobileNav" aria-label="Mobile navigation">
-			<a href="services.html">Services</a>
-			<a href="stylists.html">Stylists</a>
-			<a href="about.html">About</a>
-			<a href="blog.html">Blog</a>
-			<a href="find-us.html">Find Us</a>
-			<button class="btn-gold js-book" id="mobileBookBtn" type="button">
-				<span class="btn-text">Book Now</span>
-				<div class="btn-ripple-container"></div>
-			</button>
-		</nav>
-	</header>
-
-	<main>
+	<div id="site-navigation" data-navigation-partial="assets/partials/navigation.html"></div>
+	<main id="main-content">
 		<section class="services-hero women-hero">
 			<div class="hero-media" aria-hidden="true">
 				<img src="https://images.unsplash.com/photo-1522338242992-e1a54906a8da?auto=format&fit=crop&w=1800&q=85" alt="">
@@ -495,6 +457,7 @@
 		<div id="booking-popup-placeholder"></div>
 		<div id="ai-chat-root"></div>
 
+	<script src="assets/js/navigation.js?v=20260702-1" defer></script>
 	<script src="/assets/js/ai-chat-loader.js?v=20260621-1" defer></script>
 	<script src="assets/js/services.js"></script>
 	<script src="assets/js/booking.js?v=20260620-6" defer></script>
