@@ -117,8 +117,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $stylistId = portalPostNullableInt('preferred_stylist_id');
             $dayValue = trim((string) ($_POST['preferred_day_of_week'] ?? ''));
             $dayOfWeek = $dayValue === '' ? null : (int) $dayValue;
-            $timeFrom = portalValidateTime(portalPostString('preferred_time_from', 5));
-            $timeTo = portalValidateTime(portalPostString('preferred_time_to', 5));
+            [$timeFrom, $timeTo] = portalValidateSalonPreferenceWindow(
+                portalPostString('preferred_time_from', 5),
+                portalPostString('preferred_time_to', 5),
+                $dayOfWeek
+            );
             $notes = portalPostString('booking_notes', 1000);
             $currentPreferences = portalLoadPreferences($database, $customerId);
             $language = (string) ($currentPreferences['language_code'] ?? 'en');
@@ -294,9 +297,20 @@ portalRenderShellStart([
 </section>
 
 <?php if ($flash !== null): ?>
-    <div class="portal-alert portal-alert--<?= portalE((string) ($flash['type'] ?? 'info')) ?>" role="status">
-        <i class="fa-solid <?= ($flash['type'] ?? '') === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation' ?>" aria-hidden="true"></i>
+    <?php $flashType = (string) ($flash['type'] ?? 'info'); ?>
+    <div
+        class="portal-alert portal-flash-toast portal-alert--<?= portalE($flashType) ?>"
+        role="<?= $flashType === 'error' ? 'alert' : 'status' ?>"
+        aria-live="<?= $flashType === 'error' ? 'assertive' : 'polite' ?>"
+        data-flash-toast
+        data-flash-type="<?= portalE($flashType) ?>"
+    >
+        <i class="fa-solid <?= $flashType === 'success' ? 'fa-circle-check' : 'fa-circle-exclamation' ?>" aria-hidden="true"></i>
         <span><?= portalE((string) ($flash['message'] ?? '')) ?></span>
+        <button type="button" class="portal-flash-toast__close" aria-label="Dismiss notification" data-flash-dismiss>
+            <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+        </button>
+        <span class="portal-flash-toast__timer" aria-hidden="true"></span>
     </div>
 <?php endif; ?>
 
@@ -477,17 +491,51 @@ portalRenderShellStart([
                         <select name="preferred_day_of_week">
                             <option value="">Any day</option>
                             <?php foreach ([1 => 'Monday', 2 => 'Tuesday', 3 => 'Wednesday', 4 => 'Thursday', 5 => 'Friday', 6 => 'Saturday', 7 => 'Sunday'] as $day => $label): ?>
-                                <option value="<?= $day ?>"<?= (int) ($preferences['preferred_day_of_week'] ?? 0) === $day ? ' selected' : '' ?>><?= portalE($label) ?></option>
+                                <option
+                                    value="<?= $day ?>"
+                                    <?= (int) ($preferences['preferred_day_of_week'] ?? 0) === $day ? ' selected' : '' ?>
+                                    <?= $day === 1 ? ' disabled' : '' ?>
+                                ><?= portalE($day === 1 ? 'Monday · Closed' : $label) ?></option>
                             <?php endforeach; ?>
                         </select>
                     </label>
 
                     <div class="portal-field">
                         <span>Preferred time window</span>
-                        <div class="time-range-fields">
-                            <label><span class="sr-only">From</span><input type="time" name="preferred_time_from" value="<?= portalE(substr((string) ($preferences['preferred_time_from'] ?? ''), 0, 5)) ?>"></label>
+                        <div
+                            class="time-range-fields"
+                            data-salon-time-range
+                            data-open-time="10:00"
+                            data-close-time="20:00"
+                            data-closed-day="1"
+                        >
+                            <label>
+                                <span class="sr-only">From</span>
+                                <input
+                                    type="time"
+                                    name="preferred_time_from"
+                                    value="<?= portalE(substr((string) ($preferences['preferred_time_from'] ?? ''), 0, 5)) ?>"
+                                    min="10:00"
+                                    max="19:30"
+                                    step="1800"
+                                    autocomplete="off"
+                                    data-time-role="from"
+                                >
+                            </label>
                             <span>to</span>
-                            <label><span class="sr-only">To</span><input type="time" name="preferred_time_to" value="<?= portalE(substr((string) ($preferences['preferred_time_to'] ?? ''), 0, 5)) ?>"></label>
+                            <label>
+                                <span class="sr-only">To</span>
+                                <input
+                                    type="time"
+                                    name="preferred_time_to"
+                                    value="<?= portalE(substr((string) ($preferences['preferred_time_to'] ?? ''), 0, 5)) ?>"
+                                    min="10:30"
+                                    max="20:00"
+                                    step="1800"
+                                    autocomplete="off"
+                                    data-time-role="to"
+                                >
+                            </label>
                         </div>
                     </div>
 

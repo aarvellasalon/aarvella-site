@@ -188,6 +188,77 @@ function portalValidateTime(?string $value): ?string
     return $value . ':00';
 }
 
+/**
+ * Validate a preferred salon visit window against Aarvella's published
+ * customer hours: Tuesday-Sunday, 10:00 AM-8:00 PM; Monday closed.
+ *
+ * Values are stored in MySQL TIME format while the UI presents a 12-hour
+ * wheel selector. Both endpoints must be supplied together and use the
+ * portal's 30-minute booking preference increments.
+ *
+ * @return array{0: ?string, 1: ?string}
+ */
+function portalValidateSalonPreferenceWindow(
+    ?string $fromValue,
+    ?string $toValue,
+    ?int $dayOfWeek
+): array {
+    if ($dayOfWeek !== null && ($dayOfWeek < 1 || $dayOfWeek > 7)) {
+        throw new InvalidArgumentException('Select a valid preferred day.');
+    }
+
+    if ($dayOfWeek === 1) {
+        throw new InvalidArgumentException(
+            'Aarvella is closed on Mondays. Choose Tuesday through Sunday.'
+        );
+    }
+
+    $from = portalValidateTime($fromValue);
+    $to = portalValidateTime($toValue);
+
+    if (($from === null) !== ($to === null)) {
+        throw new InvalidArgumentException(
+            'Select both the start and end of your preferred time window.'
+        );
+    }
+
+    if ($from === null && $to === null) {
+        return [null, null];
+    }
+
+    $fromHm = substr((string) $from, 0, 5);
+    $toHm = substr((string) $to, 0, 5);
+
+    foreach ([$fromHm, $toHm] as $time) {
+        $minute = (int) substr($time, 3, 2);
+        if (!in_array($minute, [0, 30], true)) {
+            throw new InvalidArgumentException(
+                'Choose a time in 30-minute intervals.'
+            );
+        }
+    }
+
+    if ($fromHm < '10:00' || $fromHm >= '20:00') {
+        throw new InvalidArgumentException(
+            'Preferred start time must be between 10:00 AM and 7:30 PM.'
+        );
+    }
+
+    if ($toHm <= '10:00' || $toHm > '20:00') {
+        throw new InvalidArgumentException(
+            'Preferred end time must be between 10:30 AM and 8:00 PM.'
+        );
+    }
+
+    if ($fromHm >= $toHm) {
+        throw new InvalidArgumentException(
+            'The preferred end time must be later than the start time.'
+        );
+    }
+
+    return [$from, $to];
+}
+
 function portalJsonArray(mixed $value): array
 {
     if ($value === null || $value === '') {
