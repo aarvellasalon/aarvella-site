@@ -2161,13 +2161,14 @@ html {
 .avatar-cropper-modal {
     position: fixed;
     inset: 0;
-    z-index: 1200;
+    z-index: 2147483000;
     display: grid;
     place-items: center;
     padding: clamp(18px, 4vw, 40px);
     opacity: 0;
     pointer-events: none;
     transition: opacity 180ms ease;
+    isolation: isolate;
 }
 
 .avatar-cropper-modal.is-open {
@@ -2185,7 +2186,10 @@ html {
 
 .avatar-cropper-card {
     position: relative;
+    z-index: 1;
     width: min(100%, 460px);
+    max-height: calc(100dvh - 32px);
+    overflow: auto;
     border: 1px solid rgba(212, 175, 55, 0.26);
     border-radius: 30px;
     background:
@@ -2324,6 +2328,7 @@ html {
 @media (max-width: 560px) {
     .avatar-cropper-modal {
         align-items: end;
+        place-items: end center;
         padding: 12px;
     }
 

@@ -338,66 +338,7 @@ portalRenderShellStart([
             </form>
         </div>
 
-        <div
-            class="avatar-cropper-modal"
-            data-avatar-cropper
-            hidden
-            aria-hidden="true"
-        >
-            <div class="avatar-cropper-backdrop" data-avatar-crop-cancel></div>
-            <section
-                class="avatar-cropper-card"
-                role="dialog"
-                aria-modal="true"
-                aria-labelledby="avatarCropperTitle"
-            >
-                <div class="avatar-cropper-heading">
-                    <div>
-                        <p class="panel-kicker">Profile photo</p>
-                        <h3 id="avatarCropperTitle">Adjust your photo</h3>
-                    </div>
-                    <button
-                        type="button"
-                        class="avatar-cropper-close"
-                        aria-label="Close photo adjustment"
-                        data-avatar-crop-cancel
-                    >
-                        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
-                    </button>
-                </div>
 
-                <p class="avatar-cropper-help">
-                    Drag the photo to place your face in the circle. Use zoom for portrait photos.
-                </p>
-
-                <div class="avatar-cropper-stage" data-avatar-crop-stage>
-                    <img src="" alt="Selected profile photo" data-avatar-crop-image>
-                    <span class="avatar-cropper-mask" aria-hidden="true"></span>
-                    <span class="avatar-cropper-ring" aria-hidden="true"></span>
-                </div>
-
-                <label class="avatar-zoom-control">
-                    <span>Zoom</span>
-                    <input
-                        type="range"
-                        min="1"
-                        max="3"
-                        step="0.01"
-                        value="1"
-                        data-avatar-zoom
-                    >
-                </label>
-
-                <div class="avatar-cropper-actions">
-                    <button type="button" class="av-btn av-btn--secondary av-btn--sm" data-avatar-crop-cancel>
-                        <span class="av-btn__label">Cancel</span>
-                    </button>
-                    <button type="button" class="av-btn av-btn--primary av-btn--sm" data-avatar-crop-apply>
-                        <span class="av-btn__label"><i class="fa-solid fa-check" aria-hidden="true"></i> Use this crop</span>
-                    </button>
-                </div>
-            </section>
-        </div>
 
         <div class="profile-overview-copy">
             <div class="profile-name-line">
@@ -779,4 +720,67 @@ portalRenderShellStart([
         </section>
     </aside>
 </div>
+
+<!-- Keep avatar cropper outside cards/layout containers so position:fixed is relative to the viewport. -->
+<div
+            class="avatar-cropper-modal"
+            data-avatar-cropper
+            hidden
+            aria-hidden="true"
+        >
+            <div class="avatar-cropper-backdrop" data-avatar-crop-cancel></div>
+            <section
+                class="avatar-cropper-card"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="avatarCropperTitle"
+            >
+                <div class="avatar-cropper-heading">
+                    <div>
+                        <p class="panel-kicker">Profile photo</p>
+                        <h3 id="avatarCropperTitle">Adjust your photo</h3>
+                    </div>
+                    <button
+                        type="button"
+                        class="avatar-cropper-close"
+                        aria-label="Close photo adjustment"
+                        data-avatar-crop-cancel
+                    >
+                        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+                <p class="avatar-cropper-help">
+                    Drag the photo to place your face in the circle. Use zoom for portrait photos.
+                </p>
+
+                <div class="avatar-cropper-stage" data-avatar-crop-stage>
+                    <img src="" alt="Selected profile photo" data-avatar-crop-image>
+                    <span class="avatar-cropper-mask" aria-hidden="true"></span>
+                    <span class="avatar-cropper-ring" aria-hidden="true"></span>
+                </div>
+
+                <label class="avatar-zoom-control">
+                    <span>Zoom</span>
+                    <input
+                        type="range"
+                        min="1"
+                        max="3"
+                        step="0.01"
+                        value="1"
+                        data-avatar-zoom
+                    >
+                </label>
+
+                <div class="avatar-cropper-actions">
+                    <button type="button" class="av-btn av-btn--secondary av-btn--sm" data-avatar-crop-cancel>
+                        <span class="av-btn__label">Cancel</span>
+                    </button>
+                    <button type="button" class="av-btn av-btn--primary av-btn--sm" data-avatar-crop-apply>
+                        <span class="av-btn__label"><i class="fa-solid fa-check" aria-hidden="true"></i> Use this crop</span>
+                    </button>
+                </div>
+            </section>
+        </div>
+
 <?php portalRenderShellEnd('profile'); ?>
