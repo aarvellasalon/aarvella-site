@@ -259,6 +259,10 @@ $firstName = trim(explode(' ', $displayName)[0] ?? $displayName);
 $email = trim((string) ($customer['email'] ?? $auth0User['email'] ?? ''));
 $profileImage = trim((string) ($customer['profile_image_url'] ?? ''));
 
+if ($profileImage === '') {
+    $profileImage = trim((string) ($auth0User['picture'] ?? ''));
+}
+
 $emailVerified = !empty($auth0User['email_verified']) || !empty($authIdentity['email_verified']);
 $completion = portalProfileCompletion($customer, $preferences, $beauty);
 $initial = mb_strtoupper(mb_substr($displayName, 0, 1));
@@ -328,10 +332,71 @@ portalRenderShellStart([
                     <span class="av-btn__label"><i class="fa-solid fa-camera" aria-hidden="true"></i> Change photo</span>
                 </label>
                 <span class="profile-photo-filename" data-avatar-filename>JPG, PNG or WebP · up to 4 MB</span>
-                <button type="submit" class="av-btn av-btn--primary av-btn--sm">
+                <button type="submit" class="av-btn av-btn--primary av-btn--sm" data-avatar-submit>
                     <span class="av-btn__label"><i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i> Upload photo</span>
                 </button>
             </form>
+        </div>
+
+        <div
+            class="avatar-cropper-modal"
+            data-avatar-cropper
+            hidden
+            aria-hidden="true"
+        >
+            <div class="avatar-cropper-backdrop" data-avatar-crop-cancel></div>
+            <section
+                class="avatar-cropper-card"
+                role="dialog"
+                aria-modal="true"
+                aria-labelledby="avatarCropperTitle"
+            >
+                <div class="avatar-cropper-heading">
+                    <div>
+                        <p class="panel-kicker">Profile photo</p>
+                        <h3 id="avatarCropperTitle">Adjust your photo</h3>
+                    </div>
+                    <button
+                        type="button"
+                        class="avatar-cropper-close"
+                        aria-label="Close photo adjustment"
+                        data-avatar-crop-cancel
+                    >
+                        <i class="fa-solid fa-xmark" aria-hidden="true"></i>
+                    </button>
+                </div>
+
+                <p class="avatar-cropper-help">
+                    Drag the photo to place your face in the circle. Use zoom for portrait photos.
+                </p>
+
+                <div class="avatar-cropper-stage" data-avatar-crop-stage>
+                    <img src="" alt="Selected profile photo" data-avatar-crop-image>
+                    <span class="avatar-cropper-mask" aria-hidden="true"></span>
+                    <span class="avatar-cropper-ring" aria-hidden="true"></span>
+                </div>
+
+                <label class="avatar-zoom-control">
+                    <span>Zoom</span>
+                    <input
+                        type="range"
+                        min="1"
+                        max="3"
+                        step="0.01"
+                        value="1"
+                        data-avatar-zoom
+                    >
+                </label>
+
+                <div class="avatar-cropper-actions">
+                    <button type="button" class="av-btn av-btn--secondary av-btn--sm" data-avatar-crop-cancel>
+                        <span class="av-btn__label">Cancel</span>
+                    </button>
+                    <button type="button" class="av-btn av-btn--primary av-btn--sm" data-avatar-crop-apply>
+                        <span class="av-btn__label"><i class="fa-solid fa-check" aria-hidden="true"></i> Use this crop</span>
+                    </button>
+                </div>
+            </section>
         </div>
 
         <div class="profile-overview-copy">
@@ -345,7 +410,7 @@ portalRenderShellStart([
             <span><?= portalE(portalFormatCustomerSince($customer)) ?></span>
 
             <?php if (!empty($customer['profile_image_url'])): ?>
-                <form method="post" class="inline-action-form" data-confirm="Remove your uploaded profile photo? Your sign-in photo may still be shown.">
+                <form method="post" class="inline-action-form" data-confirm="Remove your uploaded profile photo? Your initials will be shown instead.">
                     <input type="hidden" name="csrf_token" value="<?= portalE($csrfToken) ?>">
                     <input type="hidden" name="action" value="remove_avatar">
                     <button type="submit" class="portal-text-button">Remove uploaded photo</button>

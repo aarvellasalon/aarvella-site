@@ -2152,3 +2152,194 @@ html {
 .portal-field:has(.portal-time-picker.is-open) {
     z-index: 225;
 }
+
+/* Avatar adjustment modal ---------------------------------------------------- */
+.portal-modal-open {
+    overflow: hidden;
+}
+
+.avatar-cropper-modal {
+    position: fixed;
+    inset: 0;
+    z-index: 1200;
+    display: grid;
+    place-items: center;
+    padding: clamp(18px, 4vw, 40px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 180ms ease;
+}
+
+.avatar-cropper-modal.is-open {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+.avatar-cropper-backdrop {
+    position: absolute;
+    inset: 0;
+    background: rgba(5, 5, 5, 0.74);
+    backdrop-filter: blur(18px);
+    -webkit-backdrop-filter: blur(18px);
+}
+
+.avatar-cropper-card {
+    position: relative;
+    width: min(100%, 460px);
+    border: 1px solid rgba(212, 175, 55, 0.26);
+    border-radius: 30px;
+    background:
+        linear-gradient(145deg, rgba(26, 21, 13, 0.96), rgba(8, 8, 8, 0.94)),
+        rgba(10, 10, 10, 0.94);
+    box-shadow: 0 34px 90px rgba(0, 0, 0, 0.62);
+    padding: clamp(18px, 4vw, 26px);
+    transform: translateY(18px) scale(0.98);
+    transition: transform 220ms cubic-bezier(.2, .9, .2, 1), opacity 180ms ease;
+}
+
+.avatar-cropper-modal.is-open .avatar-cropper-card {
+    transform: translateY(0) scale(1);
+}
+
+.avatar-cropper-heading {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 18px;
+}
+
+.avatar-cropper-heading h3 {
+    margin: 3px 0 0;
+    color: #fff7df;
+    font-size: clamp(1.25rem, 2.4vw, 1.65rem);
+    letter-spacing: -0.03em;
+}
+
+.avatar-cropper-close {
+    display: inline-grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 999px;
+    color: rgba(255, 255, 255, 0.82);
+    background: rgba(255, 255, 255, 0.06);
+    cursor: pointer;
+    transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.avatar-cropper-close:hover,
+.avatar-cropper-close:focus-visible {
+    transform: translateY(-1px);
+    border-color: rgba(212, 175, 55, 0.42);
+    background: rgba(212, 175, 55, 0.12);
+    outline: none;
+}
+
+.avatar-cropper-help {
+    margin: 12px 0 18px;
+    color: rgba(255, 248, 226, 0.72);
+    line-height: 1.6;
+    font-size: 0.94rem;
+}
+
+.avatar-cropper-stage {
+    position: relative;
+    width: min(100%, 330px);
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
+    overflow: hidden;
+    border-radius: 28px;
+    background:
+        radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.16), transparent 55%),
+        rgba(255, 255, 255, 0.04);
+    touch-action: none;
+    cursor: grab;
+    user-select: none;
+}
+
+.avatar-cropper-stage.is-dragging {
+    cursor: grabbing;
+}
+
+.avatar-cropper-stage img {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    max-width: none;
+    width: auto;
+    height: auto;
+    transform-origin: center center;
+    will-change: transform;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+.avatar-cropper-mask {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at center, transparent 0 49%, rgba(0, 0, 0, 0.62) 50% 100%);
+    pointer-events: none;
+}
+
+.avatar-cropper-ring {
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: min(100%, 330px);
+    height: min(100%, 330px);
+    border: 2px solid rgba(212, 175, 55, 0.78);
+    border-radius: 50%;
+    box-shadow:
+        inset 0 0 0 1px rgba(255, 255, 255, 0.20),
+        0 0 38px rgba(212, 175, 55, 0.18);
+    pointer-events: none;
+}
+
+.avatar-zoom-control {
+    display: grid;
+    gap: 9px;
+    margin: 20px 0 0;
+    color: rgba(255, 248, 226, 0.82);
+    font-size: 0.86rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+}
+
+.avatar-zoom-control input[type="range"] {
+    width: 100%;
+    accent-color: #d4af37;
+    cursor: pointer;
+}
+
+.avatar-cropper-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+    margin-top: 20px;
+    flex-wrap: wrap;
+}
+
+@media (max-width: 560px) {
+    .avatar-cropper-modal {
+        align-items: end;
+        padding: 12px;
+    }
+
+    .avatar-cropper-card {
+        width: 100%;
+        border-radius: 26px;
+    }
+
+    .avatar-cropper-stage {
+        width: min(100%, 300px);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .avatar-cropper-modal,
+    .avatar-cropper-card {
+        transition: none;
+    }
+}

@@ -82,40 +82,250 @@
         });
     });
 
-    /* Avatar preview --------------------------------------------------------------- */
-    document.querySelectorAll('[data-avatar-input]').forEach((input) => {
-        input.addEventListener('change', () => {
-            const file = input.files?.[0];
+    /* Adjustable avatar cropper ----------------------------------------------- */
+    const avatarInput = document.querySelector('[data-avatar-input]');
+    const cropper = document.querySelector('[data-avatar-cropper]');
+    const cropStage = document.querySelector('[data-avatar-crop-stage]');
+    const cropImage = document.querySelector('[data-avatar-crop-image]');
+    const cropZoom = document.querySelector('[data-avatar-zoom]');
+    const cropApply = document.querySelector('[data-avatar-crop-apply]');
+    const cropCancelButtons = document.querySelectorAll('[data-avatar-crop-cancel]');
+
+    let avatarObjectUrl = '';
+    let avatarOriginalFile = null;
+    let cropState = {
+        baseScale: 1,
+        zoom: 1,
+        x: 0,
+        y: 0,
+        dragging: false,
+        pointerId: null,
+        startX: 0,
+        startY: 0,
+        originX: 0,
+        originY: 0,
+        naturalWidth: 1,
+        naturalHeight: 1,
+    };
+
+    const resetAvatarInput = () => {
+        if (avatarInput) avatarInput.value = '';
+        avatarOriginalFile = null;
+        if (avatarObjectUrl) URL.revokeObjectURL(avatarObjectUrl);
+        avatarObjectUrl = '';
+    };
+
+    const openCropper = () => {
+        if (!cropper) return;
+        cropper.hidden = false;
+        cropper.setAttribute('aria-hidden', 'false');
+        document.body.classList.add('portal-modal-open');
+        requestAnimationFrame(() => cropper.classList.add('is-open'));
+    };
+
+    const closeCropper = (clearInput = false) => {
+        if (!cropper) return;
+        cropper.classList.remove('is-open');
+        cropper.setAttribute('aria-hidden', 'true');
+        document.body.classList.remove('portal-modal-open');
+        window.setTimeout(() => {
+            cropper.hidden = true;
+            if (clearInput) resetAvatarInput();
+        }, 180);
+    };
+
+    const clampCropPosition = () => {
+        if (!cropStage || !cropImage) return;
+        const stageRect = cropStage.getBoundingClientRect();
+        const cropSize = Math.min(stageRect.width, stageRect.height);
+        const scaledWidth = cropState.naturalWidth * cropState.baseScale * cropState.zoom;
+        const scaledHeight = cropState.naturalHeight * cropState.baseScale * cropState.zoom;
+        const maxX = Math.max(0, (scaledWidth - cropSize) / 2);
+        const maxY = Math.max(0, (scaledHeight - cropSize) / 2);
+
+        cropState.x = Math.min(maxX, Math.max(-maxX, cropState.x));
+        cropState.y = Math.min(maxY, Math.max(-maxY, cropState.y));
+    };
+
+    const renderCropper = () => {
+        if (!cropImage) return;
+        clampCropPosition();
+        const scale = cropState.baseScale * cropState.zoom;
+        cropImage.style.transform = `translate(calc(-50% + ${cropState.x}px), calc(-50% + ${cropState.y}px)) scale(${scale})`;
+    };
+
+    const initialiseCropperImage = () => {
+        if (!cropStage || !cropImage) return;
+        const stageRect = cropStage.getBoundingClientRect();
+        const cropSize = Math.min(stageRect.width, stageRect.height);
+        cropState.naturalWidth = cropImage.naturalWidth || 1;
+        cropState.naturalHeight = cropImage.naturalHeight || 1;
+        cropState.baseScale = Math.max(cropSize / cropState.naturalWidth, cropSize / cropState.naturalHeight);
+        cropState.zoom = 1;
+        cropState.x = 0;
+        cropState.y = 0;
+        if (cropZoom) cropZoom.value = '1';
+        renderCropper();
+    };
+
+    const canvasToBlob = (canvas, mimeType, quality) => new Promise((resolve) => {
+        canvas.toBlob((blob) => resolve(blob), mimeType, quality);
+    });
+
+    const applyCroppedAvatar = async () => {
+        if (!avatarInput || !avatarOriginalFile || !cropImage || !cropStage) return;
+
+        const outputSize = 720;
+        const stageRect = cropStage.getBoundingClientRect();
+        const cropSize = Math.min(stageRect.width, stageRect.height);
+        const scaledWidth = cropState.naturalWidth * cropState.baseScale * cropState.zoom;
+        const scaledHeight = cropState.naturalHeight * cropState.baseScale * cropState.zoom;
+        const displayLeft = (stageRect.width - scaledWidth) / 2 + cropState.x;
+        const displayTop = (stageRect.height - scaledHeight) / 2 + cropState.y;
+        const cropLeft = (stageRect.width - cropSize) / 2;
+        const cropTop = (stageRect.height - cropSize) / 2;
+        const sourceX = (cropLeft - displayLeft) / (cropState.baseScale * cropState.zoom);
+        const sourceY = (cropTop - displayTop) / (cropState.baseScale * cropState.zoom);
+        const sourceSize = cropSize / (cropState.baseScale * cropState.zoom);
+
+        const canvas = document.createElement('canvas');
+        canvas.width = outputSize;
+        canvas.height = outputSize;
+        const context = canvas.getContext('2d');
+        if (!context) return;
+
+        context.imageSmoothingEnabled = true;
+        context.imageSmoothingQuality = 'high';
+        context.drawImage(
+            cropImage,
+            sourceX,
+            sourceY,
+            sourceSize,
+            sourceSize,
+            0,
+            0,
+            outputSize,
+            outputSize
+        );
+
+        const blob = await canvasToBlob(canvas, 'image/jpeg', 0.9);
+        if (!blob) {
+            showToast('The photo could not be adjusted. Try another image.');
+            return;
+        }
+
+        const croppedFile = new File(
+            [blob],
+            avatarOriginalFile.name.replace(/\.[^.]+$/, '') + '-aarvella-crop.jpg',
+            { type: 'image/jpeg', lastModified: Date.now() }
+        );
+        const transfer = new DataTransfer();
+        transfer.items.add(croppedFile);
+        avatarInput.files = transfer.files;
+
+        const form = avatarInput.closest('form');
+        const filename = form?.querySelector('[data-avatar-filename]');
+        const preview = document.querySelector('[data-avatar-preview]');
+
+        if (filename) filename.textContent = 'Adjusted photo ready · click Upload photo';
+        if (preview) {
+            const oldImage = preview.querySelector('img');
+            const image = oldImage || document.createElement('img');
+            image.alt = 'Adjusted profile photo preview';
+            image.src = URL.createObjectURL(croppedFile);
+            if (!oldImage) preview.prepend(image);
+        }
+
+        closeCropper(false);
+        showToast('Photo adjusted. Click Upload photo to save it.');
+    };
+
+    if (avatarInput && cropper && cropImage && cropStage) {
+        avatarInput.addEventListener('change', () => {
+            const file = avatarInput.files?.[0];
             if (!file) return;
 
-            const form = input.closest('form');
-            const filename = form?.querySelector('[data-avatar-filename]');
-            const preview = document.querySelector('[data-avatar-preview]');
-
-            if (filename) filename.textContent = file.name;
-
-            if (preview && file.type.startsWith('image/')) {
-                const oldImage = preview.querySelector('img');
-                const image = oldImage || document.createElement('img');
-                image.alt = 'Selected profile photo preview';
-                image.src = URL.createObjectURL(file);
-                if (!oldImage) preview.prepend(image);
+            if (!file.type.startsWith('image/')) {
+                showToast('Choose a valid JPG, PNG or WebP image.');
+                resetAvatarInput();
+                return;
             }
 
-            if (form && file.size <= 4 * 1024 * 1024) {
-                const submitButton = document.createElement('button');
-                submitButton.type = 'submit';
-                submitButton.className = 'av-btn av-btn--primary av-btn--sm';
-                submitButton.innerHTML = '<span class="av-btn__label"><i class="fa-solid fa-cloud-arrow-up" aria-hidden="true"></i> Upload photo</span>';
-
-                const existing = form.querySelector('button[type="submit"]');
-                if (existing) existing.remove();
-                form.append(submitButton);
-            } else if (file.size > 4 * 1024 * 1024) {
+            if (file.size > 4 * 1024 * 1024) {
                 showToast('Choose a photo smaller than 4 MB.');
+                resetAvatarInput();
+                return;
             }
+
+            avatarOriginalFile = file;
+            if (avatarObjectUrl) URL.revokeObjectURL(avatarObjectUrl);
+            avatarObjectUrl = URL.createObjectURL(file);
+            cropImage.src = avatarObjectUrl;
+            cropImage.onload = initialiseCropperImage;
+            openCropper();
         });
-    });
+
+        if (cropZoom) {
+            cropZoom.addEventListener('input', () => {
+                cropState.zoom = Number(cropZoom.value || 1);
+                renderCropper();
+            });
+        }
+
+        cropStage.addEventListener('pointerdown', (event) => {
+            event.preventDefault();
+            cropState.dragging = true;
+            cropState.pointerId = event.pointerId;
+            cropState.startX = event.clientX;
+            cropState.startY = event.clientY;
+            cropState.originX = cropState.x;
+            cropState.originY = cropState.y;
+            cropStage.setPointerCapture(event.pointerId);
+            cropStage.classList.add('is-dragging');
+        });
+
+        cropStage.addEventListener('pointermove', (event) => {
+            if (!cropState.dragging || cropState.pointerId !== event.pointerId) return;
+            cropState.x = cropState.originX + event.clientX - cropState.startX;
+            cropState.y = cropState.originY + event.clientY - cropState.startY;
+            renderCropper();
+        });
+
+        const endDrag = (event) => {
+            if (cropState.pointerId !== event.pointerId) return;
+            cropState.dragging = false;
+            cropState.pointerId = null;
+            cropStage.classList.remove('is-dragging');
+        };
+
+        cropStage.addEventListener('pointerup', endDrag);
+        cropStage.addEventListener('pointercancel', endDrag);
+
+        cropStage.addEventListener('wheel', (event) => {
+            event.preventDefault();
+            if (!cropZoom) return;
+            const next = Math.min(3, Math.max(1, Number(cropZoom.value) + (event.deltaY > 0 ? -0.05 : 0.05)));
+            cropZoom.value = String(next);
+            cropState.zoom = next;
+            renderCropper();
+        }, { passive: false });
+
+        cropCancelButtons.forEach((button) => {
+            button.addEventListener('click', () => closeCropper(true));
+        });
+
+        if (cropApply) cropApply.addEventListener('click', applyCroppedAvatar);
+
+        document.addEventListener('keydown', (event) => {
+            if (!cropper.classList.contains('is-open')) return;
+            if (event.key === 'Escape') closeCropper(true);
+        });
+
+        window.addEventListener('resize', () => {
+            if (!cropper.classList.contains('is-open')) return;
+            initialiseCropperImage();
+        });
+    }
 
     /* Dark, accessible custom select ---------------------------------------------- */
     const selectInstances = new WeakMap();
