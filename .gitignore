@@ -32,3 +32,9 @@ Thumbs.db
 backup_pages/
 /private/
 /vendor/
+
+# NPM Packages
+node_modules/
+dist/
+.env
+.env.*
