@@ -119,12 +119,6 @@ $profileImage = trim(
     (string) ($customer['profile_image_url'] ?? '')
 );
 
-if ($profileImage === '') {
-    $profileImage = trim(
-        (string) ($auth0User['picture'] ?? '')
-    );
-}
-
 $email = trim(
     (string) ($customer['email'] ?? '')
 );

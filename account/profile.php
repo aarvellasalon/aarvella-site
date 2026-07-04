@@ -259,10 +259,6 @@ $firstName = trim(explode(' ', $displayName)[0] ?? $displayName);
 $email = trim((string) ($customer['email'] ?? $auth0User['email'] ?? ''));
 $profileImage = trim((string) ($customer['profile_image_url'] ?? ''));
 
-if ($profileImage === '') {
-    $profileImage = trim((string) ($auth0User['picture'] ?? ''));
-}
-
 $emailVerified = !empty($auth0User['email_verified']) || !empty($authIdentity['email_verified']);
 $completion = portalProfileCompletion($customer, $preferences, $beauty);
 $initial = mb_strtoupper(mb_substr($displayName, 0, 1));

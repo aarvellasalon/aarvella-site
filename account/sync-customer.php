@@ -50,22 +50,18 @@ function syncAuth0Customer(array $auth0User): int
 
             $updateCustomer = $database->prepare(
                 'UPDATE customers
-                 SET full_name = :full_name,
-                     email = CASE
+                 SET email = CASE
                          WHEN :email_verified = 1 THEN :verified_email
                          ELSE email
                      END,
-                     profile_image_url = :profile_image_url,
                      account_status = "active",
                      customer_since = COALESCE(customer_since, CURRENT_DATE),
                      last_login_at = NOW()
                  WHERE id = :customer_id'
             );
             $updateCustomer->execute([
-                'full_name' => $fullName,
                 'email_verified' => $emailVerified,
                 'verified_email' => $email,
-                'profile_image_url' => $profileImage !== '' ? $profileImage : null,
                 'customer_id' => $customerId,
             ]);
 
@@ -122,16 +118,12 @@ function syncAuth0Customer(array $auth0User): int
 
                 $updateCustomer = $database->prepare(
                     'UPDATE customers
-                     SET full_name = :full_name,
-                         profile_image_url = :profile_image_url,
-                         account_status = "active",
+                     SET account_status = "active",
                          customer_since = COALESCE(customer_since, CURRENT_DATE),
                          last_login_at = NOW()
                      WHERE id = :customer_id'
                 );
                 $updateCustomer->execute([
-                    'full_name' => $fullName,
-                    'profile_image_url' => $profileImage !== '' ? $profileImage : null,
                     'customer_id' => $customerId,
                 ]);
             }

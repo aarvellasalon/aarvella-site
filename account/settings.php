@@ -299,9 +299,6 @@ $displayName = trim((string) ($customer['full_name'] ?? '')) ?: 'Aarvella Custom
 $firstName = trim(explode(' ', $displayName)[0] ?? $displayName);
 $email = trim((string) ($customer['email'] ?? $auth0User['email'] ?? ''));
 $profileImage = trim((string) ($customer['profile_image_url'] ?? ''));
-if ($profileImage === '') {
-    $profileImage = trim((string) ($auth0User['picture'] ?? ''));
-}
 
 $emailVerified = !empty($auth0User['email_verified']) || !empty($authIdentity['email_verified']);
 $provider = (string) ($authIdentity['provider'] ?? 'auth0');
