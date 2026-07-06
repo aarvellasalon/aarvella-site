@@ -10,7 +10,7 @@ function portalAssetVersion(string $relativePath): string
     return is_file($path) ? (string) filemtime($path) : '1';
 }
 
-function portalRenderShellStart(array $context, string $activePage, string $title): void
+function portalRenderShellStart(array $context, string $activePage, string $title, array $extraMainClasses = []): void
 {
     $displayName = trim((string) ($context['display_name'] ?? 'Aarvella Customer'));
     $firstName = trim((string) ($context['first_name'] ?? $displayName));
@@ -36,6 +36,8 @@ function portalRenderShellStart(array $context, string $activePage, string $titl
     $buttonsCssVersion = portalAssetVersion('/assets/css/buttons.css');
     $baseCssVersion = portalAssetVersion('/assets/css/customer-portal.css');
     $pagesCssVersion = portalAssetVersion('/assets/css/customer-portal-pages.css');
+
+    $mainClasses = array_merge(['portal-content', 'portal-account-content'], $extraMainClasses);
     ?>
 <!DOCTYPE html>
 <html lang="en-IN">
@@ -173,7 +175,7 @@ function portalRenderShellStart(array $context, string $activePage, string $titl
                 </div>
             </header>
 
-            <main class="portal-content portal-account-content">
+            <main class="<?= portalE(implode(' ', $mainClasses)) ?>">
     <?php
 }
 

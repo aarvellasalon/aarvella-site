@@ -1505,47 +1505,10 @@
 			});
 
 			/*
-			 * The booking popup is injected asynchronously into
-			 * #booking-popup-placeholder. Never assume it already exists here;
-			 * an unguarded querySelector(...).addEventListener(...) stopped the
-			 * rest of this script, including the transformation reveal observer.
+			 * Booking-popup open/close and .js-book click handling are owned
+			 * exclusively by assets/js/booking.js (loaded below). Do not
+			 * duplicate that wiring here.
 			 */
-			const popup = document.querySelector(".booking-popup");
-			const popupOverlay = document.querySelector(".popup-overlay");
-
-			function openBooking() {
-				const bookingPopup = document.getElementById("bookingPopup");
-				if (!bookingPopup) return;
-				bookingPopup.classList.add("active");
-				document.body.classList.add("menu-open");
-			}
-
-			function closeBooking() {
-				const bookingPopup = document.getElementById("bookingPopup");
-				if (!bookingPopup) return;
-				bookingPopup.classList.remove("active");
-				document.body.classList.remove("menu-open");
-			}
-
-			if (popupOverlay) {
-				popupOverlay.addEventListener("click", closeBooking);
-			}
-
-			document.querySelectorAll('.js-book, .card-book-btn').forEach(btn => {
-				btn.addEventListener('click', function (e) {
-					e.preventDefault();
-					setTimeout(() => {
-						openBooking();
-					}, 120);
-				});
-			});
-
-			if (popupOverlay && popup) {
-				popupOverlay.addEventListener("click", () => {
-					popup.classList.remove("active");
-					document.body.classList.remove("menu-open");
-				});
-			}
 
 			document.querySelectorAll('.service-card').forEach(card => {
 				card.addEventListener('mousemove', (e) => {
@@ -1834,7 +1797,6 @@
 		<script src="/assets/js/ai-chat-loader.js?v=20260621-1" defer></script>
 		<script src="assets/js/booking.js?v=20260620-2" defer></script>
 		<script src="assets/js/includes.js?v=20260620-2" defer></script>
-		<script src="assets/js/footer-loader.js?v=20260620-2" defer></script>
 		<script src="assets/js/newsletter.js?v=20260618-1" defer></script>
 		<script src="/assets/js/buttons.js?v=20260703-1" defer></script>
 		<script src="/assets/js/navigation.js?v=20260703-3" defer></script>

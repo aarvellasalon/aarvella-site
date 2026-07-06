@@ -219,7 +219,7 @@
       });
 
       const servicePages = new Set([
-        "services.html", "mens-hair.html", "womens-hair.html", "hair-coloring.html",
+        "services.html", "hair.html", "mens-hair.html", "womens-hair.html", "hair-coloring.html",
         "hair-texture.html", "skin-care.html", "beauty-essentials.html",
         "hand-foot-spa.html", "makeup.html", "bridal.html"
       ]);

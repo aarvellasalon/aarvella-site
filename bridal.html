@@ -338,64 +338,12 @@
 		<div id="ai-chat-root"></div>
 
 		<script>
+			/*
+			 * Mobile menu and button ripple/magnetic effects are owned by
+			 * navigation.js and buttons.js respectively (both loaded below).
+			 * Only page-specific scroll-reveal lives here.
+			 */
 			document.addEventListener("DOMContentLoaded", () => {
-				const hamburger = document.getElementById("hamburger");
-				const mobileNav = document.getElementById("mobileNav");
-				const overlay = document.getElementById("navOverlay");
-				const header = document.querySelector(".site-header");
-
-				function openMenu() {
-					hamburger?.classList.add("active");
-					mobileNav?.classList.add("active");
-					overlay?.classList.add("active");
-					document.body.classList.add("menu-open");
-				}
-
-				function closeMenu() {
-					hamburger?.classList.remove("active");
-					mobileNav?.classList.remove("active");
-					overlay?.classList.remove("active");
-					document.body.classList.remove("menu-open");
-				}
-
-				hamburger?.addEventListener("click", () => {
-					mobileNav?.classList.contains("active") ? closeMenu() : openMenu();
-				});
-
-				hamburger?.addEventListener("keydown", event => {
-					if (event.key === "Enter" || event.key === " ") {
-						event.preventDefault();
-						hamburger.click();
-					}
-				});
-
-				overlay?.addEventListener("click", closeMenu);
-
-				document.querySelectorAll(".mobile-nav a, .mobile-nav .js-book").forEach(item => {
-					item.addEventListener("click", closeMenu);
-				});
-
-				window.addEventListener("resize", () => {
-					if (window.innerWidth > 768) closeMenu();
-				});
-
-				document.querySelectorAll(".btn-gold, .btn-outline").forEach(button => {
-					button.addEventListener("click", event => {
-						const container = button.querySelector(".btn-ripple-container");
-						if (!container) return;
-
-						const ripple = document.createElement("span");
-						ripple.className = "btn-ripple";
-
-						const rect = button.getBoundingClientRect();
-						ripple.style.setProperty("--ripple-x", `${event.clientX - rect.left}px`);
-						ripple.style.setProperty("--ripple-y", `${event.clientY - rect.top}px`);
-
-						container.appendChild(ripple);
-						setTimeout(() => ripple.remove(), 650);
-					});
-				});
-
 				const revealItems = document.querySelectorAll(".reveal");
 				if ("IntersectionObserver" in window) {
 					const revealObserver = new IntersectionObserver(entries => {
@@ -411,47 +359,14 @@
 				} else {
 					revealItems.forEach(item => item.classList.add("active"));
 				}
-
-				let lastScrollY = window.scrollY;
-				let ticking = false;
-
-				function handleScroll() {
-					if (!header) return;
-
-					const currentScrollY = window.scrollY;
-					if (currentScrollY > lastScrollY && currentScrollY > 120) {
-						header.classList.add("nav-hidden");
-						header.classList.remove("nav-visible");
-					} else {
-						header.classList.remove("nav-hidden");
-						header.classList.add("nav-visible");
-					}
-
-					lastScrollY = currentScrollY;
-					ticking = false;
-				}
-
-				window.addEventListener("scroll", () => {
-					if (!ticking) {
-						requestAnimationFrame(handleScroll);
-						ticking = true;
-					}
-				});
-
-				document.addEventListener("mousemove", event => {
-					if (event.clientY <= 20 && header) {
-						header.classList.remove("nav-hidden");
-						header.classList.add("nav-visible");
-					}
-				});
 			});
 		</script>
 
+		<script src="assets/js/buttons.js?v=20260703-1" defer></script>
 		<script src="assets/js/navigation.js?v=20260702-1" defer></script>
 		<script src="assets/js/ai-chat-loader.js?v=20260621-1" defer></script>
 		<script src="assets/js/booking.js?v=20260620-6" defer></script>
 		<script src="assets/js/includes.js" defer></script>
-		<script src="assets/js/footer-loader.js" defer></script>
 		<script src="assets/js/newsletter.js?v=20260618-1" defer></script>
 	</body>
 </html>

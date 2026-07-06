@@ -181,88 +181,12 @@
 		<div id="ai-chat-root"></div>
 
 		<script>
+			/*
+			 * Mobile menu, booking-popup wiring and button ripple are owned
+			 * by navigation.js, booking.js and buttons.js respectively
+			 * (all loaded below). Only page-specific scroll-reveal lives here.
+			 */
 			document.addEventListener("DOMContentLoaded", () => {
-				const popup = document.getElementById("bookingPopup");
-				const progressBar = document.getElementById("progressBar");
-				let currentStep = 1;
-				let selectedService = "";
-
-				function closeMenu() {
-					hamburger?.classList.remove("active");
-					mobileNav?.classList.remove("active");
-					overlay?.classList.remove("active");
-					if (!popup?.classList.contains("active")) document.body.classList.remove("menu-open");
-				}
-
-				function showStep(step) {
-					currentStep = Math.max(1, Math.min(step, 4));
-					document.querySelectorAll(".popup-step").forEach(el => el.classList.toggle("active", Number(el.dataset.step) === currentStep));
-					if (progressBar) progressBar.style.width = `${currentStep * 25}%`;
-				}
-
-				function openBooking(service = "") {
-					selectedService = service || selectedService;
-					popup?.classList.add("active");
-					popup?.setAttribute("aria-hidden", "false");
-					document.body.classList.add("menu-open");
-					closeMenu();
-					showStep(1);
-					if (service) {
-						document.querySelectorAll("[data-service]").forEach(btn => btn.classList.toggle("active", btn.dataset.service === service));
-					}
-				}
-
-				function closeBooking() {
-					popup?.classList.remove("active");
-					popup?.setAttribute("aria-hidden", "true");
-					document.body.classList.remove("menu-open");
-				}
-
-				document.querySelectorAll(".js-book, [data-book]").forEach(btn => {
-					btn.addEventListener("click", e => {
-						e.preventDefault();
-						openBooking(btn.dataset.book || "");
-					});
-				});
-
-				document.querySelectorAll("[data-close-booking]").forEach(el => el.addEventListener("click", closeBooking));
-				document.querySelectorAll("[data-service]").forEach(btn => {
-					btn.addEventListener("click", () => {
-						selectedService = btn.dataset.service;
-						document.querySelectorAll("[data-service]").forEach(x => x.classList.remove("active"));
-						btn.classList.add("active");
-					});
-				});
-				document.querySelectorAll(".next-step").forEach(btn => btn.addEventListener("click", () => showStep(currentStep + 1)));
-				document.querySelectorAll(".prev-step").forEach(btn => btn.addEventListener("click", () => showStep(currentStep - 1)));
-
-				document.querySelectorAll("[data-offset]").forEach(btn => {
-					btn.addEventListener("click", () => {
-						const date = new Date();
-						date.setDate(date.getDate() + Number(btn.dataset.offset));
-						document.getElementById("bookingDate").value = date.toISOString().split("T")[0];
-						document.querySelectorAll("[data-offset]").forEach(x => x.classList.remove("active"));
-						btn.classList.add("active");
-					});
-				});
-
-				document.querySelectorAll("[data-time]").forEach(btn => {
-					btn.addEventListener("click", () => {
-						document.getElementById("bookingTime").value = btn.dataset.time;
-						document.querySelectorAll("[data-time]").forEach(x => x.classList.remove("active"));
-						btn.classList.add("active");
-					});
-				});
-
-				document.querySelector(".confirm-booking")?.addEventListener("click", () => {
-					const name = document.getElementById("name").value || "Guest";
-					const date = document.getElementById("bookingDate").value || "Preferred date not selected";
-					const time = document.getElementById("bookingTime").value || "Preferred time not selected";
-					const text = encodeURIComponent(`Hello Aarvella, I would like to book ${selectedService || "a service"}. Name: ${name}. Date: ${date}. Time: ${time}.`);
-					document.getElementById("whatsappBtn").href = `https://wa.me/919742049990?text=${text}`;
-					showStep(4);
-				});
-
 				const revealObserver = new IntersectionObserver(entries => {
 					entries.forEach(entry => {
 						if (entry.isIntersecting) {
@@ -272,35 +196,6 @@
 					});
 				}, { threshold: 0.14 });
 				document.querySelectorAll(".reveal").forEach(el => revealObserver.observe(el));
-
-				let lastScrollY = window.scrollY;
-				let ticking = false;
-				function handleScroll() {
-					const currentScrollY = window.scrollY;
-					if (header && currentScrollY > lastScrollY && currentScrollY > 120) {
-						header.classList.add("nav-hidden");
-						header.classList.remove("nav-visible");
-					} else if (header) {
-						header.classList.remove("nav-hidden");
-						header.classList.add("nav-visible");
-					}
-					lastScrollY = currentScrollY;
-					ticking = false;
-				}
-
-				window.addEventListener("scroll", () => {
-					if (!ticking) {
-						requestAnimationFrame(handleScroll);
-						ticking = true;
-					}
-				});
-
-				document.addEventListener("mousemove", e => {
-					if (e.clientY <= 20 && header) {
-						header.classList.remove("nav-hidden");
-						header.classList.add("nav-visible");
-					}
-				});
 			});
 		</script>
 
@@ -309,7 +204,6 @@
 		<script src="/assets/js/ai-chat-loader.js?v=20260621-1" defer></script>
 		<script src="assets/js/booking.js?v=20260620-6" defer></script>
 		<script src="assets/js/includes.js" defer></script>
-		<script src="assets/js/footer-loader.js" defer></script>
 		<script src="assets/js/newsletter.js?v=20260618-1" defer></script>
 	</body>
 </html>

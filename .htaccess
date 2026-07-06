@@ -1,0 +1,10 @@
+# Aarvella — legacy page redirects
+#
+# These pages were superseded by newer, actively-maintained equivalents
+# but may still be referenced by external search indexing or old links.
+# Redirect (rather than delete outright) to preserve that equity.
+# See docs/ARCHITECTURE.md §13 (Known architecture debt).
+
+Redirect 301 /beauty.html /beauty-essentials.html
+Redirect 301 /spa.html /hand-foot-spa.html
+Redirect 301 /skin.html /skin-care.html
