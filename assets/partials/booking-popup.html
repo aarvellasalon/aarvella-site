@@ -23,112 +23,149 @@
 			</button>
 		</div>
 
+		<div class="mini-summary" id="miniSummary"></div>
+
+		<!-- STEP 1: SERVICE -->
 		<section class="popup-step active" data-step="1">
 			<p class="popup-eyebrow">Aarvella appointment</p>
-			<h2 id="bookingTitle">Select Your Service</h2>
+			<h2 id="bookingTitle">What are you booking?</h2>
 
-			<div class="service-options" role="radiogroup" aria-label="Select a service">
-				<button type="button" class="service-option" role="radio" aria-checked="false">Men's Hair</button>
-				<button type="button" class="service-option" role="radio" aria-checked="false">Women's Hair</button>
-				<button type="button" class="service-option" role="radio" aria-checked="false">Hair Coloring</button>
-				<button type="button" class="service-option" role="radio" aria-checked="false">Hair Texture</button>
-				<button type="button" class="service-option" role="radio" aria-checked="false">Hand and Foot Spa</button>
-				<button type="button" class="service-option" role="radio" aria-checked="false">Skin Care</button>
-				<button type="button" class="service-option" role="radio" aria-checked="false">Beauty Essentials</button>
-				<button type="button" class="service-option" role="radio" aria-checked="false">Makeup and Bridal</button>
-			</div>
+			<label class="popup-field service-search-field">
+				<span class="sr-only">Search services</span>
+				<input type="search" id="serviceSearch" placeholder="Search services…" autocomplete="off">
+			</label>
+
+			<div class="category-row" id="categoryRow" role="tablist" aria-label="Service categories"></div>
+
+			<div class="service-list" id="serviceList" role="listbox" aria-label="Services"></div>
 
 			<p class="booking-error" id="bookingError" aria-live="polite"></p>
 
-			<button class="btn-gold popup-primary" type="button" data-booking-next>
+			<button class="btn-gold popup-primary" type="button" data-booking-next disabled>
 				<span class="btn-text">Continue</span>
 				<span class="btn-ripple-container" aria-hidden="true"></span>
 			</button>
 		</section>
 
+		<!-- STEP 2: STYLIST + SLOT -->
 		<section class="popup-step" data-step="2">
-			<p class="popup-eyebrow">Preferred slot</p>
-			<h2>Choose Date &amp; Time</h2>
+			<p class="popup-eyebrow">Pick a pro &amp; time</p>
+			<h2>When works for you?</h2>
 
-			<div class="quick-dates">
-				<button type="button" data-date-offset="0">Today</button>
-				<button type="button" data-date-offset="1">Tomorrow</button>
-				<button type="button" data-date-offset="2">+2 Days</button>
-			</div>
+			<div class="stylist-row" id="stylistRow"></div>
+			<div class="date-strip" id="dateStrip"></div>
+			<div class="slot-grid" id="slotGrid"></div>
 
-			<label class="popup-field">
-				<span>Date</span>
-				<input type="date" id="bookingDate">
-			</label>
-
-			<div class="time-slots">
-				<button type="button" data-time="10:00">10:00 AM</button>
-				<button type="button" data-time="13:00">1:00 PM</button>
-				<button type="button" data-time="16:00">4:00 PM</button>
-				<button type="button" data-time="19:00">7:00 PM</button>
-			</div>
-
-			<label class="popup-field">
-				<span>Time</span>
-				<input type="time" id="bookingTime">
-			</label>
+			<p class="popup-hint" id="slotHint"></p>
+			<p class="booking-error" id="slotError" aria-live="polite"></p>
 
 			<div class="popup-actions">
 				<button class="btn-outline" type="button" data-booking-prev>
 					<span class="btn-text">Back</span>
 				</button>
-				<button class="btn-gold" type="button" data-booking-next>
+				<button class="btn-gold" type="button" data-booking-next disabled>
 					<span class="btn-text">Continue</span>
 				</button>
 			</div>
-
-			<p class="popup-hint">Date and time are optional. Our team will confirm availability.</p>
 		</section>
 
+		<!-- STEP 3: PHONE -->
 		<section class="popup-step" data-step="3">
-			<p class="popup-eyebrow">Your details</p>
-			<h2>Tell Us About You</h2>
-
-			<label class="popup-field">
-				<span>Full name</span>
-				<input type="text" id="bookingName" autocomplete="name" placeholder="Full Name">
-			</label>
+			<p class="popup-eyebrow">Almost there</p>
+			<h2>Your mobile number</h2>
+			<p class="popup-hint" style="margin-top:0;">We'll text a one-time code to confirm it's you — no password, no account to create.</p>
 
 			<label class="popup-field">
 				<span>Mobile number</span>
-
 				<input
 					type="tel"
 					id="bookingPhone"
 					name="phone"
 					inputmode="tel"
 					autocomplete="tel"
-					maxlength="18"
-					placeholder="+91 9876543210"
-					aria-describedby="detailsError"
+					maxlength="10"
+					placeholder="98765 43210"
+					aria-describedby="phoneError"
 				>
 			</label>
 
-			<p class="booking-error" id="detailsError" aria-live="polite"></p>
+			<p class="booking-error" id="phoneError" aria-live="polite"></p>
 
 			<div class="popup-actions">
 				<button class="btn-outline" type="button" data-booking-prev>
 					<span class="btn-text">Back</span>
 				</button>
-				<button class="btn-gold" type="button" data-booking-confirm>
-					<span class="btn-text">Confirm Booking</span>
+				<button class="btn-gold" type="button" id="sendOtpBtn">
+					<span class="btn-text">Send code</span>
 				</button>
 			</div>
 		</section>
 
+		<!-- STEP 4: OTP -->
 		<section class="popup-step" data-step="4">
-			<p class="popup-eyebrow">Request received</p>
-			<h2>You're Booked ✨</h2>
-			<p>We’ll contact you shortly to confirm your appointment.</p>
+			<p class="popup-eyebrow">Verify it's you</p>
+			<h2>Enter the 6-digit code</h2>
+			<p class="popup-hint" id="otpSentTo"></p>
+
+			<div class="otp-row" id="otpRow"></div>
+
+			<p class="booking-error" id="otpError" aria-live="polite"></p>
+
+			<p class="resend-line">
+				Didn't get it?
+				<button type="button" class="resend-btn" id="resendOtpBtn" disabled>Resend in <span id="resendTimer">45</span>s</button>
+			</p>
+
+			<div class="popup-actions">
+				<button class="btn-outline" type="button" id="changeNumberBtn">
+					<span class="btn-text">Change number</span>
+				</button>
+			</div>
+		</section>
+
+		<!-- STEP 5: REVIEW -->
+		<section class="popup-step" data-step="5">
+			<p class="popup-eyebrow">Last look</p>
+			<h2>Confirm your booking</h2>
+
+			<div class="review-card" id="reviewCard"></div>
+
+			<p class="booking-error" id="confirmError" aria-live="polite"></p>
+
+			<div class="popup-actions">
+				<button class="btn-outline" type="button" data-booking-goto="2">
+					<span class="btn-text">Edit</span>
+				</button>
+				<button class="btn-gold" type="button" id="confirmBtn">
+					<span class="btn-text">Confirm &amp; book</span>
+				</button>
+			</div>
+		</section>
+
+		<!-- STEP 6: DONE -->
+		<section class="popup-step" data-step="6">
+			<div class="success-check" aria-hidden="true">
+				<svg viewBox="0 0 24 24" fill="none"><path d="M4 12.5L9.5 18L20 6" stroke="#0a0905" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+			</div>
+			<p class="popup-eyebrow" id="successEyebrow">Booked</p>
+			<h2 id="successHeading">You're Booked ✨</h2>
+			<p id="successMessage">We'll see you then.</p>
+
+			<div class="review-card" id="successCard"></div>
+
+			<div class="popup-actions">
+				<button class="btn-outline" type="button" id="icsBtn">
+					<span class="btn-text">Add to calendar</span>
+				</button>
+			</div>
 
 			<a id="whatsappBtn" target="_blank" rel="noopener" class="btn-outline popup-whatsapp">
-				<span class="btn-text">Confirm on WhatsApp</span>
+				<span class="btn-text">Message us on WhatsApp</span>
 			</a>
 		</section>
+
+		<p class="popup-fallback" id="popupFallback">
+			Rather message us? <a href="#" id="waFallbackLink" target="_blank" rel="noopener">Book on WhatsApp instead</a>
+		</p>
 	</div>
 </div>
