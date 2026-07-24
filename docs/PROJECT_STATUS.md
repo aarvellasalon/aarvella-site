@@ -6,7 +6,7 @@ This document records the current implementation status, in-progress work, and p
 
 For structural/architectural facts (how the site is built, file layout, request flows), see `docs/ARCHITECTURE.md` — that document is the source of truth for "how things work." This document is the source of truth for "what's done, what's in progress, and what's next."
 
-Last manually reviewed: 2026-07-20.
+Last manually reviewed: 2026-07-24.
 
 ---
 
@@ -14,7 +14,7 @@ Last manually reviewed: 2026-07-20.
 
 ### Booking system: wiring the public site to the live CRM API
 
-**Status: in progress, uncommitted on disk.**
+**Status: done, committed and pushed.** Committed as `2ea0254` ("Wire booking popup to live CRM API and polish UI") and pushed to `origin/main`. Confirmed working end-to-end in a real browser, not just via API testing — see below.
 
 `assets/js/booking.js`, `assets/css/booking.css`, and `assets/partials/booking-popup.html` have been substantially rewritten (work done prior to 2026-07-20, in a session not captured in any saved memory — recovered by inspecting the uncommitted git diff) to replace the old WhatsApp-only popup with a full flow against a live external CRM API at `https://os.aarvella.com/api/v1` (the separate `aarvella-crm` Laravel repo). New flow: service search/category browse → live stylist + date + time-slot picker → phone number → OTP verification (6-digit code) → review → confirm → success, with every CRM-call failure degrading gracefully to the old WhatsApp hand-off rather than dead-ending the visitor.
 
@@ -35,16 +35,28 @@ Last manually reviewed: 2026-07-20.
 
 **`POST /appointments` — confirmed working, 2026-07-20.** Tested end-to-end with explicit user go-ahead, using the real token from the OTP-verify test above. Request: `service_id=1` (Mens Cut and Styling), `stylist_id=1` (Rashmi Chandrakar), `starts_at="2026-07-22T10:50:00+05:30"` (a slot confirmed available moments earlier). Response: HTTP 201, `{"data":{"id":1,"status":"booked",...,"service":{"starts_at":"2026-07-22T10:50:00+00:00","ends_at":"2026-07-22T11:35:00+00:00","price":"600.00"}}}`. `handleConfirm()` doesn't inspect the response body — it only needs the call to not throw — so this confirms the full flow works with **no code changes needed in `booking.js`**.
 
-**⚠️ Cleanup needed on the CRM side**: this created a real, permanent appointment record — `id: 1`, branch 1, service "Mens Cut and Styling", stylist Rashmi Chandrakar, 2026-07-22 10:50 AM local, customer `CUST-00001` ("Customer 9999999999"). User confirmed cleanup would happen CRM-side; not yet done as of this writing.
+**✅ Database confirmed shared, 2026-07-24.** Queried directly via cPanel phpMyAdmin/MariaDB: the CRM's data lives in `aarvyeqt_salon_db` — the same physical database `account/dashboard.php`/`appointments.php` read from directly via PDO (matches the `aarvyeqt` cPanel username seen in the private config path). The `appointments` table confirms:
+
+| id | branch_id | customer_id | status | source | created_at |
+|---|---|---|---|---|---|
+| 1 | 1 | 1 | booked | website | 2026-07-20 16:55:43 |
+| 2 | 1 | 2 | booked | website | 2026-07-20 18:23:18 |
+| 3 | 1 | 3 | booked | website | 2026-07-20 19:07:29 |
+| 4 | 1 | 4 | booked | website | 2026-07-20 19:29:33 |
+| 5 | 1 | 5 | booked | website | 2026-07-24 05:28:53 |
+
+id 1 is the `curl`-based API test from earlier. **ids 2-5 are confirmed to be the user's own successful full click-through tests in a real browser** — meaning the entire flow (service select → stylist/slot → OTP → confirm) works correctly end-to-end in practice, not just against raw API calls.
+
+**⚠️ Cleanup needed on the CRM side**: all 5 of the above are real, permanent appointment records that should be cleaned up before real customer traffic. Not yet done as of this writing.
 
 **Additional CRM-side finding**: the same `+00:00`-labeled-but-actually-local timezone issue seen in `/availability` also appears in `POST /appointments`'s response (`starts_at`/`ends_at` came back `+00:00` for the same local digits submitted as `+05:30`). Suggests this is a systemic serialization config issue across the CRM, not isolated to one endpoint — worth relaying the broader scope to the CRM session.
 
-**All booking-API endpoints the website needs are now verified working against production.** Remaining gaps are not about the API anymore:
+**All booking-API endpoints the website needs are now verified working against production, and confirmed via real browser use.** Remaining items:
 
-1. The changes need a full click-through test in an actual browser (not just curl) before this can be considered ready — none of this has been visually verified yet.
-2. Not yet committed to git. Do not commit without explicit instruction.
-3. Not yet checked: does the new dynamic, catalogue-driven `booking-popup.html` still correctly handle every `data-book="..."` preselect string used across the site (`bridal.html`, `services.html`)? The matching logic changed from an exact-string match against 8 hardcoded labels to a substring match against the live catalogue's service/category names.
-4. The test appointment (`id: 1`, see above) still needs cleanup on the CRM side.
+1. ~~The changes need a full click-through test in an actual browser.~~ **Done** — confirmed via 4 successful real bookings (ids 2-5) created by the user testing the actual popup UI.
+2. ~~Not yet committed to git.~~ **Done** — committed (`2ea0254`) and pushed to `origin/main`.
+3. ~~Does `booking-popup.html` correctly handle every `data-book="..."` preselect string?~~ **Done** — see "Preselect wiring" below.
+4. **Still open**: all 5 test appointments (ids 1-5, see the database table above) need cleanup on the CRM side.
 
 **Preselect wiring — done, 2026-07-20.** Fetched the full live catalogue (79 services across 7 categories: Mens Hair, Womens Hair, Hair Coloring, Hair Texture, Hand and Foot Spa, Skin Care, Beauty and Wellness) and rewired every `data-book="..."` across the site to match real category/service names, replacing the old hardcoded/non-matching strings:
 
@@ -75,7 +87,13 @@ Every term was verified against the live API by replicating `applyPreselect()`'s
 4. OTP boxes resized smaller and more portrait (38×46 → 30×44 at desktop, scaled proportionally at both mobile breakpoints).
 5. **Corrected a regression from UI polish pass 1**: service rows had been changed from the original two-sided (`space-between`) name/price layout to a single-side `flex-start` layout to "bring them closer," which wasn't what was asked — reverted to `space-between`, and instead increased the row's horizontal padding (16px → 28px, 22px on the mobile breakpoint) to pull the two anchored elements closer together while keeping them on opposite sides, which was the actual request.
 
-**Next session should**: run the browser test again with these changes and confirm the visual result matches expectations. This is now the only remaining gap before the booking system is production-ready. The API layer and preselect wiring don't need further work unless the CRM adds Makeup/Bridal data.
+**Booking system is now considered production-ready from the website side.** Verified against real production data (79 services, real stylists, real availability), confirmed working through 4 real successful browser bookings, committed, and pushed. Remaining items are all CRM-side or cosmetic-follow-up, not website blockers:
+
+1. Clean up the 5 test appointments (ids 1-5) in `aarvyeqt_salon_db.appointments`.
+2. CRM catalogue still has no Makeup or Bridal category/services — `makeup.html`/`bridal.html` booking buttons can't preselect anything meaningful until that data exists.
+3. Confirm whether the user wants another look at the UI after the two polish passes (spacing, chip styling, scrollbars, OTP boxes, service-row layout) — no further feedback received yet as of this writing.
+
+**Next session should**: check whether the CRM-side cleanup and Makeup/Bridal catalogue gap have been addressed. Otherwise, this thread of work is complete.
 
 ---
 
@@ -201,9 +219,8 @@ Live, 4 long-form articles under `blog/`. FAQ accordions and scroll-reveal imple
 
 Two separate, structurally different schemas were found in active use — documented in full in `docs/ARCHITECTURE.md` §10:
 
-* **"DBv2"**, used by `account/*.php` — real, in production use for the customer portal.
-* **Legacy**, used by `api/*.php` (newsletter, contact, and an unused set of `services`/`stylists`/`appointments` endpoints) — these three unused endpoints (`api/appointments/create.php`, `api/services/list.php`, `api/stylists/list.php`) are now superseded in practice by the direct `os.aarvella.com` CRM integration described in "Active work" above. Their fate (delete vs. keep as a fallback) has not been decided.
-* Whether the two schemas' underlying credentials point at the same physical database is still unverified — requires production access.
+* **"DBv2"**, used by `account/*.php` — real, in production use for the customer portal. **Confirmed 2026-07-24**: this is the `aarvyeqt_salon_db` MariaDB database on the cPanel account, and it is the same database the CRM (`os.aarvella.com`) reads from and writes to — verified by querying `appointments` directly via phpMyAdmin and finding the exact test bookings created through the CRM API and the live booking popup.
+* **Legacy**, used by `api/*.php` (newsletter, contact, and an unused set of `services`/`stylists`/`appointments` endpoints) — these three unused endpoints (`api/appointments/create.php`, `api/services/list.php`, `api/stylists/list.php`) are now superseded in practice by the direct `os.aarvella.com` CRM integration described in "Active work" above. Their fate (delete vs. keep as a fallback) has not been decided. Whether *this* legacy connection path (`api/config/db.php`) also points at `aarvyeqt_salon_db` or a different database is still unverified.
 
 The CRM (`os.aarvella.com`) is now confirmed live and is the operational source of truth for services, stylists, branches and availability, per the direction this section originally called for.
 
