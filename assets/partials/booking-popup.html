@@ -25,6 +25,24 @@
 
 		<div class="mini-summary" id="miniSummary"></div>
 
+		<!-- TEMPORARY NOTICE: shown instead of the booking flow while the
+		     salon is not yet open. Controlled by BOOKING_TEMPORARILY_DISABLED
+		     in assets/js/booking.js — remove that flag to restore the normal
+		     flow, this section can stay in place unused. -->
+		<section class="popup-step" data-step="notice">
+			<p class="popup-eyebrow">Aarvella appointment</p>
+			<h2>We're getting ready for you</h2>
+			<p class="popup-hint" style="margin-top:0;">
+				Aarvella is putting the finishing touches on online booking and isn't taking appointments through the website just yet. Message us on WhatsApp and our team will help you directly.
+			</p>
+
+			<div class="popup-actions">
+				<a id="noticeWhatsappBtn" target="_blank" rel="noopener" class="btn-gold popup-whatsapp">
+					<span class="btn-text">Message us on WhatsApp</span>
+				</a>
+			</div>
+		</section>
+
 		<!-- STEP 1: SERVICE -->
 		<section class="popup-step active" data-step="1">
 			<p class="popup-eyebrow">Aarvella appointment</p>

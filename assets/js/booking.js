@@ -16,6 +16,14 @@
 		? new URL("../partials/booking-popup.html", scriptElement.src).href
 		: "assets/partials/booking-popup.html";
 
+	/* The salon is not open yet, so the site must not create real
+	   appointments. Set to false to restore the normal booking flow when
+	   ready — no other changes are needed. While true, opening the popup
+	   shows a "not taking bookings yet" notice (see the "notice" step in
+	   assets/partials/booking-popup.html) with a WhatsApp contact link,
+	   instead of the service/stylist/OTP/confirm flow. */
+	const BOOKING_TEMPORARILY_DISABLED = true;
+
 	const WHATSAPP_NUMBER = "919742049990";
 	const API_BASE = "https://os.aarvella.com/api/v1";
 	const BRANCH_ID = 1;
@@ -392,10 +400,14 @@
 
 		previouslyFocused = document.activeElement;
 		resetPopup();
-		state.pendingPreselect = preselectedService;
 
-		goTo(1);
-		renderServiceStep();
+		if (BOOKING_TEMPORARILY_DISABLED) {
+			showBookingNotice();
+		} else {
+			state.pendingPreselect = preselectedService;
+			goTo(1);
+			renderServiceStep();
+		}
 
 		popup.classList.add("active");
 		popup.setAttribute("aria-hidden", "false");
@@ -404,6 +416,26 @@
 		requestAnimationFrame(() => {
 			popup.querySelector(".popup-container")?.focus();
 		});
+	}
+
+	function showBookingNotice() {
+		popup.querySelectorAll(".popup-step").forEach((section) => {
+			section.classList.toggle("active", section.dataset.step === "notice");
+		});
+
+		const progressBar = popup.querySelector("#progressBar");
+		if (progressBar) progressBar.style.width = "0%";
+
+		const summary = popup.querySelector("#miniSummary");
+		if (summary) summary.innerHTML = "";
+
+		const fallback = popup.querySelector("#popupFallback");
+		if (fallback) fallback.style.display = "none";
+
+		const whatsappBtn = popup.querySelector("#noticeWhatsappBtn");
+		if (whatsappBtn) {
+			whatsappBtn.href = buildWhatsappUrl("Hi Aarvella, I'd like to book an appointment once you're open.");
+		}
 	}
 
 	function closeBooking() {
