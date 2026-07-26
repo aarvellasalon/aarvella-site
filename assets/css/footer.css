@@ -145,13 +145,9 @@
 }
 
 .main-footer .logo {
-	display: inline-flex;
-	color: var(--footer-gold-soft);
-	font-size: clamp(1.45rem, 2vw, 2rem);
-	font-weight: 850;
-	letter-spacing: 0.22em;
-	line-height: 1;
-	background: transparent !important;
+	display: block;
+	height: clamp(32px, 3vw, 42px);
+	width: auto;
 }
 
 .social-icons {

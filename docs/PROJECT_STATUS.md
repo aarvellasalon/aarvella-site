@@ -6,9 +6,27 @@ This document records the current implementation status, in-progress work, and p
 
 For structural/architectural facts (how the site is built, file layout, request flows), see `docs/ARCHITECTURE.md` — that document is the source of truth for "how things work." This document is the source of truth for "what's done, what's in progress, and what's next."
 
-Last manually reviewed: 2026-07-24.
+Last manually reviewed: 2026-07-27.
 
 ---
+
+## Brand assets: real logo + full favicon set added, 2026-07-27
+
+The site previously had **no image logo anywhere** — nav and footer both used a CSS/text "AARVELLA" wordmark, and 3 blog articles' JSON-LD schema referenced `assets/images/aarvella-logo.png`, a file that had never existed (a silent broken link). This is now fixed:
+
+* **`assets/images/aarvella-logo-white.svg`** — used in the shared nav (`assets/partials/navigation.html`, both desktop and mobile-drawer brand marks) and the shared footer (`assets/partials/footer.html`). Verified in a real browser: legible and correctly sized in the dark nav on both the black marketing pages and the light-background blog article pages (the nav floats as a dark bar over both), in the dark footer, and in the mobile drawer.
+* **`assets/images/aarvella-logo-black.svg`** + a generated **`assets/images/aarvella-logo.png`** (1200px, rendered from the black SVG via ImageMagick) — used for the JSON-LD `logo` schema field on the 3 blog articles that already referenced this exact path, since that's a light-background context (search/social preview cards).
+* The nav's previous "Hair · Skin · Makeup" tagline was dropped (user's explicit choice) since the new logo is a complete mark on its own.
+* Full modern favicon set added at the repo root (`favicon.svg`, `favicon-16x16.png`, `favicon-32x32.png`, `apple-touch-icon.png` [180×180], `android-chrome-192x192.png`, `android-chrome-512x512.png`, plus a new `site.webmanifest`), with the legacy `favicon.ico` kept as a fallback for very old browsers/crawlers. All sizes verified via `identify` before use — every file matched its expected dimensions exactly.
+* **Every page now has a complete, consistent favicon link block** — previously only 10 of ~23 top-level pages referenced the favicon at all (none of the 4 blog articles did), and the customer-portal pages (`account/portal-layout.php`, `account-error.php`, `verify-email.php`, `verified.php`) had none either. All are now consistent.
+* Verified in a real browser (Playwright + local `php -S`): favicon/logo files all resolve 200, nav/footer/mobile-drawer screenshots all confirmed visually correct.
+* Not yet committed to git.
+
+---
+
+## 🚧 Bookings are intentionally disabled — read this first
+
+The salon is not open yet. `assets/js/booking.js` has `const BOOKING_TEMPORARILY_DISABLED = true;` near the top — while true, clicking any "Book Now" trigger anywhere on the site shows a "we're getting ready for you" notice with a WhatsApp contact link, instead of the real service/stylist/OTP/confirm flow. No CRM API calls happen at all in this state. The full flow (verified working end-to-end, see "Active work" below) is fully intact underneath and can be restored by flipping that one flag back to `false` — no other changes needed. **Do not flip it back without explicit confirmation that the salon is ready to take real bookings.**
 
 ## Active work — resume here
 
@@ -87,13 +105,15 @@ Every term was verified against the live API by replicating `applyPreselect()`'s
 4. OTP boxes resized smaller and more portrait (38×46 → 30×44 at desktop, scaled proportionally at both mobile breakpoints).
 5. **Corrected a regression from UI polish pass 1**: service rows had been changed from the original two-sided (`space-between`) name/price layout to a single-side `flex-start` layout to "bring them closer," which wasn't what was asked — reverted to `space-between`, and instead increased the row's horizontal padding (16px → 28px, 22px on the mobile breakpoint) to pull the two anchored elements closer together while keeping them on opposite sides, which was the actual request.
 
-**Booking system is now considered production-ready from the website side.** Verified against real production data (79 services, real stylists, real availability), confirmed working through 4 real successful browser bookings, committed, and pushed. Remaining items are all CRM-side or cosmetic-follow-up, not website blockers:
+**Booking system is fully built and verified, but intentionally switched off, 2026-07-24.** Verified against real production data (79 services, real stylists, real availability), confirmed working through 4 real successful browser bookings, committed, and pushed. The salon is not open yet, so `BOOKING_TEMPORARILY_DISABLED = true` was added to `booking.js` — see the banner at the top of this document. Every "Book Now" trigger site-wide now shows a "we're getting ready for you" notice with a WhatsApp link instead of the real flow; no CRM calls happen while disabled. Restoring the real flow is a one-line flag flip when the salon is ready — nothing else needs to change.
+
+Remaining items, none of which block turning bookings back on:
 
 1. Clean up the 5 test appointments (ids 1-5) in `aarvyeqt_salon_db.appointments`.
 2. CRM catalogue still has no Makeup or Bridal category/services — `makeup.html`/`bridal.html` booking buttons can't preselect anything meaningful until that data exists.
 3. Confirm whether the user wants another look at the UI after the two polish passes (spacing, chip styling, scrollbars, OTP boxes, service-row layout) — no further feedback received yet as of this writing.
 
-**Next session should**: check whether the CRM-side cleanup and Makeup/Bridal catalogue gap have been addressed. Otherwise, this thread of work is complete.
+**Next session should**: do not re-enable `BOOKING_TEMPORARILY_DISABLED` without explicit confirmation the salon is ready for real bookings. Otherwise check whether the CRM-side cleanup and Makeup/Bridal catalogue gap have been addressed.
 
 ---
 
@@ -128,7 +148,7 @@ Shared systems status:
 | Navigation | Working, consistent across all top-level pages and blog articles. `hair.html` added to the mega-menu's Hair column (2026-07-07). |
 | Footer | Working, consistent across all top-level pages. Blog articles still use a bespoke hand-rolled footer instead of the shared partial (not yet fixed). Duplicate footer-loader script (`footer-loader.js`) removed 2026-07-07 — `includes.js` is now the sole loader. |
 | Buttons | Consistently shared everywhere, including the customer portal. |
-| Booking popup | See "Active work" above — mid-rewrite. |
+| Booking popup | Fully built and verified against production, but **intentionally disabled** (`BOOKING_TEMPORARILY_DISABLED = true` in `booking.js`) since the salon isn't open yet — see the banner at the top of this document. |
 | Page animations | Mostly page-specific scroll-reveal (`IntersectionObserver`), duplicated per page rather than shared — not yet consolidated. |
 | Customer authentication | Working, Auth0 Universal Login. See "Authentication" section below. |
 | Customer dashboard | Working, real DB-backed data. `dashboard.php`/`appointments.php` now render through the shared `account/portal-layout.php` shell (fixed 2026-07-07 — they previously hand-rolled duplicate sidebar/topbar markup). |

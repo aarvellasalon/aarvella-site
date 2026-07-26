@@ -123,36 +123,10 @@ body.av-menu-open { overflow: hidden !important; }
   text-decoration: none;
 }
 
-.av-brand-monogram {
-  width: clamp(42px, 2.7vw, 50px);
-  height: clamp(42px, 2.7vw, 50px);
-  flex: 0 0 clamp(42px, 2.7vw, 50px);
-  display: grid;
-  place-items: center;
-  border: 1px solid rgba(215, 182, 93, 0.44);
-  border-radius: 50%;
-  background: radial-gradient(circle at 32% 22%, rgba(255,255,255,0.2), transparent 38%);
-  color: var(--av-nav-gold-bright);
-  font-family: Georgia, "Times New Roman", serif;
-  font-size: clamp(1.25rem, 1.05rem + 0.3vw, 1.52rem);
-  font-style: italic;
-  box-shadow: inset 0 0 22px rgba(215,182,93,0.06);
-}
-
-.av-brand-copy { display: grid; gap: 2px; min-width: 0; }
-
-.av-brand-name {
-  font: 650 clamp(1.08rem, 0.93rem + 0.28vw, 1.35rem)/1 "Poppins", "Inter", sans-serif;
-  letter-spacing: 0.25em;
-  white-space: nowrap;
-}
-
-.av-brand-tagline {
-  color: var(--av-nav-muted);
-  font: 500 clamp(0.6rem, 0.54rem + 0.1vw, 0.7rem)/1.2 "Inter", sans-serif;
-  letter-spacing: 0.18em;
-  text-transform: uppercase;
-  white-space: nowrap;
+.av-brand-logo {
+  display: block;
+  height: clamp(30px, 2.3vw, 38px);
+  width: auto;
 }
 
 .av-desktop-nav {
@@ -568,9 +542,8 @@ body.av-menu-open { overflow: hidden !important; }
   border-bottom: 1px solid rgba(255,255,255,0.07);
 }
 
-.av-mobile-brand { display: grid; gap: 4px; color: var(--av-nav-paper); text-decoration: none; }
-.av-mobile-brand span { font: 650 1rem/1 "Poppins", sans-serif; letter-spacing: 0.24em; }
-.av-mobile-brand small { color: var(--av-nav-muted); font: 500 0.53rem/1 "Inter", sans-serif; letter-spacing: 0.18em; text-transform: uppercase; }
+.av-mobile-brand { display: grid; color: var(--av-nav-paper); text-decoration: none; }
+.av-mobile-brand-logo { display: block; height: 28px; width: auto; }
 
 .av-mobile-close { color: var(--av-nav-paper); }
 .av-mobile-close span:first-child { transform: rotate(45deg); }
@@ -690,10 +663,8 @@ body.av-menu-open { overflow: hidden !important; }
     gap: 10px;
     padding-left: 15px;
   }
-  .av-brand-tagline,
   .av-location-action { display: none; }
-  .av-brand-monogram { width: 40px; height: 40px; flex-basis: 40px; }
-  .av-brand-name { font-size: 1rem; letter-spacing: 0.21em; }
+  .av-brand-logo { height: 34px; }
   .av-nav-link { padding-inline: 13px; font-size: 0.84rem; }
   .av-nav-actions > .av-btn--nav { --av-btn-padding-x: 18px; --av-btn-font-size: 0.8rem; }
   .av-icon-action { width: 40px; height: 40px; flex-basis: 40px; }
@@ -719,10 +690,7 @@ body.av-menu-open { overflow: hidden !important; }
   .av-header { padding: 10px 10px 0; }
   .av-nav-shell { min-height: 64px; padding: 7px 7px 7px 13px; border-radius: 17px; gap: 9px; }
   .av-header.av-scrolled .av-nav-shell { min-height: 62px; }
-  .av-brand { gap: 9px; }
-  .av-brand-monogram { width: 36px; height: 36px; flex-basis: 36px; font-size: 1.05rem; }
-  .av-brand-name { font-size: 0.94rem; letter-spacing: 0.21em; }
-  .av-brand-tagline { font-size: 0.55rem; letter-spacing: 0.13em; }
+  .av-brand-logo { height: 30px; }
   .av-nav-actions { gap: 5px; }
   .av-nav-actions > .av-btn--nav { --av-btn-height: 42px; --av-btn-padding-x: 14px; gap: 0; }
   .av-nav-actions > .av-btn--nav .av-btn__icon { display: none; }
@@ -730,8 +698,7 @@ body.av-menu-open { overflow: hidden !important; }
 }
 
 @media (max-width: 390px) {
-  .av-brand-tagline { display: none; }
-  .av-brand-monogram { display: none; }
+  .av-brand-logo { height: 24px; }
   .av-nav-actions > .av-btn--nav { --av-btn-padding-x: 12px; }
   .av-mobile-scroll { padding-inline: 18px; }
   .av-mobile-accordion-panel { columns: 1; }
