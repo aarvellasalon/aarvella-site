@@ -20,7 +20,8 @@ The site previously had **no image logo anywhere** — nav and footer both used 
 * Full modern favicon set added at the repo root (`favicon.svg`, `favicon-16x16.png`, `favicon-32x32.png`, `apple-touch-icon.png` [180×180], `android-chrome-192x192.png`, `android-chrome-512x512.png`, plus a new `site.webmanifest`), with the legacy `favicon.ico` kept as a fallback for very old browsers/crawlers. All sizes verified via `identify` before use — every file matched its expected dimensions exactly.
 * **Every page now has a complete, consistent favicon link block** — previously only 10 of ~23 top-level pages referenced the favicon at all (none of the 4 blog articles did), and the customer-portal pages (`account/portal-layout.php`, `account-error.php`, `verify-email.php`, `verified.php`) had none either. All are now consistent.
 * Verified in a real browser (Playwright + local `php -S`): favicon/logo files all resolve 200, nav/footer/mobile-drawer screenshots all confirmed visually correct.
-* Not yet committed to git.
+* **Follow-up fix, same day**: the browser kept showing the old favicon after the first pass — browsers cache favicons independently of normal page cache and often ignore a hard refresh. Fixed by (1) merging 3 user-supplied ICO sizes (16/32/48px) into one proper multi-resolution `favicon.ico` via ImageMagick, replacing the single-size original, and (2) adding a `?v=20260727` cache-busting query string to every favicon-related link across all 27 pages. Verified all 6 favicon URLs resolve 200 with the new versioned hrefs, and confirmed the merged `.ico` actually contains the new gold-diamond artwork (not the stale one) by rendering and viewing it directly.
+* **Committed and pushed** — `34e87c0` (logo + favicon set) and `2230845` (favicon cache-bust fix). Fully done.
 
 ---
 
