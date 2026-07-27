@@ -7,6 +7,16 @@ use Auth0\SDK\Configuration\SdkConfiguration;
 
 require_once dirname(__DIR__) . '/vendor/autoload.php';
 
+/*
+ * Shared hosting's default PHP error log has proven unreliable to locate,
+ * so the auth flow logs explicitly to a known file outside the web root
+ * rather than depending on server defaults. Never display errors to
+ * visitors — this flow handles credentials and DB records.
+ */
+ini_set('log_errors', '1');
+ini_set('display_errors', '0');
+ini_set('error_log', '/home/aarvyeqt/private/auth0-debug.log');
+
 $config = require '/home/aarvyeqt/private/aarvella-auth0.php';
 $auth0Config = $config['auth0'];
 
