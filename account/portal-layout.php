@@ -36,6 +36,7 @@ function portalRenderShellStart(array $context, string $activePage, string $titl
     $buttonsCssVersion = portalAssetVersion('/assets/css/buttons.css');
     $baseCssVersion = portalAssetVersion('/assets/css/customer-portal.css');
     $pagesCssVersion = portalAssetVersion('/assets/css/customer-portal-pages.css');
+    $bookingCssVersion = portalAssetVersion('/assets/css/booking.css');
 
     $mainClasses = array_merge(['portal-content', 'portal-account-content'], $extraMainClasses);
     ?>
@@ -61,6 +62,7 @@ function portalRenderShellStart(array $context, string $activePage, string $titl
     <link rel="stylesheet" href="/assets/css/buttons.css?v=<?= portalE($buttonsCssVersion) ?>">
     <link rel="stylesheet" href="/assets/css/customer-portal.css?v=<?= portalE($baseCssVersion) ?>">
     <link rel="stylesheet" href="/assets/css/customer-portal-pages.css?v=<?= portalE($pagesCssVersion) ?>">
+    <link rel="stylesheet" href="/assets/css/booking.css?v=<?= portalE($bookingCssVersion) ?>">
 </head>
 <body class="<?= portalE(implode(' ', $bodyClasses)) ?>">
     <div class="portal-app">
