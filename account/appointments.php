@@ -30,12 +30,9 @@ function appointmentDate(string $value): DateTimeImmutable
 function statusLabel(string $status): string
 {
     return match ($status) {
-        'draft' => 'Draft',
-        'pending' => 'Pending',
-        'confirmed' => 'Confirmed',
+        'booked' => 'Booked',
         'checked_in' => 'Checked in',
         'in_progress' => 'In progress',
-        'rescheduled' => 'Rescheduled',
         'completed' => 'Completed',
         'cancelled' => 'Cancelled',
         'no_show' => 'No show',
@@ -46,14 +43,10 @@ function statusLabel(string $status): string
 function statusClass(string $status): string
 {
     return match ($status) {
-        'confirmed',
+        'booked',
         'checked_in',
         'in_progress',
         'completed' => 'is-success',
-
-        'draft',
-        'pending',
-        'rescheduled' => 'is-warning',
 
         'cancelled',
         'no_show' => 'is-danger',
@@ -147,64 +140,56 @@ if ($customerId > 0) {
         $database->exec("SET time_zone = '+05:30'");
 
         /*
-         * DBv2 stores the appointment header in appointments and one or more
-         * booked services in appointment_services.
+         * The live appointments/appointment_services schema is simpler than
+         * DBv2's original design: appointments carries no code, price, or
+         * payment fields, and start/end times live per-service rather than
+         * per-appointment, so they are derived here via subqueries.
          */
         $baseSelect = "
             SELECT
                 a.id,
-                a.appointment_code,
-                a.appointment_start,
-                a.appointment_end,
                 a.status,
-                a.total_price,
-                a.advance_paid,
-                a.payment_status,
-                a.customer_message,
-                a.cancellation_reason,
                 b.name AS branch_name,
+                (
+                    SELECT MIN(aps.scheduled_starts_at)
+                    FROM appointment_services AS aps
+                    WHERE aps.appointment_id = a.id
+                ) AS appointment_start,
+                (
+                    SELECT MAX(aps.scheduled_ends_at)
+                    FROM appointment_services AS aps
+                    WHERE aps.appointment_id = a.id
+                ) AS appointment_end,
+                (
+                    SELECT SUM(aps.price_snapshot)
+                    FROM appointment_services AS aps
+                    WHERE aps.appointment_id = a.id
+                ) AS total_price,
                 COALESCE(
                     (
                         SELECT GROUP_CONCAT(
-                            aps.service_name_snapshot
+                            COALESCE(s.display_name, s.name)
                             ORDER BY aps.id
                             SEPARATOR ', '
                         )
                         FROM appointment_services AS aps
+                        INNER JOIN services AS s
+                            ON s.id = aps.service_id
                         WHERE aps.appointment_id = a.id
-                          AND aps.status <> 'cancelled'
                     ),
                     'Aarvella service'
                 ) AS service_name,
-                COALESCE(
-                    (
-                        SELECT GROUP_CONCAT(
-                            DISTINCT st.public_name
-                            ORDER BY st.public_name
-                            SEPARATOR ', '
-                        )
-                        FROM appointment_services AS aps
-                        INNER JOIN stylists AS st
-                            ON st.id = aps.stylist_id
-                        WHERE aps.appointment_id = a.id
-                          AND aps.status <> 'cancelled'
-                    ),
-                    (
-                        SELECT st2.public_name
-                        FROM stylists AS st2
-                        WHERE st2.id = a.primary_stylist_id
-                        LIMIT 1
+                (
+                    SELECT GROUP_CONCAT(
+                        DISTINCT st.public_name
+                        ORDER BY st.public_name
+                        SEPARATOR ', '
                     )
-                ) AS stylist_name,
-                COALESCE(
-                    a.total_price,
-                    (
-                        SELECT SUM(aps.line_total)
-                        FROM appointment_services AS aps
-                        WHERE aps.appointment_id = a.id
-                          AND aps.status <> 'cancelled'
-                    )
-                ) AS display_total
+                    FROM appointment_services AS aps
+                    INNER JOIN stylists AS st
+                        ON st.id = aps.stylist_id
+                    WHERE aps.appointment_id = a.id
+                ) AS stylist_name
             FROM appointments AS a
             INNER JOIN branches AS b
                 ON b.id = a.branch_id
@@ -213,16 +198,13 @@ if ($customerId > 0) {
         $upcomingQuery = $database->prepare(
             $baseSelect . "
             WHERE a.customer_id = :customer_id
-              AND a.appointment_start >= NOW()
-              AND a.status IN (
-                    'draft',
-                    'pending',
-                    'confirmed',
-                    'checked_in',
-                    'in_progress',
-                    'rescheduled'
-              )
-            ORDER BY a.appointment_start ASC
+              AND a.status IN ('booked', 'checked_in', 'in_progress')
+            HAVING appointment_start IS NOT NULL
+               AND (
+                    a.status IN ('checked_in', 'in_progress')
+                    OR appointment_start >= NOW()
+               )
+            ORDER BY appointment_start ASC
             LIMIT 50"
         );
 
@@ -235,15 +217,12 @@ if ($customerId > 0) {
         $pastQuery = $database->prepare(
             $baseSelect . "
             WHERE a.customer_id = :customer_id
-              AND (
-                    a.appointment_start < NOW()
-                    OR a.status IN (
-                        'completed',
-                        'cancelled',
-                        'no_show'
-                    )
-              )
-            ORDER BY a.appointment_start DESC
+            HAVING appointment_start IS NOT NULL
+               AND (
+                    a.status IN ('completed', 'cancelled', 'no_show')
+                    OR (a.status = 'booked' AND appointment_start < NOW())
+               )
+            ORDER BY appointment_start DESC
             LIMIT 50"
         );
 
@@ -384,7 +363,7 @@ portalRenderShellStart([
                                         $status = (string) $appointment['status'];
                                         $serviceName = (string) $appointment['service_name'];
                                         $displayPrice = money(
-                                            $appointment['display_total'] ?? null
+                                            $appointment['total_price'] ?? null
                                         );
                                         ?>
 
@@ -414,7 +393,7 @@ portalRenderShellStart([
                                                 <div class="appointment-card-title-row">
                                                     <div>
                                                         <p class="appointment-code">
-                                                            <?= e((string) $appointment['appointment_code']) ?>
+                                                            Appointment #<?= (int) $appointment['id'] ?>
                                                         </p>
 
                                                         <h3><?= e($serviceName) ?></h3>
@@ -465,26 +444,9 @@ portalRenderShellStart([
                                                                 aria-hidden="true"
                                                             ></i>
                                                             <?= e($displayPrice) ?>
-                                                            ·
-                                                            <?= e(
-                                                                ucwords(
-                                                                    str_replace(
-                                                                        '_',
-                                                                        ' ',
-                                                                        (string) $appointment['payment_status']
-                                                                    )
-                                                                )
-                                                            ) ?>
                                                         </span>
                                                     <?php endif; ?>
                                                 </div>
-
-                                                <?php if (!empty($appointment['customer_message'])): ?>
-                                                    <p class="appointment-customer-note">
-                                                        <strong>Your note:</strong>
-                                                        <?= e((string) $appointment['customer_message']) ?>
-                                                    </p>
-                                                <?php endif; ?>
 
                                                 <div class="appointment-card-actions">
                                                     <button
@@ -570,7 +532,7 @@ portalRenderShellStart([
                                         $status = (string) $appointment['status'];
                                         $serviceName = (string) $appointment['service_name'];
                                         $displayPrice = money(
-                                            $appointment['display_total'] ?? null
+                                            $appointment['total_price'] ?? null
                                         );
                                         ?>
 
@@ -600,7 +562,7 @@ portalRenderShellStart([
                                                 <div class="appointment-card-title-row">
                                                     <div>
                                                         <p class="appointment-code">
-                                                            <?= e((string) $appointment['appointment_code']) ?>
+                                                            Appointment #<?= (int) $appointment['id'] ?>
                                                         </p>
 
                                                         <h3><?= e($serviceName) ?></h3>
@@ -651,29 +613,9 @@ portalRenderShellStart([
                                                                 aria-hidden="true"
                                                             ></i>
                                                             <?= e($displayPrice) ?>
-                                                            ·
-                                                            <?= e(
-                                                                ucwords(
-                                                                    str_replace(
-                                                                        '_',
-                                                                        ' ',
-                                                                        (string) $appointment['payment_status']
-                                                                    )
-                                                                )
-                                                            ) ?>
                                                         </span>
                                                     <?php endif; ?>
                                                 </div>
-
-                                                <?php if (
-                                                    $status === 'cancelled'
-                                                    && !empty($appointment['cancellation_reason'])
-                                                ): ?>
-                                                    <p class="appointment-customer-note is-cancelled">
-                                                        <strong>Cancellation:</strong>
-                                                        <?= e((string) $appointment['cancellation_reason']) ?>
-                                                    </p>
-                                                <?php endif; ?>
 
                                                 <div class="appointment-card-actions">
                                                     <a

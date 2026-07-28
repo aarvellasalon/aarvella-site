@@ -31,12 +31,9 @@ function portalAppointmentDate(string $value): DateTimeImmutable
 function portalStatusLabel(string $status): string
 {
     return match ($status) {
-        'draft' => 'Draft',
-        'pending' => 'Pending',
-        'confirmed' => 'Confirmed',
+        'booked' => 'Booked',
         'checked_in' => 'Checked in',
         'in_progress' => 'In progress',
-        'rescheduled' => 'Rescheduled',
         'completed' => 'Completed',
         'cancelled' => 'Cancelled',
         'no_show' => 'No show',
@@ -47,8 +44,7 @@ function portalStatusLabel(string $status): string
 function portalStatusClass(string $status): string
 {
     return match ($status) {
-        'confirmed', 'checked_in', 'in_progress', 'completed' => 'is-success',
-        'pending', 'rescheduled', 'draft' => 'is-warning',
+        'booked', 'checked_in', 'in_progress', 'completed' => 'is-success',
         'cancelled', 'no_show' => 'is-danger',
         default => 'is-neutral',
     };
@@ -194,60 +190,59 @@ if ($customerId > 0) {
         $upcomingQuery = $database->prepare(
             "SELECT
                 a.id,
-                a.appointment_code,
-                a.appointment_start,
-                a.appointment_end,
                 a.status,
-                a.total_price,
-                a.advance_paid,
-                a.payment_status,
                 b.name AS branch_name,
+                (
+                    SELECT MIN(aps.scheduled_starts_at)
+                    FROM appointment_services AS aps
+                    WHERE aps.appointment_id = a.id
+                ) AS appointment_start,
+                (
+                    SELECT MAX(aps.scheduled_ends_at)
+                    FROM appointment_services AS aps
+                    WHERE aps.appointment_id = a.id
+                ) AS appointment_end,
+                (
+                    SELECT SUM(aps.price_snapshot)
+                    FROM appointment_services AS aps
+                    WHERE aps.appointment_id = a.id
+                ) AS total_price,
                 COALESCE(
                     (
                         SELECT GROUP_CONCAT(
-                            aps.service_name_snapshot
+                            COALESCE(s.display_name, s.name)
                             ORDER BY aps.id
                             SEPARATOR ', '
                         )
                         FROM appointment_services AS aps
+                        INNER JOIN services AS s
+                            ON s.id = aps.service_id
                         WHERE aps.appointment_id = a.id
-                          AND aps.status <> 'cancelled'
                     ),
                     'Aarvella service'
                 ) AS service_name,
-                COALESCE(
-                    (
-                        SELECT GROUP_CONCAT(
-                            DISTINCT st.public_name
-                            ORDER BY st.public_name
-                            SEPARATOR ', '
-                        )
-                        FROM appointment_services AS aps
-                        INNER JOIN stylists AS st
-                            ON st.id = aps.stylist_id
-                        WHERE aps.appointment_id = a.id
-                          AND aps.status <> 'cancelled'
-                    ),
-                    (
-                        SELECT st2.public_name
-                        FROM stylists AS st2
-                        WHERE st2.id = a.primary_stylist_id
-                        LIMIT 1
+                (
+                    SELECT GROUP_CONCAT(
+                        DISTINCT st.public_name
+                        ORDER BY st.public_name
+                        SEPARATOR ', '
                     )
+                    FROM appointment_services AS aps
+                    INNER JOIN stylists AS st
+                        ON st.id = aps.stylist_id
+                    WHERE aps.appointment_id = a.id
                 ) AS stylist_name
              FROM appointments AS a
              INNER JOIN branches AS b
                 ON b.id = a.branch_id
              WHERE a.customer_id = :customer_id
-               AND a.appointment_start >= NOW()
-               AND a.status IN (
-                    'pending',
-                    'confirmed',
-                    'checked_in',
-                    'in_progress',
-                    'rescheduled'
-               )
-             ORDER BY a.appointment_start ASC
+               AND a.status IN ('booked', 'checked_in', 'in_progress')
+             HAVING appointment_start IS NOT NULL
+                AND (
+                    a.status IN ('checked_in', 'in_progress')
+                    OR appointment_start >= NOW()
+                )
+             ORDER BY appointment_start ASC
              LIMIT 1"
         );
 
@@ -261,57 +256,58 @@ if ($customerId > 0) {
         $recentQuery = $database->prepare(
             "SELECT
                 a.id,
-                a.appointment_code,
-                a.appointment_start,
-                a.appointment_end,
                 a.status,
-                a.total_price,
-                a.payment_status,
                 b.name AS branch_name,
+                (
+                    SELECT MIN(aps.scheduled_starts_at)
+                    FROM appointment_services AS aps
+                    WHERE aps.appointment_id = a.id
+                ) AS appointment_start,
+                (
+                    SELECT MAX(aps.scheduled_ends_at)
+                    FROM appointment_services AS aps
+                    WHERE aps.appointment_id = a.id
+                ) AS appointment_end,
+                (
+                    SELECT SUM(aps.price_snapshot)
+                    FROM appointment_services AS aps
+                    WHERE aps.appointment_id = a.id
+                ) AS total_price,
                 COALESCE(
                     (
                         SELECT GROUP_CONCAT(
-                            aps.service_name_snapshot
+                            COALESCE(s.display_name, s.name)
                             ORDER BY aps.id
                             SEPARATOR ', '
                         )
                         FROM appointment_services AS aps
+                        INNER JOIN services AS s
+                            ON s.id = aps.service_id
                         WHERE aps.appointment_id = a.id
                     ),
                     'Aarvella service'
                 ) AS service_name,
-                COALESCE(
-                    (
-                        SELECT GROUP_CONCAT(
-                            DISTINCT st.public_name
-                            ORDER BY st.public_name
-                            SEPARATOR ', '
-                        )
-                        FROM appointment_services AS aps
-                        INNER JOIN stylists AS st
-                            ON st.id = aps.stylist_id
-                        WHERE aps.appointment_id = a.id
-                    ),
-                    (
-                        SELECT st2.public_name
-                        FROM stylists AS st2
-                        WHERE st2.id = a.primary_stylist_id
-                        LIMIT 1
+                (
+                    SELECT GROUP_CONCAT(
+                        DISTINCT st.public_name
+                        ORDER BY st.public_name
+                        SEPARATOR ', '
                     )
+                    FROM appointment_services AS aps
+                    INNER JOIN stylists AS st
+                        ON st.id = aps.stylist_id
+                    WHERE aps.appointment_id = a.id
                 ) AS stylist_name
              FROM appointments AS a
              INNER JOIN branches AS b
                 ON b.id = a.branch_id
              WHERE a.customer_id = :customer_id
-               AND (
-                    a.appointment_start < NOW()
-                    OR a.status IN (
-                        'completed',
-                        'cancelled',
-                        'no_show'
-                    )
-               )
-             ORDER BY a.appointment_start DESC
+             HAVING appointment_start IS NOT NULL
+                AND (
+                    a.status IN ('completed', 'cancelled', 'no_show')
+                    OR (a.status = 'booked' AND appointment_start < NOW())
+                )
+             ORDER BY appointment_start DESC
              LIMIT 3"
         );
 
@@ -428,7 +424,7 @@ portalRenderShellStart([
                                         <div class="appointment-card-title-row">
                                             <div>
                                                 <p class="appointment-code">
-                                                    <?= e((string) $upcomingAppointment['appointment_code']) ?>
+                                                    Appointment #<?= (int) $upcomingAppointment['id'] ?>
                                                 </p>
 
                                                 <h3>
@@ -476,8 +472,6 @@ portalRenderShellStart([
                                                 <span>
                                                     <i class="fa-solid fa-indian-rupee-sign" aria-hidden="true"></i>
                                                     <?= e($upcomingPrice) ?>
-                                                    ·
-                                                    <?= e(ucwords(str_replace('_', ' ', (string) $upcomingAppointment['payment_status']))) ?>
                                                 </span>
                                             <?php endif; ?>
                                         </div>
