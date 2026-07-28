@@ -85,7 +85,7 @@ function portalRenderShellStart(array $context, string $activePage, string $titl
                     <span>My appointments</span>
                 </a>
 
-                <a href="/#booking" class="portal-nav-link">
+                <a href="/#booking" class="portal-nav-link js-book">
                     <i class="fa-solid fa-plus" aria-hidden="true"></i>
                     <span>Book appointment</span>
                 </a>
@@ -190,6 +190,7 @@ function portalRenderShellEnd(string $activePage): void
     $buttonsJsVersion = portalAssetVersion('/assets/js/buttons.js');
     $baseJsVersion = portalAssetVersion('/assets/js/customer-portal.js');
     $pagesJsVersion = portalAssetVersion('/assets/js/customer-portal-pages.js');
+    $bookingJsVersion = portalAssetVersion('/assets/js/booking.js');
     ?>
             </main>
 
@@ -211,7 +212,7 @@ function portalRenderShellEnd(string $activePage): void
             <i class="fa-regular fa-calendar-days" aria-hidden="true"></i>
             <span>Visits</span>
         </a>
-        <a href="/#booking" class="mobile-book-action av-btn av-btn--icon av-btn--primary" aria-label="Book an appointment">
+        <a href="/#booking" class="mobile-book-action av-btn av-btn--icon av-btn--primary js-book" aria-label="Book an appointment">
             <i class="fa-solid fa-plus" aria-hidden="true"></i>
         </a>
         <a href="#" data-coming-soon="Rewards">
@@ -226,9 +227,12 @@ function portalRenderShellEnd(string $activePage): void
 
     <div class="portal-toast" role="status" aria-live="polite" hidden data-portal-toast></div>
 
+    <div id="booking-popup-placeholder"></div>
+
     <script src="/assets/js/buttons.js?v=<?= portalE($buttonsJsVersion) ?>" defer></script>
     <script src="/assets/js/customer-portal.js?v=<?= portalE($baseJsVersion) ?>" defer></script>
     <script src="/assets/js/customer-portal-pages.js?v=<?= portalE($pagesJsVersion) ?>" defer></script>
+    <script src="/assets/js/booking.js?v=<?= portalE($bookingJsVersion) ?>" defer></script>
 </body>
 </html>
     <?php

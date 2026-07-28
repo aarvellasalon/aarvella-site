@@ -373,7 +373,7 @@ portalRenderShellStart([
 
                     <a
                         href="/#booking"
-                        class="av-btn av-btn--primary dashboard-book-button"
+                        class="av-btn av-btn--primary dashboard-book-button js-book"
                         data-av-magnetic="true"
                         data-av-magnetic-strength="6"
                     >
@@ -547,7 +547,7 @@ portalRenderShellStart([
 
                                     <a
                                         href="/#booking"
-                                        class="av-btn av-btn--primary av-btn--sm portal-button-compact"
+                                        class="av-btn av-btn--primary av-btn--sm portal-button-compact js-book"
                                     >
                                         <span class="av-btn__label">Book now</span>
                                     </a>
@@ -716,7 +716,7 @@ portalRenderShellStart([
                             </div>
 
                             <div class="quick-action-list">
-                                <a href="/#booking">
+                                <a href="/#booking" class="js-book">
                                     <span>
                                         <i class="fa-regular fa-calendar-plus" aria-hidden="true"></i>
                                     </span>

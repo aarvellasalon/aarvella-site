@@ -281,7 +281,7 @@ portalRenderShellStart([
 
                     <a
                         href="/#booking"
-                        class="btn-gold portal-primary-button dashboard-book-button"
+                        class="btn-gold portal-primary-button dashboard-book-button js-book"
                     >
                         <span class="btn-text">
                             <i
@@ -359,7 +359,7 @@ portalRenderShellStart([
 
                                         <a
                                             href="/#booking"
-                                            class="btn-gold portal-primary-button"
+                                            class="btn-gold portal-primary-button js-book"
                                         >
                                             <span class="btn-text">Book now</span>
                                             <span
@@ -545,7 +545,7 @@ portalRenderShellStart([
 
                                         <a
                                             href="/#booking"
-                                            class="btn-outline portal-secondary-button"
+                                            class="btn-outline portal-secondary-button js-book"
                                         >
                                             <span class="btn-text">Explore services</span>
                                             <span
@@ -678,7 +678,7 @@ portalRenderShellStart([
                                                 <div class="appointment-card-actions">
                                                     <a
                                                         href="/#booking"
-                                                        class="btn-outline portal-secondary-button"
+                                                        class="btn-outline portal-secondary-button js-book"
                                                     >
                                                         <span class="btn-text">Rebook service</span>
                                                         <span
