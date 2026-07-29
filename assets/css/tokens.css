@@ -1,0 +1,31 @@
+/* ==========================================================
+   Aarvella shared design tokens
+   File: assets/css/tokens.css
+
+   Canonical source for the core black/gold/white token set that
+   was duplicated near-identically across several pages' inline
+   <style> blocks (index.html, bridal.html, privacy.html,
+   careers.html, terms.html). Values here match what 4 of those 5
+   pages already agreed on byte-for-byte; the 5th (index.html) keeps
+   a small local override for the one property it deliberately used
+   a different value for, so no page's rendered appearance changes.
+
+   Deliberately scoped to just this duplicated set — component-level
+   token systems (buttons.css, navigation.css, customer-portal.css,
+   service-showcase.css, article.css) already use their own uniquely
+   namespaced variables and aren't part of this duplication problem,
+   so they're left as-is.
+========================================================== */
+
+:root {
+	--gold: #D4AF37;
+	--dark-gold: #C5A021;
+	--black: #0A0A0A;
+	--charcoal: #151515;
+	--white: #F4F4F4;
+	--muted: rgba(244, 244, 244, 0.68);
+	--line: rgba(212, 175, 55, 0.18);
+	--glass: rgba(255, 255, 255, 0.055);
+	--ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+	--transition: all 0.4s ease;
+}
