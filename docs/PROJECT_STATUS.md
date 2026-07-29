@@ -166,7 +166,7 @@ Audited all 19 files across the repo that define a `:root` block before touching
 * Cloudflare proxies the domain.
 * The public website repository is stored in GitHub.
 * Local development is performed through VS Code on Windows.
-* GitHub-to-cPanel deployment has been configured, but no deployment automation (`.cpanel.yml`, webhook script, CI config) is version-controlled in this repository — see `docs/ARCHITECTURE.md` §12.
+* **A GitHub webhook auto-deploys to cPanel immediately on every push to `origin/main`** (confirmed 2026-07-29) — pushing *is* deploying, no separate manual pull step needed. The webhook/deployment config itself is not version-controlled in this repository — see `docs/ARCHITECTURE.md` §12.
 * A root `.htaccess` now exists (added 2026-07-07) with `Redirect 301` rules retiring `beauty.html`/`spa.html`/`skin.html` onto their current equivalents.
 * Some historical fixes were made directly in cPanel and may need verification against GitHub — unverified, requires production access.
 
@@ -304,7 +304,7 @@ The CRM (`os.aarvella.com`) is now confirmed live and is the operational source 
 * `POST /appointments` against the live CRM creates real, permanent records — a test appointment (`id: 1`, 2026-07-22, `CUST-00001`) was created with explicit user confirmation on 2026-07-20 and still needs CRM-side cleanup. Any further testing of this endpoint should stay mindful of the same risk.
 * Public website and CRM responsibilities may still overlap in places not yet fully audited (e.g., the unused legacy booking endpoints).
 * ~~The CRM's CORS allow-list only includes the production domain...~~ **Resolved 2026-07-20** — `http://localhost:8000` added and verified. If the local dev server port ever changes, that new origin needs to be added on the CRM side too.
-* **`git push` does not deploy** — GitHub-to-cPanel deployment is a separate manual step (`git pull` on the server; see "Hosting and deployment"). This caused real confusion twice in the 2026-07-27/28 session (a fix was reported "still broken" after being pushed but before being deployed) — always confirm the server's `git log -1` matches `origin/main` before debugging a "fix didn't work" report as a code issue.
+* ~~`git push` does not deploy~~ **Corrected 2026-07-29** — a GitHub webhook auto-deploys to cPanel immediately on push to `origin/main` (see "Hosting and deployment"). The apparent "still broken after pushing" confusion earlier in the 2026-07-27/28 session was actually just commits not yet pushed to `origin/main` at all, not a deploy-lag issue — once pushed, both times, the fix was live immediately.
 * **The tracked DBv2 schema files may not match production** — see "Database and APIs" above (6 missing tables found 2026-07-28, plus `appointments`/`appointment_services` turning out to be a different schema entirely). Don't trust the schema SQL under `backup_pages/` as ground truth for any table without checking `DESCRIBE`/`information_schema` against production first.
 
 ## Reference: 2026-07 audit deliverables
