@@ -5,6 +5,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/require-auth.php';
 require_once __DIR__ . '/portal-common.php';
 require_once __DIR__ . '/portal-layout.php';
+require_once __DIR__ . '/site-config.php';
 
 $identity = requireAuthenticatedCustomer($auth0);
 $customer = $identity['customer'];
@@ -517,7 +518,7 @@ portalRenderShellStart([
                                     </div>
 
                                     <a
-                                        href="https://wa.me/919742049990"
+                                        href="https://wa.me/<?= AARVELLA_WHATSAPP_NUMBER ?>"
                                         class="av-btn av-btn--secondary av-btn--sm portal-button-compact"
                                         target="_blank"
                                         rel="noopener noreferrer"

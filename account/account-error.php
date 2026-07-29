@@ -2,6 +2,8 @@
 
 declare(strict_types=1);
 
+require_once __DIR__ . '/site-config.php';
+
 /**
  * Generic landing page for authentication failures. Reached from:
  * account/callback.php (source=callback), account/require-auth.php
@@ -173,7 +175,7 @@ $copy = match ($source) {
 
         <p class="note">
             Still stuck? Message Aarvella on
-            <a href="https://wa.me/919742049990" target="_blank" rel="noopener noreferrer">WhatsApp</a>
+            <a href="https://wa.me/<?= AARVELLA_WHATSAPP_NUMBER ?>" target="_blank" rel="noopener noreferrer">WhatsApp</a>
             and we'll help you get in.
         </p>
     </main>

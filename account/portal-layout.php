@@ -193,6 +193,7 @@ function portalRenderShellEnd(string $activePage): void
     $baseJsVersion = portalAssetVersion('/assets/js/customer-portal.js');
     $pagesJsVersion = portalAssetVersion('/assets/js/customer-portal-pages.js');
     $bookingJsVersion = portalAssetVersion('/assets/js/booking.js');
+    $siteConfigJsVersion = portalAssetVersion('/assets/js/site-config.js');
     ?>
             </main>
 
@@ -234,6 +235,7 @@ function portalRenderShellEnd(string $activePage): void
     <script src="/assets/js/buttons.js?v=<?= portalE($buttonsJsVersion) ?>" defer></script>
     <script src="/assets/js/customer-portal.js?v=<?= portalE($baseJsVersion) ?>" defer></script>
     <script src="/assets/js/customer-portal-pages.js?v=<?= portalE($pagesJsVersion) ?>" defer></script>
+    <script src="/assets/js/site-config.js?v=<?= portalE($siteConfigJsVersion) ?>"></script>
     <script src="/assets/js/booking.js?v=<?= portalE($bookingJsVersion) ?>" defer></script>
 </body>
 </html>

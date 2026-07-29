@@ -1,5 +1,5 @@
 const AI_API_URL = "https://aarvella-site.vercel.app/api/ai-stylist";
-const WHATSAPP_NUMBER = "919742049990";
+const WHATSAPP_NUMBER = window.AARVELLA_CONFIG?.WHATSAPP_NUMBER || "919742049990";
 
 const chatButton = document.getElementById("ai-chat-button");
 const chatWidget = document.getElementById("ai-chat-widget");

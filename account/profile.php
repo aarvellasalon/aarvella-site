@@ -5,6 +5,7 @@ declare(strict_types=1);
 require_once __DIR__ . '/require-auth.php';
 require_once __DIR__ . '/portal-common.php';
 require_once __DIR__ . '/portal-layout.php';
+require_once __DIR__ . '/site-config.php';
 
 portalStartSession();
 
@@ -716,7 +717,7 @@ portalRenderShellStart([
             <p class="panel-kicker">Need help?</p>
             <h2>Prefer to tell us in person?</h2>
             <p>Leave optional fields blank. Your stylist can update service notes during your consultation.</p>
-            <a href="https://wa.me/919742049990" class="av-btn av-btn--secondary av-btn--sm" target="_blank" rel="noopener noreferrer"><span class="av-btn__label"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Contact Aarvella</span></a>
+            <a href="https://wa.me/<?= AARVELLA_WHATSAPP_NUMBER ?>" class="av-btn av-btn--secondary av-btn--sm" target="_blank" rel="noopener noreferrer"><span class="av-btn__label"><i class="fa-brands fa-whatsapp" aria-hidden="true"></i> Contact Aarvella</span></a>
         </section>
     </aside>
 </div>
