@@ -13,6 +13,15 @@ function syncAuth0Customer(array $auth0User): int
     $fullName = trim((string) ($auth0User['name'] ?? $auth0User['nickname'] ?? ''));
     $profileImage = trim((string) ($auth0User['picture'] ?? ''));
 
+    /*
+     * Auth0 defaults the "name" claim to the email address itself for
+     * username-password signups where no display name was collected, so an
+     * email-equal name is treated the same as a missing one.
+     */
+    if ($email !== '' && strcasecmp($fullName, $email) === 0) {
+        $fullName = '';
+    }
+
     if ($fullName === '' && $email !== '') {
         $localPart = strstr($email, '@', true);
         $fullName = $localPart !== false ? trim((string) $localPart) : '';
