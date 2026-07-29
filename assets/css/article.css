@@ -783,3 +783,17 @@ details p { margin-bottom: 0; }
   }
 }
 
+/* ==========================================================
+   SHARED FOOTER, CONTAINED TO ARTICLE PAGES ONLY
+   The shared footer (assets/css/footer.css) is full-bleed on every
+   other page by design. On article pages it's floated and capped to
+   the same width as the shared nav bar (--av-nav-shell-max, set in
+   navigation.css) instead, matching this template's lighter,
+   card-based aesthetic. Scoped here so no other page is affected.
+========================================================== */
+.main-footer {
+  width: min(calc(100% - clamp(28px, 6vw, 116px)), var(--av-nav-shell-max, 1720px));
+  margin: 0 auto 40px;
+  border-radius: clamp(20px, 1.3vw, 26px);
+}
+
