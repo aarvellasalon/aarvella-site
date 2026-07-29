@@ -197,6 +197,31 @@
 		<div id="booking-popup-placeholder"></div>
 		<div id="ai-chat-root"></div>
 
+		<script>
+			/*
+			 * Mobile menu and button ripple/magnetic effects are owned by
+			 * navigation.js and buttons.js respectively (both loaded below).
+			 * Only page-specific scroll-reveal lives here.
+			 */
+			document.addEventListener("DOMContentLoaded", () => {
+				const revealItems = document.querySelectorAll(".reveal");
+				if ("IntersectionObserver" in window) {
+					const revealObserver = new IntersectionObserver(entries => {
+						entries.forEach(entry => {
+							if (entry.isIntersecting) {
+								entry.target.classList.add("active");
+								revealObserver.unobserve(entry.target);
+							}
+						});
+					}, { threshold: 0.14 });
+
+					revealItems.forEach(item => revealObserver.observe(item));
+				} else {
+					revealItems.forEach(item => item.classList.add("active"));
+				}
+			});
+		</script>
+
 		<script src="assets/js/buttons.js?v=20260703-1" defer></script>
 		<script src="assets/js/navigation.js?v=20260702-1" defer></script>
 		<script src="assets/js/ai-chat-loader.js?v=20260621-1" defer></script>
