@@ -1,3 +1,13 @@
+/*
+ * document.currentScript is only valid during this script's own synchronous
+ * top-level execution — it's already null by the time an async
+ * DOMContentLoaded callback runs, so it must be captured here, not inside
+ * the listener below (same pattern as booking.js / ai-chat-loader.js).
+ */
+const includesScriptUrl = document.currentScript
+	? new URL(document.currentScript.src)
+	: null;
+
 document.addEventListener("DOMContentLoaded", async () => {
 	const footerPlaceholder = document.getElementById("footer-placeholder");
 
@@ -6,11 +16,8 @@ document.addEventListener("DOMContentLoaded", async () => {
 		return;
 	}
 
-	const currentScript = document.currentScript;
-	const scriptUrl = currentScript ? new URL(currentScript.src) : null;
-
-	const footerUrl = scriptUrl
-		? new URL("../partials/footer.html", scriptUrl).href
+	const footerUrl = includesScriptUrl
+		? new URL("../partials/footer.html", includesScriptUrl).href
 		: "assets/partials/footer.html";
 
 	try {
