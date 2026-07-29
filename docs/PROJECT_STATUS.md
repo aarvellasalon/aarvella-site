@@ -6,7 +6,7 @@ This document records the current implementation status, in-progress work, and p
 
 For structural/architectural facts (how the site is built, file layout, request flows), see `docs/ARCHITECTURE.md` — that document is the source of truth for "how things work." This document is the source of truth for "what's done, what's in progress, and what's next."
 
-Last manually reviewed: 2026-07-27.
+Last manually reviewed: 2026-07-29.
 
 ---
 
@@ -118,6 +118,19 @@ Remaining items, none of which block turning bookings back on:
 
 ---
 
+### Customer portal: login failure, booking-popup wiring, and appointment schema mismatch — 2026-07-27 to 2026-07-29
+
+**Status: done, committed, deployed, and confirmed via live browser use, except item 4 (written, not yet committed).**
+
+1. **Customer portal login was completely broken** — every attempt landed on `account-error.php?source=callback`, despite Auth0 itself reporting a successful login. Root cause: `customer_auth_identities` (the table linking an Auth0 identity to a `customers` row) did not exist on production (`aarvyeqt_salon_db`), so `sync-customer.php`/`require-auth.php` failed on every login. Diagnosed by adding explicit PHP error logging (`account/auth0-bootstrap.php`, commit `07fcbf7`) since the server's default `error_log` location couldn't be found. A follow-up `information_schema` sweep found 5 more DBv2 tables the portal code depends on that were also missing from production: `activity_logs`, `customer_portal_settings` (no tracked migration exists for this one at all — its schema was reconstructed from how the code reads/writes it, not sourced from a migration file), `loyalty_accounts`, `loyalty_programs`, `loyalty_tiers`. All 6 created directly against production by the user (tracked schema SQL, or the reconstructed statement for `customer_portal_settings`) — a missing-migration gap, not a code bug.
+2. **Booking popup wasn't wired into the customer portal** — every "Book now"/"Book appointment" link just navigated to the homepage instead of opening the shared popup, because `account/portal-layout.php` never loaded it. Fixed (`58ad116`) by mounting the same shared component every public page uses (`#booking-popup-placeholder` + `assets/js/booking.js`) and adding the `js-book` trigger class to all 9 booking CTAs across `portal-layout.php`/`dashboard.php`/`appointments.php`. A follow-up fix (`b1ed15c`) added the missing `assets/css/booking.css` include — without it the popup mounted and opened correctly but had no styling, rendering as blank space at the end of the page (the browser auto-scrolled to it, which looked identical to the original "still just navigates" bug from the outside).
+3. **Appointments not loading on the dashboard/appointments pages** — both pages assumed the DBv2 fresh-install schema (`appointment_code`, `appointment_start`/`end`, `total_price`, `advance_paid`, `payment_status`, `primary_stylist_id` on `appointments`; `service_name_snapshot` on `appointment_services`), none of which was ever actually deployed. The live `appointments`/`appointment_services` tables are a simpler, CRM-owned schema with per-service scheduling and no payment tracking at all (even `20260704_transaction_booking_api.sql`'s own `ALTER TABLE appointments ADD COLUMN lock_version` assumes columns that don't exist in production — this gap predates this session). Rewrote both pages' queries (`361c298`) against the real columns: appointment start/end derived via `MIN`/`MAX` of `appointment_services.scheduled_starts_at`/`scheduled_ends_at`, total price via `SUM(price_snapshot)`, service names via a `services` join. Dropped display fields with no live-schema equivalent (payment status, cancellation reason, customer note) instead of guessing at a mapping; replaced the fabricated "appointment code" badge with a cosmetic `Appointment #<id>`.
+4. **`full_name` defaulting to the customer's email address** on first login — Auth0 defaults its `name` claim to the email itself when no display name is collected, and `register.php` never collects one (signup is 100% delegated to Auth0 Universal Login, no custom form). `sync-customer.php`'s existing empty-name fallback never caught this since `name` wasn't empty, just uselessly equal to the email. Fixed in `sync-customer.php` by treating an email-equal name the same as a missing one, falling through to the existing local-part-of-email fallback. **Written and lint-checked, not yet committed** — pending explicit go-ahead. A scoped one-off `UPDATE` was also provided (not run) to backfill existing rows where `full_name = email`.
+
+Items 1-3 are deployed and were confirmed via live browser use on production by the user, along with the two "Current priorities" items below (booking-popup click-through, portal shell rendering after the query rewrite).
+
+**Related finding, not a website bug**: a customer briefly appeared missing from the CRM's Customers tab after a portal login. Traced by reading the CRM's Filament resource directly (`app/Filament/Resources/Customers/Tables/CustomerTable.php` in the sibling `aarvella-crm` checkout at `d:\Projects\aarvella-crm`) — it has no filters and the `Customer` model has no global scopes, so a `customer_type = website_lead` row should never be hidden there. Most likely explanation: the CRM instance being checked was pointed at a different database (`aarvella_crm` on `localhost`, per that checkout's `.env`) than the production one the website writes to (`aarvyeqt_salon_db`). Resolved once checked against the right database — worth remembering if this recurs.
+
 ## Business and brand
 
 * Business: Aarvella Unisex Salon
@@ -149,10 +162,10 @@ Shared systems status:
 | Navigation | Working, consistent across all top-level pages and blog articles. `hair.html` added to the mega-menu's Hair column (2026-07-07). |
 | Footer | Working, consistent across all top-level pages. Blog articles still use a bespoke hand-rolled footer instead of the shared partial (not yet fixed). Duplicate footer-loader script (`footer-loader.js`) removed 2026-07-07 — `includes.js` is now the sole loader. |
 | Buttons | Consistently shared everywhere, including the customer portal. |
-| Booking popup | Fully built and verified against production, but **intentionally disabled** (`BOOKING_TEMPORARILY_DISABLED = true` in `booking.js`) since the salon isn't open yet — see the banner at the top of this document. |
+| Booking popup | Fully built and verified against production, but **intentionally disabled** (`BOOKING_TEMPORARILY_DISABLED = true` in `booking.js`) since the salon isn't open yet — see the banner at the top of this document. Now also wired into the customer portal (2026-07-28, was previously public-pages-only). |
 | Page animations | Mostly page-specific scroll-reveal (`IntersectionObserver`), duplicated per page rather than shared — not yet consolidated. |
 | Customer authentication | Working, Auth0 Universal Login. See "Authentication" section below. |
-| Customer dashboard | Working, real DB-backed data. `dashboard.php`/`appointments.php` now render through the shared `account/portal-layout.php` shell (fixed 2026-07-07 — they previously hand-rolled duplicate sidebar/topbar markup). |
+| Customer dashboard | Working, real DB-backed data. `dashboard.php`/`appointments.php` render through the shared `account/portal-layout.php` shell (fixed 2026-07-07). Appointment queries rewritten 2026-07-28 to match the live CRM-owned schema (see "Active work"); browser-tested and confirmed 2026-07-29. |
 | Newsletter subscription | Working, but see "Newsletter" section — duplicate submit-handler bug fixed 2026-07-07. |
 
 ## Public pages
@@ -219,9 +232,9 @@ Working, genuinely data-driven (not placeholder content) — confirmed via the 2
 
 **Fixed 2026-07-07**: `dashboard.php` and `appointments.php` previously hand-rolled their own duplicate sidebar/topbar markup instead of using the shared `account/portal-layout.php` shell that `profile.php`/`settings.php` already used. Both now render through `portalRenderShellStart()`/`portalRenderShellEnd()` (which was extended with an optional extra-CSS-class parameter to preserve page-specific styling). Side effect: both pages now correctly load `buttons.css`/`buttons.js`, and `customer-portal-pages.css`/`.js`, which they were previously missing.
 
-Not yet browser-tested: the shell refactor above was lint-checked and logically traced, but never visually verified in an actual browser (no local DB/Auth0 environment available in the audit session) — worth a manual smoke-test before this reaches production.
+**Browser-tested and confirmed working, 2026-07-29** — see "Active work" above for the login, booking-popup, and appointment-query fixes that were required to get here (login was completely broken and appointments failed to load until those fixes landed; the shell markup itself was fine). Confirmed: shell rendering, sidebar/mobile-nav, responsive layout on a narrow window, and the booking popup opening from every portal booking CTA.
 
-Still unverified: responsive appointment tables, cross-page font consistency, mobile sidebar scrolling, hover styling — no browser test performed.
+Still unverified: cross-page font consistency, hover styling — no dedicated check performed on these specifically.
 
 ## Services pages
 
@@ -245,10 +258,14 @@ Two separate, structurally different schemas were found in active use — docume
 
 The CRM (`os.aarvella.com`) is now confirmed live and is the operational source of truth for services, stylists, branches and availability, per the direction this section originally called for.
 
+**Production DBv2 schema drift discovered, 2026-07-28** — the tracked schema files under `backup_pages/User Portal/db/aarvella_db_v2_fresh_install/` do not fully match what's actually deployed to `aarvyeqt_salon_db`:
+* 6 tables the portal code depends on (`customer_auth_identities`, `activity_logs`, `customer_portal_settings`, `loyalty_accounts`, `loyalty_programs`, `loyalty_tiers`) were missing entirely — see "Active work" above. All since created; `customer_portal_settings` has no tracked migration at all (its schema was reconstructed from code usage, not sourced from a file).
+* `appointments`/`appointment_services` (real, populated, working) turned out to be a different, simpler, CRM-owned schema than the one the tracked DBv2 SQL describes — `20260704_transaction_booking_api.sql` itself assumes columns (`appointment_start`, `primary_stylist_id`) that don't exist in production, meaning that migration was written against a design that was never actually the one deployed. Treat the tracked schema files as aspirational/unreliable for these two tables specifically; the live `DESCRIBE` output is authoritative. Other untested tables in that schema folder may have the same problem — not yet audited.
+
 ## Current priorities
 
-1. **Browser-test the booking popup end-to-end** (see "Active work" section) — API layer and preselect wiring are fully verified as of 2026-07-20; this real-UI click-through is the last gap before it's production-ready.
-2. Browser-test the customer-portal shell refactor (`dashboard.php`/`appointments.php`) before it's considered production-ready.
+1. ~~Browser-test the booking popup end-to-end~~ **Done, 2026-07-29** — the real transactional flow was already verified 2026-07-20 (4 successful bookings); confirmed today that the current intentionally-disabled state (added 2026-07-24) also opens and renders correctly in the browser.
+2. ~~Browser-test the customer-portal shell refactor (`dashboard.php`/`appointments.php`)~~ **Done, 2026-07-29** — confirmed correct in a real browser, including after the appointment-query rewrite (see the new "Customer portal" section under "Active work" above).
 3. Decide the fate of the unused legacy booking endpoints (`api/appointments/create.php` etc.) now that the CRM integration supersedes them.
 4. Centralize hardcoded config (WhatsApp number, salon address, business hours, geo-coordinates) into shared partials — still duplicated across many files.
 5. Consolidate CSS design tokens into one shared source.
@@ -268,6 +285,8 @@ The CRM (`os.aarvella.com`) is now confirmed live and is the operational source 
 * `POST /appointments` against the live CRM creates real, permanent records — a test appointment (`id: 1`, 2026-07-22, `CUST-00001`) was created with explicit user confirmation on 2026-07-20 and still needs CRM-side cleanup. Any further testing of this endpoint should stay mindful of the same risk.
 * Public website and CRM responsibilities may still overlap in places not yet fully audited (e.g., the unused legacy booking endpoints).
 * ~~The CRM's CORS allow-list only includes the production domain...~~ **Resolved 2026-07-20** — `http://localhost:8000` added and verified. If the local dev server port ever changes, that new origin needs to be added on the CRM side too.
+* **`git push` does not deploy** — GitHub-to-cPanel deployment is a separate manual step (`git pull` on the server; see "Hosting and deployment"). This caused real confusion twice in the 2026-07-27/28 session (a fix was reported "still broken" after being pushed but before being deployed) — always confirm the server's `git log -1` matches `origin/main` before debugging a "fix didn't work" report as a code issue.
+* **The tracked DBv2 schema files may not match production** — see "Database and APIs" above (6 missing tables found 2026-07-28, plus `appointments`/`appointment_services` turning out to be a different schema entirely). Don't trust the schema SQL under `backup_pages/` as ground truth for any table without checking `DESCRIBE`/`information_schema` against production first.
 
 ## Reference: 2026-07 audit deliverables
 
