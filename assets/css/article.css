@@ -418,11 +418,6 @@ details p { margin-bottom: 0; }
 .final-booking-card h2 { margin: 0 0 12px; font-family: var(--font-display); font-size: clamp(2.25rem, 5vw, 4.2rem); line-height: 1; letter-spacing: -0.05em; }
 .final-booking-card p { width: min(720px, 100%); margin: 0 auto; color: #4f4639; line-height: 1.8; }
 .centered-actions { justify-content: center; }
-.article-footer { display: flex; justify-content: space-between; align-items: center; gap: 22px; width: min(1180px, calc(100% - 32px)); margin: 0 auto 34px; padding: 28px; border-radius: 28px; background: #111; color: #fff; }
-.article-footer h2 { margin: 0; letter-spacing: 0.2em; }
-.article-footer p { margin: 8px 0 0; color: rgba(255,255,255,0.68); }
-.footer-links { display: flex; flex-wrap: wrap; gap: 18px; }
-.footer-links a { color: rgba(255,255,255,0.82); }
 .reveal-on-load { opacity: 0; transform: translateY(18px); animation: fadeUp 0.8s ease forwards; }
 .reveal-section { opacity: 0; transform: translateY(24px); transition: opacity 0.7s ease, transform 0.7s ease; }
 .reveal-section.visible { opacity: 1; transform: translateY(0); }
@@ -453,8 +448,8 @@ details p { margin-bottom: 0; }
 	.article-shell { width: calc(100% - 20px); }	
 	.toc-card { grid-template-columns: 1fr; }	
 	.content-block { padding: 24px 18px; border-radius: 24px; }	
-	.article-meta-card { display: grid; }	
-	.article-footer { flex-direction: column; align-items: flex-start; } }
+	.article-meta-card { display: grid; }
+}
 
 /* ==========================================================
    UNIVERSAL ARTICLE FIXES
