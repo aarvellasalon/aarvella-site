@@ -51,12 +51,12 @@ section {
 /*  --Redesign Hero code--  */
 .hero {
 	position: relative;
-	height: 100vh;
+	min-height: 100vh;
 	display: flex;
 	align-items: center;
 	justify-content: center;
 	text-align: center;
-	padding: 0 10%;
+	padding: clamp(110px, 16vh, 180px) 10% 40px;
 	overflow: hidden;
 }
 /*  High-res WebP background */
