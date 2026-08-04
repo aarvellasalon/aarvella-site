@@ -109,7 +109,7 @@ Authentication is entirely delegated to **Auth0 Universal Login** — there is n
 
 1. Any `.js-book` / `[data-booking-trigger]` element opens the shared popup (`assets/partials/booking-popup.html`) via `assets/js/booking.js`.
 2. The popup walks the visitor through service selection → optional date/time → name/phone (validated client-side as an Indian mobile number) → confirmation.
-3. On confirm, `booking.js` builds a pre-filled WhatsApp message and opens a `wa.me/919742049990` deep link. **No network request is made to any backend** — nothing is written to a database at this point. This is the entirety of the current production booking flow.
+3. On confirm, `booking.js` builds a pre-filled WhatsApp message and opens a `wa.me/919142351661` deep link. **No network request is made to any backend** — nothing is written to a database at this point. This is the entirety of the current production booking flow.
 4. Pricing shown on each service page is hardcoded directly in HTML, not sourced from a database or API.
 
 **Built but unused backend** (exists in the codebase, not wired to the UI):

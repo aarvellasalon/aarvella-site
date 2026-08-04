@@ -48,7 +48,7 @@ function valid_phone(?string $phone): bool
 
     /**
      * Allows Indian and international phone formats:
-     * +919742049990, 9742049990, 0135xxxxxxx etc.
+     * +919142351661, 9142351661, 0135xxxxxxx etc.
      */
     return preg_match('/^[0-9+\-\s()]{7,20}$/', $phone) === 1;
 }

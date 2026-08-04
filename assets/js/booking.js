@@ -24,7 +24,7 @@
 	   instead of the service/stylist/OTP/confirm flow. */
 	const BOOKING_TEMPORARILY_DISABLED = true;
 
-	const WHATSAPP_NUMBER = window.AARVELLA_CONFIG?.WHATSAPP_NUMBER || "919742049990";
+	const WHATSAPP_NUMBER = window.AARVELLA_CONFIG?.WHATSAPP_NUMBER || "919142351661";
 	const API_BASE = "https://os.aarvella.com/api/v1";
 	const BRANCH_ID = 1;
 	const BRANCH_UTC_OFFSET = "+05:30";

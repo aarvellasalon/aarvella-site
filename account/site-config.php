@@ -10,4 +10,4 @@ declare(strict_types=1);
  * those fail.
  */
 
-const AARVELLA_WHATSAPP_NUMBER = '919742049990';
+const AARVELLA_WHATSAPP_NUMBER = '919142351661';
