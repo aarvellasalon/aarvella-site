@@ -13,10 +13,12 @@
    FLOATING AI BUTTON
 ========================================================== */
 #ai-chat-button {
-  position: fixed;
-  right: 14px;
-  bottom: 14px;
-  z-index: 9990;
+  /*
+   * Positioned by its parent, .av-floating-actions (buttons.css) — a
+   * fixed flex row shared with the WhatsApp glass badge, rather than
+   * this button independently self-positioning.
+   */
+  flex: 0 0 auto;
 
   display: flex;
   align-items: center;
@@ -296,8 +298,6 @@ body.ai-chat-open #ai-chat-button {
   }
 
   #ai-chat-button {
-    right: calc(10px + env(safe-area-inset-right, 0px));
-    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
     width: 42px;
     height: 42px;
     padding: 0;

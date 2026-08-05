@@ -15,9 +15,6 @@
   --av-btn-paper: #f8f5ec;
   --av-btn-danger: #d95454;
   --av-btn-danger-deep: #a72f2f;
-  --av-btn-whatsapp: #25d366;
-  --av-btn-whatsapp-deep: #128c7e;
-  --av-btn-whatsapp-soft: #7fe8ae;
   --av-btn-secondary-text: var(--av-btn-gold-soft);
   --av-btn-font: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   --av-btn-ease: cubic-bezier(0.22, 1, 0.36, 1);
@@ -207,29 +204,6 @@
     0 8px 18px rgba(0,0,0,0.28);
 }
 
-/* WhatsApp liquid-glass action — same mechanics as .btn-gold/.av-btn--primary, brand-green fill. */
-.av-btn--whatsapp {
-  color: #ffffff;
-  border-color: rgba(160, 255, 210, 0.55);
-  background:
-    radial-gradient(circle at 28% 15%, rgba(255,255,255,0.55), transparent 23%),
-    linear-gradient(135deg, var(--av-btn-whatsapp-soft), var(--av-btn-whatsapp-deep));
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.55),
-    inset 0 -1px 1px rgba(6,54,40,0.22),
-    0 10px 28px rgba(18,140,126,0.32),
-    0 4px 12px rgba(0,0,0,0.24);
-}
-
-.av-btn--whatsapp:hover,
-.av-btn--whatsapp:focus-visible {
-  color: #ffffff;
-  box-shadow:
-    inset 0 1px 0 rgba(255,255,255,0.6),
-    0 17px 40px rgba(18,140,126,0.42),
-    0 8px 18px rgba(0,0,0,0.28);
-}
-
 /* Secondary / outlined glass action. */
 .av-btn--secondary,
 .btn-outline {
@@ -343,37 +317,130 @@
   box-shadow: inset 0 1px 0 rgba(255,255,255,0.78), 0 8px 20px rgba(0,0,0,0.26);
 }
 
-/* Floating "Book on WhatsApp" trigger, paired with the AI Stylist button
-   (#ai-chat-button in ai-chat.css) — sits directly above it in the same
-   bottom-right stack, same breakpoint (1024px) collapses both to a
-   matching icon-only circle. */
-.av-btn--floating-whatsapp {
-  --av-btn-height: 44px;
+/* ==========================================================
+   FLOATING ACTION ROW
+   Wraps the WhatsApp glass badge and the AI Stylist button
+   (#ai-chat-button, positioned in assets/css/ai-chat.css) side
+   by side in the bottom-right corner. #ai-chat-button is a
+   normal flex child here rather than independently fixed —
+   this wrapper owns the fixed positioning for both.
+========================================================== */
+.av-floating-actions {
   position: fixed;
   right: 14px;
-  bottom: 68px;
-  z-index: 9989;
+  bottom: 14px;
+  z-index: 9990;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+body.ai-chat-open .av-floating-actions {
+  opacity: 0;
+  pointer-events: none;
 }
 
 @media (max-width: 1024px) {
-  .av-btn--floating-whatsapp {
-    --av-btn-height: 42px;
+  .av-floating-actions {
     right: calc(10px + env(safe-area-inset-right, 0px));
-    bottom: calc(62px + env(safe-area-inset-bottom, 0px));
-    width: 42px;
-    min-width: 0;
-    padding: 0;
-    border-radius: 50%;
-  }
-
-  .av-btn--floating-whatsapp .av-btn__label {
-    display: none;
+    bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    gap: 8px;
   }
 }
 
-body.ai-chat-open .av-btn--floating-whatsapp {
-  opacity: 0;
+/* Apple-style "Liquid Glass" badge — frosted, translucent, WhatsApp-green
+   tint, rather than the site's opaque gold-gradient button system. */
+.av-glass-fab {
+  position: relative;
+  flex: 0 0 auto;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 16px;
+  overflow: hidden;
+  isolation: isolate;
+  cursor: pointer;
+  text-decoration: none;
+
+  background:
+    linear-gradient(150deg, rgba(255,255,255,0.32), rgba(255,255,255,0.04) 46%),
+    linear-gradient(135deg, rgba(37,211,102,0.42), rgba(18,140,126,0.30));
+  border: 1px solid rgba(255,255,255,0.4);
+  backdrop-filter: blur(18px) saturate(180%);
+  -webkit-backdrop-filter: blur(18px) saturate(180%);
+  box-shadow:
+    inset 0 1px 1px rgba(255,255,255,0.65),
+    inset 0 -8px 14px rgba(9,74,66,0.28),
+    0 10px 26px rgba(15,120,90,0.32),
+    0 3px 10px rgba(0,0,0,0.22);
+
+  transition:
+    transform 0.32s cubic-bezier(0.22,1,0.36,1),
+    box-shadow 0.32s ease,
+    border-color 0.32s ease;
+}
+
+/* Soft specular highlight, top-left — the "glass catching light" cue. */
+.av-glass-fab::before {
+  content: "";
+  position: absolute;
+  top: -22%;
+  left: -14%;
+  z-index: 1;
+  width: 65%;
+  height: 55%;
+  background: radial-gradient(circle, rgba(255,255,255,0.65), transparent 72%);
+  filter: blur(1px);
   pointer-events: none;
+}
+
+.av-glass-fab i {
+  position: relative;
+  z-index: 2;
+  font-size: 21px;
+  color: #ffffff;
+  filter: drop-shadow(0 1px 3px rgba(6,54,40,0.4));
+}
+
+@media (hover: hover) {
+  .av-glass-fab:hover {
+    transform: translateY(-3px) scale(1.045);
+    border-color: rgba(255,255,255,0.58);
+    box-shadow:
+      inset 0 1px 1px rgba(255,255,255,0.75),
+      inset 0 -8px 14px rgba(9,74,66,0.32),
+      0 16px 34px rgba(15,120,90,0.4),
+      0 4px 12px rgba(0,0,0,0.26);
+  }
+}
+
+.av-glass-fab:active {
+  transform: scale(0.96);
+}
+
+.av-glass-fab:focus-visible {
+  outline: 3px solid rgba(127,232,174,0.65);
+  outline-offset: 3px;
+}
+
+@media (max-width: 1024px) {
+  .av-glass-fab {
+    width: 42px;
+    height: 42px;
+    border-radius: 14px;
+  }
+
+  .av-glass-fab i {
+    font-size: 18px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .av-glass-fab {
+    transition-duration: 0.01ms !important;
+  }
 }
 
 /* State handling */

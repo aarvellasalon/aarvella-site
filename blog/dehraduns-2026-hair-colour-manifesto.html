@@ -1107,55 +1107,15 @@
     </section>
   </main>
 
-  <button id="ai-chat-button" aria-label="Open AI Stylist">
-    <svg
-      width="18"
-      height="18"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      stroke-width="1.8"
-      stroke-linecap="round"
-      stroke-linejoin="round">
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z" />
-    </svg>
-    <span>AI Stylist</span>
-  </button>
-
-  <div id="ai-chat-widget" hidden>
-    <div class="ai-chat-header">
-      <div>
-        <strong>Aarvella AI Stylist</strong>
-        <span>Find the right service</span>
-      </div>
-      <button id="ai-chat-close" type="button">×</button>
-    </div>
-
-    <div id="ai-chat-messages">
-      <div class="ai-message bot">
-        Hi, I’m Aarvella’s AI Stylist. Are you looking for hair, skin, makeup, or bridal services?
-      </div>
-    </div>
-
-    <form id="ai-chat-form">
-      <input
-        id="ai-chat-input"
-        type="text"
-        placeholder="Type your message..."
-        autocomplete="off"
-      />
-      <button type="submit">Send</button>
-    </form>
-  </div>
-
   <div id="footer-placeholder"></div>
 
   <div id="booking-popup-placeholder"></div>
-  <a href="#" class="av-btn av-btn--whatsapp av-btn--floating-whatsapp" target="_blank" rel="noopener noreferrer" aria-label="Book on WhatsApp" data-whatsapp-float>
-    <i class="fa-brands fa-whatsapp av-btn__icon" aria-hidden="true"></i>
-    <span class="av-btn__label">Book on WhatsApp</span>
-  </a>
-  <div id="ai-chat-root"></div>
+  <div class="av-floating-actions">
+    <a href="#" class="av-glass-fab" target="_blank" rel="noopener noreferrer" aria-label="Book on WhatsApp" data-whatsapp-float>
+      <i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+    </a>
+    <div id="ai-chat-root"></div>
+  </div>
 
   <script src="../assets/js/buttons.js?v=20260703-1" defer></script>
   <script src="../assets/js/navigation.js?v=20260702-1" defer></script>

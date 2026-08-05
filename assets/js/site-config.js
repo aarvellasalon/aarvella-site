@@ -15,8 +15,8 @@ window.AARVELLA_CONFIG = {
 
 /*
  * Wires up the floating "Book on WhatsApp" button (assets/css/buttons.css
- * .av-btn--floating-whatsapp) present on every page, so its markup never
- * needs to hardcode the number directly. Runs synchronously here (this
+ * .av-glass-fab) present on every page, so its markup never needs to
+ * hardcode the number directly. Runs synchronously here (this
  * script is deliberately not deferred) — safe because the button's HTML
  * always sits earlier in the DOM than this <script> tag.
  */
