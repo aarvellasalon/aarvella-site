@@ -335,7 +335,15 @@
   gap: 10px;
 }
 
-body.ai-chat-open .av-floating-actions {
+/*
+ * Scoped to the WhatsApp badge only, not the wrapper — #ai-chat-widget
+ * (position: fixed) is a DOM descendant of .av-floating-actions too
+ * (injected alongside #ai-chat-button by ai-chat-loader.js), and opacity
+ * on an ancestor hides fixed-position descendants as well. Hiding the
+ * wrapper itself would hide the chat panel along with the trigger button.
+ * #ai-chat-button hides itself independently via ai-chat.css.
+ */
+body.ai-chat-open .av-glass-fab {
   opacity: 0;
   pointer-events: none;
 }
