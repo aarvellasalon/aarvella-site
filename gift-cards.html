@@ -1,0 +1,294 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="p:domain_verify" content="1a3a419d7378346d0d870ee6dac051bb">
+		<title>Gift Cards | Aarvella Luxury Salon</title>
+		<meta name="description" content="Give the gift of Aarvella. Buy a digital gift card for hair, skin, makeup and bridal services — redeemable at our Dehradun salon, no expiry.">
+		<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Poppins:wght@500;600;700&display=swap" rel="stylesheet">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg?v=20260727">
+		<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png?v=20260727">
+		<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png?v=20260727">
+		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=20260727">
+		<link rel="manifest" href="/site.webmanifest?v=20260727">
+		<link rel="icon" type="image/x-icon" href="/favicon.ico?v=20260727">
+		<link rel="stylesheet" href="/assets/css/buttons.css?v=20260806-1">
+		<link rel="stylesheet" href="assets/css/navigation.css?v=20260702-1">
+		<link rel="stylesheet" href="assets/css/tokens.css">
+		<link rel="stylesheet" href="assets/css/gift-cards.css?v=20260815-1">
+		<link rel="stylesheet" href="assets/css/booking.css?v=20260620-6">
+		<link rel="stylesheet" href="assets/css/ai-chat.css?v=20260805-1">
+		<link rel="stylesheet" href="assets/css/footer.css?v=20260620-4">
+	</head>
+	<body>
+		<div id="site-navigation" data-navigation-partial="assets/partials/navigation.html"></div>
+		<main>
+			<section class="page-hero" id="main-content">
+				<div class="hero-graphic" aria-hidden="true">
+					<img
+					  class="hero-diamond"
+					  src="assets/images/aarvella-diamond-mark.svg"
+					  alt=""
+					  width="312"
+					  height="448"
+					  fetchpriority="high"
+					  decoding="async"
+					/>
+				</div>
+				<div class="hero-inner">
+					<p class="eyebrow">Aarvella Gift Cards</p>
+					<h1>Give the gift of <span>Aarvella.</span></h1>
+					<p>A digital gift card for hair, skin, makeup and bridal services — chosen in minutes, delivered instantly, redeemed in person at our Dehradun salon.</p>
+					<div class="hero-actions">
+						<a href="#purchase" class="btn-gold"><span class="btn-text">Buy a Gift Card</span></a>
+						<a href="#how-it-works" class="btn-outline"><span class="btn-text">How It Works</span></a>
+					</div>
+					<div class="trust-row" aria-label="Aarvella gift card highlights">
+						<span><i class="fa-solid fa-infinity" aria-hidden="true"></i>No expiry</span>
+						<span><i class="fa-solid fa-spa" aria-hidden="true"></i>Valid on all services</span>
+						<span><i class="fa-solid fa-bolt" aria-hidden="true"></i>Instant code</span>
+						<span><i class="fa-solid fa-store" aria-hidden="true"></i>Redeem at reception</span>
+					</div>
+				</div>
+			</section>
+
+			<section class="content-wrap" id="purchase">
+				<div class="section-head reveal">
+					<p class="eyebrow">Choose an amount</p>
+					<h2>Build a gift card in under a minute.</h2>
+					<p>Pick a value, tell us who it's for, and we'll generate a unique code you can share right away.</p>
+				</div>
+
+				<div class="gift-widget reveal">
+					<div class="gift-preview-wrap">
+						<div class="gift-card-mock" id="giftCardMock">
+							<img class="gift-card-mock-watermark" src="assets/images/aarvella-diamond-mark.svg" alt="" aria-hidden="true" />
+							<div class="gift-card-mock-top">
+								<div class="gift-card-mock-brand">
+									<img class="gift-card-mock-logo" src="assets/images/aarvella-diamond-mark.svg" alt="" aria-hidden="true" />
+									<div class="gift-card-mock-brand-name">Aarvella<span>Unisex Salon &middot; Dehradun</span></div>
+								</div>
+								<div class="gift-card-mock-tag">GIFT CARD</div>
+							</div>
+							<div class="gift-card-mock-mid">
+								<div class="gift-card-mock-amount" id="mockAmount">₹1,000</div>
+								<div class="gift-card-mock-number" aria-hidden="true">GC &bull;&bull;&bull;&bull; &bull;&bull;&bull;&bull;</div>
+							</div>
+							<div class="gift-card-mock-bottom">
+								<div class="gift-card-mock-to">For<strong id="mockRecipient">You</strong></div>
+								<div class="gift-card-mock-expiry">No expiry</div>
+							</div>
+						</div>
+						<p class="gift-preview-note">A live preview — your actual code is generated after payment.</p>
+					</div>
+
+					<div class="gift-form-card">
+						<!-- Shown when GIFT_CARDS_ONLINE_ENABLED is false (see assets/js/gift-cards.js) -->
+						<div class="gift-notice" id="giftNotice" hidden>
+							<i class="fa-solid fa-gift" aria-hidden="true"></i>
+							<h3>Online purchase is launching soon</h3>
+							<p>We're putting the finishing touches on secure online payment for gift cards. In the meantime, message us on WhatsApp and we'll set one up for you right away.</p>
+							<a href="#" class="btn-gold" id="giftNoticeWhatsappBtn" target="_blank" rel="noopener noreferrer"><span class="btn-text">Buy via WhatsApp</span></a>
+						</div>
+
+						<form id="giftForm">
+							<div class="gift-step active" data-step="form">
+								<div class="gift-form-section">
+									<label class="gift-form-label" for="customAmount">Amount</label>
+									<div class="amount-tiles" id="amountTiles" role="group" aria-label="Choose a gift card amount">
+										<button type="button" class="amount-tile" data-amount="500">₹500</button>
+										<button type="button" class="amount-tile selected" data-amount="1000">₹1,000</button>
+										<button type="button" class="amount-tile" data-amount="2000">₹2,000</button>
+										<button type="button" class="amount-tile" data-amount="5000">₹5,000</button>
+									</div>
+									<div class="amount-custom">
+										<span>or custom:</span>
+										<input type="number" id="customAmount" min="500" max="25000" step="100" placeholder="₹ 500 – 25,000" />
+									</div>
+									<p class="gift-form-error" id="amountError"></p>
+								</div>
+
+								<div class="gift-form-section">
+									<label class="gift-form-label">Who is this for?</label>
+									<div class="recipient-toggle" role="group" aria-label="Recipient">
+										<button type="button" class="selected" data-recipient="self">Myself</button>
+										<button type="button" data-recipient="gift">Someone special</button>
+									</div>
+									<div class="recipient-fields" id="recipientFields" hidden>
+										<input type="text" id="recipientName" placeholder="Recipient's name" maxlength="60" />
+										<textarea id="recipientMessage" placeholder="Add a personal message (optional)" maxlength="200"></textarea>
+									</div>
+								</div>
+
+								<div class="gift-form-section">
+									<label class="gift-form-label" for="purchaserName">Your details</label>
+									<div style="display:grid;gap:12px;">
+										<input type="text" id="purchaserName" placeholder="Your name" maxlength="60" />
+										<div class="phone-row">
+											<input type="tel" id="purchaserPhone" placeholder="10-digit mobile number" inputmode="numeric" maxlength="10" />
+											<button type="button" class="btn-outline" id="giftSendOtpBtn"><span class="btn-text">Send code</span></button>
+										</div>
+									</div>
+									<p class="gift-form-error" id="giftPhoneError"></p>
+								</div>
+							</div>
+
+							<div class="gift-step" data-step="otp">
+								<div class="gift-form-section">
+									<label class="gift-form-label" for="otpCode">Verification code</label>
+									<p class="gift-form-hint" id="giftOtpSentTo"></p>
+									<input type="text" id="otpCode" inputmode="numeric" maxlength="6" placeholder="6-digit code" autocomplete="one-time-code" />
+									<p class="gift-form-error" id="giftOtpError"></p>
+									<div class="otp-verified-chip" id="otpVerifiedChip" hidden><i class="fa-solid fa-circle-check" aria-hidden="true"></i>Verified</div>
+									<div class="hero-actions" style="margin-top:14px;">
+										<button type="button" class="btn-outline" data-gift-goto="form"><span class="btn-text">Back</span></button>
+										<button type="button" class="btn-outline" id="giftResendOtpBtn"><span class="btn-text">Resend code</span></button>
+									</div>
+								</div>
+							</div>
+
+							<div class="gift-form-section" id="payAction">
+								<button type="submit" class="btn-gold" id="payBtn" style="width:100%;" disabled><span class="btn-text">Verify your number to continue</span><div class="btn-ripple-container"></div></button>
+								<p class="gift-form-error" id="payError"></p>
+							</div>
+						</form>
+
+						<div class="gift-success" id="giftSuccess" hidden>
+							<i class="fa-solid fa-circle-check" aria-hidden="true"></i>
+							<h3>Your gift card is ready</h3>
+							<p id="successAmountLine"></p>
+							<div class="gift-code-display">
+								<span>Gift card code</span>
+								<strong id="successCode"></strong>
+							</div>
+							<p>Show this code at Aarvella reception to redeem, or share it with whoever it's for.</p>
+							<div class="gift-success-actions">
+								<button type="button" class="btn-gold" id="copyCodeBtn"><span class="btn-text">Copy Code</span></button>
+								<a href="#" class="btn-outline" id="shareWhatsappBtn" target="_blank" rel="noopener noreferrer"><span class="btn-text">Share on WhatsApp</span></a>
+							</div>
+						</div>
+					</div>
+				</div>
+			</section>
+
+			<section class="content-wrap" id="how-it-works">
+				<div class="section-head center reveal">
+					<p class="eyebrow">Simple by design</p>
+					<h2>How Aarvella gift cards work.</h2>
+				</div>
+				<div class="lux-grid reveal">
+					<div class="lux-card">
+						<div class="step-index">01</div>
+						<h3>Choose an amount</h3>
+						<p>Pick a preset value or enter your own, and let us know if it's for you or someone else.</p>
+					</div>
+					<div class="lux-card">
+						<div class="step-index">02</div>
+						<h3>Pay securely</h3>
+						<p>Verify your phone number and complete payment. Your unique code is generated the moment payment clears.</p>
+					</div>
+					<div class="lux-card">
+						<div class="step-index">03</div>
+						<h3>Redeem in salon</h3>
+						<p>Present the code at Aarvella reception — it can be applied toward any hair, skin, makeup or bridal service.</p>
+					</div>
+				</div>
+			</section>
+
+			<section class="content-wrap" id="faq">
+				<div class="section-head center reveal">
+					<p class="eyebrow">Good to know</p>
+					<h2>Gift card questions, answered.</h2>
+				</div>
+				<div class="faq-list reveal">
+					<div class="faq-item">
+						<button type="button" class="faq-question"><span>Does the gift card expire?</span><i class="fa-solid fa-plus" aria-hidden="true"></i></button>
+						<div class="faq-answer"><p>No — Aarvella gift cards currently have no expiry date.</p></div>
+					</div>
+					<div class="faq-item">
+						<button type="button" class="faq-question"><span>What can it be used for?</span><i class="fa-solid fa-plus" aria-hidden="true"></i></button>
+						<div class="faq-answer"><p>Any service at Aarvella — hair, skin, makeup or bridal — at the time of billing.</p></div>
+					</div>
+					<div class="faq-item">
+						<button type="button" class="faq-question"><span>How do I redeem it?</span><i class="fa-solid fa-plus" aria-hidden="true"></i></button>
+						<div class="faq-answer"><p>Simply show your code to our reception team when you check out after your appointment — they'll apply it to your bill.</p></div>
+					</div>
+					<div class="faq-item">
+						<button type="button" class="faq-question"><span>Can I use part of the balance and save the rest?</span><i class="fa-solid fa-plus" aria-hidden="true"></i></button>
+						<div class="faq-answer"><p>Yes — any remaining balance stays on the same code for a future visit.</p></div>
+					</div>
+					<div class="faq-item">
+						<button type="button" class="faq-question"><span>Is it refundable?</span><i class="fa-solid fa-plus" aria-hidden="true"></i></button>
+						<div class="faq-answer"><p>Gift cards are intended as a one-way gift and generally aren't refunded once issued — message us on WhatsApp if something's gone wrong and we'll help.</p></div>
+					</div>
+				</div>
+			</section>
+
+			<section class="cta-band reveal">
+				<div class="cta-inner">
+					<div><p class="eyebrow">Still deciding?</p><h2>We're happy to help you pick the right amount.</h2><p>Message us on WhatsApp and we'll walk you through it.</p></div>
+					<a href="#" class="btn-gold" id="ctaWhatsappBtn" target="_blank" rel="noopener noreferrer"><span class="btn-text">Chat on WhatsApp</span></a>
+				</div>
+			</section>
+		</main>
+
+		<div id="footer-placeholder"></div>
+		<div id="booking-popup-placeholder"></div>
+		<div class="av-floating-actions">
+			<a href="#" class="av-glass-fab" target="_blank" rel="noopener noreferrer" aria-label="Book on WhatsApp" data-whatsapp-float>
+				<i class="fa-brands fa-whatsapp" aria-hidden="true"></i>
+			</a>
+			<div id="ai-chat-root"></div>
+		</div>
+
+		<script>
+			document.addEventListener("DOMContentLoaded", () => {
+				const revealItems = document.querySelectorAll(".reveal");
+				if ("IntersectionObserver" in window) {
+					const revealObserver = new IntersectionObserver(entries => {
+						entries.forEach(entry => {
+							if (entry.isIntersecting) {
+								entry.target.classList.add("active");
+								revealObserver.unobserve(entry.target);
+							}
+						});
+					}, { threshold: 0.14 });
+
+					revealItems.forEach(item => revealObserver.observe(item));
+				} else {
+					revealItems.forEach(item => item.classList.add("active"));
+				}
+
+				document.querySelectorAll(".faq-item").forEach((item) => {
+					const question = item.querySelector(".faq-question");
+					const answer = item.querySelector(".faq-answer");
+
+					question.addEventListener("click", () => {
+						const isOpen = item.classList.contains("open");
+
+						document.querySelectorAll(".faq-item.open").forEach((openItem) => {
+							if (openItem !== item) {
+								openItem.classList.remove("open");
+								openItem.querySelector(".faq-answer").style.maxHeight = null;
+							}
+						});
+
+						item.classList.toggle("open", !isOpen);
+						answer.style.maxHeight = !isOpen ? `${answer.scrollHeight}px` : null;
+					});
+				});
+			});
+		</script>
+
+		<script src="assets/js/buttons.js?v=20260703-1" defer></script>
+		<script src="assets/js/navigation.js?v=20260702-1" defer></script>
+		<script src="assets/js/ai-chat-loader.js?v=20260621-1" defer></script>
+		<script src="assets/js/site-config.js?v=20260730-1"></script>
+		<script src="assets/js/booking.js?v=20260620-6" defer></script>
+		<script src="assets/js/gift-cards.js?v=20260815-1" defer></script>
+		<script src="assets/js/includes.js" defer></script>
+		<script src="assets/js/newsletter.js?v=20260618-1" defer></script>
+	</body>
+</html>

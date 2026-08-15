@@ -1,0 +1,605 @@
+/* ==========================================================
+   Aarvella Gift Cards page
+   File: assets/css/gift-cards.css
+
+   Page-specific — reuses assets/css/tokens.css variables and
+   assets/css/buttons.css button classes, but the layout/section
+   classes here (.page-hero, .lux-grid, .cta-band, .reveal, etc.)
+   are this page's own copy, matching the pattern every other
+   landing page (bridal.html, services.html) already follows:
+   no shared landing-page stylesheet, each page owns its section
+   styles and only imports tokens + buttons.
+========================================================== */
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+html { scroll-behavior: smooth; }
+
+body {
+	background:
+		radial-gradient(circle at 18% 8%, rgba(212, 175, 55, 0.12), transparent 30%),
+		radial-gradient(circle at 85% 35%, rgba(255, 255, 255, 0.04), transparent 28%),
+		var(--black);
+	color: var(--white);
+	font-family: 'Inter', sans-serif;
+	line-height: 1.6;
+	overflow-x: hidden;
+}
+
+body.menu-open { overflow: hidden; }
+
+a { color: inherit; }
+img { max-width: 100%; display: block; }
+
+h1, h2, h3 {
+	font-family: 'Inter', sans-serif;
+	font-weight: 600;
+	letter-spacing: -0.04em;
+	color: var(--gold);
+}
+
+p { color: var(--muted); }
+
+section { scroll-margin-top: 110px; }
+
+/* --- Hero --- */
+.page-hero {
+	min-height: 92vh;
+	padding: clamp(150px, 15vw, 210px) 8% clamp(70px, 8vw, 110px);
+	display: grid;
+	align-items: center;
+	position: relative;
+	overflow: hidden;
+	background: #080808;
+	isolation: isolate;
+}
+
+/* Graphic hero — no stock photo. The brand's own diamond mark, oversized
+   and rotated, plus a scattered gold "sparkle" texture (small radial dots
+   at varied size/opacity) standing in for celebratory/gift-wrap confetti
+   without borrowing anyone's face or a specific event. Same diamond motif
+   reappears as the gift-card mock's watermark below, tying hero and card
+   into one deliberate visual system unique to this page. */
+.hero-graphic {
+	position: absolute;
+	inset: 0;
+	z-index: -3;
+	overflow: hidden;
+	pointer-events: none;
+}
+
+.hero-diamond {
+	position: absolute;
+	top: 50%;
+	right: -12%;
+	width: min(62vw, 860px);
+	transform: translateY(-50%) rotate(10deg);
+	opacity: 0.16;
+	filter: drop-shadow(0 50px 140px rgba(212,175,55,0.22));
+}
+
+.page-hero::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	z-index: -2;
+	background:
+		radial-gradient(circle at 9% 22%, rgba(244,220,150,0.9) 0, rgba(244,220,150,0.9) 2px, transparent 3px),
+		radial-gradient(circle at 22% 68%, rgba(244,220,150,0.7) 0, rgba(244,220,150,0.7) 1.5px, transparent 2.5px),
+		radial-gradient(circle at 38% 15%, rgba(244,220,150,0.6) 0, rgba(244,220,150,0.6) 1px, transparent 2px),
+		radial-gradient(circle at 15% 45%, rgba(244,220,150,0.5) 0, rgba(244,220,150,0.5) 1.5px, transparent 2.5px),
+		radial-gradient(circle at 48% 78%, rgba(244,220,150,0.55) 0, rgba(244,220,150,0.55) 1px, transparent 2px),
+		radial-gradient(circle at 6% 72%, rgba(244,220,150,0.65) 0, rgba(244,220,150,0.65) 1.5px, transparent 2.5px),
+		radial-gradient(circle at 33% 38%, rgba(244,220,150,0.4) 0, rgba(244,220,150,0.4) 1px, transparent 2px),
+		radial-gradient(circle at 82% 12%, rgba(212,175,55,0.2), transparent 38%),
+		radial-gradient(circle at 10% 85%, rgba(212,175,55,0.12), transparent 34%),
+		linear-gradient(120deg, rgba(10,10,10,0.65) 0%, rgba(10,10,10,0.25) 55%, rgba(10,10,10,0.55) 100%);
+	pointer-events: none;
+}
+
+.hero-inner {
+	position: relative;
+	z-index: 2;
+	width: min(760px, 100%);
+	padding: clamp(22px, 3vw, 34px);
+	border: 1px solid rgba(255,255,255,0.12);
+	border-radius: clamp(24px, 3vw, 40px);
+	background: linear-gradient(135deg, rgba(10,10,10,0.56), rgba(255,255,255,0.055));
+	box-shadow: 0 34px 90px rgba(0,0,0,0.42);
+	backdrop-filter: blur(18px) saturate(135%);
+	-webkit-backdrop-filter: blur(18px) saturate(135%);
+}
+
+.hero-inner::before {
+	content: "";
+	position: absolute;
+	inset: 1px;
+	border-radius: inherit;
+	background: radial-gradient(circle at 8% 0%, rgba(212,175,55,0.18), transparent 38%);
+	pointer-events: none;
+}
+
+.hero-inner > * { position: relative; z-index: 1; }
+
+.eyebrow { color: var(--gold); text-transform: uppercase; letter-spacing: 0.32em; font-size: 0.76rem; font-weight: 700; margin-bottom: 16px; }
+
+.page-hero h1 {
+	font-family: 'Poppins', sans-serif;
+	font-size: clamp(2.6rem, 5.6vw, 4.8rem);
+	line-height: 0.98;
+	letter-spacing: -0.06em;
+	margin-bottom: 22px;
+	color: var(--white);
+	text-wrap: balance;
+}
+
+.page-hero h1 span {
+	color: var(--gold);
+	text-shadow: 0 12px 46px rgba(212,175,55,0.24);
+}
+
+.page-hero p {
+	max-width: 600px;
+	font-size: clamp(1rem, 1.35vw, 1.15rem);
+	line-height: 1.75;
+	margin-bottom: 30px;
+}
+
+.hero-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+
+.trust-row {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 10px;
+	margin-top: 32px;
+	max-width: 620px;
+}
+
+.trust-row span {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+	padding: 13px 14px;
+	border: 1px solid rgba(212,175,55,0.2);
+	border-radius: 18px;
+	background: rgba(255,255,255,0.055);
+	color: rgba(244,244,244,0.82);
+	font-size: 0.78rem;
+	letter-spacing: 0.02em;
+}
+
+.trust-row i { color: var(--gold); }
+
+.content-wrap { padding: clamp(70px, 8vw, 120px) 8%; }
+.section-head { max-width: 780px; margin-bottom: 46px; }
+.section-head.center { text-align: center; margin-inline: auto; }
+.section-head h2 { font-size: clamp(2rem, 4.4vw, 3.6rem); line-height: 1.05; margin-bottom: 16px; }
+.section-head p { font-size: 1.02rem; }
+
+/* --- Purchase widget --- */
+.gift-widget {
+	display: grid;
+	grid-template-columns: 0.85fr 1.15fr;
+	gap: clamp(28px, 4vw, 56px);
+	align-items: start;
+}
+
+/* Live card preview */
+.gift-preview-wrap { position: sticky; top: 130px; }
+
+.gift-card-mock {
+	position: relative;
+	aspect-ratio: 1.6 / 1;
+	border-radius: 24px;
+	padding: clamp(22px, 2.6vw, 32px);
+	overflow: hidden;
+	background:
+		radial-gradient(circle at 15% 0%, rgba(212,175,55,0.35), transparent 55%),
+		linear-gradient(150deg, #1a1a1a 0%, #0a0a0a 60%, #050505 100%);
+	border: 1px solid rgba(212,175,55,0.35);
+	box-shadow: 0 30px 80px rgba(0,0,0,0.55), inset 0 1px 0 rgba(255,255,255,0.08);
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	color: var(--white);
+}
+
+.gift-card-mock::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background-image:
+		repeating-linear-gradient(115deg, rgba(255,255,255,0.025) 0 2px, transparent 2px 44px);
+	pointer-events: none;
+}
+
+/* Large watermark of the brand's own diamond mark, bleeding off the
+   bottom-right edge — the same graphic used in the hero, filling what was
+   previously bare card surface without competing with the amount/code. */
+.gift-card-mock-watermark {
+	position: absolute;
+	right: -14%;
+	bottom: -22%;
+	width: 62%;
+	max-width: none;
+	opacity: 0.14;
+	transform: rotate(-8deg);
+	pointer-events: none;
+}
+
+.gift-card-mock-top {
+	position: relative;
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-start;
+}
+
+.gift-card-mock-brand {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.gift-card-mock-logo {
+	width: clamp(20px, 2.4vw, 26px);
+	height: auto;
+	flex-shrink: 0;
+}
+
+.gift-card-mock-brand-name {
+	font-family: 'Poppins', sans-serif;
+	font-weight: 600;
+	letter-spacing: 0.02em;
+	font-size: clamp(1.05rem, 1.5vw, 1.3rem);
+	color: var(--gold);
+	line-height: 1.15;
+}
+
+.gift-card-mock-brand-name span { display: block; font-size: 0.58rem; letter-spacing: 0.24em; text-transform: uppercase; color: rgba(244,244,244,0.6); font-family: 'Inter', sans-serif; font-weight: 700; margin-top: 3px; }
+
+.gift-card-mock-tag {
+	position: relative;
+	font-size: 0.66rem;
+	font-weight: 700;
+	letter-spacing: 0.16em;
+	color: rgba(212,175,55,0.85);
+	border: 1px solid rgba(212,175,55,0.4);
+	border-radius: 999px;
+	padding: 5px 12px;
+	white-space: nowrap;
+}
+
+.gift-card-mock-mid {
+	position: relative;
+	display: grid;
+	gap: 14px;
+}
+
+.gift-card-mock-amount {
+	font-family: 'Poppins', sans-serif;
+	font-size: clamp(2.1rem, 3.6vw, 3.1rem);
+	font-weight: 600;
+	color: var(--white);
+	letter-spacing: -0.02em;
+}
+
+.gift-card-mock-number {
+	font-family: 'Poppins', sans-serif;
+	font-size: clamp(0.82rem, 1.1vw, 0.98rem);
+	letter-spacing: 0.22em;
+	color: rgba(244,244,244,0.4);
+}
+
+.gift-card-mock-bottom {
+	position: relative;
+	display: flex;
+	justify-content: space-between;
+	align-items: flex-end;
+	gap: 12px;
+}
+
+.gift-card-mock-to {
+	font-size: 0.78rem;
+	color: rgba(244,244,244,0.6);
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+}
+
+.gift-card-mock-to strong {
+	display: block;
+	margin-top: 4px;
+	font-size: 1rem;
+	color: var(--white);
+	text-transform: none;
+	letter-spacing: 0;
+	font-weight: 600;
+}
+
+.gift-card-mock-expiry {
+	font-size: 0.72rem;
+	letter-spacing: 0.08em;
+	color: rgba(212,175,55,0.75);
+	text-align: right;
+	white-space: nowrap;
+}
+
+.gift-preview-note {
+	margin-top: 18px;
+	font-size: 0.86rem;
+	color: var(--muted);
+	text-align: center;
+}
+
+/* Form card */
+.gift-form-card {
+	border: 1px solid var(--line);
+	border-radius: 28px;
+	padding: clamp(24px, 3vw, 40px);
+	background: linear-gradient(145deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+	box-shadow: 0 28px 70px rgba(0,0,0,0.32);
+}
+
+.gift-form-section { margin-bottom: 30px; }
+.gift-form-section:last-child { margin-bottom: 0; }
+
+.gift-form-label {
+	display: block;
+	color: rgba(247, 242, 232, 0.8);
+	font-size: 0.8rem;
+	font-weight: 700;
+	letter-spacing: 0.05em;
+	text-transform: uppercase;
+	margin-bottom: 12px;
+}
+
+.amount-tiles {
+	display: grid;
+	grid-template-columns: repeat(4, 1fr);
+	gap: 10px;
+}
+
+.amount-tile {
+	padding: 14px 8px;
+	border: 1px solid rgba(255,255,255,0.14);
+	border-radius: 14px;
+	background: rgba(255,255,255,0.04);
+	color: var(--white);
+	font-weight: 600;
+	font-size: 0.94rem;
+	cursor: pointer;
+	transition: var(--transition);
+	text-align: center;
+}
+
+.amount-tile:hover { border-color: rgba(212,175,55,0.5); }
+
+.amount-tile.selected {
+	border-color: var(--gold);
+	background: linear-gradient(135deg, rgba(212,175,55,0.22), rgba(212,175,55,0.06));
+	color: var(--gold);
+	box-shadow: inset 0 0 0 1px rgba(212,175,55,0.4);
+}
+
+.amount-custom {
+	margin-top: 10px;
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.amount-custom span {
+	color: var(--muted);
+	font-weight: 600;
+}
+
+.gift-widget input[type="text"],
+.gift-widget input[type="tel"],
+.gift-widget input[type="number"],
+.gift-widget textarea {
+	width: 100%;
+	min-height: 48px;
+	margin: 0;
+	padding: 12px 14px;
+	border: 1px solid rgba(255, 255, 255, 0.14);
+	border-radius: 12px;
+	background: rgba(3, 3, 3, 0.5);
+	color: white;
+	font: 500 0.96rem/1.4 "Inter", Arial, sans-serif;
+}
+
+.gift-widget textarea { min-height: 84px; resize: vertical; }
+
+.gift-widget input:focus,
+.gift-widget textarea:focus {
+	outline: none;
+	border-color: rgba(242, 214, 117, 0.72);
+	box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.12);
+}
+
+.gift-widget input::placeholder,
+.gift-widget textarea::placeholder { color: rgba(244,244,244,0.35); }
+
+.recipient-toggle {
+	display: inline-flex;
+	border: 1px solid rgba(255,255,255,0.14);
+	border-radius: 999px;
+	padding: 4px;
+	background: rgba(255,255,255,0.03);
+}
+
+.recipient-toggle button {
+	border: none;
+	background: transparent;
+	color: var(--muted);
+	padding: 9px 18px;
+	border-radius: 999px;
+	font-size: 0.86rem;
+	font-weight: 600;
+	cursor: pointer;
+	transition: var(--transition);
+}
+
+.recipient-toggle button.selected {
+	background: var(--gold);
+	color: #0a0a0a;
+}
+
+.recipient-fields {
+	margin-top: 16px;
+	display: grid;
+	gap: 12px;
+}
+
+.recipient-fields[hidden] { display: none; }
+
+.phone-row { display: flex; gap: 10px; }
+.phone-row input { flex: 1; }
+
+.gift-form-error {
+	color: #ff8a8a;
+	font-size: 0.84rem;
+	min-height: 1.2em;
+	margin-top: 8px;
+}
+
+.gift-form-hint {
+	color: var(--muted);
+	font-size: 0.84rem;
+	margin-top: 8px;
+}
+
+.otp-verified-chip {
+	display: inline-flex;
+	align-items: center;
+	gap: 8px;
+	color: #7bd88f;
+	font-size: 0.86rem;
+	font-weight: 600;
+	margin-top: 10px;
+}
+
+/* Purchase steps: only one visible at a time */
+.gift-step { display: none; }
+.gift-step.active { display: block; }
+
+/* Notice / disabled state */
+.gift-notice {
+	text-align: center;
+	padding: clamp(20px, 4vw, 40px) 10px;
+}
+
+.gift-notice i {
+	font-size: 2.2rem;
+	color: var(--gold);
+	margin-bottom: 18px;
+}
+
+.gift-notice h3 { font-size: 1.5rem; color: var(--white); margin-bottom: 12px; }
+.gift-notice p { max-width: 440px; margin: 0 auto 26px; }
+
+/* Confirmation state */
+.gift-success { text-align: center; padding: 10px; }
+.gift-success i { font-size: 2.4rem; color: #7bd88f; margin-bottom: 16px; }
+.gift-success h3 { font-size: 1.6rem; color: var(--white); margin-bottom: 10px; }
+
+.gift-code-display {
+	margin: 22px 0;
+	padding: 18px;
+	border: 1px dashed rgba(212,175,55,0.5);
+	border-radius: 16px;
+	background: rgba(212,175,55,0.06);
+}
+
+.gift-code-display span {
+	display: block;
+	font-size: 0.72rem;
+	letter-spacing: 0.14em;
+	text-transform: uppercase;
+	color: var(--muted);
+	margin-bottom: 8px;
+}
+
+.gift-code-display strong {
+	font-family: 'Poppins', sans-serif;
+	font-size: clamp(1.4rem, 3vw, 1.9rem);
+	color: var(--gold);
+	letter-spacing: 0.06em;
+}
+
+.gift-success-actions { display: flex; flex-wrap: wrap; gap: 12px; justify-content: center; margin-top: 20px; }
+
+/* --- How it works / trust / FAQ --- */
+.lux-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; }
+.lux-card {
+	position: relative;
+	overflow: hidden;
+	border: 1px solid var(--line);
+	border-radius: 28px;
+	padding: clamp(26px, 3vw, 36px);
+	background: linear-gradient(145deg, rgba(255,255,255,0.075), rgba(255,255,255,0.025));
+	box-shadow: 0 28px 70px rgba(0,0,0,0.32);
+}
+
+.lux-card::before { content: ""; position: absolute; inset: 0; background: radial-gradient(circle at 20% 0%, rgba(212,175,55,0.16), transparent 34%); opacity: 0.75; pointer-events: none; }
+.lux-card > * { position: relative; z-index: 1; }
+.lux-card .step-index { color: var(--gold); font-family: 'Poppins', sans-serif; font-size: 1.6rem; font-weight: 600; margin-bottom: 12px; }
+.lux-card h3 { font-size: 1.25rem; margin-bottom: 10px; color: var(--white); letter-spacing: -0.03em; }
+
+.faq-list { max-width: 820px; margin: 0 auto; display: grid; gap: 12px; }
+
+.faq-item {
+	border: 1px solid var(--line);
+	border-radius: 18px;
+	background: rgba(255,255,255,0.035);
+	overflow: hidden;
+}
+
+.faq-question {
+	width: 100%;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	gap: 14px;
+	padding: 18px 22px;
+	background: none;
+	border: none;
+	color: var(--white);
+	font-size: 1rem;
+	font-weight: 600;
+	text-align: left;
+	cursor: pointer;
+}
+
+.faq-question i { color: var(--gold); transition: transform 0.3s var(--ease-out); flex-shrink: 0; }
+.faq-item.open .faq-question i { transform: rotate(45deg); }
+
+.faq-answer {
+	max-height: 0;
+	overflow: hidden;
+	transition: max-height 0.35s var(--ease-out);
+}
+
+.faq-answer p { padding: 0 22px 20px; }
+
+.cta-band { padding: 0 8% clamp(76px, 9vw, 120px); }
+.cta-inner { border: 1px solid var(--line); border-radius: 34px; padding: clamp(34px, 6vw, 70px); background: linear-gradient(135deg, rgba(212,175,55,0.14), rgba(255,255,255,0.045)); display: grid; grid-template-columns: 1fr auto; gap: 28px; align-items: center; }
+.cta-inner h2 { font-size: clamp(2rem, 4vw, 3.6rem); color: var(--white); margin-bottom: 10px; }
+
+.reveal { opacity: 0; transform: translateY(34px); transition: opacity 0.75s var(--ease-out), transform 0.75s var(--ease-out); }
+.reveal.active { opacity: 1; transform: translateY(0); }
+
+@media (max-width: 980px) {
+	.gift-widget, .lux-grid, .cta-inner { grid-template-columns: 1fr; }
+	.gift-preview-wrap { position: static; }
+	.trust-row { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 640px) {
+	.page-hero { min-height: 88vh; padding: 138px 6% 70px; }
+	.hero-diamond { width: 92vw; right: -30%; opacity: 0.12; }
+	.hero-inner { padding: 22px; border-radius: 26px; }
+	.trust-row { grid-template-columns: 1fr; }
+	.content-wrap, .cta-band { padding-left: 6%; padding-right: 6%; }
+	.amount-tiles { grid-template-columns: repeat(2, 1fr); }
+	.gift-card-mock { aspect-ratio: auto; min-height: 200px; }
+}

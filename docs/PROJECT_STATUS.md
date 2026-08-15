@@ -6,7 +6,37 @@ This document records the current implementation status, in-progress work, and p
 
 For structural/architectural facts (how the site is built, file layout, request flows), see `docs/ARCHITECTURE.md` — that document is the source of truth for "how things work." This document is the source of truth for "what's done, what's in progress, and what's next."
 
-Last manually reviewed: 2026-07-29.
+Last manually reviewed: 2026-08-15.
+
+---
+
+## Gift Cards page + CRM online purchase API, 2026-08-15
+
+**Status: built and locally verified, not yet live.** New `gift-cards.html` — hero (reusing the homepage's high-res salon-interior photo, `assets/images/mainpage/hero_img.webp`, with the same `bridal.html`-style glass-card treatment), a live-updating gift-card preview mockup, amount tiles (₹500/₹1,000/₹2,000/₹5,000 + custom ₹500–₹25,000), a "myself / someone special" recipient toggle with an optional gift message, phone-OTP verification, "how it works," an FAQ accordion, and a closing WhatsApp CTA — plus `assets/css/gift-cards.css` and `assets/js/gift-cards.js`. The footer's existing "Gift Cards" link (previously a dead `href="#"` in `assets/partials/footer.html`) is **still not wired up** — deliberately held back, see below.
+
+`gift-cards.js` follows `booking.js`'s established pattern exactly: direct browser `fetch()` to the CRM (`https://os.aarvella.com/api/v1`, no server-side proxy), phone-OTP → Sanctum bearer token, an `Idempotency-Key` header on the purchase POST, and a graceful WhatsApp hand-off whenever the CRM call fails or declines rather than a dead end.
+
+**Why nothing is actually live yet — two independent switches, both off:**
+1. `GIFT_CARDS_ONLINE_ENABLED = false` at the top of `gift-cards.js` — while false, the purchase widget shows a "launching soon" notice with a WhatsApp CTA instead of the interactive form at all, mirroring `BOOKING_TEMPORARILY_DISABLED` above.
+2. On the CRM side (`aarvella-crm`, joint change with this one), the new `POST /api/v1/gift-cards` endpoint verifies payment through a `PaymentGatewayInterface` whose only driver today is a stub that **declines every attempt unless `PAYMENT_GATEWAY_STUB_AUTO_APPROVE` is explicitly set true** — the safe default everywhere, including production, until a real gateway (Razorpay, most likely) replaces it. See `aarvella-crm/docs/PHASE_6_ENGAGEMENT_ARCHITECTURE.md`'s Slice 2 addendum for the full CRM-side record, including a real validation bug (an empty `payment` object being wrongly rejected, which would have 422'd every real purchase attempt) caught by the CRM's test suite and fixed.
+
+**Verified locally via Playwright:** page loads with no console errors on desktop and mobile; notice-vs-form gating works correctly; amount tile selection, custom-amount range validation, the recipient toggle, and the live card preview all update correctly; the FAQ accordion opens/closes; the success panel (code display, copy button, WhatsApp share link) renders correctly when forced into view. Not yet tested against a live CRM purchase end-to-end from this repo's side (needs the CRM's stub flipped on locally, or a real gateway) — see the CRM doc for that endpoint's own test coverage (5 new tests, all passing).
+
+**A real bug was found and fixed during this work, unrelated to gift cards:** two element IDs in the first draft (`sendOtpBtn`, `phoneError`, `otpError`, `otpSentTo`, `resendOtpBtn`) collided with the same IDs already used inside `assets/partials/booking-popup.html`, which is injected into every page. Renamed all of `gift-cards.html`'s OTP-related IDs with a `gift` prefix and re-verified zero collisions against every partial (`booking-popup.html`, `footer.html`, `navigation.html`).
+
+**Not yet done:** footer link still points at `#`; real payment gateway; recipient name/message aren't persisted in the CRM (front-end/WhatsApp-share only for now); `CORS_ALLOWED_ORIGINS` on the CRM's deployed `.env` needs confirming for production (same pre-existing requirement booking already has).
+
+---
+
+## Floating WhatsApp button redesigned to Apple-style liquid glass; AI Stylist chat-panel bug fixed, 2026-08-15
+
+**Status: committed and pushed, verified live.** Replaced the earlier solid-gradient pill-shaped floating WhatsApp button (`7d6f917`) with a translucent "Apple Liquid Glass" squircle badge — `backdrop-filter` blur+saturate, specular highlight, icon-only — sitting side by side with the AI Stylist button in a new shared `.av-floating-actions` flex wrapper (`assets/css/buttons.css`), rather than stacked above it. `#ai-chat-button` (`assets/css/ai-chat.css`) changed from independently `position: fixed` to a normal flex child of that wrapper.
+
+**Two real bugs found and fixed along the way:**
+1. **Duplicate `#ai-chat-button`/`#ai-chat-widget` markup** on 2 of the 4 blog articles (`dehraduns-2026-hair-colour-manifesto.html`, `how-often-should-you-get-facial-in-dehradun-weather.html`) — leftover hardcoded HTML from before the site migrated to the shared `ai-chat-loader.js` partial system, silently coexisting with the partial-injected button and breaking strict element lookups. Removed.
+2. **The AI Stylist chat panel stopped opening at all** — `body.ai-chat-open .av-floating-actions { opacity: 0 }` hid the wrapper's entire DOM subtree on click, and `#ai-chat-widget` (despite being `position: fixed`) is injected as a sibling of `#ai-chat-button` inside that same wrapper by `ai-chat-loader.js`, so the whole chat panel disappeared along with the trigger button — opacity on an ancestor hides fixed-position descendants too. Fixed by scoping the hide-on-open rule to `.av-glass-fab` only; `#ai-chat-button` already hid itself independently.
+
+Committed as `912d8b3`, `86a7c99` (cache-busting bump), `378728f` (the chat-panel fix). Verified live on `aarvella.com` after each push via a fresh Playwright session (bounding boxes, `href`, computed `backdrop-filter`, and the open/close chat flow all confirmed working).
 
 ---
 

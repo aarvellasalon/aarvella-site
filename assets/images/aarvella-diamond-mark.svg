@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Extracted from aarvella-logo-white.svg's diamond glyph (same path data,
+     isolated with its own tight viewBox) for reuse as a standalone brand
+     mark — gift-cards.html hero watermark and gift-card mock. -->
+<svg width="100%" height="100%" viewBox="-8 -8 312 448" version="1.1" xmlns="http://www.w3.org/2000/svg" xml:space="preserve" style="fill-rule:evenodd;clip-rule:evenodd;stroke-linejoin:round;stroke-miterlimit:2;">
+	<path d="M151.722,1.43l143.148,210.815c0.962,1.417 0.961,3.278 -0.003,4.694c-48.594,71.373 -97.155,142.767 -145.704,214.168c-0.777,1.143 -2.069,1.827 -3.451,1.827c-1.382,0 -2.674,-0.683 -3.452,-1.826c-48.58,-71.388 -97.165,-142.77 -145.713,-214.178c-0.962,-1.415 -0.963,-3.274 -0.002,-4.69c48.544,-71.547 97.134,-143.061 145.707,-214.585c0.777,-1.144 2.07,-1.829 3.453,-1.829c1.383,0 2.676,0.685 3.453,1.829l2.563,3.775Zm-6.015,57.868l-46.042,196.007l92.082,0l-46.04,-196.007Zm23.97,7.127l42.74,181.91l55.27,-37.568l-98.01,-144.341Zm-23.97,321.08l43.759,-110.481l-87.52,0l43.761,110.481Zm-23.971,-321.08l-98.01,144.342l55.27,37.568l42.74,-181.91Zm-43.675,208.488l-28.448,-19.956l49.388,73.296l-20.94,-53.34Zm135.555,0.133l-20.898,52.751l48.92,-72.6l-28.022,19.849Z" style="fill:url(#_Linear1);"/>
+	<defs>
+		<linearGradient id="_Linear1" x1="0" y1="0" x2="1" y2="0" gradientUnits="userSpaceOnUse" gradientTransform="matrix(0,425.756819,-626.412413,0,145.708697,-4.174087)">
+			<stop offset="0" style="stop-color:#b0864f;stop-opacity:1"/>
+			<stop offset="1" style="stop-color:#fadb8f;stop-opacity:1"/>
+		</linearGradient>
+	</defs>
+</svg>
